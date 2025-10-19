@@ -36,6 +36,14 @@
                             <div class="fw-semibold">{{ $odc->nama_odc ?: '—' }}</div>
                         </div>
                         <div class="mb-3">
+                            <div class="text-muted small">Alamat</div>
+                            <div class="fw-semibold">{{ $odc->alamat ?: '—' }}</div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-muted small">Lokasi</div>
+                            <div class="fw-semibold">{{ $odc->desa ?: '—' }}/{{ $odc->kec ?: '—' }}/{{ $odc->kota ?: '—' }}/{{ $odc->prov ?: '—' }}</div>
+                        </div>
+                        <div class="mb-3">
                             <div class="text-muted small">Server / POP</div>
                             <div class="fw-semibold">
                                 @if($odc->server)
@@ -48,13 +56,18 @@
                                 @endif
                             </div>
                         </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div class="text-muted small">Peta</div>
+                            <div class="fw-semibold"><a href="{{ $odc->loc_odp ?: '—' }}">Google Maps</a> / {{ $odc->lat ?: '—' }} / {{ $odc->long ?: '—' }}</div>
+                        </div>
                         <div class="mb-3">
                             <div class="text-muted small">Rasio</div>
                             <div class="fw-semibold">{{ $odc->rasio ?: '—' }}</div>
                         </div>
-                    </div>
-
-                    <div class="col-md-6">
                         <div class="mb-3">
                             <div class="text-muted small">Port Capacity / Installed</div>
                             <div class="fw-semibold">{{ $odc->port_cap ?: '—' }} / {{ $odc->port_install ?: '—' }}</div>
