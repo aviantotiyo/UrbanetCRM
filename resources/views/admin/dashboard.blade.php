@@ -1,5 +1,6 @@
 @section('title', 'Dashboard CRM Urbanet')
 @include('template.head')
+</head>
 
 <body>
     <!-- Layout wrapper -->

@@ -12,23 +12,54 @@ use Illuminate\Support\Facades\File;
 
 class PelangganController extends Controller
 {
-    /**
-     * Tampilkan 20 data pelanggan terbaru.
-     */
-    public function index()
+
+
+    public function index(Request $request)
     {
-        // ambil 20 data paling baru
-        $clients = DataClients::orderByDesc('created_at')
-            ->limit(20)
-            ->get();
+        $q        = trim((string) $request->get('q', ''));
+        $status   = $request->get('status');        // single value
+        $paket    = $request->get('paket');         // single value
+        $kecamatan = $request->get('kecamatan');     // single value
 
-        // jika kamu belum punya view, sementara bisa return JSON:
-        // return response()->json($clients);
+        $query = \App\Models\DataClients::query();
 
-        // pakai view (disarankan)
-        return view('admin.pelanggan.index', compact('clients'));
+        // Search bebas: nama / nopel / no_hp / email / alamat
+        if ($q !== '') {
+            $query->where(function ($w) use ($q) {
+                $like = '%' . $q . '%';
+                $w->where('nama', 'like', $like)
+                    ->orWhere('nopel', 'like', $like)
+                    ->orWhere('no_hp', 'like', $like)
+                    ->orWhere('email', 'like', $like)
+                    ->orWhere('alamat', 'like', $like);
+            });
+        }
+
+        // Filter status
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        // Filter paket
+        if ($paket) {
+            $query->where('paket', $paket);
+        }
+
+        // Filter kecamatan
+        if ($kecamatan) {
+            $query->where('kecamatan', $kecamatan);
+        }
+
+        // Urut paling baru
+        $clients = $query->orderByDesc('created_at')->paginate(20)->appends($request->query());
+
+        // Opsi dropdown (dinamis dari data yang sudah ada)
+        $paketOptions     = \App\Models\DataClients::whereNotNull('paket')->distinct()->orderBy('paket')->pluck('paket');
+        $kecamatanOptions = \App\Models\DataClients::whereNotNull('kecamatan')->distinct()->orderBy('kecamatan')->pluck('kecamatan');
+        $statusOptions    = ['active', 'isolir', 'suspend', 'inactive', 'booking'];
+
+        return view('admin.pelanggan.index', compact('clients', 'paketOptions', 'kecamatanOptions', 'statusOptions', 'q', 'status', 'paket', 'kecamatan'));
     }
-
 
     public function create()
     {

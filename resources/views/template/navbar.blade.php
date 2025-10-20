@@ -1,32 +1,32 @@
- <!-- Navbar -->
  <nav
-     class="layout-navbar container-xxl navbar-detached navbar navbar-expand-xl align-items-center bg-navbar-theme"
+     class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
      id="layout-navbar">
      <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-         <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
-             <i class="icon-base ti tabler-menu-2 icon-md"></i>
+         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+             <i class="ti ti-menu-2 ti-md"></i>
          </a>
      </div>
 
-     <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
+     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
          <!-- Search -->
          <div class="navbar-nav align-items-center">
-             <div class="nav-item navbar-search-wrapper px-md-0 px-2 mb-0">
+             <div class="nav-item navbar-search-wrapper mb-0">
                  <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
-                     <span class="d-inline-block text-body-secondary fw-normal" id="autocomplete"></span>
+                     <i class="ti ti-search ti-md me-2 me-lg-4 ti-lg"></i>
+                     <span class="d-none d-md-inline-block text-muted fw-normal">Search (Ctrl+/)</span>
                  </a>
              </div>
          </div>
-
          <!-- /Search -->
 
-         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
+         <ul class="navbar-nav flex-row align-items-center ms-auto">
+             <!-- Language -->
              <li class="nav-item dropdown-language dropdown">
                  <a
-                     class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
+                     class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
                      href="javascript:void(0);"
                      data-bs-toggle="dropdown">
-                     <i class="icon-base ti tabler-language icon-22px text-heading"></i>
+                     <i class="ti ti-language rounded-circle ti-md"></i>
                  </a>
                  <ul class="dropdown-menu dropdown-menu-end">
                      <li>
@@ -54,44 +54,28 @@
              <!--/ Language -->
 
              <!-- Style Switcher -->
-             <li class="nav-item dropdown">
+             <li class="nav-item dropdown-style-switcher dropdown">
                  <a
-                     class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
-                     id="nav-theme"
+                     class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
                      href="javascript:void(0);"
                      data-bs-toggle="dropdown">
-                     <i class="icon-base ti tabler-sun icon-22px theme-icon-active text-heading"></i>
-                     <span class="d-none ms-2" id="nav-theme-text">Toggle theme</span>
+                     <i class="ti ti-md"></i>
                  </a>
-                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-theme-text">
+                 <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
                      <li>
-                         <button
-                             type="button"
-                             class="dropdown-item align-items-center active"
-                             data-bs-theme-value="light"
-                             aria-pressed="false">
-                             <span><i class="icon-base ti tabler-sun icon-22px me-3" data-icon="sun"></i>Light</span>
-                         </button>
+                         <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                             <span class="align-middle"><i class="ti ti-sun ti-md me-3"></i>Light</span>
+                         </a>
                      </li>
                      <li>
-                         <button
-                             type="button"
-                             class="dropdown-item align-items-center"
-                             data-bs-theme-value="dark"
-                             aria-pressed="true">
-                             <span><i class="icon-base ti tabler-moon-stars icon-22px me-3" data-icon="moon-stars"></i>Dark</span>
-                         </button>
+                         <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                             <span class="align-middle"><i class="ti ti-moon-stars ti-md me-3"></i>Dark</span>
+                         </a>
                      </li>
                      <li>
-                         <button
-                             type="button"
-                             class="dropdown-item align-items-center"
-                             data-bs-theme-value="system"
-                             aria-pressed="false">
-                             <span><i
-                                     class="icon-base ti tabler-device-desktop-analytics icon-22px me-3"
-                                     data-icon="device-desktop-analytics"></i>System</span>
-                         </button>
+                         <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                             <span class="align-middle"><i class="ti ti-device-desktop-analytics ti-md me-3"></i>System</span>
+                         </a>
                      </li>
                  </ul>
              </li>
@@ -100,12 +84,12 @@
              <!-- Quick links  -->
              <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
                  <a
-                     class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
+                     class="nav-link btn btn-text-secondary btn-icon rounded-pill btn-icon dropdown-toggle hide-arrow"
                      href="javascript:void(0);"
                      data-bs-toggle="dropdown"
                      data-bs-auto-close="outside"
                      aria-expanded="false">
-                     <i class="icon-base ti tabler-layout-grid-add icon-22px text-heading"></i>
+                     <i class="ti ti-layout-grid-add ti-md"></i>
                  </a>
                  <div class="dropdown-menu dropdown-menu-end p-0">
                      <div class="dropdown-menu-header border-bottom">
@@ -113,24 +97,24 @@
                              <h6 class="mb-0 me-auto">Shortcuts</h6>
                              <a
                                  href="javascript:void(0)"
-                                 class="dropdown-shortcuts-add py-2 btn btn-text-secondary rounded-pill btn-icon"
+                                 class="btn btn-text-secondary rounded-pill btn-icon dropdown-shortcuts-add"
                                  data-bs-toggle="tooltip"
                                  data-bs-placement="top"
-                                 title="Add shortcuts"><i class="icon-base ti tabler-plus icon-20px text-heading"></i></a>
+                                 title="Add shortcuts"><i class="ti ti-plus text-heading"></i></a>
                          </div>
                      </div>
                      <div class="dropdown-shortcuts-list scrollable-container">
                          <div class="row row-bordered overflow-visible g-0">
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-calendar icon-26px text-heading"></i>
+                                     <i class="ti ti-calendar ti-26px text-heading"></i>
                                  </span>
                                  <a href="app-calendar.html" class="stretched-link">Calendar</a>
                                  <small>Appointments</small>
                              </div>
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-file-dollar icon-26px text-heading"></i>
+                                     <i class="ti ti-file-dollar ti-26px text-heading"></i>
                                  </span>
                                  <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
                                  <small>Manage Accounts</small>
@@ -139,14 +123,14 @@
                          <div class="row row-bordered overflow-visible g-0">
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-user icon-26px text-heading"></i>
+                                     <i class="ti ti-user ti-26px text-heading"></i>
                                  </span>
                                  <a href="app-user-list.html" class="stretched-link">User App</a>
                                  <small>Manage Users</small>
                              </div>
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-users icon-26px text-heading"></i>
+                                     <i class="ti ti-users ti-26px text-heading"></i>
                                  </span>
                                  <a href="app-access-roles.html" class="stretched-link">Role Management</a>
                                  <small>Permission</small>
@@ -155,14 +139,14 @@
                          <div class="row row-bordered overflow-visible g-0">
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-device-desktop-analytics icon-26px text-heading"></i>
+                                     <i class="ti ti-device-desktop-analytics ti-26px text-heading"></i>
                                  </span>
                                  <a href="index.html" class="stretched-link">Dashboard</a>
                                  <small>User Dashboard</small>
                              </div>
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-settings icon-26px text-heading"></i>
+                                     <i class="ti ti-settings ti-26px text-heading"></i>
                                  </span>
                                  <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
                                  <small>Account Settings</small>
@@ -171,14 +155,14 @@
                          <div class="row row-bordered overflow-visible g-0">
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-help-circle icon-26px text-heading"></i>
+                                     <i class="ti ti-help ti-26px text-heading"></i>
                                  </span>
                                  <a href="pages-faq.html" class="stretched-link">FAQs</a>
                                  <small>FAQs & Articles</small>
                              </div>
                              <div class="dropdown-shortcuts-item col">
                                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                     <i class="icon-base ti tabler-square icon-26px text-heading"></i>
+                                     <i class="ti ti-square ti-26px text-heading"></i>
                                  </span>
                                  <a href="modal-examples.html" class="stretched-link">Modals</a>
                                  <small>Useful Popups</small>
@@ -192,13 +176,13 @@
              <!-- Notification -->
              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
                  <a
-                     class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
+                     class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
                      href="javascript:void(0);"
                      data-bs-toggle="dropdown"
                      data-bs-auto-close="outside"
                      aria-expanded="false">
                      <span class="position-relative">
-                         <i class="icon-base ti tabler-bell icon-22px text-heading"></i>
+                         <i class="ti ti-bell ti-md"></i>
                          <span class="badge rounded-pill bg-danger badge-dot badge-notifications border"></span>
                      </span>
                  </a>
@@ -210,10 +194,10 @@
                                  <span class="badge bg-label-primary me-2">8 New</span>
                                  <a
                                      href="javascript:void(0)"
-                                     class="dropdown-notifications-all p-2 btn btn-icon"
+                                     class="btn btn-text-secondary rounded-pill btn-icon dropdown-notifications-all"
                                      data-bs-toggle="tooltip"
                                      data-bs-placement="top"
-                                     title="Mark all as read"><i class="icon-base ti tabler-mail-opened text-heading"></i></a>
+                                     title="Mark all as read"><i class="ti ti-mail-opened text-heading"></i></a>
                              </div>
                          </div>
                      </li>
@@ -229,11 +213,11 @@
                                      <div class="flex-grow-1">
                                          <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
                                          <small class="mb-1 d-block text-body">Won the monthly best seller gold badge</small>
-                                         <small class="text-body-secondary">1h ago</small>
+                                         <small class="text-muted">1h ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -247,11 +231,11 @@
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">Charles Franklin</h6>
                                          <small class="mb-1 d-block text-body">Accepted your connection</small>
-                                         <small class="text-body-secondary">12hr ago</small>
+                                         <small class="text-muted">12hr ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -265,11 +249,11 @@
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">New Message ✉️</h6>
                                          <small class="mb-1 d-block text-body">You have new message from Natalie</small>
-                                         <small class="text-body-secondary">1h ago</small>
+                                         <small class="text-muted">1h ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -277,17 +261,17 @@
                                  <div class="d-flex">
                                      <div class="flex-shrink-0 me-3">
                                          <div class="avatar">
-                                             <span class="avatar-initial rounded-circle bg-label-success"><i class="icon-base ti tabler-shopping-cart"></i></span>
+                                             <span class="avatar-initial rounded-circle bg-label-success"><i class="ti ti-shopping-cart"></i></span>
                                          </div>
                                      </div>
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">Whoo! You have new order 🛒</h6>
                                          <small class="mb-1 d-block text-body">ACME Inc. made new order $1,154</small>
-                                         <small class="text-body-secondary">1 day ago</small>
+                                         <small class="text-muted">1 day ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -301,11 +285,11 @@
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">Application has been approved 🚀</h6>
                                          <small class="mb-1 d-block text-body">Your ABC project application has been approved.</small>
-                                         <small class="text-body-secondary">2 days ago</small>
+                                         <small class="text-muted">2 days ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -313,17 +297,17 @@
                                  <div class="d-flex">
                                      <div class="flex-shrink-0 me-3">
                                          <div class="avatar">
-                                             <span class="avatar-initial rounded-circle bg-label-success"><i class="icon-base ti tabler-chart-pie"></i></span>
+                                             <span class="avatar-initial rounded-circle bg-label-success"><i class="ti ti-chart-pie"></i></span>
                                          </div>
                                      </div>
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">Monthly report is generated</h6>
                                          <small class="mb-1 d-block text-body">July monthly financial report is generated </small>
-                                         <small class="text-body-secondary">3 days ago</small>
+                                         <small class="text-muted">3 days ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -337,11 +321,11 @@
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">Send connection request</h6>
                                          <small class="mb-1 d-block text-body">Peter sent you connection request</small>
-                                         <small class="text-body-secondary">4 days ago</small>
+                                         <small class="text-muted">4 days ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -355,11 +339,11 @@
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">New message from Jane</h6>
                                          <small class="mb-1 d-block text-body">Your have new message from Jane</small>
-                                         <small class="text-body-secondary">5 days ago</small>
+                                         <small class="text-muted">5 days ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -367,17 +351,17 @@
                                  <div class="d-flex">
                                      <div class="flex-shrink-0 me-3">
                                          <div class="avatar">
-                                             <span class="avatar-initial rounded-circle bg-label-warning"><i class="icon-base ti tabler-alert-triangle"></i></span>
+                                             <span class="avatar-initial rounded-circle bg-label-warning"><i class="ti ti-alert-triangle"></i></span>
                                          </div>
                                      </div>
                                      <div class="flex-grow-1">
                                          <h6 class="mb-1 small">CPU is running high</h6>
                                          <small class="mb-1 d-block text-body">CPU Utilization Percent is currently at 88.63%,</small>
-                                         <small class="text-body-secondary">5 days ago</small>
+                                         <small class="text-muted">5 days ago</small>
                                      </div>
                                      <div class="flex-shrink-0 dropdown-notifications-actions">
                                          <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+                                         <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                      </div>
                                  </div>
                              </li>
@@ -401,7 +385,7 @@
                      href="javascript:void(0);"
                      data-bs-toggle="dropdown">
                      <div class="avatar avatar-online">
-                         <img src="../../assets/img/avatars/1.png" alt class="rounded-circle" />
+                         <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle" />
                      </div>
                  </a>
                  <ul class="dropdown-menu dropdown-menu-end">
@@ -410,12 +394,12 @@
                              <div class="d-flex align-items-center">
                                  <div class="flex-shrink-0 me-2">
                                      <div class="avatar avatar-online">
-                                         <img src="../../assets/img/avatars/1.png" alt class="rounded-circle" />
+                                         <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle" />
                                      </div>
                                  </div>
                                  <div class="flex-grow-1">
                                      <h6 class="mb-0">{{ auth()->user()->name }}</h6>
-                                     <small class="text-body-secondary">{{ auth()->user()->role }}</small>
+                                     <small class="text-muted">{{ auth()->user()->role }}</small>
                                  </div>
                              </div>
                          </a>
@@ -425,18 +409,18 @@
                      </li>
                      <li>
                          <a class="dropdown-item" href="pages-profile-user.html">
-                             <i class="icon-base ti tabler-user me-3 icon-md"></i><span class="align-middle">My Profile</span>
+                             <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
                          </a>
                      </li>
                      <li>
                          <a class="dropdown-item" href="pages-account-settings-account.html">
-                             <i class="icon-base ti tabler-settings me-3 icon-md"></i><span class="align-middle">Settings</span>
+                             <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">Settings</span>
                          </a>
                      </li>
                      <li>
                          <a class="dropdown-item" href="pages-account-settings-billing.html">
                              <span class="d-flex align-items-center align-middle">
-                                 <i class="flex-shrink-0 icon-base ti tabler-file-dollar me-3 icon-md"></i><span class="flex-grow-1 align-middle">Billing</span>
+                                 <i class="flex-shrink-0 ti ti-file-dollar me-3 ti-md"></i><span class="flex-grow-1 align-middle">Billing</span>
                                  <span class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">4</span>
                              </span>
                          </a>
@@ -446,12 +430,12 @@
                      </li>
                      <li>
                          <a class="dropdown-item" href="pages-pricing.html">
-                             <i class="icon-base ti tabler-currency-dollar me-3 icon-md"></i><span class="align-middle">Pricing</span>
+                             <i class="ti ti-currency-dollar me-3 ti-md"></i><span class="align-middle">Pricing</span>
                          </a>
                      </li>
                      <li>
                          <a class="dropdown-item" href="pages-faq.html">
-                             <i class="icon-base ti tabler-question-mark me-3 icon-md"></i><span class="align-middle">FAQ</span>
+                             <i class="ti ti-question-mark me-3 ti-md"></i><span class="align-middle">FAQ</span>
                          </a>
                      </li>
                      <li>
@@ -474,6 +458,14 @@
              <!--/ User -->
          </ul>
      </div>
- </nav>
 
- <!-- / Navbar -->
+     <!-- Search Small Screens -->
+     <div class="navbar-search-wrapper search-input-wrapper d-none">
+         <input
+             type="text"
+             class="form-control search-input container-xxl border-0"
+             placeholder="Search..."
+             aria-label="Search..." />
+         <i class="ti ti-x search-toggler cursor-pointer"></i>
+     </div>
+ </nav>

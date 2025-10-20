@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
             $key = $request->ip() . '|' . mb_strtolower($request->input('email', 'guest'));
             return [Limit::perMinute(5)->by($key)];
         });
+
+        Paginator::useBootstrapFive();
     }
 }
