@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pelanggan;
 
 use App\Http\Controllers\Controller;
 use App\Models\DataClients;
+use App\Models\DataPaket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -84,7 +85,26 @@ class PelangganController extends Controller
         usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
         usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
 
-        return view('admin.pelanggan.tambah', compact('provinsiRaw', 'kabupatenRaw', 'kecamatanRaw'));
+        $pakets = DataPaket::orderBy('nama_paket')
+            ->get(['id', 'nama_paket', 'harga', 'name_profile', 'limit_radius']);
+
+        // Siapkan data ringan untuk JS (hindari map arrow di Blade)
+        $paketsForJs = $pakets->map(function ($x) {
+            return [
+                'nama_paket'   => $x->nama_paket,
+                'harga'        => $x->harga,
+                'name_profile' => $x->name_profile,
+                'limit_radius' => $x->limit_radius,
+            ];
+        })->values(); // values() supaya index rapi dari 0
+
+        return view('admin.pelanggan.tambah', compact(
+            'provinsiRaw',
+            'kabupatenRaw',
+            'kecamatanRaw',
+            'pakets',
+            'paketsForJs' // <-- kirim ke Blade
+        ));
     }
 
     public function store(Request $request)
@@ -100,7 +120,7 @@ class PelangganController extends Controller
             'kabupaten'    => ['nullable', 'string', 'max:100'],
             'provinsi'     => ['nullable', 'string', 'max:100'],
             'loc_client'   => ['nullable', 'string', 'max:255'],
-            'paket'        => ['nullable', 'string', 'max:255'],
+            'paket' => ['nullable', Rule::exists('data_paket', 'nama_paket')],
             'tagihan'      => ['nullable', 'string', 'max:64'],
 
             // user_pppoe TIDAK diambil dari request — akan diisi = nopel
@@ -117,6 +137,22 @@ class PelangganController extends Controller
             'note'         => ['nullable', 'string'],
             'foto_depan'   => ['nullable', 'string', 'max:255'],
         ]);
+
+
+        $paketRow = null;
+        if (!empty($validated['paket'])) {
+            $paketRow = DataPaket::where('nama_paket', $validated['paket'])->first();
+            if (!$paketRow) {
+                return back()->withErrors(['paket' => 'Paket tidak ditemukan.'])->withInput();
+            }
+        }
+
+        // Timpa dari DB paket (jangan percaya input user)
+        if ($paketRow) {
+            $validated['tagihan']      = (string)($paketRow->harga ?? '');
+            $validated['name_profile'] = $paketRow->name_profile ?? null;
+            $validated['limit_radius'] = $paketRow->limit_radius ?? null;
+        }
 
         // Generate NOPel unik: AAA-12345678
         $nopel = $this->generateUniqueNopel();
@@ -158,6 +194,7 @@ class PelangganController extends Controller
             ->route('admin.pelanggan.index')
             ->with('success', 'Pelanggan berhasil ditambahkan. NoPel: ' . $client->nopel . ' (PPPoE: ' . $userPppoe . ')');
     }
+
 
     /**
      * Generate NoPel unik: ID12345678

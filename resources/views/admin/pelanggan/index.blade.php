@@ -38,6 +38,22 @@
                                 <a href="{{ route('admin.pelanggan.create') }}" class="btn btn-outline-primary">Tambah Pelanggan</a>
                             </div>
                         </div>
+                        {{-- Alert sukses --}}
+                        @if (session('success'))
+                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            {!! session('success') !!}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+
+                        {{-- (Opsional) Alert error umum --}}
+                        @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {!! session('error') !!}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+
                         {{-- Filter/Search bar --}}
                         <form method="GET" action="{{ route('admin.pelanggan.index') }}" class="card mb-3 border-0 shadow-sm">
                             <div class="card-body py-3">
