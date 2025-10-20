@@ -78,26 +78,27 @@
 
 
         <!-- Layouts -->
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.pelanggan.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
                 <div data-i18n="Pelanggan">Pelanggan</div>
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.pelanggan.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.pelanggan.index') }}" class="menu-link">
                         <div data-i18n="Daftar Pelanggan">Daftar Pelanggan</div>
                     </a>
                 </li>
-                <li class="menu-item">
+
+                <li class="menu-item {{ request()->routeIs('admin.pelanggan.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.pelanggan.create') }}" class="menu-link">
                         <div data-i18n="Tambah Pelanggan">Tambah Pelanggan</div>
                     </a>
                 </li>
-
             </ul>
         </li>
+
 
         <!-- Apps & Pages -->
         <li class="menu-header small">
@@ -1091,7 +1092,7 @@
             </a>
         </li>
         <!-- Tables -->
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="tables-basic.html" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-table"></i>
                 <div data-i18n="Tables">Tables</div>

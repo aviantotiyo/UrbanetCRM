@@ -25,6 +25,19 @@
                 <div class="content-wrapper">
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+                            <div class="d-flex flex-column justify-content-center">
+                                <div class="mb-1">
+                                    <span class="h5">Data Lengkap Pelanggan</span>
+                                </div>
+
+                            </div>
+                            <div class="d-flex align-content-center flex-wrap gap-2">
+                                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
+                                <a href="{{ route('admin.pelanggan.create') }}" class="btn btn-outline-primary">Tambah Pelanggan</a>
+                            </div>
+                        </div>
                         {{-- Filter/Search bar --}}
                         <form method="GET" action="{{ route('admin.pelanggan.index') }}" class="card mb-3 border-0 shadow-sm">
                             <div class="card-body py-3">
@@ -93,6 +106,7 @@
                         </form>
 
                         <div class="card">
+
                             <h5 class="card-header">Data Pelanggan</h5>
                             <div class="table-responsive text-nowrap">
                                 <table class="table">
