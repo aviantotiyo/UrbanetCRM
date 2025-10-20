@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Paket;
 
-use App\Http\Controllers\Controller;
 use App\Models\DataPaket;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class PaketController extends Controller
 {
@@ -36,7 +37,13 @@ class PaketController extends Controller
             'harga'        => ['required', 'string', 'max:64'], // kamu minta varchar
             'name_profile' => ['nullable', 'string', 'max:191'],
             'limit_radius' => ['nullable', 'string', 'max:191'],
+            'active'       => ['required', Rule::in(['0', '1'])],
+            'tayang'       => ['required', Rule::in(['0', '1'])],
         ]);
+
+        // Normalisasi ke boolean/int kecil (0/1)
+        $validated['active'] = (int) $validated['active'];
+        $validated['tayang'] = (int) $validated['tayang'];
 
         DataPaket::create($validated);
 
@@ -73,7 +80,13 @@ class PaketController extends Controller
             'harga'        => ['required', 'string', 'max:64'],
             'name_profile' => ['nullable', 'string', 'max:191'],
             'limit_radius' => ['nullable', 'string', 'max:191'],
+            'active'       => ['required', Rule::in(['0', '1'])],
+            'tayang'       => ['required', Rule::in(['0', '1'])],
         ]);
+
+
+        $validated['active'] = (int) $validated['active'];
+        $validated['tayang'] = (int) $validated['tayang'];
 
         $paket->update($validated);
 

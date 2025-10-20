@@ -20,6 +20,8 @@ class DataPaket extends Model
         'nama_paket',
         'deskripsi',
         'harga',
+        'active',
+        'tayang',
         'name_profile',
         'limit_radius',
     ];

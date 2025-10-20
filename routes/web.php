@@ -39,6 +39,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/tambah', [PelangganController::class, 'create'])->name('create');   // HARUS sebelum {id}
         Route::post('/tambah', [PelangganController::class, 'store'])->name('store');
 
+        Route::get('/edit/{id}',  [PelangganController::class, 'edit'])
+            ->whereUuid('id')->name('edit');
+
+        Route::post('/edit/{id}', [PelangganController::class, 'update'])
+            ->whereUuid('id')->name('update');
+
         Route::get('/{id}', [PelangganController::class, 'show'])
             ->whereUuid('id') // jika tidak ada helper whereUuid, pakai ->where('id', '[0-9a-fA-F-]{36}')
             ->name('show');

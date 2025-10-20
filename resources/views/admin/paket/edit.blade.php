@@ -60,6 +60,35 @@
                             @error('limit_radius')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label d-block">Aktif?</label>
+                            @php $valActive = old('active', (string)($paket->active ?? 1)); @endphp
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="active" id="active1" value="1" {{ $valActive==='1'?'checked':'' }}>
+                                <label class="form-check-label" for="active1">Ya</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="active" id="active0" value="0" {{ $valActive==='0'?'checked':'' }}>
+                                <label class="form-check-label" for="active0">Tidak</label>
+                            </div>
+                            @error('active')<div class="text-danger small">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label d-block">Tayang di UI?</label>
+                            @php $valTayang = old('tayang', (string)($paket->tayang ?? 1)); @endphp
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tayang" id="tayang1" value="1" {{ $valTayang==='1'?'checked':'' }}>
+                                <label class="form-check-label" for="tayang1">Ya</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tayang" id="tayang0" value="0" {{ $valTayang==='0'?'checked':'' }}>
+                                <label class="form-check-label" for="tayang0">Tidak</label>
+                            </div>
+                            @error('tayang')<div class="text-danger small">{{ $message }}</div>@enderror
+                        </div>
+
+
                         <div class="col-12">
                             <label class="form-label">Deskripsi</label>
                             <textarea name="deskripsi" rows="3" class="form-control @error('deskripsi') is-invalid @enderror"
