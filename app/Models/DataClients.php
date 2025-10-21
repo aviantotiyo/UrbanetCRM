@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DataClients extends Model
 {
+
     use HasUuids, SoftDeletes;
 
     protected $table = 'data_clients';
@@ -47,6 +48,8 @@ class DataClients extends Model
         'promo_day_end',
         'status_promo',
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected $casts = [
         'active_user' => 'datetime',

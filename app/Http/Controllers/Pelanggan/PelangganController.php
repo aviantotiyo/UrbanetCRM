@@ -439,7 +439,7 @@ class PelangganController extends Controller
                         $portKode,
                         $clientName
                     ),
-                    'timestamp' => now(),
+                    // 'timestamp' => now(),
                 ]);
             }
 
@@ -450,12 +450,18 @@ class PelangganController extends Controller
             ]);
 
             // Reset kolom relasi & status pada client (soft delete)
-            $client->update([
-                'odp_id'      => null,
-                'odp_port_id' => null,
-                'status'      => 'inactive',
-                'deleted_at'  => now(),
-            ]);
+            // $client->update([
+            //     'odp_id'      => null,
+            //     'odp_port_id' => null,
+            //     'status'      => 'inactive',
+            //     // 'deleted_at'  => now(),
+            //     $client->delete(); 
+            // ]);
+            $client->odp_id      = null;
+            $client->odp_port_id = null;
+            $client->status      = 'inactive';
+            $client->save();
+            $client->delete();
         });
 
         return redirect()

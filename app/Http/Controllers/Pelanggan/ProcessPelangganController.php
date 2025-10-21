@@ -83,6 +83,7 @@ class ProcessPelangganController extends Controller
                 $promoStart = null;
                 $promoEnd = null;
                 $statusPromo = 0;
+                \App\Jobs\JobCreateBilling::dispatch($client->id);
             }
 
             // Update client
