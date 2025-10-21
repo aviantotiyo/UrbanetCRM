@@ -17,17 +17,14 @@ class ProcessPelangganController extends Controller
      */
     public function create(Request $request, string $id)
     {
-        $client = \App\Models\DataClients::find($id);
+        $client = DataClients::find($id);
         if (!$client) {
             abort(404, 'Data pelanggan tidak ditemukan.');
         }
 
-        // List ODP utk dropdown
-        $odps = \App\Models\DataOdp::orderBy('kode_odp')->get(['id', 'kode_odp', 'nama_odp']);
+        $odps = DataOdp::orderBy('kode_odp')->get(['id', 'kode_odp', 'nama_odp']);
 
-        // Kumpulkan port "available".
-        // Tambahkan juga port milik client (jika ada), agar tetap muncul walau statusnya bukan "available".
-        $availablePorts = \App\Models\DataOdpPort::select('id', 'odp_id', 'port_numb', 'status')
+        $availablePorts = DataOdpPort::select('id', 'odp_id', 'port_numb', 'status')
             ->where('status', 'available')
             ->orWhere(function ($q) use ($client) {
                 if ($client->odp_port_id) {
@@ -45,11 +42,8 @@ class ProcessPelangganController extends Controller
         ]);
     }
 
-
     /**
-     * Simpan hasil pemilihan ODP & Port:
-     * - clients: set odp_id, odp_port_id, active_user = now()
-     * - data_odp_port: set client_id & status = 'reserved'
+     * Simpan hasil pemilihan ODP & Port + promo_day.
      */
     public function store(Request $request, string $id)
     {
@@ -58,15 +52,13 @@ class ProcessPelangganController extends Controller
             abort(404, 'Data pelanggan tidak ditemukan.');
         }
 
-        // Validasi dasar
         $validated = $request->validate([
             'odp_id'      => ['required', 'uuid', Rule::exists('data_odp', 'id')],
             'odp_port_id' => ['required', 'uuid', Rule::exists('data_odp_port', 'id')],
+            'promo_day'   => ['nullable', 'integer', 'min:0', 'max:365'],
         ]);
 
-        // Pastikan port yang dipilih:
-        // - status masih 'available'
-        // - memang milik ODP yang dipilih
+        // Cek port valid dan masih available
         $port = DataOdpPort::where('id', $validated['odp_port_id'])
             ->where('odp_id', $validated['odp_id'])
             ->where('status', 'available')
@@ -79,12 +71,30 @@ class ProcessPelangganController extends Controller
         }
 
         DB::transaction(function () use ($client, $validated, $port) {
+            $promoDay = (int) ($validated['promo_day'] ?? 0);
+            $now = now();
+
+            // Logika promo
+            if ($promoDay > 0) {
+                $promoStart = $now;
+                $promoEnd = $now->copy()->addDays($promoDay);
+                $statusPromo = 1;
+            } else {
+                $promoStart = null;
+                $promoEnd = null;
+                $statusPromo = 0;
+            }
+
             // Update client
             $client->update([
-                'odp_id'      => $validated['odp_id'],
-                'odp_port_id' => $port->id,
-                'active_user' => now(),
-                'status'    => 'active',
+                'odp_id'          => $validated['odp_id'],
+                'odp_port_id'     => $port->id,
+                'active_user'     => now(),
+                'status'          => 'active',
+                'promo_day'       => $promoDay,
+                'promo_day_start' => $promoStart,
+                'promo_day_end'   => $promoEnd,
+                'status_promo'    => $statusPromo,
             ]);
 
             // Update port
@@ -96,6 +106,6 @@ class ProcessPelangganController extends Controller
 
         return redirect()
             ->route('admin.pelanggan.show', $client->id)
-            ->with('success', 'Pemasangan diproses: ODP & port berhasil direservasi untuk pelanggan.');
+            ->with('success', 'Pemasangan diproses dan masa promo berhasil diset.');
     }
 }
