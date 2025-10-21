@@ -176,7 +176,14 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $c->id) }}"><i class="ti ti-search me-1"></i> Detail</a>
                                                         <a class="dropdown-item" href="{{ route('admin.pelanggan.edit', $c->id) }}"><i class="ti ti-pencil me-1"></i> Edit</a>
-                                                        <a class="dropdown-item" href="javascript:void(0);"><i class="ti ti-trash me-1"></i> Delete</a>
+                                                        <a class="dropdown-item" href="{{ route('admin.pelanggan.process.create', $c->id) }}"><i class="ti ti-mouse me-1"></i> Process</a>
+                                                        <form action="{{ route('admin.pelanggan.delete', $c->id) }}" method="POST"
+                                                            onsubmit="return confirm('Nonaktifkan pelanggan ini dan lepaskan dari port ODP?');">
+                                                            @csrf
+                                                            <button type="submit" class="dropdown-item text-danger">
+                                                                <i class="ti ti-trash me-1"></i> Delete
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </td>

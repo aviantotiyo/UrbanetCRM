@@ -160,6 +160,33 @@
                         <input name="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror"
                           value="{{ old('alamat', $client->alamat) }}">
                         @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div id="defaultFormControlHelp" class="form-text">
+                          Contoh: https://maps.app.goo.gl/YZKJaJuhwXUFCJs27
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="mb-4">
+                            <label class="form-label">Latitude</label>
+                            <input name="lat" type="text" class="form-control @error('lat') is-invalid @enderror"
+                              value="{{ old('lat', $client->lat) }}">
+                            @error('lat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <div id="defaultFormControlHelp" class="form-text">
+                              Contoh: -7.4063726
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="mb-4">
+                            <label class="form-label">Longitude</label>
+                            <input name="long" type="text" class="form-control @error('long') is-invalid @enderror"
+                              value="{{ old('long', $client->long) }}">
+                            @error('long')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <div id="defaultFormControlHelp" class="form-text">
+                              Contoh: 112.5841074
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       <div class="mb-4">

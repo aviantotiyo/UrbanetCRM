@@ -160,6 +160,31 @@
                                                 Contoh: https://maps.app.goo.gl/YZKJaJuhwXUFCJs27
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Latitude</label>
+                                                    <input name="lat" type="text" class="form-control @error('lat') is-invalid @enderror"
+                                                        value="{{ old('lat') }}" placeholder="">
+                                                    @error('lat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <div id="defaultFormControlHelp" class="form-text">
+                                                        Contoh: -7.4063726
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Longitude</label>
+                                                    <input name="long" type="text" class="form-control @error('long') is-invalid @enderror"
+                                                        value="{{ old('long') }}" placeholder="">
+                                                    @error('long')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <div id="defaultFormControlHelp" class="form-text">
+                                                        Contoh: 112.5841074
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="mb-4">
                                             <label class="form-label">Alamat</label>
                                             <input id="title" name="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror"

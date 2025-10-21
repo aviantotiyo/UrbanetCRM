@@ -122,7 +122,9 @@ class PelangganController extends Controller
             'kabupaten'    => ['nullable', 'string', 'max:100'],
             'provinsi'     => ['nullable', 'string', 'max:100'],
             'loc_client'   => ['nullable', 'string', 'max:255'],
-            'paket' => ['nullable', Rule::exists('data_paket', 'nama_paket')],
+            'lat'          => ['nullable', 'string', 'max:255'],
+            'long'         => ['nullable', 'string', 'max:255'],
+            'paket'        => ['nullable', Rule::exists('data_paket', 'nama_paket')],
             'tagihan'      => ['nullable', 'string', 'max:64'],
 
             // user_pppoe TIDAK diambil dari request — akan diisi = nopel
@@ -177,6 +179,8 @@ class PelangganController extends Controller
             'kabupaten'     => $validated['kabupaten'] ?? null,
             'provinsi'      => $validated['provinsi'] ?? null,
             'loc_client'    => $validated['loc_client'] ?? null,
+            'lat'           => $validated['lat'] ?? null,
+            'long'          => $validated['long'] ?? null,
             'paket'         => $validated['paket'] ?? null,
             'tagihan'       => $validated['tagihan'] ?? null,
             'user_pppoe'    => $userPppoe,
@@ -215,7 +219,7 @@ class PelangganController extends Controller
 
     public function show(string $id)
     {
-        $client = DataClients::find($id);
+        $client = \App\Models\DataClients::with(['odp', 'odpPort'])->find($id);
 
         if (!$client) {
             abort(404, 'Data pelanggan tidak ditemukan.');
@@ -223,6 +227,7 @@ class PelangganController extends Controller
 
         return view('admin.pelanggan.detail', compact('client'));
     }
+
 
     // Edit Data
 
@@ -252,10 +257,6 @@ class PelangganController extends Controller
         usort($provinsiRaw,  fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
         usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
         usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
-
-        // master paket
-        // $pakets = DataPaket::orderBy('nama_paket')
-        //     ->get(['id', 'nama_paket', 'harga', 'name_profile', 'limit_radius']);
 
         $pakets = DataPaket::query()
             ->where('active', 1)
@@ -298,6 +299,8 @@ class PelangganController extends Controller
             'kabupaten'    => ['nullable', 'string', 'max:100'],
             'provinsi'     => ['nullable', 'string', 'max:100'],
             'loc_client'   => ['nullable', 'string', 'max:255'],
+            'lat'          => ['nullable', 'string', 'max:255'],
+            'long'         => ['nullable', 'string', 'max:255'],
             'paket'        => ['nullable', Rule::exists('data_paket', 'nama_paket')],
             'tagihan'      => ['nullable', 'string', 'max:64'],
 
@@ -334,6 +337,8 @@ class PelangganController extends Controller
             'kabupaten'     => $validated['kabupaten'] ?? null,
             'provinsi'      => $validated['provinsi'] ?? null,
             'loc_client'    => $validated['loc_client'] ?? null,
+            'lat'           => $validated['lat'] ?? null,
+            'long'          => $validated['long'] ?? null,
             'paket'         => $validated['paket'] ?? null,
             'tagihan'       => $validated['tagihan'] ?? null,
             'name_profile'  => $validated['name_profile'] ?? null,
@@ -351,5 +356,49 @@ class PelangganController extends Controller
             // ->route('admin.pelanggan.show', $client->id)
             ->route('admin.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil diperbarui.');
+    }
+
+    public function softDelete(string $id)
+    {
+        $client = \App\Models\DataClients::find($id);
+        if (! $client) {
+            abort(404, 'Data pelanggan tidak ditemukan.');
+        }
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($client) {
+            $clientId = $client->id;
+
+            // 1) Lepas port yang sedang dipakai client ini (jika ada)
+            \App\Models\DataOdpPort::where('client_id', $clientId)
+                ->update([
+                    'client_id' => null,
+                    'status'    => 'available', // kembalikan ke available
+                ]);
+
+            // 2) Reset kolom relasi & status pada client
+            $client->odp_id      = null;
+            $client->odp_port_id = null;
+            $client->status      = 'inactive';
+            $client->deleted_at  = now();
+
+
+            // 3) Tandai soft delete.
+            //    Jika kamu memakai kolom "softdeleted" (boolean), set ke true.
+            //    Jika model pakai SoftDeletes (deleted_at), bisa juga panggil $client->delete().
+            //    Di sini kita set softdeleted=1 kalau kolom ada; lalu simpan.
+            // try {
+            //     $client->softdeleted = 1; 
+            // } catch (\Throwable $e) {
+
+            // }
+
+            $client->save();
+
+            // (Opsional) kalau pakai SoftDeletes: $client->delete();
+        });
+
+        return redirect()
+            ->route('admin.pelanggan.index')
+            ->with('success', 'Pelanggan telah dinonaktifkan & dilepas dari port ODP.');
     }
 }

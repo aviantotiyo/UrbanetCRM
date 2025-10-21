@@ -98,7 +98,7 @@
                         <div class="mb-3">
                             <div class="text-muted small">ODP ID / ODP Port ID</div>
                             <div class="fw-semibold">
-                                {{ $client->odp_id ?: '—' }} / {{ $client->odp_port_id ?: '—' }}
+                                {{ $client->odp?->kode_odp ?? '—' }} / {{ $client->odpPort?->port_numb ?? '—' }}
                             </div>
                         </div>
                         <div class="mb-3">

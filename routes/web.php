@@ -9,6 +9,7 @@ use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Server\ServerController;
 use App\Http\Controllers\Pelanggan\PelangganController;
+use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 
 // Public (no auth)
 Route::get('/', fn() => ['Laravel' => app()->version()]);
@@ -48,6 +49,18 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/{id}', [PelangganController::class, 'show'])
             ->whereUuid('id') // jika tidak ada helper whereUuid, pakai ->where('id', '[0-9a-fA-F-]{36}')
             ->name('show');
+
+        Route::get('/process/{id}', [ProcessPelangganController::class, 'create'])
+            ->whereUuid('id')
+            ->name('process.create');
+
+        Route::post('/process/{id}', [ProcessPelangganController::class, 'store'])
+            ->whereUuid('id')
+            ->name('process.store');
+
+        Route::post('/delete/{id}', [PelangganController::class, 'softDelete'])
+            ->whereUuid('id')
+            ->name('delete');
     });
 
     // ===== ODP (master) =====

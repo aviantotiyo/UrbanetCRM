@@ -40,12 +40,29 @@ class DataClients extends Model
         'status',
         'note',
         'foto_depan',
+        'lat',
+        'long',
+        'promo_day',
+        'promo_day_start',
+        'promo_day_end',
+        'status_promo',
     ];
 
     protected $casts = [
         'active_user' => 'datetime',
     ];
 
+    // Relasi ke ODP (meski tidak ada constraint FK di DB, ini tetap bisa)
+    public function odp()
+    {
+        return $this->belongsTo(DataOdp::class, 'odp_id', 'id');
+    }
+
+    // Relasi ke ODP Port
+    public function odpPort()
+    {
+        return $this->belongsTo(DataOdpPort::class, 'odp_port_id', 'id');
+    }
     // (opsional) konstanta status untuk konsistensi pemakaian
     public const STATUS_ACTIVE   = 'active';
     public const STATUS_ISOLIR   = 'isolir';
