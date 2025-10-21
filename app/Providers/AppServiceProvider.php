@@ -37,5 +37,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Paginator::useBootstrapFive();
+
+        // view()->composer('*', function ($view) {
+        //     if (Auth::check() && is_numeric(Auth::user()->id)) {
+        //         Auth::logout();
+        //         session()->invalidate();
+        //         session()->regenerateToken();
+        //         abort(403, 'Session user lama (numeric ID) terdeteksi. Silakan login ulang.');
+        //     }
+        // });
     }
 }
