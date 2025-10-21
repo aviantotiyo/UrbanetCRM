@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Pelanggan;
 
-use App\Http\Controllers\Controller;
-use App\Models\DataClients;
 use App\Models\DataOdp;
+use App\Jobs\JobAddOdpLogs;
+use App\Models\DataClients;
+use App\Models\DataOdpLogs;
 use App\Models\DataOdpPort;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Jobs\JobCreateBilling;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ProcessPelangganController extends Controller
 {
@@ -45,6 +49,72 @@ class ProcessPelangganController extends Controller
     /**
      * Simpan hasil pemilihan ODP & Port + promo_day.
      */
+    // public function store(Request $request, string $id)
+    // {
+    //     $client = DataClients::find($id);
+    //     if (!$client) {
+    //         abort(404, 'Data pelanggan tidak ditemukan.');
+    //     }
+
+    //     $validated = $request->validate([
+    //         'odp_id'      => ['required', 'uuid', Rule::exists('data_odp', 'id')],
+    //         'odp_port_id' => ['required', 'uuid', Rule::exists('data_odp_port', 'id')],
+    //         'promo_day'   => ['nullable', 'integer', 'min:0', 'max:365'],
+    //     ]);
+
+    //     // Cek port valid dan masih available
+    //     $port = DataOdpPort::where('id', $validated['odp_port_id'])
+    //         ->where('odp_id', $validated['odp_id'])
+    //         ->where('status', 'available')
+    //         ->first();
+
+    //     if (!$port) {
+    //         return back()
+    //             ->withErrors(['odp_port_id' => 'Port tidak tersedia / tidak cocok dengan ODP terpilih.'])
+    //             ->withInput();
+    //     }
+
+    //     DB::transaction(function () use ($client, $validated, $port) {
+    //         $promoDay = (int) ($validated['promo_day'] ?? 0);
+    //         $now = now();
+
+    //         // Logika promo
+    //         if ($promoDay > 0) {
+    //             $promoStart = $now;
+    //             $promoEnd = $now->copy()->addDays($promoDay);
+    //             $statusPromo = 1;
+    //         } else {
+    //             $promoStart = null;
+    //             $promoEnd = null;
+    //             $statusPromo = 0;
+    //             JobCreateBilling::dispatch($client->id)->afterCommit();
+    //         }
+
+
+    //         // Update client
+    //         $client->update([
+    //             'odp_id'          => $validated['odp_id'],
+    //             'odp_port_id'     => $port->id,
+    //             'active_user'     => now(),
+    //             'status'          => 'active',
+    //             'promo_day'       => $promoDay,
+    //             'promo_day_start' => $promoStart,
+    //             'promo_day_end'   => $promoEnd,
+    //             'status_promo'    => $statusPromo,
+    //         ]);
+
+    //         // Update port
+    //         $port->update([
+    //             'client_id' => $client->id,
+    //             'status'    => 'reserved',
+    //         ]);
+    //     });
+
+    //     return redirect()
+    //         ->route('admin.pelanggan.show', $client->id)
+    //         ->with('success', 'Pemasangan diproses dan masa promo berhasil diset.');
+    // }
+
     public function store(Request $request, string $id)
     {
         $client = DataClients::find($id);
@@ -83,7 +153,7 @@ class ProcessPelangganController extends Controller
                 $promoStart = null;
                 $promoEnd = null;
                 $statusPromo = 0;
-                \App\Jobs\JobCreateBilling::dispatch($client->id);
+                JobCreateBilling::dispatch($client->id)->afterCommit();
             }
 
             // Update client
@@ -103,6 +173,28 @@ class ProcessPelangganController extends Controller
                 'client_id' => $client->id,
                 'status'    => 'reserved',
             ]);
+
+            /**
+             * =========================
+             * 🔹 Tambah log aktivitas
+             * =========================
+             */
+            $user = Auth::user();
+            $actorId   = $user?->id;
+            $actorName = $user?->name ?? 'Unknown User';
+
+            $user = Auth::user();
+            $actorId = $user?->id ?? 'system';
+            $actorName = $user?->name ?? 'Unknown User';
+
+            // Dispatch job log
+            JobAddOdpLogs::dispatch(
+                $actorId,
+                $actorName,
+                $client->id,
+                $validated['odp_id'],
+                $validated['odp_port_id']
+            )->afterCommit();
         });
 
         return redirect()

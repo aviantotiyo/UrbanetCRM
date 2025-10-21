@@ -2,14 +2,15 @@
 
 namespace App\Jobs;
 
+use Carbon\Carbon;
 use App\Models\DataBilling;
 use App\Models\DataClients;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
 class JobCreateBilling implements ShouldQueue
 {
@@ -30,6 +31,7 @@ class JobCreateBilling implements ShouldQueue
      */
     public function handle(): void
     {
+
         $client = DataClients::find($this->clientId);
         if (! $client) return;
 
@@ -44,7 +46,7 @@ class JobCreateBilling implements ShouldQueue
             );
         }
 
-        DataBilling::create([
+        $billing = DataBilling::create([
             'client_id'      => $client->id,
             'name'           => $client->paket,
             'sku'            => $client->name_profile,
@@ -52,6 +54,7 @@ class JobCreateBilling implements ShouldQueue
             'billing_create' => $today,
             'status'         => 'PENDING',
             'amount'         => $prorata,
+            'new_member'     => (int) 1, // explicit integer
         ]);
     }
 }

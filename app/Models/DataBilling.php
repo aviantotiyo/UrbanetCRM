@@ -16,6 +16,7 @@ class DataBilling extends Model
 
     protected $fillable = [
         'client_id',
+        'new_member',
         'reference',
         'merchant_ref',
         'payment_method',
@@ -37,6 +38,7 @@ class DataBilling extends Model
     ];
 
     protected $casts = [
+        'new_member' => 'boolean',
         'amount'          => 'integer',
         'fee_merchant'    => 'integer',
         'fee_customer'    => 'integer',

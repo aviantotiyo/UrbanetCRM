@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Promo / Day</label>
-                                    <input type="number" min="0" name="promo_day" class="form-control" placeholder="Contoh: 5">
+                                    <input type="number" min="0" name="promo_day" class="form-control" value="0">
                                     <div class="form-text">Masukkan jumlah hari promo. 0 = tanpa promo.</div>
                                 </div>
                             </div>
