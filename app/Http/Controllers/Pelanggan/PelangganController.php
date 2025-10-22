@@ -133,11 +133,6 @@ class PelangganController extends Controller
             'long'         => ['nullable', 'string', 'max:255'],
             'paket'        => ['nullable', Rule::exists('data_paket', 'nama_paket')],
             'tagihan'      => ['nullable', 'string', 'max:64'],
-
-            // user_pppoe TIDAK diambil dari request — akan diisi = nopel
-            // 'user_pppoe' => otomatis dari $nopel
-            // 'pass_pppoe' => random 6 digit
-
             'name_profile' => ['nullable', 'string', 'max:255'],
             'limit_radius' => ['nullable', 'string', 'max:255'],
             'odp_id'       => ['nullable', 'string', 'max:255'],
@@ -149,7 +144,7 @@ class PelangganController extends Controller
             'foto_depan'   => ['nullable', 'string', 'max:255'],
         ]);
 
-
+        // Cek dan ambil data paket
         $paketRow = null;
         if (!empty($validated['paket'])) {
             $paketRow = DataPaket::where('nama_paket', $validated['paket'])->first();
@@ -158,23 +153,19 @@ class PelangganController extends Controller
             }
         }
 
-        // Timpa dari DB paket (jangan percaya input user)
+        // Timpa dari DB paket
         if ($paketRow) {
             $validated['tagihan']      = (string)($paketRow->harga ?? '');
             $validated['name_profile'] = $paketRow->name_profile ?? null;
             $validated['limit_radius'] = $paketRow->limit_radius ?? null;
         }
 
-        // Generate NOPel unik: AAA-12345678
+        // Generate data PPPoE & Nopel
         $nopel = $this->generateUniqueNopel();
-
-        // user_pppoe harus sama dengan nopel
         $userPppoe = $nopel;
-
-        // pass_pppoe = angka acak 6 digit
         $passPppoe = (string) random_int(100000, 999999);
 
-        // Simpan
+        // Simpan client baru
         $client = DataClients::create([
             'nopel'         => $nopel,
             'nama'          => $validated['nama'],
@@ -201,6 +192,22 @@ class PelangganController extends Controller
             'status'        => $validated['status'],
             'note'          => $validated['note'] ?? null,
             'foto_depan'    => $validated['foto_depan'] ?? null,
+        ]);
+
+        // === ✅ Tambahkan log ke DataClientLogs ===
+        $user = Auth::user();
+        $actorId   = $user?->id;
+        $actorName = $user?->name ?? 'Unknown User';
+
+        DataClientLogs::create([
+            'users_id'  => $actorId,
+            'client_id' => $client->id,
+            'status'    => sprintf(
+                'User %s telah menambahkan pelanggan baru (%s) dengan NOPel %s',
+                $actorName,
+                $client->nama,
+                $client->nopel
+            ),
         ]);
 
         return redirect()
@@ -289,6 +296,8 @@ class PelangganController extends Controller
         ));
     }
 
+
+
     public function update(Request $request, string $id)
     {
         $client = DataClients::find($id);
@@ -300,7 +309,7 @@ class PelangganController extends Controller
             'nama'         => ['required', 'string', 'max:255'],
             'no_hp'        => ['nullable', 'string', 'max:50', Rule::unique('data_clients', 'no_hp')->ignore($client->id)],
             'email'        => ['nullable', 'email', 'max:255'],
-            'nik'          => ['nullable', 'string', 'max:32',  Rule::unique('data_clients', 'nik')->ignore($client->id)],
+            'nik'          => ['nullable', 'string', 'max:32', Rule::unique('data_clients', 'nik')->ignore($client->id)],
             'alamat'       => ['nullable', 'string', 'max:255'],
             'kecamatan'    => ['nullable', 'string', 'max:100'],
             'kabupaten'    => ['nullable', 'string', 'max:100'],
@@ -310,7 +319,6 @@ class PelangganController extends Controller
             'long'         => ['nullable', 'string', 'max:255'],
             'paket'        => ['nullable', Rule::exists('data_paket', 'nama_paket')],
             'tagihan'      => ['nullable', 'string', 'max:64'],
-
             'name_profile' => ['nullable', 'string', 'max:255'],
             'limit_radius' => ['nullable', 'string', 'max:255'],
             'odp_id'       => ['nullable', 'string', 'max:255'],
@@ -322,7 +330,10 @@ class PelangganController extends Controller
             'foto_depan'   => ['nullable', 'string', 'max:255'],
         ]);
 
-        // Jika paket dipilih → override dari master paket (abaikan input manual)
+        // Simpan data lama sebelum update
+        $originalData = $client->getOriginal();
+
+        // Jika paket dipilih → override dari master paket
         if (!empty($validated['paket'])) {
             $paketRow = DataPaket::where('nama_paket', $validated['paket'])->first();
             if (!$paketRow) {
@@ -333,7 +344,7 @@ class PelangganController extends Controller
             $validated['limit_radius'] = $paketRow->limit_radius ?? null;
         }
 
-        // Update field yang diperbolehkan (NOPel & PPPoE tidak disentuh)
+        // Update data client
         $client->update([
             'nama'          => $validated['nama'],
             'no_hp'         => $validated['no_hp'] ?? null,
@@ -359,43 +370,38 @@ class PelangganController extends Controller
             'foto_depan'    => $validated['foto_depan'] ?? null,
         ]);
 
+        // === ✅ Deteksi perubahan field ===
+        $changedFields = [];
+        foreach ($validated as $key => $value) {
+            if (($originalData[$key] ?? null) != $value) {
+                $changedFields[] = $key;
+            }
+        }
+
+        // Jika ada perubahan, simpan log
+        if (!empty($changedFields)) {
+            $user = Auth::user();
+            $actorId   = $user?->id;
+            $actorName = $user?->name ?? 'Unknown User';
+
+            DataClientLogs::create([
+                'users_id'  => $actorId,
+                'client_id' => $client->id,
+                'status'    => sprintf(
+                    'User %s telah memperbarui data pelanggan (%s - %s). Field diubah: %s',
+                    $actorName,
+                    $client->nama,
+                    $client->nopel,
+                    implode(', ', $changedFields)
+                ),
+            ]);
+        }
+
         return redirect()
-            // ->route('admin.pelanggan.show', $client->id)
             ->route('admin.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil diperbarui.');
     }
 
-    // public function softDelete(string $id)
-    // {
-    //     $client = \App\Models\DataClients::find($id);
-    //     if (! $client) {
-    //         abort(404, 'Data pelanggan tidak ditemukan.');
-    //     }
-
-    //     \Illuminate\Support\Facades\DB::transaction(function () use ($client) {
-    //         $clientId = $client->id;
-
-    //         // 1) Lepas port yang sedang dipakai client ini (jika ada)
-    //         \App\Models\DataOdpPort::where('client_id', $clientId)
-    //             ->update([
-    //                 'client_id' => null,
-    //                 'status'    => 'available', // kembalikan ke available
-    //             ]);
-
-    //         // 2) Reset kolom relasi & status pada client
-    //         $client->odp_id      = null;
-    //         $client->odp_port_id = null;
-    //         $client->status      = 'inactive';
-    //         $client->deleted_at  = now();
-
-
-    //         $client->save();
-    //     });
-
-    //     return redirect()
-    //         ->route('admin.pelanggan.index')
-    //         ->with('success', 'Pelanggan telah dinonaktifkan & dilepas dari port ODP.');
-    // }
 
 
     public function softDelete(string $id)
