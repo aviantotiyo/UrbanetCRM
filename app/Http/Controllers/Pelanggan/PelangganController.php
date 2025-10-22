@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Pelanggan;
 
+use App\Models\DataOdp;
 use App\Models\DataPaket;
 use App\Models\DataClients;
-use App\Models\DataOdp;
 use App\Models\DataOdpLogs;
 use App\Models\DataOdpPort;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\DataClientLogs;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -418,19 +419,17 @@ class PelangganController extends Controller
             $odpKode  = $currentOdp
                 ? (DataOdp::where('id', $currentOdp)->value('kode_odp') ?? $currentOdp)
                 : '-';
-
             $portKode = $currentPort
                 ? (DataOdpPort::where('id', $currentPort)->value('port_numb') ?? $currentPort)
                 : '-';
+            $clientName = $client->nama ?? $clientId;
 
-            $clientName = DataClients::where('id', $clientId)->value('nama') ?? $clientId;
-
-            // Catat log aktivitas (sebelum pelepasan port)
+            // Catat log aktivitas di DataOdpLogs (sebelum pelepasan port)
             if ($currentOdp || $currentPort) {
                 DataOdpLogs::create([
                     'users_id'  => $actorId,
                     'odp_id'    => $currentOdp,
-                    'odp_port'  => $currentPort,
+                    'odp_port'  => $currentPort && DataOdpPort::find($currentPort) ? $currentPort : null,
                     'client_id' => $clientId,
                     'status'    => sprintf(
                         'User %s telah menghapus relasi ODP(%s)/Port(%s) dari Client (%s)',
@@ -439,9 +438,19 @@ class PelangganController extends Controller
                         $portKode,
                         $clientName
                     ),
-                    // 'timestamp' => now(),
                 ]);
             }
+
+            // Catat log aktivitas di DataClientLogs
+            DataClientLogs::create([
+                'users_id'  => $actorId,
+                'client_id' => $clientId,
+                'status'    => sprintf(
+                    'User %s telah menonaktifkan client (%s) dan menghapus relasi ODP/Port',
+                    $actorName,
+                    $clientName
+                ),
+            ]);
 
             // Lepas port yang sedang dipakai client ini (jika ada)
             DataOdpPort::where('client_id', $clientId)->update([
@@ -449,18 +458,13 @@ class PelangganController extends Controller
                 'status'    => 'available',
             ]);
 
-            // Reset kolom relasi & status pada client (soft delete)
-            // $client->update([
-            //     'odp_id'      => null,
-            //     'odp_port_id' => null,
-            //     'status'      => 'inactive',
-            //     // 'deleted_at'  => now(),
-            //     $client->delete(); 
-            // ]);
+            // Update status client
             $client->odp_id      = null;
             $client->odp_port_id = null;
             $client->status      = 'inactive';
             $client->save();
+
+            // Hapus soft delete
             $client->delete();
         });
 

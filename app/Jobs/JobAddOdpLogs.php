@@ -6,6 +6,7 @@ use App\Models\DataOdp;
 use App\Models\DataOdpPort;
 use App\Models\DataClients;
 use App\Models\DataOdpLogs;
+use App\Models\DataClientLogs; // <— tambah ini
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
@@ -45,10 +46,15 @@ class JobAddOdpLogs implements ShouldQueue
             $portKode = DataOdpPort::where('id', $this->portId)->value('port_numb') ?? $this->portId;
             $clientName = DataClients::where('id', $this->clientId)->value('nama') ?? $this->clientId;
 
+            $odpExists = DataOdp::where('id', $this->odpId)->exists();
+            $portExists = DataOdpPort::where('id', $this->portId)->exists();
+
+
+            // 🔹 Log ke DataOdpLogs
             DataOdpLogs::create([
                 'users_id'  => $this->actorId,
-                'odp_id'    => $this->odpId,
-                'odp_port'  => $this->portId,
+                'odp_id'    => $odpExists ? $this->odpId : null,
+                'odp_port'  => $portExists ? $this->portId : null,
                 'client_id' => $this->clientId,
                 'status'    => sprintf(
                     'User %s telah menambahkan relasi ODP(%s)/Port(%s) dari Client (%s)',
@@ -57,14 +63,27 @@ class JobAddOdpLogs implements ShouldQueue
                     $portKode,
                     $clientName
                 ),
-                // 'timestamp' => now(),
             ]);
 
-            Log::info('[JobAddOdpLogs] ✅ Log berhasil dibuat', [
+            // 🔹 Log ke DataClientLogs
+            DataClientLogs::create([
+                'users_id'  => $this->actorId,
                 'client_id' => $this->clientId,
-                'odp_id' => $this->odpId,
-                'port_id' => $this->portId,
+                'status'    => sprintf(
+                    'User %s telah memproses koneksi baru relasi dari Client (%s) ke ODP(%s)/Port(%s) dari Client (%s)',
+                    $this->actorName,
+                    $odpKode,
+                    $portKode,
+                    $clientName
+                ),
             ]);
+
+            // Log::info('[JobAddOdpLogs] ✅ Log berhasil dibuat', [
+            //     'client_id' => $this->clientId,
+            //     'odp_id' => $this->odpId,
+            //     'port_id' => $this->portId,
+            // ]);
+
         } catch (\Throwable $e) {
             Log::error('[JobAddOdpLogs] ❌ Gagal membuat log aktivitas', [
                 'error' => $e->getMessage(),

@@ -169,23 +169,53 @@
                                             <td><span class="badge text-bg-secondary">{{ $c->status }}</span></td>
 
                                             <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                        <i class="ti ti-dots-vertical"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $c->id) }}"><i class="ti ti-search me-1"></i> Detail</a>
-                                                        <a class="dropdown-item" href="{{ route('admin.pelanggan.edit', $c->id) }}"><i class="ti ti-pencil me-1"></i> Edit</a>
-                                                        <a class="dropdown-item" href="{{ route('admin.pelanggan.process.create', $c->id) }}"><i class="ti ti-mouse me-1"></i> Process</a>
-                                                        <form action="{{ route('admin.pelanggan.delete', $c->id) }}" method="POST"
-                                                            onsubmit="return confirm('Nonaktifkan pelanggan ini dan lepaskan dari port ODP?');">
-                                                            @csrf
-                                                            <button type="submit" class="dropdown-item text-danger">
-                                                                <i class="ti ti-trash me-1"></i> Delete
-                                                            </button>
-                                                        </form>
+                                                <div class="d-flex align-items-center">
+                                                    <a href="{{ route('admin.pelanggan.show', $c->id) }}" class="btn btn-text-secondary rounded-pill waves-effect btn-icon">
+                                                        <i class="ti ti-eye me-1"></i>
+                                                    </a>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                            <i class="ti ti-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <!-- <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $c->id) }}"><i class="ti ti-search me-1"></i> Detail</a> -->
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.edit', $c->id) }}"><i class="ti ti-pencil me-1"></i> Edit</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.process.create', $c->id) }}"><i class="ti ti-mouse me-1"></i> Process</a>
+
+                                                            @if($c->status === 'active')
+                                                            <form action="{{ route('admin.pelanggan.isolir', $c->id) }}" method="POST"
+                                                                onsubmit="return confirm('Yakin ingin mengisolir pelanggan ini?');">
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item text-warning">
+                                                                    <i class="ti ti-lock me-1"></i> Isolir
+                                                                </button>
+                                                            </form>
+                                                            @endif
+
+                                                            @if($c->status === 'isolir')
+                                                            <form action="{{ route('admin.pelanggan.unisolir', $c->id) }}" method="POST"
+                                                                onsubmit="return confirm('Aktifkan kembali pelanggan ini dari status isolir?');">
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item text-success">
+                                                                    <i class="ti ti-lock-open me-1"></i> Buka Isolir
+                                                                </button>
+                                                            </form>
+                                                            @endif
+
+
+                                                            <form action="{{ route('admin.pelanggan.delete', $c->id) }}" method="POST"
+                                                                onsubmit="return confirm('Nonaktifkan pelanggan ini dan lepaskan dari port ODP?');">
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item text-danger">
+                                                                    <i class="ti ti-trash me-1"></i> Delete
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td>
+
                                             </td>
                                         </tr>
                                         @empty

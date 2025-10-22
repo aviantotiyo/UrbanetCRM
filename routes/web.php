@@ -9,6 +9,8 @@ use App\Http\Controllers\Odc\OdcPortController;
 use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Pelanggan\IsolirController;
+use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 
@@ -58,6 +60,18 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/process/{id}', [ProcessPelangganController::class, 'store'])
             ->whereUuid('id')
             ->name('process.store');
+
+        Route::post('/isolir/{id}', IsolirController::class)
+            ->whereUuid('id')
+            ->name('isolir');
+
+        // Route::post('/unisolir/{id}', [UnisolirController::class])
+        //     ->whereUuid('id')
+        //     ->name('unisolir');
+        Route::post('/unisolir/{id}', UnisolirController::class)
+            ->whereUuid('id')
+            ->name('unisolir');
+
 
         Route::post('/delete/{id}', [PelangganController::class, 'softDelete'])
             ->whereUuid('id')
