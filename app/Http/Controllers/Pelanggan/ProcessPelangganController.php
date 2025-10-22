@@ -108,8 +108,8 @@ class ProcessPelangganController extends Controller
                 'status'    => 'reserved',
             ]);
 
-            //Tambah log aktivitas
 
+            //Tambah log aktivitas
             $user = Auth::user();
             $actorId   = $user?->id;
             $actorName = $user?->name ?? 'Unknown User';

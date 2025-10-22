@@ -65,9 +65,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             ->whereUuid('id')
             ->name('isolir');
 
-        // Route::post('/unisolir/{id}', [UnisolirController::class])
-        //     ->whereUuid('id')
-        //     ->name('unisolir');
         Route::post('/unisolir/{id}', UnisolirController::class)
             ->whereUuid('id')
             ->name('unisolir');
