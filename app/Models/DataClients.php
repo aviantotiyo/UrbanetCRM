@@ -40,6 +40,7 @@ class DataClients extends Model
         'active_user',
         'status',
         'note',
+        'point',
         'foto_depan',
         'lat',
         'long',

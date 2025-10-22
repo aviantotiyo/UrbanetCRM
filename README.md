@@ -5,4 +5,6 @@ ALUR BILLING KETIKA CLIENT MENDAPATKAN PROMO
 
 data_blling
 
+-   net_income di kurangi pajak
 -   denda
+    loyalti program (point)

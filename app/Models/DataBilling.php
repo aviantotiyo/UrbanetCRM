@@ -22,6 +22,8 @@ class DataBilling extends Model
         'payment_method',
         'payment_name',
         'amount',
+        'total_amount',
+        'discount',
         'fee_merchant',
         'fee_customer',
         'amount_received',
@@ -32,6 +34,8 @@ class DataBilling extends Model
         'sku',
         'name',
         'instructions',
+        'denda',
+        'after_tax',
         'billing_cycle',   // sudah dibetulkan
         'billing_create',
         'billing_paid',    // sekarang nullable
