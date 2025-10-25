@@ -46,5 +46,12 @@ class AppServiceProvider extends ServiceProvider
         //         abort(403, 'Session user lama (numeric ID) terdeteksi. Silakan login ulang.');
         //     }
         // });
+
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return url(route('admin.password.reset', [
+                'token' => $token,
+                'email' => $user->email,
+            ], false));
+        });
     }
 }

@@ -59,7 +59,7 @@ class PelangganController extends Controller
         }
 
         // Urut paling baru
-        $clients = $query->orderByDesc('created_at')->paginate(20)->appends($request->query());
+        $clients = $query->orderByDesc('created_at')->paginate(10)->appends($request->query());
 
         // Opsi dropdown (dinamis dari data yang sudah ada)
         $paketOptions     = \App\Models\DataClients::whereNotNull('paket')->distinct()->orderBy('paket')->pluck('paket');

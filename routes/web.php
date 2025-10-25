@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Odc\OdcController;
 use App\Http\Controllers\Odp\OdpController;
@@ -9,13 +11,16 @@ use App\Http\Controllers\Odc\OdcPortController;
 use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Server\ServerController;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Pelanggan\IsolirController;
+
 use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 
 // Public (no auth)
-Route::get('/', fn() => ['Laravel' => app()->version()]);
+Route::redirect('/', '/admin/login');
 
 // ========== Guest (belum login) ==========
 Route::middleware('guest')->group(function () {
@@ -28,6 +33,19 @@ Route::middleware('guest')->group(function () {
         ->middleware('web');
 });
 
+Route::prefix('admin')->middleware('guest')->name('admin.')->group(function () {
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+        ->name('password.reset');
+
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+        ->name('password.update');
+});
 // ========== Authenticated (sudah login) ==========
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
@@ -158,4 +176,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/dashboard/odc-port/edit/{id}', [OdcPortController::class, 'update'])
         ->whereUuid('id')
         ->name('odc_port.update');
+});
+
+
+Route::get('/test-email', function () {
+    try {
+        Mail::to('tiyoavianto@gmail.com')->send(new TestEmail());
+        return 'Email sent successfully!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
 });
