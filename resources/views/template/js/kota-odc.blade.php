@@ -1,16 +1,24 @@
-<!-- JS (reusable) -->
 <script>
     const KABUPATEN = @json($kabupatenRaw ?? []);
     const KECAMATAN = @json($kecamatanRaw ?? []);
 
-    function renderOptions($select, items, nameKey = 'name', idKey = 'id', placeholder = '-- pilih --') {
-        $select.empty().append(new Option(placeholder, ''));
+    function renderOptions(selectEl, items, nameKey = 'name', idKey = 'id', placeholder = '-- pilih --') {
+        selectEl.innerHTML = '';
+        const placeholderOption = new Option(placeholder, '');
+        selectEl.appendChild(placeholderOption);
+
         items.forEach(item => {
-            const text = item?.[nameKey] ?? '';
-            const opt = new Option(text, text, false, false); // value = name
-            if (idKey && item?.[idKey]) opt.dataset.id = item[idKey];
-            $select.append(opt);
+            const opt = new Option(item[nameKey], item[idKey]);
+            selectEl.appendChild(opt);
         });
+    }
+
+    function filterKab(provId) {
+        return KABUPATEN.filter(k => String(k.province_id) === String(provId));
+    }
+
+    function filterKec(kabId) {
+        return KECAMATAN.filter(k => String(k.regency_id) === String(kabId));
     }
 
     function initWilayahCascade({
@@ -21,88 +29,41 @@
         oldKab = '',
         oldKec = ''
     }) {
-        const $prov = $(provSel),
-            $kab = $(kabSel),
-            $kec = $(kecSel);
+        const $prov = document.querySelector(provSel);
+        const $kab = document.querySelector(kabSel);
+        const $kec = document.querySelector(kecSel);
 
-        // Optional: Select2 untuk kab & kec
-        $kab.select2({
-            theme: 'bootstrap-5',
-            width: '100%',
-            placeholder: '-- pilih kabupaten/kota --',
-            allowClear: true
-        });
-        $kec.select2({
-            theme: 'bootstrap-5',
-            width: '100%',
-            placeholder: '-- pilih kecamatan --',
-            allowClear: true
+        $prov.addEventListener('change', function () {
+            const provId = this.value;
+            const filteredKab = filterKab(provId);
+
+            renderOptions($kab, filteredKab, 'name', 'id', '-- pilih kabupaten/kota --');
+            $kec.innerHTML = '<option value="">-- pilih kecamatan --</option>';
         });
 
-        function filterKab(provId) {
-            return KABUPATEN.filter(k => String(k.province_id) === String(provId));
-        }
+        $kab.addEventListener('change', function () {
+            const kabId = this.value;
+            const filteredKec = filterKec(kabId);
 
-        function filterKec(regId) {
-            return KECAMATAN.filter(kc => String(kc.regency_id) === String(regId));
-        }
-
-        $prov.on('change', function() {
-            const provId = $('option:selected', this).data('id') || null;
-            // reset kec
-            $kec.val(null).trigger('change');
-            $kec.prop('disabled', true).empty().append(new Option('-- pilih kecamatan --', ''));
-            if (!provId) {
-                $kab.val(null).trigger('change');
-                $kab.prop('disabled', true).empty().append(new Option('-- pilih kabupaten/kota --', ''));
-                return;
-            }
-            renderOptions($kab, filterKab(provId), 'name', 'id', '-- pilih kabupaten/kota --');
-            $kab.prop('disabled', false).trigger('change');
+            renderOptions($kec, filteredKec, 'name', 'id', '-- pilih kecamatan --');
         });
 
-        $kab.on('change', function() {
-            const regId = $('option:selected', this).data('id') || null;
-            if (!regId) {
-                $kec.val(null).trigger('change');
-                $kec.prop('disabled', true).empty().append(new Option('-- pilih kecamatan --', ''));
-                return;
-            }
-            renderOptions($kec, filterKec(regId), 'name', 'id', '-- pilih kecamatan --');
-            $kec.prop('disabled', false);
-        });
-
-        // Restore old values (prov -> kab -> kec)
+        // Restore old values (jika ada)
         if (oldProv) {
-            const hasProv = $prov.find('option').filter((_, o) => o.value === oldProv).length > 0;
-            if (hasProv) $prov.val(oldProv);
-            $prov.trigger('change');
-            if (oldKab) {
-                setTimeout(() => {
-                    const hasKab = $kab.find('option').filter((_, o) => o.value === oldKab).length > 0;
-                    if (hasKab) $kab.val(oldKab).trigger('change');
-                    if (oldKec) {
-                        setTimeout(() => {
-                            const hasKec = $kec.find('option').filter((_, o) => o.value === oldKec).length > 0;
-                            if (hasKec) $kec.val(oldKec).trigger('change');
-                        }, 0);
-                    }
-                }, 0);
-            }
-        } else {
-            $kab.prop('disabled', true);
-            $kec.prop('disabled', true);
-        }
+            $prov.value = oldProv;
+            const filteredKab = filterKab(oldProv);
+            renderOptions($kab, filteredKab, 'name', 'id', '-- pilih kabupaten/kota --');
+            $kab.value = oldKab || '';
 
-        // pastikan tidak disabled saat submit
-        $('form').on('submit', function() {
-            if ($kab.prop('disabled')) $kab.prop('disabled', false);
-            if ($kec.prop('disabled')) $kec.prop('disabled', false);
-        });
+            if (oldKab) {
+                const filteredKec = filterKec(oldKab);
+                renderOptions($kec, filteredKec, 'name', 'id', '-- pilih kecamatan --');
+                $kec.value = oldKec || '';
+            }
+        }
     }
 
-    // PANGGIL sesuai form ODC:
-    $(function() {
+    document.addEventListener('DOMContentLoaded', function () {
         initWilayahCascade({
             provSel: '#prov_odc',
             kabSel: '#kota_odc',
