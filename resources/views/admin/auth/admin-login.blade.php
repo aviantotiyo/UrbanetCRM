@@ -113,7 +113,7 @@
                             {{-- Honeypot sederhana: kalau diisi bot → ditolak di controller --}}
                             <input type="text" name="website" class="d-none" tabindex="-1" autocomplete="off">
                             <div class="mb-6">
-                                <label for="email" class="form-label">Email or Username</label>
+                                <label for="email" class="form-label">Email</label>
                                 <input
                                     id="email"
                                     name="email"
