@@ -1,6 +1,10 @@
-<script>
-const KABUPATEN = @json($kabupatenRaw ?? []);
-const KECAMATAN = @json($kecamatanRaw ?? []);
+// Ambil data global dari window
+const KABUPATEN = window._data_kabupaten || [];
+const KECAMATAN = window._data_kecamatan || [];
+
+const oldProv = window._old_prov || '';
+const oldKota = window._old_kota || '';
+const oldKec  = window._old_kec || '';
 
 function renderOptions($select, items, nameKey = 'name', idKey = 'id') {
     $select.innerHTML = '';
@@ -21,10 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const $prov = document.getElementById('provinsi');
     const $kota = document.getElementById('kota');
     const $kec  = document.getElementById('kecamatan');
-
-    const oldProv = @json(old('prov'));
-    const oldKota = @json(old('kota'));
-    const oldKec  = @json(old('kec'));
 
     function onProvChange(triggerKab = true) {
         const provName = $prov.value;
@@ -71,20 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Event
     $prov.addEventListener('change', () => onProvChange(false));
     $kota.addEventListener('change', () => onKabChange(false));
 
-    // Auto-restore old
+    // Restore auto
     if (oldProv) {
         $prov.value = oldProv;
         onProvChange(true);
     }
 
-    // Agar select ikut terkirim saat disabled
     document.querySelector('form').addEventListener('submit', () => {
         $kota.disabled = false;
         $kec.disabled = false;
     });
 });
-</script>
