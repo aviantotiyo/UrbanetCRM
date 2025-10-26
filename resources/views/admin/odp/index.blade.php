@@ -67,6 +67,7 @@
                                             <th>Lokasi</th>
                                             <th>Port (Cap/Install)</th>
                                             <th>Dibuat</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -80,6 +81,17 @@
                                             </td>
                                             <td>{{ $o->port_cap ?? '0' }}/{{ $o->port_install ?? '0' }}</td>
                                             <td class="small text-muted">{{ $o->created_at?->format('Y-m-d H:i') ?? '—' }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                            <i class="ti ti-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="{{ route('admin.odp.show', $o->id) }}"><i class="ti ti-search me-1"></i> Details</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.odp_port.create', $o->id) }}"><i class="ti ti-plus me-1"></i> Tambah Port</a>
+                                                        </div>
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>
