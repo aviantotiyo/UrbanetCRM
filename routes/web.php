@@ -10,10 +10,11 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Odc\OdcPortController;
 use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
+use App\Http\Controllers\Team\InviteController;
 use App\Http\Controllers\Server\ServerController;
 use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\Pelanggan\IsolirController;
 
+use App\Http\Controllers\Pelanggan\IsolirController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -158,6 +159,23 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/edit/{id}', [OdcController::class, 'update'])
             ->whereUuid('id')
             ->name('update');
+    });
+
+    // ===== Invite Team =====
+    // Route::prefix('dashboard/team')->name('team.')->group(function () {
+    //     Route::get('/', [InviteController::class, 'index'])->name('index');
+    //     Route::get('/tambah', [InviteController::class, 'create'])->name('create');
+    //     Route::post('/tambah', [InviteController::class, 'store'])->name('store');
+    // });
+
+
+    Route::prefix('dashboard/team')->name('team.')->group(function () {
+        Route::get('/', [InviteController::class, 'index'])->name('index');
+        Route::get('/tambah', [InviteController::class, 'create'])->name('create');
+        Route::post('/tambah', [InviteController::class, 'store'])->name('store');
+
+        Route::get('/new-password', [InviteController::class, 'showNewPasswordForm'])->name('new_password.form');
+        Route::post('/new-password', [InviteController::class, 'updatePassword'])->name('new_password.update');
     });
 });
 

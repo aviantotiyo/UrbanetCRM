@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers\Team;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+
+
+class InviteController extends Controller
+{
+
+    /**
+     * Tampilkan semua user team.
+     */
+    public function index()
+    {
+        $users = User::orderByDesc('created_at')->get();
+        return view('admin.teams.index', compact('users'));
+    }
+
+    /**
+     * Tampilkan form tambah user team.
+     */
+    public function create()
+    {
+        return view('admin.teams.tambah'); // ✅ sesuai dengan file di resources/views/admin/teams/tambah.blade.php
+    }
+
+    /**
+     * Simpan user baru ke database.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8'],
+            'role'     => ['required', 'in:Admin,Finance,NOC,CustomerCare,Installer'],
+            'active'   => ['required', 'boolean'],
+        ]);
+
+        User::create([
+            'name'            => $validated['name'],
+            'email'           => mb_strtolower($validated['email']),
+            'password'        => Hash::make($validated['password']),
+            'role'            => $validated['role'],
+            'active'          => (bool) $validated['active'],
+            'is_first_login'  => true,
+        ]);
+
+        return redirect()
+            ->route('admin.team.index')
+            ->with('success', 'User berhasil ditambahkan.');
+    }
+
+    /**
+     * Form ganti password pertama kali.
+     */
+    public function showNewPasswordForm()
+    {
+        return view('admin.teams.new_password'); // ✅ gunakan file new_password.blade.php
+    }
+
+    /**
+     * Proses update password.
+     */
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'new_password' => ['required', 'confirmed', 'min:8'],
+        ]);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+        $user->is_first_login = false;
+        $user->email_verified_at = now();
+        $user->save();
+
+
+        return redirect()->route('admin.dashboard')->with('success', 'Password berhasil diperbarui.');
+    }
+}

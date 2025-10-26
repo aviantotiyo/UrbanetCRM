@@ -68,6 +68,12 @@ class AdminAuthController extends Controller
                 ->onlyInput('email');
         }
 
+        if ($user->is_first_login) {
+            Auth::login($user, (bool) $request->boolean('remember'));
+            $request->session()->regenerate();
+            return redirect()->route('admin.team.new_password.form');
+        }
+
         // 3) Verifikasi password eksplisit
         if (! Hash::check($validated['password'], $user->password)) {
             RateLimiter::hit($key, $decaySeconds);
