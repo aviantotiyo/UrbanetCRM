@@ -86,7 +86,7 @@
                                             <input name="loc_odp" type="text" class="form-control @error('loc_odp') is-invalid @enderror"
                                                 value="{{ old('loc_odp') }}" placeholder="">
                                             @error('loc_odp')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                            <div class="form-text">Contoh: https://maps.app.goo.gl/YZKJaJuhwXUFCJs27v</div>
+                                            <div class="form-text">Contoh: https://maps.app.goo.gl/YZKJaJuhwX</div>
                                         </div>
 
                                         <div class="col-12">

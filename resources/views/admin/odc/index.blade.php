@@ -90,8 +90,21 @@
                                             <td>{{ $o->port_cap ?: '—' }} / {{ $o->port_install ?: '—' }}</td>
                                             <td>{{ $o->rasio ?: '—' }}</td>
                                             <td class="small text-muted">{{ $o->created_at?->format('Y-m-d H:i') ?? '—' }}</td>
-                                            <td>
+                                            <!-- <td>
                                                 <a href="{{ route('admin.odc.edit', $o->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            </td> -->
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                            <i class="ti ti-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="{{ route('admin.odc.show', $o->id) }}"><i class="ti ti-search me-1"></i> Details</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.odc.edit', $o->id) }}"><i class="ti ti-pencil me-1"></i> Edit</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         @empty
