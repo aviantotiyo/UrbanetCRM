@@ -89,6 +89,7 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ route('admin.odp.show', $o->id) }}"><i class="ti ti-search me-1"></i> Details</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.odp.edit', $o->id) }}"><i class="ti ti-edit me-1"></i> Edit</a>
                                                             <a class="dropdown-item" href="{{ route('admin.odp_port.create', $o->id) }}"><i class="ti ti-plus me-1"></i> Tambah Port</a>
                                                         </div>
                                             </td>

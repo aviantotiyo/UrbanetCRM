@@ -111,4 +111,69 @@ class OdpController extends Controller
 
         return view('admin.odp.detail', compact('odp', 'ports'));
     }
+
+    public function edit(string $id)
+    {
+        $odp = \App\Models\DataOdp::find($id);
+        if (!$odp) {
+            abort(404, 'Data ODP tidak ditemukan.');
+        }
+
+        // Load JSON data
+        $provPath = public_path('assets/json/provinsi.json');
+        $kabPath  = public_path('assets/json/kabupaten.json');
+        $kecPath  = public_path('assets/json/kecamatan.json');
+
+        $readJson = fn(string $path): array => is_file($path) ? json_decode(file_get_contents($path), true) ?? [] : [];
+
+        $provinsiRaw  = $readJson($provPath);
+        $kabupatenRaw = $readJson($kabPath);
+        $kecamatanRaw = $readJson($kecPath);
+
+        usort($provinsiRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+
+        $servers = \App\Models\DataServer::orderBy('nama_pop')->get(['id', 'nama_pop', 'ip_public', 'lokasi']);
+
+        return view('admin.odp.edit', compact(
+            'odp',
+            'provinsiRaw',
+            'kabupatenRaw',
+            'kecamatanRaw',
+            'servers'
+        ));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $odp = \App\Models\DataOdp::find($id);
+        if (!$odp) {
+            abort(404, 'Data ODP tidak ditemukan.');
+        }
+
+        $validated = $request->validate([
+            'server_id'     => ['nullable', 'uuid', Rule::exists('data_server', 'id')],
+            'kode_odp'      => ['required', 'string', 'max:191', Rule::unique('data_odp', 'kode_odp')->ignore($odp->id)],
+            'nama_odp'      => ['nullable', 'string', 'max:191'],
+            'alamat'        => ['nullable', 'string', 'max:255'],
+            'prov'          => ['nullable', 'string', 'max:100'],
+            'kota'          => ['nullable', 'string', 'max:100'],
+            'kec'           => ['nullable', 'string', 'max:100'],
+            'desa'          => ['nullable', 'string', 'max:100'],
+            'loc_odp'       => ['nullable', 'string', 'max:255'],
+            'port_cap'      => ['nullable', 'string', 'max:50'],
+            'port_install'  => ['nullable', 'string', 'max:50'],
+            'vlan'          => ['nullable', 'string', 'max:50'],
+            'warna_core'    => ['nullable', 'string', 'max:100'],
+            'core_cable'    => ['nullable', 'string', 'max:100'],
+            'note'          => ['nullable', 'string'],
+        ]);
+
+        $odp->update($validated);
+
+        return redirect()
+            ->route('admin.odp.show', $odp->id)
+            ->with('success', 'Data ODP berhasil diperbarui.');
+    }
 }

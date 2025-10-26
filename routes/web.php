@@ -101,6 +101,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/{id}', [OdpController::class, 'show'])
             ->whereUuid('id')
             ->name('show');
+        Route::get('/edit/{id}', [OdpController::class, 'edit'])
+            ->whereUuid('id')
+            ->name('edit');
+
+        Route::post('/edit/{id}', [OdpController::class, 'update'])
+            ->whereUuid('id')
+            ->name('update');
     });
 
     // ===== ODP Port =====
@@ -176,14 +183,4 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/dashboard/odc-port/edit/{id}', [OdcPortController::class, 'update'])
         ->whereUuid('id')
         ->name('odc_port.update');
-});
-
-
-Route::get('/test-email', function () {
-    try {
-        Mail::to('tiyoavianto@gmail.com')->send(new TestEmail());
-        return 'Email sent successfully!';
-    } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
-    }
 });

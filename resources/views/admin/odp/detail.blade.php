@@ -35,7 +35,7 @@
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <a href="{{ route('admin.odp.index') }}" class="btn btn-outline-primary">Kembali</a>
-                                <a href="#" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('admin.odp.edit', $odp->id) }}" class="btn btn-primary">Edit</a>
                             </div>
                         </div>
                         {{-- Alert sukses --}}

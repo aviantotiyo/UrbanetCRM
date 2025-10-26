@@ -106,18 +106,18 @@
         </li>
 
         <!-- Front Pages -->
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.paket.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-files"></i>
                 <div data-i18n="Paket Layanan">Paket Layanan</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.paket.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.paket.index') }}" class="menu-link">
                         <div data-i18n="Daftar Layanan">Daftar Layanan</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.paket.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.paket.create') }}" class="menu-link">
                         <div data-i18n="Tambah Layanan">Tambah Layanan</div>
                     </a>
@@ -126,18 +126,18 @@
             </ul>
         </li>
 
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.server.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ti ti-database"></i>
                 <div data-i18n="Server / POP">Server / POP</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.server.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.server.index') }}" class="menu-link">
                         <div data-i18n="Data Server">Data Server</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.server.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.server.create') }}" class="menu-link">
                         <div data-i18n="Tambah Server">Tambah Server</div>
                     </a>
@@ -145,18 +145,18 @@
             </ul>
         </li>
 
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.odp.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ti ti-layout-kanban"></i>
                 <div data-i18n="ODP">ODP</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.odp.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.odp.index') }}" class="menu-link">
                         <div data-i18n="Data ODP">Data ODP</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.odp.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.odp.create') }}" class="menu-link">
                         <div data-i18n="Tambah ODP">Tambah ODP</div>
                     </a>
@@ -164,18 +164,18 @@
             </ul>
         </li>
 
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.odc.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ti ti-arrow-fork"></i>
                 <div data-i18n="ODC">ODC</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.odc.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.odc.index') }}" class="menu-link">
                         <div data-i18n="Data ODC">Data ODC</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.odc.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.odc.create') }}" class="menu-link">
                         <div data-i18n="Tambah ODC">Tambah ODC</div>
                     </a>
