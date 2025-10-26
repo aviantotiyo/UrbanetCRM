@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Team;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Jobs\JobNewPasswordSuccess;
+use App\Http\Controllers\Controller;
+use App\Jobs\JobSendEmailInvitation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -43,7 +45,8 @@ class InviteController extends Controller
             'active'   => ['required', 'boolean'],
         ]);
 
-        User::create([
+        // Simpan user baru
+        $user = User::create([
             'name'            => $validated['name'],
             'email'           => mb_strtolower($validated['email']),
             'password'        => Hash::make($validated['password']),
@@ -52,9 +55,17 @@ class InviteController extends Controller
             'is_first_login'  => true,
         ]);
 
+        // Dispatch job kirim email
+        JobSendEmailInvitation::dispatch(
+            $user->name,
+            $user->email,
+            $request->password, // gunakan password plain dari input
+            $user->role
+        );
+
         return redirect()
             ->route('admin.team.index')
-            ->with('success', 'User berhasil ditambahkan.');
+            ->with('success', 'User berhasil ditambahkan dan email undangan telah dikirim.');
     }
 
     /**
@@ -80,7 +91,7 @@ class InviteController extends Controller
         $user->email_verified_at = now();
         $user->save();
 
-
+        JobNewPasswordSuccess::dispatch($user->name, $user->email);
         return redirect()->route('admin.dashboard')->with('success', 'Password berhasil diperbarui.');
     }
 }
