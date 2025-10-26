@@ -62,6 +62,12 @@ class AdminAuthController extends Controller
                 ->onlyInput('email');
         }
 
+        if (! $user->active) {
+            return back()
+                ->withErrors(['email' => 'Akun Anda belum aktif. Silakan hubungi administrator.'])
+                ->onlyInput('email');
+        }
+
         // 3) Verifikasi password eksplisit
         if (! Hash::check($validated['password'], $user->password)) {
             RateLimiter::hit($key, $decaySeconds);
