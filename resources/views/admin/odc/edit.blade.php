@@ -260,7 +260,7 @@
         <!-- / Layout wrapper -->
 
 
-        @include('template.js.kota-odc')
+        @include('template.js.edit-kota-odc')
         @include('template.footer')
 </body>
 
