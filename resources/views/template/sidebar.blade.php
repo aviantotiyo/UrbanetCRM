@@ -182,6 +182,28 @@
                 </li>
             </ul>
         </li>
+        <!-- Apps & Pages -->
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="Team & Admin">Team &amp; Admin</span>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.team.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+                <div data-i18n="Team & Admin">Team &amp; Admin</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.team.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.team.index') }}" class="menu-link">
+                        <div data-i18n="Data Team">Data Team</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('admin.team.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.team.create') }}" class="menu-link">
+                        <div data-i18n="Tambah Team">Tambah Team</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <!-- Apps & Pages -->
         <li class="menu-header small">

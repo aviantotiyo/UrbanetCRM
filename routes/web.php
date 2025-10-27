@@ -161,14 +161,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             ->name('update');
     });
 
-    // ===== Invite Team =====
-    // Route::prefix('dashboard/team')->name('team.')->group(function () {
-    //     Route::get('/', [InviteController::class, 'index'])->name('index');
-    //     Route::get('/tambah', [InviteController::class, 'create'])->name('create');
-    //     Route::post('/tambah', [InviteController::class, 'store'])->name('store');
-    // });
-
-
     Route::prefix('dashboard/team')->name('team.')->group(function () {
         Route::get('/', [InviteController::class, 'index'])->name('index');
         Route::get('/tambah', [InviteController::class, 'create'])->name('create');
