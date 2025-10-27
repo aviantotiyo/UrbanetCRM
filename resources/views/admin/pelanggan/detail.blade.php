@@ -135,11 +135,21 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="text-muted small">Server</div>
-                                                <div class="fw-semibold">{{ $client->odp->server->nama_pop }} - {{ $client->odp->server->ip_public }}</div>
+                                                @php
+                                                $server = $client->odp->server ?? null;
+                                                @endphp
+
+                                                <div class="fw-semibold">
+                                                    {{ $server->nama_pop ?? '-' }} - {{ $server->ip_public ?? '-' }}
+                                                </div>
+
                                             </div>
+                                            @php
+                                            $server = $client->odp->server ?? null;
+                                            @endphp
                                             <div class="col-md-6 mb-3">
                                                 <div class="text-muted small">Lokasi Server</div>
-                                                <div class="fw-semibold">{{ $client->odp->server->lokasi }}</div>
+                                                <div class="fw-semibold"> {{ $server->lokasi ?? '-' }}</div>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="text-muted small">User PPPoE</div>
