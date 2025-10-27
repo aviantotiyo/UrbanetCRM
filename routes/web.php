@@ -92,6 +92,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/delete/{id}', [PelangganController::class, 'softDelete'])
             ->whereUuid('id')
             ->name('delete');
+
+        Route::post('/inactive/{id}', [\App\Http\Controllers\Pelanggan\InactiveController::class, 'softDelete'])
+            ->whereUuid('id')
+            ->name('inactive');
     });
 
     // ===== ODP (master) =====

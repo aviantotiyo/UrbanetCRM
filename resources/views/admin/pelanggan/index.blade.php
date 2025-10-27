@@ -209,6 +209,15 @@
                                                                 </button>
                                                             </form>
                                                             @endif
+                                                            @if($c->status === 'active')
+                                                            <form action="{{ route('admin.pelanggan.inactive', $c->id) }}" method="POST"
+                                                                onsubmit="return confirm('Nonaktifkan pelanggan ini dan lepaskan dari port ODP?');">
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item text-danger">
+                                                                    <i class="ti ti-ban me-1"></i> Inactive
+                                                                </button>
+                                                            </form>
+                                                            @endif
 
 
                                                             <form action="{{ route('admin.pelanggan.delete', $c->id) }}" method="POST"
