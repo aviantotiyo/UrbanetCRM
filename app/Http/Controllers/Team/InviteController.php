@@ -20,7 +20,7 @@ class InviteController extends Controller
      */
     public function index()
     {
-        $users = User::orderByDesc('created_at')->get();
+        $users = User::orderByDesc('created_at')->paginate(10);
         return view('admin.teams.index', compact('users'));
     }
 

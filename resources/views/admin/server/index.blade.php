@@ -95,12 +95,12 @@
                                 </table>
                                 <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
                                     {{-- Links pagination --}}
-
+                                    {{ $servers->links() }}
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end">
-                                {{ $servers->links() }}
-                            </div>
+                            <!-- <div class="d-flex justify-content-end">
+
+                            </div> -->
                         </div>
 
                     </div>

@@ -1,60 +1,128 @@
-<!DOCTYPE html>
-<html lang="id">
+@section('title', 'Data Team dan Admin')
+@include('template.head')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Manajemen Tim</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>Daftar Anggota Tim</h3>
+<body>
+    <!-- Layout wrapper -->
+    <div class=" layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            @include('template.sidebar')
+            <div class="menu-mobile-toggler d-xl-none rounded-1">
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large text-bg-secondary p-2 rounded-1">
+                    <i class="ti tabler-menu icon-base"></i>
+                    <i class="ti tabler-chevron-right icon-base"></i>
+                </a>
+            </div>
+            <!-- / Menu -->
 
-        <a href="{{ route('admin.team.create') }}" class="btn btn-primary">+ Tambah Anggota</a>
+            <!-- Layout container -->
+            <div class="layout-page">
+                @include('template.navbar')
 
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+                            <div class="d-flex flex-column justify-content-center">
+                                <div class="mb-1">
+                                    <span class="h5">Data Team dan Admin</span>
+                                </div>
+
+                            </div>
+                            <div class="d-flex align-content-center flex-wrap gap-2">
+                                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
+                                <a href="{{ route('admin.team.create') }}" class="btn btn-outline-primary">Tambah Server</a>
+                            </div>
+                        </div>
+                        {{-- Alert sukses --}}
+                        @if (session('success'))
+                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            {!! session('success') !!}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+
+                        {{-- (Opsional) Alert error umum --}}
+                        @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {!! session('error') !!}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+
+
+                        <div class="card">
+
+                            <h5 class="card-header">Detail Member</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Login Pertama?</th>
+                                            <th>Dibuat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @forelse($users as $user)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->role }}</td>
+                                            <td>
+                                                @if($user->active)
+                                                <span class="badge bg-success">Aktif</span>
+                                                @else
+                                                <span class="badge bg-secondary">Nonaktif</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $user->is_first_login ? 'Ya' : 'Tidak' }}</td>
+                                            <td>{{ $user->created_at->format('d-m-Y H:i') }}</td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center text-muted">Belum ada user.</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                                <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    {{-- Links pagination --}}
+                                    {{ $users->links() }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- / Content -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
+        </div>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
     </div>
+    <!-- / Layout wrapper -->
 
-    @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    @include('template.footer')
 
-    <table class="table table-bordered table-hover">
-        <thead class="table-light">
-            <tr>
-                <th>#</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Login Pertama?</th>
-                <th>Dibuat</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($users as $user)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->role }}</td>
-                <td>
-                    @if($user->active)
-                    <span class="badge bg-success">Aktif</span>
-                    @else
-                    <span class="badge bg-secondary">Nonaktif</span>
-                    @endif
-                </td>
-                <td>{{ $user->is_first_login ? 'Ya' : 'Tidak' }}</td>
-                <td>{{ $user->created_at->format('d-m-Y H:i') }}</td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="7" class="text-center text-muted">Belum ada user.</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
 </body>
 
 </html>
