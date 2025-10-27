@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Odp;
 
-use App\Http\Controllers\Controller;
 use App\Models\DataOdp;
 use App\Models\DataServer;
+use App\Models\DataOdpLogs;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class OdpController extends Controller
 {
@@ -73,24 +75,36 @@ class OdpController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'server_id'    => ['nullable', 'uuid', Rule::exists('data_server', 'id')],
-            'kode_odp'    => ['required', 'string', 'max:191', 'unique:data_odp,kode_odp'],
-            'nama_odp'    => ['nullable', 'string', 'max:191'],
-            'alamat'      => ['nullable', 'string', 'max:255'],
-            'prov'        => ['nullable', 'string', 'max:100'],
-            'kota'        => ['nullable', 'string', 'max:100'],
-            'kec'         => ['nullable', 'string', 'max:100'],
-            'desa'        => ['nullable', 'string', 'max:100'],
-            'loc_odp'     => ['nullable', 'string', 'max:255'],   // mis: "-6.x,106.x" / deskripsi
-            'port_cap'    => ['nullable', 'string', 'max:50'],    // varchar sesuai desain
-            'port_install' => ['nullable', 'string', 'max:50'],
-            'vlan' => ['nullable', 'string', 'max:50'],
-            'warna_core'  => ['nullable', 'string', 'max:100'],
-            'core_cable'  => ['nullable', 'string', 'max:100'],
-            'note'        => ['nullable', 'string'],
+            'server_id'     => ['nullable', 'uuid', Rule::exists('data_server', 'id')],
+            'kode_odp'      => ['required', 'string', 'max:191', 'unique:data_odp,kode_odp'],
+            'nama_odp'      => ['nullable', 'string', 'max:191'],
+            'alamat'        => ['nullable', 'string', 'max:255'],
+            'prov'          => ['nullable', 'string', 'max:100'],
+            'kota'          => ['nullable', 'string', 'max:100'],
+            'kec'           => ['nullable', 'string', 'max:100'],
+            'desa'          => ['nullable', 'string', 'max:100'],
+            'loc_odp'       => ['nullable', 'string', 'max:255'],
+            'port_cap'      => ['nullable', 'string', 'max:50'],
+            'port_install'  => ['nullable', 'string', 'max:50'],
+            'vlan'          => ['nullable', 'string', 'max:50'],
+            'warna_core'    => ['nullable', 'string', 'max:100'],
+            'core_cable'    => ['nullable', 'string', 'max:100'],
+            'note'          => ['nullable', 'string'],
         ]);
 
-        DataOdp::create($validated);
+        $odp = DataOdp::create($validated);
+
+        // Buat log pencatatan ODP baru
+        DataOdpLogs::create([
+            'users_id' => Auth::id(),
+            'odp_id'   => $odp->id,
+            'status'   => sprintf(
+                'User %s telah menambahkan ODP (%s) pada %s',
+                Auth::user()->name ?? 'User',
+                $odp->kode_odp,
+                now()->format('d-m-Y H:i:s')
+            ),
+        ]);
 
         return redirect()
             ->route('admin.odp.index')
@@ -147,10 +161,13 @@ class OdpController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $odp = \App\Models\DataOdp::find($id);
+        $odp = DataOdp::find($id);
         if (!$odp) {
             abort(404, 'Data ODP tidak ditemukan.');
         }
+
+        // Simpan data sebelum diupdate
+        $original = $odp->getOriginal();
 
         $validated = $request->validate([
             'server_id'     => ['nullable', 'uuid', Rule::exists('data_server', 'id')],
@@ -170,7 +187,42 @@ class OdpController extends Controller
             'note'          => ['nullable', 'string'],
         ]);
 
+        // Update data
         $odp->update($validated);
+
+        // Ambil perubahan (hanya field yang berubah)
+        $changes = [];
+        foreach ($validated as $key => $newValue) {
+            $oldValue = $original[$key] ?? null;
+            if ($oldValue != $newValue) {
+                $changes[$key] = [
+                    'old' => $oldValue ?? '-',
+                    'new' => $newValue ?? '-',
+                ];
+            }
+        }
+
+        // Format log perubahan jadi string
+        $detailChanges = collect($changes)->map(function ($change, $field) {
+            return sprintf('%s: "%s" → "%s"', $field, $change['old'], $change['new']);
+        })->join('; ');
+
+        if (empty($detailChanges)) {
+            $detailChanges = 'Tidak ada perubahan data.';
+        }
+
+        // Simpan log ke DataOdpLogs
+        DataOdpLogs::create([
+            'users_id' => Auth::id(),
+            'odp_id'   => $odp->id,
+            'status'   => sprintf(
+                'User %s telah mengedit ODP (%s) pada %s. Perubahan: %s',
+                Auth::user()->name ?? 'User',
+                $odp->kode_odp,
+                now()->format('d-m-Y H:i:s'),
+                $detailChanges
+            ),
+        ]);
 
         return redirect()
             ->route('admin.odp.show', $odp->id)

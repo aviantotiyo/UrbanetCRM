@@ -160,7 +160,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <div class="text-muted small">ODP ID / ODP Port ID</div>
                                                 <div class="fw-semibold">
-                                                    {{ $client->odp?->kode_odp ?? '—' }} / {{ $client->odpPort?->port_numb ?? '—' }}
+                                                    <a href="/admin/dashboard/odp/{{ $client->odp?->id ?? '—' }}">{{ $client->odp?->kode_odp ?? '—' }}</a> / {{ $client->odpPort?->port_numb ?? '—' }}
                                                 </div>
                                             </div>
                                         </div>

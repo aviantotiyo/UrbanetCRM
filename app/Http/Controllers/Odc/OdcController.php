@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Odc;
 
 use App\Http\Controllers\Controller;
 use App\Models\DataOdc;
+use App\Models\DataOdpLogs;
 use App\Models\DataServer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class OdcController extends Controller
 {
@@ -61,29 +63,41 @@ class OdcController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'server_id'    => ['nullable', 'uuid', Rule::exists('data_server', 'id')],
-            'kode_odc'     => ['required', 'string', 'max:191', 'unique:data_odc,kode_odc'],
-            'nama_odc'     => ['nullable', 'string', 'max:191'],
+            'server_id'     => ['nullable', 'uuid', Rule::exists('data_server', 'id')],
+            'kode_odc'      => ['required', 'string', 'max:191', 'unique:data_odc,kode_odc'],
+            'nama_odc'      => ['nullable', 'string', 'max:191'],
 
-            'alamat' => ['nullable', 'string', 'max:150'],
-            'prov'   => ['nullable', 'string', 'max:150'],
-            'kota'   => ['nullable', 'string', 'max:150'],
-            'kec'    => ['nullable', 'string', 'max:150'],
-            'desa'   => ['nullable', 'string', 'max:150'],
-            'loc_odp' => ['nullable', 'string', 'max:150'],
-            'lat'    => ['nullable', 'string', 'max:150'],
-            'long'   => ['nullable', 'string', 'max:150'],
+            'alamat'        => ['nullable', 'string', 'max:150'],
+            'prov'          => ['nullable', 'string', 'max:150'],
+            'kota'          => ['nullable', 'string', 'max:150'],
+            'kec'           => ['nullable', 'string', 'max:150'],
+            'desa'          => ['nullable', 'string', 'max:150'],
+            'loc_odp'       => ['nullable', 'string', 'max:150'],
+            'lat'           => ['nullable', 'string', 'max:150'],
+            'long'          => ['nullable', 'string', 'max:150'],
 
-            'port_cap'     => ['nullable', 'string', 'max:50'],
-            'port_install' => ['nullable', 'string', 'max:50'],
-            'rasio'        => ['nullable', 'string', 'max:50'],
-            'warna_core'   => ['nullable', 'string', 'max:100'],
-            'core_cable'   => ['nullable', 'string', 'max:100'],
-            'note'         => ['nullable', 'string'],
-            'image'        => ['nullable', 'string', 'max:255'],
+            'port_cap'      => ['nullable', 'string', 'max:50'],
+            'port_install'  => ['nullable', 'string', 'max:50'],
+            'rasio'         => ['nullable', 'string', 'max:50'],
+            'warna_core'    => ['nullable', 'string', 'max:100'],
+            'core_cable'    => ['nullable', 'string', 'max:100'],
+            'note'          => ['nullable', 'string'],
+            'image'         => ['nullable', 'string', 'max:255'],
         ]);
 
-        DataOdc::create($validated);
+        $odc = DataOdc::create($validated);
+
+        // Buat log pencatatan ODC baru
+        DataOdpLogs::create([
+            'users_id' => Auth::id(),
+            'odc_id'   => $odc->id,
+            'status'   => sprintf(
+                'User %s telah menambahkan ODC (%s) pada %s',
+                Auth::user()->name ?? 'User',
+                $odc->kode_odc,
+                now()->format('d-m-Y H:i:s')
+            ),
+        ]);
 
         return redirect()
             ->route('admin.odc.index')
@@ -145,16 +159,14 @@ class OdcController extends Controller
             'server_id'    => ['nullable', 'uuid', Rule::exists('data_server', 'id')],
             'kode_odc'     => ['required', 'string', 'max:191', Rule::unique('data_odc', 'kode_odc')->ignore($odc->id)],
             'nama_odc'     => ['nullable', 'string', 'max:191'],
-
-            'alamat' => ['nullable', 'string', 'max:150'],
-            'prov'   => ['nullable', 'string', 'max:150'],
-            'kota'   => ['nullable', 'string', 'max:150'],
-            'kec'    => ['nullable', 'string', 'max:150'],
-            'desa'   => ['nullable', 'string', 'max:150'],
-            'loc_odp' => ['nullable', 'string', 'max:150'],
-            'lat'    => ['nullable', 'string', 'max:150'],
-            'long'   => ['nullable', 'string', 'max:150'],
-
+            'alamat'       => ['nullable', 'string', 'max:150'],
+            'prov'         => ['nullable', 'string', 'max:150'],
+            'kota'         => ['nullable', 'string', 'max:150'],
+            'kec'          => ['nullable', 'string', 'max:150'],
+            'desa'         => ['nullable', 'string', 'max:150'],
+            'loc_odp'      => ['nullable', 'string', 'max:150'],
+            'lat'          => ['nullable', 'string', 'max:150'],
+            'long'         => ['nullable', 'string', 'max:150'],
             'port_cap'     => ['nullable', 'string', 'max:50'],
             'port_install' => ['nullable', 'string', 'max:50'],
             'rasio'        => ['nullable', 'string', 'max:50'],
@@ -164,11 +176,33 @@ class OdcController extends Controller
             'image'        => ['nullable', 'string', 'max:255'],
         ]);
 
+        $oldData = $odc->only(array_keys($validated));
         $odc->update($validated);
 
+        $changed = [];
+        foreach ($validated as $key => $newValue) {
+            $oldValue = $oldData[$key] ?? null;
+            if ($oldValue != $newValue) {
+                $changed[] = ucfirst($key) . ": '$oldValue' → '$newValue'";
+            }
+        }
+
+        if (!empty($changed)) {
+            DataOdpLogs::create([
+                'users_id' => Auth::id(),
+                'status'   => sprintf(
+                    "User %s telah mengedit data ODC (%s) pada %s. Perubahan: %s",
+                    Auth::user()->name ?? 'Unknown',
+                    $odc->kode_odc,
+                    now()->format('d/m/Y H:i'),
+                    implode(', ', $changed)
+                ),
+            ]);
+        }
+
         return redirect()
-            ->route('admin.odc.index')
-            ->with('success', 'ODC berhasil diperbarui.');
+            ->route('admin.odc.show', $odc->id)
+            ->with('success', 'Data ODC berhasil diperbarui.');
     }
 
     public function show(string $id)
