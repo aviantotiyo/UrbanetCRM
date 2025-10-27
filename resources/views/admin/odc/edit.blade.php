@@ -101,7 +101,7 @@
                                         <!-- PROVINSI -->
                                         <div class="col-md-4">
                                             <label class="form-label" for="prov_odc">Provinsi</label>
-                                            <select id="prov_odc" name="prov" class="form-select @error('prov') is-invalid @enderror">
+                                            <select id="prov_odc" name="prov" class="form-select">
                                                 <option value="">-- pilih provinsi --</option>
                                                 @foreach($provinsiRaw ?? [] as $p)
                                                 <option value="{{ $p['name'] }}" data-id="{{ $p['id'] }}"
@@ -110,30 +110,24 @@
                                                 </option>
                                                 @endforeach
                                             </select>
-
-                                            @error('prov')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
+
 
                                         <!-- KABUPATEN -->
                                         <div class="col-md-4">
                                             <label class="form-label" for="kota_odc">Kota/Kab</label>
-                                            <select id="kota_odc" name="kota" class="form-select @error('kota') is-invalid @enderror">
+                                            <select id="kota_odc" name="kota" class="form-select">
                                                 <option value="">-- pilih kabupaten/kota --</option>
                                             </select>
-
-                                            @error('kota')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
                                         <!-- KECAMATAN -->
                                         <div class="col-md-4">
                                             <label class="form-label" for="kec_odc">Kecamatan</label>
-                                            <select id="kec_odc" name="kec" class="form-select @error('kec') is-invalid @enderror">
+                                            <select id="kec_odc" name="kec" class="form-select">
                                                 <option value="">-- pilih kecamatan --</option>
                                             </select>
-                                            @error('kec')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
-
-
 
 
                                         <div class="col-md-4">
