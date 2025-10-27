@@ -182,7 +182,8 @@
                                                             <i class="ti ti-dots-vertical"></i>
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <!-- <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $c->id) }}"><i class="ti ti-search me-1"></i> Detail</a> -->
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $c->id) }}"><i class="ti ti-search me-1"></i> Detail</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.edit', $c->id) }}"><i class="ti ti-edit me-1"></i> Edit</a>
                                                             @if (!in_array($c->status, ['active', 'isolir']))
                                                             <a class="dropdown-item" href="{{ route('admin.pelanggan.process.create', $c->id) }}">
                                                                 <i class="ti ti-mouse me-1"></i> Process

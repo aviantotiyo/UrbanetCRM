@@ -233,7 +233,8 @@ class PelangganController extends Controller
 
     public function show(string $id)
     {
-        $client = \App\Models\DataClients::with(['odp', 'odpPort'])->find($id);
+        // $client = \App\Models\DataClients::with(['odp', 'odpPort'])->find($id);
+        $client = \App\Models\DataClients::with(['odp.server', 'odpPort'])->find($id);
 
         if (!$client) {
             abort(404, 'Data pelanggan tidak ditemukan.');

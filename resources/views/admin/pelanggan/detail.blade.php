@@ -121,7 +121,10 @@
                                             <div class="row g-3">
                                                 <div class="col-md-6 mb-3">
                                                     <div class="text-muted small">Status</div>
-                                                    <span class="badge text-bg-secondary">{{ $client->status }}</span>
+                                                    <span class="badge {{ $client->status === 'active' ? 'text-bg-primary' : 'text-bg-secondary' }}">
+                                                        {{ $client->status }}
+                                                    </span>
+                                                    <!-- <span class="badge text-bg-secondary">{{ $client->status }}</span> -->
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <div class="text-muted small">Active User</div>
@@ -129,6 +132,14 @@
                                                         {{ $client->active_user ? \Carbon\Carbon::parse($client->active_user)->format('Y-m-d H:i') : '—' }}
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="text-muted small">Server</div>
+                                                <div class="fw-semibold">{{ $client->odp->server->nama_pop }} - {{ $client->odp->server->ip_public }}</div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="text-muted small">Lokasi Server</div>
+                                                <div class="fw-semibold">{{ $client->odp->server->lokasi }}</div>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="text-muted small">User PPPoE</div>
