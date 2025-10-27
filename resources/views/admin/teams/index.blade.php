@@ -69,6 +69,7 @@
                                             <th>Status</th>
                                             <th>Login Pertama?</th>
                                             <th>Dibuat</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -87,6 +88,10 @@
                                             </td>
                                             <td>{{ $user->is_first_login ? 'Ya' : 'Tidak' }}</td>
                                             <td>{{ $user->created_at->format('d-m-Y H:i') }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.team.edit', $user->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            </td>
+
                                         </tr>
                                         @empty
                                         <tr>

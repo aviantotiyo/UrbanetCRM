@@ -183,6 +183,8 @@
             </ul>
         </li>
         <!-- Apps & Pages -->
+        @auth
+        @if(auth()->user()->role === 'Admin')
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Team & Admin">Team &amp; Admin</span>
         </li>
@@ -204,6 +206,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @endauth
 
         <!-- Apps & Pages -->
         <li class="menu-header small">

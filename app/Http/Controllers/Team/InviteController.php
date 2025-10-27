@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 class InviteController extends Controller
 {
 
+
     /**
      * Tampilkan semua user team.
      */
@@ -93,5 +94,25 @@ class InviteController extends Controller
 
         JobNewPasswordSuccess::dispatch($user->name, $user->email);
         return redirect()->route('admin.dashboard')->with('success', 'Password berhasil diperbarui.');
+    }
+
+    public function edit(string $id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.teams.edit', compact('user'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'name'   => ['required', 'string', 'max:255'],
+            'role'   => ['required', 'in:Admin,Finance,NOC,CustomerCare,Installer'],
+            'active' => ['required', 'boolean'],
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->update($validated);
+
+        return redirect()->route('admin.team.index')->with('success', 'User berhasil diperbarui.');
     }
 }
