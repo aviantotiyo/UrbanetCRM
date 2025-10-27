@@ -166,7 +166,7 @@
                                                 </div>
                                             </td>
                                             <td>{{ $c->no_hp }}</td>
-                                            <td><span class="badge text-bg-secondary">{{ $c->status }}</span></td>
+                                            <td><span class="badge text-bg-primary">{{ $c->status }}</span></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -179,8 +179,11 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <!-- <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $c->id) }}"><i class="ti ti-search me-1"></i> Detail</a> -->
-                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.edit', $c->id) }}"><i class="ti ti-pencil me-1"></i> Edit</a>
-                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.process.create', $c->id) }}"><i class="ti ti-mouse me-1"></i> Process</a>
+                                                            @if (!in_array($c->status, ['active', 'isolir']))
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.process.create', $c->id) }}">
+                                                                <i class="ti ti-mouse me-1"></i> Process
+                                                            </a>
+                                                            @endif
 
                                                             @if($c->status === 'active')
                                                             <form action="{{ route('admin.pelanggan.isolir', $c->id) }}" method="POST"
