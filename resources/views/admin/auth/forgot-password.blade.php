@@ -15,7 +15,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Forgot Password Basic - Pages | Vuexy - Bootstrap Admin Template</title>
+    <title>Forgot Password</title>
 
     <meta name="description" content="" />
 

@@ -166,7 +166,11 @@
                                                 </div>
                                             </td>
                                             <td>{{ $c->no_hp }}</td>
-                                            <td><span class="badge text-bg-primary">{{ $c->status }}</span></td>
+                                            <td>
+                                                <span class="badge {{ $c->status === 'active' ? 'text-bg-primary' : 'text-bg-secondary' }}">
+                                                    {{ $c->status }}
+                                                </span>
+                                            </td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">

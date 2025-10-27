@@ -169,11 +169,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             Route::get('/tambah', [InviteController::class, 'create'])->name('create');
             Route::post('/tambah', [InviteController::class, 'store'])->name('store');
 
-            Route::get('/new-password', [InviteController::class, 'showNewPasswordForm'])->name('new_password.form');
-            Route::post('/new-password', [InviteController::class, 'updatePassword'])->name('new_password.update');
-
             Route::get('/edit/{id}', [InviteController::class, 'edit'])->whereUuid('id')->name('edit');
             Route::post('/edit/{id}', [InviteController::class, 'update'])->whereUuid('id')->name('update');
+        });
+
+    Route::prefix('dashboard/team')
+        ->name('team.')
+        ->group(function () {
+            Route::get('/new-password', [InviteController::class, 'showNewPasswordForm'])->name('new_password.form');
+            Route::post('/new-password', [InviteController::class, 'updatePassword'])->name('new_password.update');
         });
 });
 
