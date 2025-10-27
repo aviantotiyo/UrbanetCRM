@@ -326,7 +326,7 @@ class PelangganController extends Controller
             'odp_port_id'  => ['nullable', 'string', 'max:255'],
             'tag'          => ['nullable', 'string', 'max:255'],
             'active_user'  => ['nullable', 'date'],
-            'status'       => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
+            // 'status'       => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
             'note'         => ['nullable', 'string'],
             'foto_depan'   => ['nullable', 'string', 'max:255'],
         ]);
@@ -366,7 +366,7 @@ class PelangganController extends Controller
             'odp_port_id'   => $validated['odp_port_id'] ?? null,
             'tag'           => $validated['tag'] ?? null,
             'active_user'   => $validated['active_user'] ?? null,
-            'status'        => $validated['status'],
+            // 'status'        => $validated['status'],
             'note'          => $validated['note'] ?? null,
             'foto_depan'    => $validated['foto_depan'] ?? null,
         ]);

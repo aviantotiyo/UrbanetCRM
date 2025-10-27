@@ -219,7 +219,7 @@
                         @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                       </div>
 
-                      <div class="mb-4">
+                      <!-- <div class="mb-4">
                         <label class="form-label">Status <span class="text-danger">*</span></label>
                         @php $statuses = ['booking','active','isolir','suspend','inactive']; @endphp
                         <select name="status" class="form-select @error('status') is-invalid @enderror" required>
@@ -228,7 +228,7 @@
                           @endforeach
                         </select>
                         @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                      </div>
+                      </div> -->
 
                       <div class="mb-4">
                         <label class="form-label">Tag</label>
