@@ -58,6 +58,12 @@ class DataBilling extends Model
         return $this->hasOne(DataBillingItem::class, 'merchant_ref_id', 'merchant_ref');
     }
 
+    public function items()
+    {
+        return $this->hasMany(\App\Models\DataBillingItem::class, 'merchant_ref_id', 'merchant_ref');
+    }
+
+
     // === Scopes ===
     public function scopePaid($q)
     {

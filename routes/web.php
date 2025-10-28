@@ -12,8 +12,9 @@ use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Team\InviteController;
 use App\Http\Controllers\Server\ServerController;
-use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Billing\BillingController;
 
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Pelanggan\IsolirController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
@@ -164,6 +165,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             ->whereUuid('id')
             ->name('update');
     });
+
+    Route::prefix('dashboard/billing')->name('billing.')->group(function () {
+        Route::get('/', [BillingController::class, 'index'])->name('admin.billing.index');
+    });
+
 
     Route::prefix('dashboard/team')
         ->name('team.')
