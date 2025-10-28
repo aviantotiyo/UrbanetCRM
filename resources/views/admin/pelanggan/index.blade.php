@@ -178,6 +178,9 @@
                                                         <i class="ti ti-eye me-1"></i>
                                                     </a> -->
                                                     <a href="{{ route('admin.pelanggan.show', $c->id) }}" class="btn btn-text-secondary rounded-pill waves-effect btn-icon">
+                                                        <i class="fa-solid fa-comment"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.pelanggan.show', $c->id) }}" class="btn btn-text-secondary rounded-pill waves-effect btn-icon">
                                                         <i class="ti ti-id-badge me-1"></i>
                                                     </a>
                                                     <div class="dropdown">
