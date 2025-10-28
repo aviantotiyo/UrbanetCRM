@@ -21,9 +21,7 @@ class DataBilling extends Model
         'merchant_ref',
         'payment_method',
         'payment_name',
-        'amount',
         'total_amount',
-        'discount',
         'fee_merchant',
         'fee_customer',
         'amount_received',
@@ -31,43 +29,46 @@ class DataBilling extends Model
         'qr_url',
         'status',
         'expired_time',
-        'sku',
-        'name',
         'instructions',
-        'denda',
         'after_tax',
-        'billing_cycle',   // sudah dibetulkan
         'billing_create',
-        'billing_paid',    // sekarang nullable
+        'billing_paid',
     ];
 
     protected $casts = [
-        'new_member' => 'boolean',
-        'amount'          => 'integer',
+        'new_member'      => 'boolean',
         'fee_merchant'    => 'integer',
         'fee_customer'    => 'integer',
         'amount_received' => 'integer',
+        'total_amount'    => 'integer',
         'expired_time'    => 'datetime',
-        'billing_cycle'   => 'datetime',
         'billing_create'  => 'datetime',
         'billing_paid'    => 'datetime',
     ];
 
-    // Relasi
+    // === Relasi ke Client ===
     public function client()
     {
-        return $this->belongsTo(\App\Models\DataClients::class, 'client_id', 'id');
+        return $this->belongsTo(DataClients::class, 'client_id', 'id');
     }
 
-    // (Opsional) helper scopes
+    // === Relasi ke BillingItem (FK satu arah melalui merchant_ref → merchant_ref_id) ===
+    public function billingItem()
+    {
+        return $this->hasOne(DataBillingItem::class, 'merchant_ref_id', 'merchant_ref');
+    }
+
+    // === Scopes ===
     public function scopePaid($q)
     {
         return $q->where('status', 'PAID');
     }
+
     public function scopePending($q)
     {
         return $q->where('status', 'PENDING');
     }
+
     public function scopeExpired($q)
     {
         return $q->where('status', 'EXPIRED');
