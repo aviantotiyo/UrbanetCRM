@@ -76,7 +76,8 @@
         </li>
 
         <!-- Billing -->
-        <!-- Apps & Pages -->
+        @auth
+        @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'CustomerCare']))
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Billing & Report">Billing &amp; Report</span>
         </li>
@@ -94,6 +95,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @endauth
 
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Client">Client</span>

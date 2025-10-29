@@ -113,6 +113,8 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ route('admin.billing.detail', $billing->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
+                                                            @auth
+                                                            @if(in_array(auth()->user()->role, ['Admin', 'Finance']))
                                                             @if($billing->status === 'UNPAID')
                                                             <a class="dropdown-item"
                                                                 href="{{ route('admin.billing.pay', $billing->id) }}"
@@ -120,6 +122,8 @@
                                                                 <i class="ti ti-check me-1"></i> Bayar
                                                             </a>
                                                             @endif
+                                                            @endif
+                                                            @endauth
                                                         </div>
                                                     </div>
                                                 </div>
