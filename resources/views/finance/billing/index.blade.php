@@ -112,8 +112,13 @@
                                                             <i class="ti ti-dots-vertical"></i>
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="{{ route('admin.billing.detail', $billing->id) }}"><i class="ti ti-search me-1"></i> Detail Billing</a>
-                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.show',  $billing->client->id) }}"><i class="ti ti-user me-1"></i> Detail User</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.billing.detail', $billing->id) }}">
+                                                                <i class="ti ti-search me-1"></i> Detail Billing
+                                                            </a>
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.show',  $billing->client->id) }}">
+                                                                <i class="ti ti-user me-1"></i> Detail User
+                                                            </a>
+
                                                             @auth
                                                             @if(in_array(auth()->user()->role, ['Admin', 'Finance']))
                                                             @if($billing->status === 'UNPAID')
@@ -123,12 +128,23 @@
                                                                 <i class="ti ti-check me-1"></i> Bayar
                                                             </a>
                                                             @endif
+
+                                                            {{-- Tombol Soft Delete --}}
+                                                            <form action="{{ route('admin.billing.soft_delete', $billing->id) }}" method="POST"
+                                                                onsubmit="return confirm('Yakin ingin menghapus sementara tagihan ini?');">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="dropdown-item text-danger">
+                                                                    <i class="ti ti-trash me-1"></i> Hapus
+                                                                </button>
+                                                            </form>
                                                             @endif
                                                             @endauth
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
+
                                         </tr>
                                         @endforeach
                                         @empty

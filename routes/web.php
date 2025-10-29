@@ -187,6 +187,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->middleware(['auth', 'role:Admin,Finance'])
         ->group(function () {
             Route::get('/pay/{id}', [ManualPayController::class, 'pay'])->name('pay');
+            Route::delete('/{id}', [BillingController::class, 'softDelete'])->name('soft_delete');
         });
 
     // ===== Team  =====
