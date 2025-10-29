@@ -75,8 +75,29 @@
             </ul>
         </li>
 
+        <!-- Billing -->
+        <!-- Apps & Pages -->
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="Billing & Report">Billing &amp; Report</span>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.billing.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-file-dollar"></i>
+                <div data-i18n="Billing">Billing</div>
+            </a>
 
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.billing.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.billing.index') }}" class="menu-link">
+                        <div data-i18n="Daftar Tagihan">Daftar Tagihan</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="Client">Client</span>
+        </li>
         <!-- Layouts -->
         <li class="menu-item {{ request()->routeIs('admin.pelanggan.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">

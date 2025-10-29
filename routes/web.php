@@ -167,7 +167,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('dashboard/billing')->name('billing.')->group(function () {
-        Route::get('/', [BillingController::class, 'index'])->name('admin.billing.index');
+        Route::get('/', [BillingController::class, 'index'])->name('index');
     });
 
 

@@ -13,7 +13,7 @@ class BillingController extends Controller
      */
     public function index()
     {
-        $billings = DataBilling::with(['client', 'items'])->latest()->get();
+        $billings = DataBilling::with(['client', 'items'])->latest()->paginate(10);
 
         return view('finance.billing.index', compact('billings'));
     }
