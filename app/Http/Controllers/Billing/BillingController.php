@@ -17,4 +17,11 @@ class BillingController extends Controller
 
         return view('finance.billing.index', compact('billings'));
     }
+
+    public function detail(string $id)
+    {
+        $billing = DataBilling::with(['client', 'items'])->findOrFail($id);
+
+        return view('finance.billing.detail', compact('billing'));
+    }
 }

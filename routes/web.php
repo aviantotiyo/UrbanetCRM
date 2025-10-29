@@ -166,8 +166,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             ->name('update');
     });
 
+    // ===== Billing Tagihan =====
     Route::prefix('dashboard/billing')->name('billing.')->group(function () {
         Route::get('/', [BillingController::class, 'index'])->name('index');
+        Route::get('/{id}', [BillingController::class, 'detail'])->name('detail');
     });
 
 

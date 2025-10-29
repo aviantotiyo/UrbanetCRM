@@ -89,7 +89,7 @@
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.billing.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.billing.index') }}" class="menu-link">
-                        <div data-i18n="Daftar Tagihan">Daftar Tagihan</div>
+                        <div data-i18n="Tagihan Pelanggan">Tagihan Pelanggan</div>
                     </a>
                 </li>
             </ul>

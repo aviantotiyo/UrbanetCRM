@@ -58,7 +58,7 @@
 
                         <div class="card">
 
-                            <h5 class="card-header">Data Pelanggan</h5>
+                            <h5 class="card-header">Data Tagihan Pelanggan</h5>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-striped">
                                     <thead>
@@ -80,7 +80,8 @@
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
-                                                        <p class="mb-0 small fw-medium">{{ $billing->merchant_ref }}</p>
+                                                        <p class="mb-0 small fw-medium"><a href="{{ route('admin.billing.detail', $billing->id) }}">
+                                                                {{ $billing->merchant_ref }}</a></p>
                                                         <small>{{ \Carbon\Carbon::parse($billing->created_at)->format('d/m/Y') }}</small>
                                                     </div>
                                                 </div>
@@ -109,7 +110,7 @@
                                                             <i class="ti ti-dots-vertical"></i>
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.show',  $billing->client->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.billing.detail', $billing->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
                                                             <a class="dropdown-item" href="#"><i class="ti ti-check me-1"></i> Bayar</a>
                                                         </div>
                                                     </div>
