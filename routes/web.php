@@ -2,6 +2,7 @@
 
 
 use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Odc\OdcController;
@@ -12,17 +13,17 @@ use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Team\InviteController;
 use App\Http\Controllers\Server\ServerController;
-use App\Http\Controllers\Billing\BillingController;
 
+use App\Http\Controllers\Billing\BillingController;
+use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Pelanggan\IsolirController;
 use App\Http\Controllers\Billing\ManualPayController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
+
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
-
-use Illuminate\Support\Facades\Auth;
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -169,16 +170,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             ->name('update');
     });
 
-    // ===== Billing Tagihan =====
-    // Route::prefix('dashboard/billing')
-    //     ->name('billing.')
-    //     ->middleware(['auth', 'role:Admin, Finance, CustomerCare'])
-    //     ->group(function () {
-    //         Route::get('/', [BillingController::class, 'index'])->name('index');
-    //         Route::get('/{id}', [BillingController::class, 'detail'])->name('detail');
-
-    //         Route::get('/pay/{id}', [ManualPayController::class, 'pay'])->name('pay');
-    //     });
+    // ===== Billing 1 =====
 
     Route::prefix('dashboard/billing')
         ->name('billing.')
@@ -188,6 +180,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             Route::get('/{id}', [BillingController::class, 'detail'])->name('detail');
         });
 
+    // ===== Billing 2 =====
 
     Route::prefix('dashboard/billing')
         ->name('billing.')
@@ -196,7 +189,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             Route::get('/pay/{id}', [ManualPayController::class, 'pay'])->name('pay');
         });
 
-
+    // ===== Team  =====
 
     Route::prefix('dashboard/team')
         ->name('team.')
@@ -216,6 +209,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             Route::get('/new-password', [InviteController::class, 'showNewPasswordForm'])->name('new_password.form');
             Route::post('/new-password', [InviteController::class, 'updatePassword'])->name('new_password.update');
         });
+
+
+
+    // ===== Setting  =====
+    Route::prefix('dashboard/setting')->name('setting.')->group(function () {
+        Route::get('/', [SettingController::class, 'edit'])->name('edit');
+        Route::put('/', [SettingController::class, 'update'])->name('update');
+    });
 });
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
