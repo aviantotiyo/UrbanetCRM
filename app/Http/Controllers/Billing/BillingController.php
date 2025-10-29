@@ -8,14 +8,6 @@ use Illuminate\Http\Request;
 
 class BillingController extends Controller
 {
-    /**
-     * Menampilkan semua data billing.
-     */
-
-    // public function __construct()
-    // {
-    //     $this->middleware(['auth', 'role:Admin, Finance, CustomerCare']);
-    // }
 
     public function index()
     {

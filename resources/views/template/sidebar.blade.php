@@ -233,6 +233,21 @@
         @endif
         @endauth
 
+        @auth
+        @if(in_array(auth()->user()->role, ['Admin', 'Finance']))
+        <!-- Apps & Pages -->
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="MISC">MISC</span>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.setting.*') ? 'active open' : '' }}">
+            <a href="{{ route('admin.setting.edit') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-settings"></i>
+                <div data-i18n="Pengaturan">Pengaturan</div>
+            </a>
+        </li>
+        @endif
+        @endauth
+
         <!-- Apps & Pages -->
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Apps & Pages">Apps &amp; Pages</span>

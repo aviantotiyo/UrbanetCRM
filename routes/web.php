@@ -213,10 +213,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
 
     // ===== Setting  =====
-    Route::prefix('dashboard/setting')->name('setting.')->group(function () {
-        Route::get('/', [SettingController::class, 'edit'])->name('edit');
-        Route::put('/', [SettingController::class, 'update'])->name('update');
-    });
+    Route::prefix('dashboard/setting')
+        ->name('setting.')
+        ->middleware(['auth', 'role:Admin,Finance'])
+        ->group(function () {
+            Route::get('/', [SettingController::class, 'edit'])->name('edit');
+            Route::put('/', [SettingController::class, 'update'])->name('update');
+        });
 });
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {

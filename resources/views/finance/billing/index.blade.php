@@ -112,11 +112,12 @@
                                                             <i class="ti ti-dots-vertical"></i>
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="{{ route('admin.billing.detail', $billing->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.billing.detail', $billing->id) }}"><i class="ti ti-search me-1"></i> Detail Billing</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.show',  $billing->client->id) }}"><i class="ti ti-user me-1"></i> Detail User</a>
                                                             @auth
                                                             @if(in_array(auth()->user()->role, ['Admin', 'Finance']))
                                                             @if($billing->status === 'UNPAID')
-                                                            <a class="dropdown-item"
+                                                            <a class="dropdown-item text-success"
                                                                 href="{{ route('admin.billing.pay', $billing->id) }}"
                                                                 onclick="return confirm('Tandai tagihan ini sebagai sudah dibayar secara manual?')">
                                                                 <i class="ti ti-check me-1"></i> Bayar

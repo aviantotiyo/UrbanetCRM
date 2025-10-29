@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Billing;
 use App\Http\Controllers\Controller;
 use App\Models\DataBilling;
 use App\Models\DataBillingItem;
+use App\Models\DataBillingLog;
+use App\Models\DataSetting;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ManualPayController extends Controller
 {
@@ -16,20 +19,21 @@ class ManualPayController extends Controller
     {
         $billing = DataBilling::findOrFail($id);
 
-        // Ambil semua item yang berkaitan
         $items = DataBillingItem::where('merchant_ref_id', $billing->merchant_ref)->get();
 
-        // Hitung total amount setelah diskon
         $totalAmount = $items->sum(function ($item) {
             $discount = $item->discount ?? 0;
             return $item->amount - $discount;
         });
 
-        // Hitung pajak 11% dan potong dari total
-        $afterTax = round($totalAmount * 0.11);
+        // Ambil nilai tax dari setting
+        $setting = DataSetting::first();
+        $taxPercent = $setting?->tax ?? 11;
+
+        // Hitung pajak berdasarkan tax %
+        $afterTax = round($totalAmount * ($taxPercent / 100));
         $amountReceived = $totalAmount - $afterTax;
 
-        // Update tagihan
         $billing->update([
             'status'          => 'PAID',
             'payment_method'  => 'Bayar Manual',
@@ -41,6 +45,14 @@ class ManualPayController extends Controller
             'amount_received' => $totalAmount,
             'after_tax'       => $amountReceived,
             'tax'             => $afterTax,
+        ]);
+
+        DataBillingLog::create([
+            'user_id'         => Auth::id(),
+            'client_id'       => $billing->client_id,
+            'merchant_ref_id' => $billing->merchant_ref,
+            'status'          => 'Pembayaran manual berhasil dilakukan oleh ' . Auth::user()->name .
+                ' untuk tagihan ' . $billing->merchant_ref,
         ]);
 
         return redirect()
