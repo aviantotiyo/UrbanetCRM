@@ -16,10 +16,13 @@ use App\Http\Controllers\Billing\BillingController;
 
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Pelanggan\IsolirController;
+use App\Http\Controllers\Billing\ManualPayController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
+
+use Illuminate\Support\Facades\Auth;
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -167,10 +170,32 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     });
 
     // ===== Billing Tagihan =====
-    Route::prefix('dashboard/billing')->name('billing.')->group(function () {
-        Route::get('/', [BillingController::class, 'index'])->name('index');
-        Route::get('/{id}', [BillingController::class, 'detail'])->name('detail');
-    });
+    // Route::prefix('dashboard/billing')
+    //     ->name('billing.')
+    //     ->middleware(['auth', 'role:Admin, Finance, CustomerCare'])
+    //     ->group(function () {
+    //         Route::get('/', [BillingController::class, 'index'])->name('index');
+    //         Route::get('/{id}', [BillingController::class, 'detail'])->name('detail');
+
+    //         Route::get('/pay/{id}', [ManualPayController::class, 'pay'])->name('pay');
+    //     });
+
+    Route::prefix('dashboard/billing')
+        ->name('billing.')
+        ->middleware(['auth', 'role:Admin,Finance,CustomerCare'])
+        ->group(function () {
+            Route::get('/', [BillingController::class, 'index'])->name('index');
+            Route::get('/{id}', [BillingController::class, 'detail'])->name('detail');
+        });
+
+
+    Route::prefix('dashboard/billing')
+        ->name('billing.')
+        ->middleware(['auth', 'role:Admin,Finance'])
+        ->group(function () {
+            Route::get('/pay/{id}', [ManualPayController::class, 'pay'])->name('pay');
+        });
+
 
 
     Route::prefix('dashboard/team')
@@ -216,3 +241,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->whereUuid('id')
         ->name('odc_port.update');
 });
+
+// Route::get('/check-role', function () {
+//     return auth()->user()?->role;
+// })->middleware(['auth']);

@@ -11,6 +11,12 @@ class BillingController extends Controller
     /**
      * Menampilkan semua data billing.
      */
+
+    // public function __construct()
+    // {
+    //     $this->middleware(['auth', 'role:Admin, Finance, CustomerCare']);
+    // }
+
     public function index()
     {
         $billings = DataBilling::with(['client', 'items'])->latest()->paginate(10);

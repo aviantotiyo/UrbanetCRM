@@ -30,6 +30,7 @@ class DataBilling extends Model
         'status',
         'expired_time',
         'instructions',
+        'tax',
         'after_tax',
         'billing_create',
         'billing_paid',

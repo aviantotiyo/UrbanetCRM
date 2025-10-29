@@ -44,9 +44,9 @@ class JobCreateBilling implements ShouldQueue
             $prorata = ceil(($client->tagihan / $daysInMonth) * ($daysInMonth - $dayToday));
         }
 
-        // Cek apakah sudah ada billing PENDING
+        // Cek apakah sudah ada billing UNPAID
         $billing = DataBilling::where('client_id', $client->id)
-            ->where('status', 'PENDING')
+            ->where('status', 'UNPAID')
             ->first();
 
         if (! $billing) {

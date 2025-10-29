@@ -67,6 +67,7 @@
                                             <th>NoPel</th>
                                             <th>Nama Tagihan</th>
                                             <th>Total</th>
+                                            <th>Denda</th>
                                             <th>Tagihan</th>
                                             <th>user</th>
                                             <th>Status</th>
@@ -96,6 +97,7 @@
                                             </td>
                                             <td>{{ $item->name ?? '-' }}</td>
                                             <td>Rp {{ number_format((float) $item->amount, 0, ',', '.') }}</td>
+                                            <td>Rp {{ number_format((float) $item->denda, 0, ',', '.') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</td>
                                             <td>
                                                 <span class="badge {{ $billing->client->status === 'active' ? 'text-bg-primary' : 'text-bg-secondary' }}">
@@ -111,7 +113,13 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ route('admin.billing.detail', $billing->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
-                                                            <a class="dropdown-item" href="#"><i class="ti ti-check me-1"></i> Bayar</a>
+                                                            @if($billing->status === 'UNPAID')
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin.billing.pay', $billing->id) }}"
+                                                                onclick="return confirm('Tandai tagihan ini sebagai sudah dibayar secara manual?')">
+                                                                <i class="ti ti-check me-1"></i> Bayar
+                                                            </a>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
