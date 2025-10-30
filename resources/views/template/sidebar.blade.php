@@ -99,12 +99,12 @@
         @endauth
 
         <li class="menu-header small">
-            <span class="menu-header-text" data-i18n="Client">Client</span>
+            <span class="menu-header-text" data-i18n="Pelanggan & Pelaporan">Pelanggan &amp; Pelaporan</span>
         </li>
         <!-- Layouts -->
         <li class="menu-item {{ request()->routeIs('admin.pelanggan.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+                <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="Pelanggan">Pelanggan</div>
             </a>
 
@@ -123,6 +123,21 @@
             </ul>
         </li>
 
+
+        <li class="menu-item {{ request()->routeIs('admin.dashboard.ticket.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-messages"></i>
+                <div data-i18n="Pelaporan">Pelaporan</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.dashboard.ticket.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard.ticket.index') }}" class="menu-link">
+                        <div data-i18n="Data Laporan">Data Laporan</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <!-- Apps & Pages -->
         <li class="menu-header small">

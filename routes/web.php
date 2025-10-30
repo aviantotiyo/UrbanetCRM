@@ -211,7 +211,18 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             Route::post('/new-password', [InviteController::class, 'updatePassword'])->name('new_password.update');
         });
 
+    // ===== Ticket  =====
 
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/ticket', [\App\Http\Controllers\Ticket\ComplianceController::class, 'index'])->name('ticket.index');
+        Route::get('/ticket/tambah', [\App\Http\Controllers\Ticket\ComplianceController::class, 'create'])->name('ticket.create');
+        Route::post('/ticket/tambah', [\App\Http\Controllers\Ticket\ComplianceController::class, 'store'])->name('ticket.store');
+        Route::get('/ticket/{id}/edit', [\App\Http\Controllers\Ticket\ComplianceController::class, 'edit'])->name('ticket.edit');
+        Route::put('/ticket/{id}/update', [\App\Http\Controllers\Ticket\ComplianceController::class, 'update'])->name('ticket.update');
+    });
+
+    Route::get('/dashboard/pelanggan/ticket/client-search', [\App\Http\Controllers\Ticket\ComplianceController::class, 'clientSearch'])
+        ->name('pelanggan.ticket.client_search');
 
     // ===== Setting  =====
     Route::prefix('dashboard/setting')
@@ -247,6 +258,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->name('odc_port.update');
 });
 
-// Route::get('/check-role', function () {
-//     return auth()->user()?->role;
-// })->middleware(['auth']);
+// Route::get('/dashboard/pelanggan/ticket/client-search', [\App\Http\Controllers\Ticket\ComplianceController::class, 'clientSearch'])
+//     ->middleware('auth')
+//     ->name('admin.pelanggan.ticket.client_search');
