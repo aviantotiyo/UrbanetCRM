@@ -73,6 +73,16 @@
                                             </div>
 
 
+                                            <div class="mb-4">
+                                                <label for="users_id" class="form-label">Pilih Installer</label>
+                                                <select name="users_id" class="form-control" required>
+                                                    <option value="">-- Pilih Installer --</option>
+                                                    @foreach($installers as $installer)
+                                                    <option value="{{ $installer->id }}">{{ $installer->id }} - {{ $installer->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
 
 
                                             <div class="mb-4">

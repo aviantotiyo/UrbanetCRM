@@ -25,6 +25,19 @@
     </div>
 
     <div class="mb-3">
+        <label for="users_id" class="form-label">Pilih Installer</label>
+        <select name="users_id" class="form-control" required>
+            <option value="">-- Pilih Installer --</option>
+            @foreach($installers as $installer)
+            <option value="{{ $installer->id }}"
+                {{ isset($teamSite) && $teamSite->users_id === $installer->id ? 'selected' : '' }}>
+                {{ $installer->name }}
+            </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
         <label>Type Task</label>
         <select name="type_task" class="form-control" required>
             @foreach(['Gangguan', 'Customers Support', 'Support NOC', 'Maintenance'] as $type)

@@ -221,8 +221,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/ticket/{id}/update', [\App\Http\Controllers\Ticket\ComplianceController::class, 'update'])->name('ticket.update');
     });
 
-    Route::get('/dashboard/pelanggan/ticket/client-search', [\App\Http\Controllers\Ticket\ComplianceController::class, 'clientSearch'])
-        ->name('pelanggan.ticket.client_search');
 
     // ===== Setting  =====
     Route::prefix('dashboard/setting')
