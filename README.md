@@ -9,6 +9,16 @@ data_blling
 -   denda (field database sudah)
     loyalti program (point) (field database sudah)
 
+referral system
+
+-   sales internal
+-   client referral
+
+Ticket Support
+
+-   instlasi baru
+-   Gangguan input admin, dan user
+
 ============
 cara pakai role auth di routes:
 
