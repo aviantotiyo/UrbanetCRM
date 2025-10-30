@@ -63,6 +63,9 @@
                                         <tr>
                                             <th>Kode</th>
                                             <th>Client</th>
+                                            <th>Lokasi</th>
+                                            <th>Teknisi</th>
+                                            <th>Tipe</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -71,8 +74,43 @@
                                     <tbody class="table-border-bottom-0">
                                         @forelse($tickets as $ticket)
                                         <tr>
-                                            <td>{{ $ticket->ticket_code }}</td>
-                                            <td>{{ $ticket->client->nama ?? '-' }}</td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">{{ $ticket->ticket_code }}</p>
+                                                        <small>{{ \Carbon\Carbon::parse($ticket->created_at)->format('d/m/Y H:i') }} WIB</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <!-- <td>{{ $ticket->ticket_code }}</td> -->
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            <a href="{{ route('admin.pelanggan.show', $ticket->client->id) }}">
+                                                                {{ $ticket->client->nama ?? '-' }}</a>
+                                                        </p>
+                                                        <small>{{ $ticket->client->nopel ?? '-' }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">{{ $ticket->client->alamat ?? '-' }}</p>
+                                                        <small>{{ $ticket->client->provinsi ?? '-' }}/{{ $ticket->client->kabupaten ?? '-' }}/{{ $ticket->client->kecamatan ?? '-' }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <!-- Menampilkan nama installer dari relasi DataTeamSite -->
+                                                @if($ticket->teamSite)
+                                                {{ $ticket->teamSite->user->name ?? 'Installer Tidak Ditemukan' }}
+                                                @else
+                                                Belum Ada Installer
+                                                @endif
+                                            </td>
+                                            <td>{{ $ticket->type_task }}</td>
                                             <td>{{ $ticket->status }}</td>
                                             <td>
                                                 <a href="{{ route('admin.dashboard.ticket.edit', $ticket->id) }}" class="btn btn-sm btn-warning">Edit</a>
@@ -89,7 +127,7 @@
                                 </table>
                                 <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
                                     {{-- Links pagination --}}
-
+                                    {{ $tickets->links() }}
                                 </div>
                             </div>
 

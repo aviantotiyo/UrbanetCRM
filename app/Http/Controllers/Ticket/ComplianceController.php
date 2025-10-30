@@ -20,9 +20,12 @@ class ComplianceController extends Controller
 {
     public function index()
     {
-        $tickets = DataTicket::all();
+        $tickets = DataTicket::with('teamSite')->orderBy('created_at', 'desc')->paginate(20);
+
+
         return view('ticket.compliance.index', compact('tickets'));
     }
+
 
     public function create()
     {

@@ -2,13 +2,14 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Cache\RateLimiting\Limit;
+use App\Models\DataTicket;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Auth\Notifications\ResetPassword;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
                 'token' => $token,
                 'email' => $user->email,
             ], false));
+        });
+
+        view()->composer('*', function ($view) {
+            $jumlah_ticket_open = DataTicket::where('status', 'open')->count();
+            $view->with('jumlah_ticket_open', $jumlah_ticket_open);
         });
     }
 }

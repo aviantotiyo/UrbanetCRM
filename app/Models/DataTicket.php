@@ -52,4 +52,9 @@ class DataTicket extends Model
     {
         return $this->belongsTo(DataClients::class, 'client_id');
     }
+
+    public function teamSite()
+    {
+        return $this->hasOne(DataTeamSite::class, 'data_ticket_id');
+    }
 }

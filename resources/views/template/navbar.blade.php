@@ -425,8 +425,10 @@
                      <li>
                          <a class="dropdown-item" href="pages-account-settings-billing.html">
                              <span class="d-flex align-items-center align-middle">
-                                 <i class="flex-shrink-0 ti ti-file-dollar me-3 ti-md"></i><span class="flex-grow-1 align-middle">Billing</span>
-                                 <span class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">4</span>
+                                 <i class="flex-shrink-0 ti ti-messages me-3 ti-md"></i><span class="flex-grow-1 align-middle">Gangguan</span>
+                                 @if ($jumlah_ticket_open > 0)
+                                 <span class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">{{ $jumlah_ticket_open }}</span>
+                                 @endif
                              </span>
                          </a>
                      </li>
