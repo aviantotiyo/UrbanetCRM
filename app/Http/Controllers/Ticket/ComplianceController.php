@@ -9,6 +9,7 @@ use App\Models\DataSetting;
 use Illuminate\Support\Str;
 use App\Models\DataTeamSite;
 use Illuminate\Http\Request;
+use App\Models\DataTicketLog;
 use App\Models\DataBillingLog;
 use App\Http\Controllers\Controller;
 // use Illuminate\Foundation\Auth\User;
@@ -61,17 +62,31 @@ class ComplianceController extends Controller
         ]);
 
         // Simpan ke tabel DataTeamSite
-        // $feeEngineer = DataSetting::first()?->fee_engineer ?? 0;
-        DataTeamSite::create([
+        $teamSite = DataTeamSite::create([
             'id'                => Str::uuid(),
             'users_id'          => $request->users_id,
             'data_ticket_id'    => $ticket->id,
             'client_id'         => $request->client_id,
-            // 'fee'               => $feeEngineer,
+        ]);
+
+        // Simpan log ke DataTicketLog
+        $installerName = User::find($request->users_id)->name ?? 'Unknown Installer';
+
+        DataTicketLog::create([
+            'id'                => Str::uuid(),
+            'data_ticket_id'    => $ticket->id,
+            'status'            => sprintf(
+                'Ticket dengan kode %s untuk client %s telah ditujukan kepada %s pada %s',
+                $ticket->ticket_code,
+                $ticket->client->nama ?? 'Client Tidak Ditemukan',
+                $installerName,
+                now()->format('d-m-Y H:i:s')
+            ),
         ]);
 
         return redirect()->route('admin.dashboard.ticket.index')->with('success', 'Ticket berhasil ditambahkan.');
     }
+
 
     public function edit($id)
     {
