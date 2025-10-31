@@ -186,14 +186,13 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="text-muted small">Foto Depan</div>
+
                                             @if ($client->foto_depan)
-                                            <div class="fw-semibold mb-2">{{ $client->foto_depan }}</div>
-                                            {{-- Jika nanti berupa URL/asset, bisa tampilkan img: --}}
-                                            {{-- <img class="img-fluid rounded border" src="{{ asset($client->foto_depan) }}" alt="Foto Depan"> --}}
-                                            @else
-                                            <div class="fw-semibold">—</div>
+                                            <img src="{{ $client->foto_depan }}" alt="Foto Depan" class="img-thumbnail" style="max-width: 200px;">
                                             @endif
+
                                         </div>
+
                                     </div>
                                 </div>
                                 <!-- <div class="col-12 d-flex gap-2 pt-2">

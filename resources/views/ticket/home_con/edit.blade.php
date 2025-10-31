@@ -42,7 +42,7 @@
                                 <div class="mb-1">
                                     <span class="h5">Data Instalasi Pelanggan Baru <span class="badge bg-label-primary me-1 ms-2">{{ $ticket->status }}</span></span>
                                 </div>
-                                <p class="mb-0">{{ $ticket->ticket_code }} | {{ \Carbon\Carbon::parse($ticket->created_at)->format('d/m/Y H:i') }} WIB</p>
+                                <p class="mb-0">ID: {{ $ticket->ticket_code }} | {{ \Carbon\Carbon::parse($ticket->created_at)->format('d/m/Y H:i') }} WIB</p>
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->

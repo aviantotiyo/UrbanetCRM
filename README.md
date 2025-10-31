@@ -16,11 +16,22 @@ referral system
 
 Ticket Support
 
--   instlasi baru
--   Gangguan input admin, dan user
+-   instlasi baru (V)
+-   Gangguan input admin, dan user (V)
 
-============
-cara pakai role auth di routes:
+Finance report
+
+-   income dashboard, list paid, taxt, before tax
+-   Fee sales
+-   Fee engineer
+
+user setting
+
+-   atur password, foto dan lain lain
+
+jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"
+
+    cara pakai role auth di routes:
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 // hanya bisa diakses oleh user dengan role 'admin'

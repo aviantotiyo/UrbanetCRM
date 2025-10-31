@@ -63,7 +63,7 @@
                         <div class="row g-6">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <form method="POST" action="{{ route('admin.pelanggan.store') }}" novalidate>
+                                    <form method="POST" action="{{ route('admin.pelanggan.store') }}" enctype="multipart/form-data" novalidate>
                                         @csrf
                                         <h5 class="card-header">Data Pelanggan</h5>
                                         <div class="card-body">
@@ -249,11 +249,18 @@
                                             @error('note')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
-                                        <div class="mb-4">
+                                        <!-- <div class="mb-4">
                                             <label class="form-label">Foto Depan (path/URL)</label>
                                             <input name="foto_depan" type="text" class="form-control @error('foto_depan') is-invalid @enderror"
                                                 value="{{ old('foto_depan') }}" placeholder="uploads/foto_depan.jpg">
                                             @error('foto_depan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div> -->
+                                        <div class="mb-3">
+                                            <label for="foto_depan" class="form-label">Upload Foto Depan</label>
+                                            <input type="file" name="foto_depan" id="foto_depan" accept="image/*" class="form-control">
+                                            @error('foto_depan')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>

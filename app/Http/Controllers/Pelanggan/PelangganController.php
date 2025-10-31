@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pelanggan;
 
+use App\Models\DataImg;
 use App\Models\DataOdp;
 use App\Models\DataPaket;
 use App\Models\DataClients;
@@ -12,10 +13,13 @@ use Illuminate\Http\Request;
 use App\Models\DataClientLogs;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Filesystem\AwsS3V3Adapter;
+use Illuminate\Contracts\Filesystem\Cloud;
 
 
 class PelangganController extends Controller
@@ -141,7 +145,7 @@ class PelangganController extends Controller
             'active_user'  => ['nullable', 'date'],
             'status'       => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
             'note'         => ['nullable', 'string'],
-            'foto_depan'   => ['nullable', 'string', 'max:255'],
+            'foto_depan' => ['nullable', 'image', 'max:2048'],
         ]);
 
         // Cek dan ambil data paket
@@ -210,6 +214,28 @@ class PelangganController extends Controller
             ),
         ]);
 
+        // Upload & simpan gambar jika ada
+        if ($request->hasFile('foto_depan')) {
+            $file = $request->file('foto_depan');
+
+            $filename = 'foto_depan_' . Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('client_photos', $filename, 's3'); // simpan ke MinIO/S3
+            $publicUrl = Storage::disk('s3')->url($path);
+
+            // Simpan ke DataImg
+            DataImg::create([
+                'id'         => Str::uuid(),
+                'client_id'  => $client->id,
+                'url_img'    => $publicUrl,
+                'tag'        => 'foto_depan',
+            ]);
+
+            // Simpan juga ke field `foto_depan` di table clients
+            $client->update([
+                'foto_depan' => $publicUrl,
+            ]);
+        }
+
         return redirect()
             ->route('admin.pelanggan.index')
             ->with('success', 'Pelanggan berhasil ditambahkan. NoPel: ' . $client->nopel . ' (PPPoE: ' . $userPppoe . ')');
@@ -233,15 +259,24 @@ class PelangganController extends Controller
 
     public function show(string $id)
     {
-        // $client = \App\Models\DataClients::with(['odp', 'odpPort'])->find($id);
         $client = \App\Models\DataClients::with(['odp.server', 'odpPort'])->find($id);
 
         if (!$client) {
             abort(404, 'Data pelanggan tidak ditemukan.');
         }
 
+        if ($client->foto_depan) {
+            /** @var Cloud $disk */
+            $disk = Storage::disk('s3');
+            $client->foto_depan = $disk->temporaryUrl(
+                $client->foto_depan,
+                now()->addMinutes(10)
+            );
+        }
+
         return view('admin.pelanggan.detail', compact('client'));
     }
+
 
 
     // Edit Data

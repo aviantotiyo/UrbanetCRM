@@ -65,8 +65,6 @@ class HomeConController extends Controller
             'sambungan_kabel'   => 'nullable|string',
         ]);
 
-
-
         $ticket = DataTicketHC::create([
             'id'                => Str::uuid(),
             'ticket_code'       => 'PSB-' . strtoupper(Str::random(8)),
@@ -165,6 +163,6 @@ class HomeConController extends Controller
         ]);
 
         return redirect()->route('admin.dashboard.ticket_hc.index')
-            ->with('success', 'Data tiket HC berhasil diperbarui.');
+            ->with('success', 'Data berhasil diperbarui.');
     }
 }
