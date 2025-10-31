@@ -105,7 +105,7 @@
         <li class="menu-item {{ request()->routeIs('admin.pelanggan.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-users"></i>
-                <div data-i18n="Pelanggan">Pelanggan</div>
+                <div data-i18n="Data Pelanggan">Data Pelanggan</div>
             </a>
 
             <ul class="menu-sub">
@@ -124,14 +124,14 @@
         </li>
 
 
-        <li class="menu-item {{ request()->routeIs('admin.dashboard.ticket.*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.dashboard.ticket.*', 'admin.dashboard.ticket_hc.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
                     <i class="menu-icon tf-icons ti ti-messages me-2"></i>
                     <div data-i18n="Pelaporan">Pelaporan</div>
                 </div>
                 @if ($jumlah_ticket_open > 0 || $jumlah_ticket_hc_open > 0 )
-                <span class="badge badge-center rounded-pill bg-danger">
+                <span class="badge badge-center rounded-pill bg-primary">
                     <i class="ti ti-bell"></i>
                 </span>
                 @endif
@@ -147,7 +147,7 @@
                         @endif
                     </a>
                 </li>
-                <li class="menu-item  {{ request()->routeIs('admin.dashboard.ticket_hc.index') ? 'active' : '' }}">
+                <li class="menu-item  {{ request()->routeIs('admin.dashboard.ticket_hc.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard.ticket_hc.index') }}" class="menu-link">
                         <div data-i18n="Data Instalasi">Data Instalasi</div>
                         @if ($jumlah_ticket_hc_open > 0)

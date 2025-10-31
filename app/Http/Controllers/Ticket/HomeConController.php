@@ -25,12 +25,30 @@ class HomeConController extends Controller
     /**
      * Tampilkan form tambah tiket HC untuk client tertentu.
      */
+    // public function create($id)
+    // {
+    //     $client = DataClients::findOrFail($id);
+    //     $installers = User::where('role', 'Installer')->select('id', 'name')->get();
+    //     return view('ticket.home_con.tambah', compact('client', 'installers'));
+    // }
+
     public function create($id)
     {
         $client = DataClients::findOrFail($id);
         $installers = User::where('role', 'Installer')->select('id', 'name')->get();
-        return view('ticket.home_con.tambah', compact('client', 'installers'));
+
+        // Hitung jumlah entri DataTicketHC berdasarkan client_id
+        $jumlahInstalasi = DataTicketHC::where('client_id', $id)->count();
+
+        // Jika sudah 2x atau lebih, set pesan peringatan
+        $peringatan = null;
+        if ($jumlahInstalasi >= 1) {
+            $peringatan = '⚠️ Client ini sudah pernah dilakukan instalasi sebanyak ' . $jumlahInstalasi . ' kali.';
+        }
+
+        return view('ticket.home_con.tambah', compact('client', 'installers', 'peringatan'));
     }
+
 
     /**
      * Simpan data tiket HC baru.
@@ -83,5 +101,52 @@ class HomeConController extends Controller
         ]);
 
         return redirect()->route('admin.dashboard.ticket_hc.index')->with('success', 'Data tiket HC berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $ticket = DataTicketHC::with('teamSite.user', 'client')->findOrFail($id);
+        $client = $ticket->client;
+        $installers = User::where('role', 'Installer')->select('id', 'name')->get();
+
+
+        return view('ticket.home_con.edit', compact('ticket', 'client', 'installers'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:open,process,pending,cancel,finish',
+            'note' => 'nullable|string',
+            'merk_kabel' => 'nullable|string',
+            'panjang_kabel' => 'nullable|string',
+            'sambungan_kabel' => 'nullable|string',
+            'users_id' => 'required|uuid|exists:users,id',
+        ]);
+
+
+        $ticket = DataTicketHC::findOrFail($id);
+        $ticket->update([
+            'status' => $request->status,
+            'note' => $request->note,
+            'merk_kabel' => $request->merk_kabel,
+            'panjang_kabel' => $request->panjang_kabel,
+            'sambungan_kabel' => $request->sambungan_kabel,
+            'status_finish' => now(),
+        ]);
+
+
+        // Update installer di DataTeamSite
+        $ticket->teamSite()->updateOrCreate(
+            ['data_ticket_hc_id' => $ticket->id],
+            [
+                'users_id' => $request->users_id,
+                'client_id' => $ticket->client_id,
+            ]
+        );
+
+
+        return redirect()->route('admin.dashboard.ticket_hc.index')->with('success', 'Data tiket HC berhasil diperbarui.');
     }
 }

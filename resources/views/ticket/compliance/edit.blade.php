@@ -41,14 +41,14 @@
                         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
                             <div class="d-flex flex-column justify-content-center">
                                 <div class="mb-1">
-                                    <span class="h5">Laporan Gangguan {{ $ticket->ticket_code }} </span>
+                                    <span class="h5">Laporan Gangguan</span>
                                     @if ($ticket->ticket_guarantee == 0)
                                     <span class="badge bg-label-success me-1 ms-2">Laporan Baru</span>
                                     @elseif ($ticket->ticket_guarantee == 1)
                                     <span class="badge bg-warning">Gangguan Berulang</span>
                                     @endif
                                 </div>
-                                <p class="mb-0">{{ \Carbon\Carbon::parse($ticket->created_at)->format('d/m/Y H:i') }} WIB</p>
+                                <p class="mb-0">{{ $ticket->ticket_code }} | {{ \Carbon\Carbon::parse($ticket->created_at)->format('d/m/Y H:i') }} WIB</p>
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <a href="{{ route('admin.dashboard.ticket.index') }}" class="btn btn-outline-primary">← Kembali</a>

@@ -89,7 +89,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label>Type Task</label>
+                                                <label class="form-label">Type Task</label>
                                                 <select name="type_task" class="form-select" required>
                                                     <option value="Gangguan">Gangguan</option>
                                                     <option value="Customers Support">Customers Support</option>
@@ -99,19 +99,15 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label>Detail Task</label>
+                                                <label class="form-label">Detail Task</label>
                                                 <textarea name="detail_task" class="form-control"></textarea>
                                             </div>
 
-                                            <div class="mb-3">
-                                                <label>Note</label>
-                                                <textarea name="note" class="form-control"></textarea>
-                                            </div>
                                         </div>
 
                                         <div class="col-md-6 col-12">
                                             <div class="mb-3">
-                                                <label>Status</label>
+                                                <label class="form-label">Status</label>
                                                 <select name="status" class="form-select" required>
                                                     <option value="open">Open</option>
                                                     <option value="cancel">Cancel</option>
@@ -126,7 +122,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label>Solving</label>
+                                                <label class="form-label">Solving</label>
                                                 <select name="solving" class="form-select">
                                                     <option value="">-- Pilih --</option>
                                                     <option value="Ganti Router">Ganti Router</option>
@@ -137,12 +133,17 @@
                                                 </select>
                                             </div>
 
+
                                             <div class="mb-3">
+                                                <label class="form-label">Note</label>
+                                                <textarea name="note" class="form-control"></textarea>
+                                            </div>
+                                            <!-- <div class="mb-3">
                                                 <label>Ticket Guarantee</label>
                                                 <select name="ticket_guarantee" class="form-control">
                                                     <option value="0">Tidak</option>
                                                 </select>
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <div class="col-12  mt-4">

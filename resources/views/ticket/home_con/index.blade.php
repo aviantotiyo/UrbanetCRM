@@ -56,7 +56,7 @@
 
 
                         <div class="card">
-                            <h5 class="card-header">Data Instlasi Baru</h5>
+                            <h5 class="card-header">Data Instalasi Baru</h5>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-striped">
                                     <thead>
@@ -78,7 +78,7 @@
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
                                                         <p class="mb-0 small fw-medium">
-                                                            {{ $ticket->ticket_code }}
+                                                            <a href="{{ route('admin.dashboard.ticket_hc.edit', $ticket->id) }}">{{ $ticket->ticket_code }}</a>
                                                         </p>
                                                         <small>{{ \Carbon\Carbon::parse($ticket->created_at)->format('d/m/Y H:i') }} WIB</small>
                                                     </div>
@@ -126,7 +126,7 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $ticket->client->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
-                                                            <a class="dropdown-item" href="#"><i class="ti ti-edit me-1"></i> Edit</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.dashboard.ticket_hc.edit', $ticket->id) }}"><i class="ti ti-edit me-1"></i> Edit/Process</a>
                                                         </div>
                                                     </div>
                                                 </div>

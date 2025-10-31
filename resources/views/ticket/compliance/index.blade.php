@@ -139,7 +139,7 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $ticket->client->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
-                                                            <a class="dropdown-item" href="{{ route('admin.dashboard.ticket.edit', $ticket->id) }}"><i class="ti ti-edit me-1"></i> Edit</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.dashboard.ticket.edit', $ticket->id) }}"><i class="ti ti-edit me-1"></i> Edit/Process</a>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -227,6 +227,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/ticket-hc', [HomeConController::class, 'index'])->name('ticket_hc.index');
         Route::get('/ticket-hc/tambah/{id}', [HomeConController::class, 'create'])->whereUuid('id')->name('ticket_hc.create');
         Route::post('/ticket-hc/store', [HomeConController::class, 'store'])->name('ticket_hc.store');
+
+        Route::get('/ticket-hc/edit/{id}', [HomeConController::class, 'edit'])->whereUuid('id')->name('ticket_hc.edit');
+        Route::put('/ticket-hc/update/{id}', [HomeConController::class, 'update'])->whereUuid('id')->name('ticket_hc.update');
     });
 
     // ===== Setting  =====
