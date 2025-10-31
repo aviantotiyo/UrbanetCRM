@@ -189,8 +189,9 @@
 
                                             @if ($client->foto_depan)
                                             <img src="{{ $client->foto_depan }}" alt="Foto Depan" class="img-thumbnail" style="max-width: 200px;">
+                                            @else
+                                            <div class="text-danger small">Tidak ada foto tersedia.</div>
                                             @endif
-
                                         </div>
 
                                     </div>

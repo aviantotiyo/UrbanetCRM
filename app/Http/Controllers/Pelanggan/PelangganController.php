@@ -14,11 +14,12 @@ use App\Models\DataClientLogs;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Filesystem\AwsS3V3Adapter;
+use Aws\S3\S3Client;
 use Illuminate\Contracts\Filesystem\Cloud;
 
 
@@ -214,27 +215,38 @@ class PelangganController extends Controller
             ),
         ]);
 
-        // Upload & simpan gambar jika ada
         if ($request->hasFile('foto_depan')) {
             $file = $request->file('foto_depan');
+            $filename = 'client_photos/foto_depan_' . Str::uuid() . '.' . $file->getClientOriginalExtension();
 
-            $filename = 'foto_depan_' . Str::uuid() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('client_photos', $filename, 's3'); // simpan ke MinIO/S3
-            $publicUrl = Storage::disk('s3')->url($path);
-
-            // Simpan ke DataImg
-            DataImg::create([
-                'id'         => Str::uuid(),
-                'client_id'  => $client->id,
-                'url_img'    => $publicUrl,
-                'tag'        => 'foto_depan',
+            $s3 = new S3Client([
+                'version' => 'latest',
+                'region'  => 'us-east-1',
+                'endpoint' => 'https://is3.cloudhost.id',
+                'credentials' => [
+                    'key'    => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
+                'use_path_style_endpoint' => true,
             ]);
 
-            // Simpan juga ke field `foto_depan` di table clients
-            $client->update([
-                'foto_depan' => $publicUrl,
-            ]);
+            try {
+                $result = $s3->putObject([
+                    'Bucket' => env('AWS_BUCKET'),
+                    'Key'    => $filename,
+                    'Body'   => fopen($file->getRealPath(), 'r'),
+                    'ACL'    => 'public-read',
+                ]);
+
+                $url = $result['ObjectURL'];
+
+                // Simpan ke database
+                $client->update(['foto_depan' => $url]);
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto_depan' => 'Upload gagal: ' . $e->getMessage()]);
+            }
         }
+
 
         return redirect()
             ->route('admin.pelanggan.index')
@@ -268,15 +280,21 @@ class PelangganController extends Controller
         if ($client->foto_depan) {
             /** @var Cloud $disk */
             $disk = Storage::disk('s3');
-            $client->foto_depan = $disk->temporaryUrl(
-                $client->foto_depan,
-                now()->addMinutes(10)
-            );
+
+            // Pastikan URL dasar punya slash di akhir
+            $baseUrl = rtrim(config('filesystems.disks.s3.url'), '/') . '/';
+            $relativePath = Str::after($client->foto_depan, $baseUrl);
+
+            try {
+                $client->foto_depan = $disk->temporaryUrl($relativePath, now()->addMinutes(10));
+            } catch (\Throwable $e) {
+                // Jika bucket public atau error pada signed URL, fallback ke original
+                $client->foto_depan = $client->foto_depan;
+            }
         }
 
         return view('admin.pelanggan.detail', compact('client'));
     }
-
 
 
     // Edit Data
