@@ -10,6 +10,7 @@ use App\Models\DataTicketHC;
 use Illuminate\Http\Request;
 use App\Models\DataTicketLog;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeConController extends Controller
 {
@@ -117,36 +118,53 @@ class HomeConController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:open,process,pending,cancel,finish',
-            'note' => 'nullable|string',
-            'merk_kabel' => 'nullable|string',
-            'panjang_kabel' => 'nullable|string',
-            'sambungan_kabel' => 'nullable|string',
-            'users_id' => 'required|uuid|exists:users,id',
+            'status'           => 'required|in:open,process,pending,cancel,finish',
+            'note'             => 'nullable|string',
+            'merk_kabel'       => 'nullable|string',
+            'panjang_kabel'    => 'nullable|string',
+            'sambungan_kabel'  => 'nullable|string',
+            'users_id'         => 'required|uuid|exists:users,id',
         ]);
-
 
         $ticket = DataTicketHC::findOrFail($id);
+
+        // Update data utama tiket
         $ticket->update([
-            'status' => $request->status,
-            'note' => $request->note,
-            'merk_kabel' => $request->merk_kabel,
-            'panjang_kabel' => $request->panjang_kabel,
-            'sambungan_kabel' => $request->sambungan_kabel,
-            'status_finish' => now(),
+            'status'           => $request->status,
+            'note'             => $request->note,
+            'merk_kabel'       => $request->merk_kabel,
+            'panjang_kabel'    => $request->panjang_kabel,
+            'sambungan_kabel'  => $request->sambungan_kabel,
+            'status_finish'    => now(),
         ]);
 
-
-        // Update installer di DataTeamSite
+        // Update atau buat ulang data teknisi di DataTeamSite
         $ticket->teamSite()->updateOrCreate(
             ['data_ticket_hc_id' => $ticket->id],
             [
-                'users_id' => $request->users_id,
+                'users_id'  => $request->users_id,
                 'client_id' => $ticket->client_id,
             ]
         );
 
+        // Ambil nama teknisi dari DataTeamSite (relasi ke users)
+        $teamSite = $ticket->teamSite;
+        $technicianName = optional($teamSite->user)->name ?? 'Teknisi Tidak Diketahui';
 
-        return redirect()->route('admin.dashboard.ticket_hc.index')->with('success', 'Data tiket HC berhasil diperbarui.');
+        // Buat log aktivitas
+        DataTicketLog::create([
+            'id'                => Str::uuid(),
+            'data_ticket_hc_id' => $ticket->id, // gunakan kolom khusus untuk tiket HC
+            'status'            => sprintf(
+                'Tiket %s diperbarui oleh %s dan ditangani oleh teknisi %s pada %s',
+                $ticket->ticket_code,
+                Auth::user()->name ?? 'User',
+                $technicianName,
+                now()->format('d-m-Y H:i:s')
+            ),
+        ]);
+
+        return redirect()->route('admin.dashboard.ticket_hc.index')
+            ->with('success', 'Data tiket HC berhasil diperbarui.');
     }
 }
