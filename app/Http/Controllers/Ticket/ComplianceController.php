@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\DataTicketLog;
 use App\Models\DataBillingLog;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 // use Illuminate\Foundation\Auth\User;
 
 
@@ -21,8 +22,6 @@ class ComplianceController extends Controller
     public function index()
     {
         $tickets = DataTicket::with('teamSite')->orderBy('created_at', 'desc')->paginate(20);
-
-
         return view('ticket.compliance.index', compact('tickets'));
     }
 
@@ -47,10 +46,19 @@ class ComplianceController extends Controller
             'status_finish'     => 'nullable|date',
             'solving'           => 'nullable|string',
             'ticket_guarantee'  => 'nullable|boolean',
-            'users_id'          => 'required|uuid|exists:users,id', // Tambahan validasi installer
+            'users_id'          => 'required|uuid|exists:users,id',
         ]);
 
-        // Simpan tiket utama
+        // 🔍 Cek apakah client punya tiket "finish" dalam 7 hari terakhir
+        $hasRecentFinished = DataTicket::where('client_id', $request->client_id)
+            ->where('status', 'finish')
+            ->where('status_finish', '>=', now()->subDays(7))
+            ->exists();
+
+        // 🔢 Tentukan nilai ticket_guarantee otomatis
+        $ticketGuarantee = $hasRecentFinished ? 1 : 0;
+
+        // 🧾 Simpan tiket utama
         $ticket = DataTicket::create([
             'id'                => Str::uuid(),
             'ticket_code'       => 'TC-' . strtoupper(Str::random(8)),
@@ -61,10 +69,10 @@ class ComplianceController extends Controller
             'status'            => $request->status,
             'status_finish'     => $request->status_finish,
             'solving'           => $request->solving,
-            'ticket_guarantee'  => $request->ticket_guarantee ?? 0,
+            'ticket_guarantee'  => $ticketGuarantee,
         ]);
 
-        // Simpan ke tabel DataTeamSite
+        // 👷 Simpan ke DataTeamSite
         $teamSite = DataTeamSite::create([
             'id'                => Str::uuid(),
             'users_id'          => $request->users_id,
@@ -72,9 +80,8 @@ class ComplianceController extends Controller
             'client_id'         => $request->client_id,
         ]);
 
-        // Simpan log ke DataTicketLog
+        // 🧾 Simpan log ke DataTicketLog
         $installerName = User::find($request->users_id)->name ?? 'Unknown Installer';
-
         DataTicketLog::create([
             'id'                => Str::uuid(),
             'data_ticket_id'    => $ticket->id,
@@ -87,8 +94,12 @@ class ComplianceController extends Controller
             ),
         ]);
 
-        return redirect()->route('admin.dashboard.ticket.index')->with('success', 'Ticket berhasil ditambahkan.');
+
+        return redirect()
+            ->route('admin.dashboard.ticket.index')
+            ->with('success', 'Ticket berhasil ditambahkan.');
     }
+
 
 
     public function edit($id)
@@ -122,9 +133,24 @@ class ComplianceController extends Controller
             'detail_task'     => $request->detail_task,
             'note'            => $request->note,
             'status'          => $request->status,
-            'status_finish'   => $request->status_finish,
+            'status_finish'   => now(),
             'solving'         => $request->solving,
-            'ticket_guarantee' => $request->ticket_guarantee ?? 0,
+            // 'ticket_guarantee' => $request->ticket_guarantee ?? 0,
+        ]);
+
+        $teamSite = DataTeamSite::where('data_ticket_id', $ticket->id)->first();
+        $technicianName = optional(User::find($teamSite->users_id))->name ?? 'Teknisi Tidak Diketahui';
+
+        DataTicketLog::create([
+            'id'             => Str::uuid(),
+            'data_ticket_id' => $ticket->id,
+            'status'         => sprintf(
+                'Tiket %s diperbarui oleh %s dan ditangani oleh teknisi %s pada %s',
+                $ticket->ticket_code,
+                Auth::user()->name ?? 'User',
+                $technicianName,
+                now()->format('d-m-Y H:i:s')
+            ),
         ]);
 
 

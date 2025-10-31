@@ -63,10 +63,10 @@
                                         <tr>
                                             <th>Kode</th>
                                             <th>Client</th>
-                                            <th>Lokasi</th>
-                                            <th>Teknisi</th>
                                             <th>Tipe</th>
+                                            <th>Teknisi</th>
                                             <th>Status</th>
+                                            <th>Tgl Perbaikan</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -77,7 +77,8 @@
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
-                                                        <p class="mb-0 small fw-medium">{{ $ticket->ticket_code }}</p>
+                                                        <p class="mb-0 small fw-medium"><a href="{{ route('admin.dashboard.ticket.edit', $ticket->id) }}">
+                                                                {{ $ticket->ticket_code }}</a></p>
                                                         <small>{{ \Carbon\Carbon::parse($ticket->created_at)->format('d/m/Y H:i') }} WIB</small>
                                                     </div>
                                                 </div>
@@ -94,11 +95,21 @@
                                                     </div>
                                                 </div>
                                             </td>
+
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
-                                                        <p class="mb-0 small fw-medium">{{ $ticket->client->alamat ?? '-' }}</p>
-                                                        <small>{{ $ticket->client->provinsi ?? '-' }}/{{ $ticket->client->kabupaten ?? '-' }}/{{ $ticket->client->kecamatan ?? '-' }}</small>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $ticket->type_task }}
+                                                        </p>
+                                                        <small>
+
+                                                            @if ($ticket->ticket_guarantee == 0)
+                                                            Laporan Baru
+                                                            @elseif ($ticket->ticket_guarantee == 1)
+                                                            Gangguan Berulang
+                                                            @endif
+                                                        </small>
                                                     </div>
                                                 </div>
                                             </td>
@@ -110,10 +121,28 @@
                                                 Belum Ada Installer
                                                 @endif
                                             </td>
-                                            <td>{{ $ticket->type_task }}</td>
-                                            <td>{{ $ticket->status }}</td>
+                                            <!-- <td>{{ $ticket->type_task }}</td>
+                                            <td>{{ $ticket->status }}</td> -->
+
                                             <td>
-                                                <a href="{{ route('admin.dashboard.ticket.edit', $ticket->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                                <span class="badge bg-primary">{{ $ticket->status }}</span>
+                                            </td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($ticket->status_finish)->format('d/m/Y H:i') }} WIB
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                            <i class="ti ti-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $ticket->client->id) }}"><i class="ti ti-search me-1"></i> Detail User</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.dashboard.ticket.edit', $ticket->id) }}"><i class="ti ti-edit me-1"></i> Edit</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         @empty

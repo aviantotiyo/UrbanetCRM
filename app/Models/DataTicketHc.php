@@ -50,4 +50,15 @@ class DataTicketHc extends Model
     {
         return $this->belongsTo(DataClients::class, 'client_id');
     }
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'users_id');
+    // }
+
+
+    public function teamSite()
+    {
+        return $this->hasOne(DataTeamSite::class, 'data_ticket_hc_id');
+    }
 }

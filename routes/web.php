@@ -14,14 +14,15 @@ use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Team\InviteController;
 use App\Http\Controllers\Server\ServerController;
 
+use App\Http\Controllers\Ticket\HomeConController;
 use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Pelanggan\IsolirController;
 use App\Http\Controllers\Billing\ManualPayController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
-use App\Http\Controllers\Pelanggan\PelangganController;
 
+use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 
@@ -221,6 +222,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/ticket/{id}/update', [\App\Http\Controllers\Ticket\ComplianceController::class, 'update'])->name('ticket.update');
     });
 
+
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/ticket-hc', [HomeConController::class, 'index'])->name('ticket_hc.index');
+        Route::get('/ticket-hc/tambah/{id}', [HomeConController::class, 'create'])->whereUuid('id')->name('ticket_hc.create');
+        Route::post('/ticket-hc/store', [HomeConController::class, 'store'])->name('ticket_hc.store');
+    });
 
     // ===== Setting  =====
     Route::prefix('dashboard/setting')

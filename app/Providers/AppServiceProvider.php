@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\DataTicket;
+use App\Models\DataTicketHc;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,11 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $jumlah_ticket_open = DataTicket::where('status', 'open')->count();
             $view->with('jumlah_ticket_open', $jumlah_ticket_open);
+        });
+
+        view()->composer('*', function ($view) {
+            $jumlah_ticket_open = DataTicketHc::where('status', 'open')->count();
+            $view->with('jumlah_ticket_hc_open', $jumlah_ticket_open);
         });
     }
 }

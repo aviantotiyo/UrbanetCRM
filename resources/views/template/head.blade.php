@@ -1,6 +1,6 @@
 <!doctype html>
 <html
-    lang="id"
+    lang="en"
     class="layout-navbar-fixed layout-menu-fixed layout-compact"
     dir="ltr"
     data-skin="default"

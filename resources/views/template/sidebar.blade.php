@@ -125,15 +125,18 @@
 
 
         <li class="menu-item {{ request()->routeIs('admin.dashboard.ticket.*') ? 'active open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-messages"></i>
-                <div data-i18n="Pelaporan">Pelaporan</div>
-                @if ($jumlah_ticket_open > 0)
-                &nbsp; <span class="badge badge-center rounded-pill bg-danger">
+            <a href="javascript:void(0);" class="menu-link menu-toggle d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="menu-icon tf-icons ti ti-messages me-2"></i>
+                    <div data-i18n="Pelaporan">Pelaporan</div>
+                </div>
+                @if ($jumlah_ticket_open > 0 || $jumlah_ticket_hc_open > 0 )
+                <span class="badge badge-center rounded-pill bg-danger">
                     <i class="ti ti-bell"></i>
                 </span>
                 @endif
             </a>
+
 
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.dashboard.ticket.index') ? 'active' : '' }}">
@@ -144,9 +147,12 @@
                         @endif
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="{{ route('admin.dashboard.ticket.index') }}" class="menu-link">
+                <li class="menu-item  {{ request()->routeIs('admin.dashboard.ticket_hc.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard.ticket_hc.index') }}" class="menu-link">
                         <div data-i18n="Data Instalasi">Data Instalasi</div>
+                        @if ($jumlah_ticket_hc_open > 0)
+                        <div class="badge bg-primary rounded-pill ms-auto">{{ $jumlah_ticket_hc_open }}</div>
+                        @endif
                     </a>
                 </li>
             </ul>

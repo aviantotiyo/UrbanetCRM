@@ -2,6 +2,12 @@
 @include('template.head')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
+
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
 
 </head>
 
@@ -60,34 +66,31 @@
                             <div class="card-body">
                                 <form action="{{ route('admin.dashboard.ticket.store') }}" method="POST">
                                     @csrf
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-4">
+                                    <div class="row gx-3 gy-4">
+                                        <div class="col-md-6 col-12">
+                                            <div class="mb-3">
                                                 <label for="select2Basic" class="form-label">Client</label>
                                                 <select id="select2Basic" name="client_id" class="select2 form-control form-control-lg" data-allow-clear="true" style="width: 100%">
                                                     <option value="">-- Pilih Client --</option>
                                                     @foreach($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->nopel }} - {{ $client->nama }} {{ $client->no_hp }} </option>
+                                                    <option value="{{ $client->id }}">{{ $client->nopel }} - {{ $client->nama }} {{ $client->no_hp }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
-
-                                            <div class="mb-4">
+                                            <div class="mb-3">
                                                 <label for="users_id" class="form-label">Pilih Installer</label>
                                                 <select name="users_id" class="form-control" required>
                                                     <option value="">-- Pilih Installer --</option>
                                                     @foreach($installers as $installer)
-                                                    <option value="{{ $installer->id }}">{{ $installer->id }} - {{ $installer->name }}</option>
+                                                    <option value="{{ $installer->id }}">{{ $installer->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
-
-
-                                            <div class="mb-4">
+                                            <div class="mb-3">
                                                 <label>Type Task</label>
-                                                <select name="type_task" class="form-control" required>
+                                                <select name="type_task" class="form-select" required>
                                                     <option value="Gangguan">Gangguan</option>
                                                     <option value="Customers Support">Customers Support</option>
                                                     <option value="Support NOC">Support NOC</option>
@@ -95,20 +98,21 @@
                                                 </select>
                                             </div>
 
-                                            <div class="mb-4">
+                                            <div class="mb-3">
                                                 <label>Detail Task</label>
                                                 <textarea name="detail_task" class="form-control"></textarea>
                                             </div>
 
-                                            <div class="mb-4">
+                                            <div class="mb-3">
                                                 <label>Note</label>
                                                 <textarea name="note" class="form-control"></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-4">
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="mb-3">
                                                 <label>Status</label>
-                                                <select name="status" class="form-control" required>
+                                                <select name="status" class="form-select" required>
                                                     <option value="open">Open</option>
                                                     <option value="cancel">Cancel</option>
                                                     <option value="process">Process</option>
@@ -116,42 +120,41 @@
                                                 </select>
                                             </div>
 
-                                            <div class="mb-4">
-                                                <label>Status Finish</label>
-                                                <input type="datetime-local" name="status_finish" class="form-control">
+                                            <div class="mb-3">
+                                                <label for="flatpickr-date" class="form-label">Status Finish</label>
+                                                <input type="text" class="form-control" name="status_finish" placeholder="YYYY-MM-DD" id="flatpickr-date" />
                                             </div>
 
-                                            <div class="mb-4">
+                                            <div class="mb-3">
                                                 <label>Solving</label>
-                                                <select name="solving" class="form-control">
+                                                <select name="solving" class="form-select">
                                                     <option value="">-- Pilih --</option>
                                                     <option value="Ganti Router">Ganti Router</option>
                                                     <option value="Ganti Adaptor">Ganti Adaptor</option>
                                                     <option value="Kabel Putus">Kabel Putus</option>
-                                                    <option value="setting NOC">Setting NOC</option>
+                                                    <option value="Setting NOC">Setting NOC</option>
+                                                    <option value="Lainnya">Lainnya</option>
                                                 </select>
                                             </div>
 
-                                            <div class="mb-4">
+                                            <div class="mb-3">
                                                 <label>Ticket Guarantee</label>
                                                 <select name="ticket_guarantee" class="form-control">
                                                     <option value="0">Tidak</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-success col-3">Simpan</button>
+
+                                        <div class="col-12  mt-4">
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
+
                         </div>
                     </div>
                     <!-- </div> -->
-
-                    <!-- Disini -->
-
-
-                    <!-- / Content -->
-
                     <div class="content-backdrop fade"></div>
                 </div>
                 <!-- Content wrapper -->
@@ -174,9 +177,14 @@
     @include('template.footer')
 
     <!-- Vendors JS -->
+    <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
+
+
+    <!-- Vendors JS -->
+    <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-pickers.js') }}"></script>
 
 
 </body>
