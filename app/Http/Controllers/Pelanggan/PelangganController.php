@@ -13,10 +13,8 @@ use Illuminate\Http\Request;
 use App\Models\DataClientLogs;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Aws\S3\S3Client;
@@ -236,6 +234,8 @@ class PelangganController extends Controller
                     'Key'    => $filename,
                     'Body'   => fopen($file->getRealPath(), 'r'),
                     'ACL'    => 'public-read',
+                    'ContentType' => $file->getMimeType(), // Contoh: 'image/jpeg'
+                    'ContentDisposition' => 'inline', //
                 ]);
 
                 $url = $result['ObjectURL'];
@@ -278,7 +278,7 @@ class PelangganController extends Controller
         }
 
         if ($client->foto_depan) {
-            /** @var Cloud $disk */
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
             $disk = Storage::disk('s3');
 
             // Pastikan URL dasar punya slash di akhir
@@ -347,6 +347,7 @@ class PelangganController extends Controller
             'kecamatanRaw',
             'pakets',
             'paketsForJs'
+
         ));
     }
 
@@ -381,8 +382,70 @@ class PelangganController extends Controller
             'active_user'  => ['nullable', 'date'],
             // 'status'       => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
             'note'         => ['nullable', 'string'],
-            'foto_depan'   => ['nullable', 'string', 'max:255'],
+            // 'foto_depan'   => ['nullable', 'string', 'max:255'],
+            'foto_depan' => ['nullable', 'file', 'image', 'max:2048'],
         ]);
+
+
+
+        // Proses upload file baru ke S3 sebelum update
+        if ($request->hasFile('foto_depan')) {
+            // Hapus file lama
+            if ($client->foto_depan) {
+                $oldPath = parse_url($client->foto_depan, PHP_URL_PATH);
+                $relativePath = ltrim(Str::after($oldPath, "/urbanet-dev/"), "/");
+
+                try {
+                    $s3 = new S3Client([
+                        'version' => 'latest',
+                        'region' => env('AWS_DEFAULT_REGION'),
+                        'endpoint' => 'https://is3.cloudhost.id',
+                        'use_path_style_endpoint' => true,
+                        'credentials' => [
+                            'key'    => env('AWS_ACCESS_KEY_ID'),
+                            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                        ],
+                    ]);
+                    $s3->deleteObject([
+                        'Bucket' => env('AWS_BUCKET'),
+                        'Key' => $relativePath,
+                    ]);
+                } catch (\Exception $e) {
+                    Log::warning('Gagal menghapus foto lama: ' . $e->getMessage());
+                }
+            }
+
+            // Upload file baru
+            try {
+                $file = $request->file('foto_depan');
+                $filename = 'client_photos/foto_depan_' . Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+                $s3 = new S3Client([
+                    'version' => 'latest',
+                    'region' => env('AWS_DEFAULT_REGION'),
+                    'endpoint' => 'https://is3.cloudhost.id',
+                    'use_path_style_endpoint' => true,
+                    'credentials' => [
+                        'key'    => env('AWS_ACCESS_KEY_ID'),
+                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                    ],
+                ]);
+
+                $result = $s3->putObject([
+                    'Bucket' => env('AWS_BUCKET'),
+                    'Key' => $filename,
+                    'Body' => fopen($file->getRealPath(), 'r'),
+                    'ACL' => 'public-read',
+                    'ContentType' => $file->getMimeType(), // Contoh: 'image/jpeg'
+                    'ContentDisposition' => 'inline', // 👈 Cegah auto-download
+                ]);
+
+                $validated['foto_depan'] = $result['ObjectURL']; // masukkan URL ke validated
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto_depan' => 'Upload gagal: ' . $e->getMessage()]);
+            }
+        }
+
 
         // Simpan data lama sebelum update
         $originalData = $client->getOriginal();
@@ -421,7 +484,8 @@ class PelangganController extends Controller
             'active_user'   => $validated['active_user'] ?? null,
             // 'status'        => $validated['status'],
             'note'          => $validated['note'] ?? null,
-            'foto_depan'    => $validated['foto_depan'] ?? null,
+            // 'foto_depan'    => $validated['foto_depan'] ?? null,
+            'foto_depan'    => $validated['foto_depan'] ?? $client->foto_depan,
         ]);
 
         // === ✅ Deteksi perubahan field ===
@@ -432,29 +496,50 @@ class PelangganController extends Controller
             }
         }
 
-        // Jika ada perubahan, simpan log
-        if (!empty($changedFields)) {
-            $user = Auth::user();
-            $actorId   = $user?->id;
-            $actorName = $user?->name ?? 'Unknown User';
 
-            DataClientLogs::create([
-                'users_id'  => $actorId,
-                'client_id' => $client->id,
-                'status'    => sprintf(
-                    'User %s telah memperbarui data pelanggan (%s - %s). Field diubah: %s',
-                    $actorName,
-                    $client->nama,
-                    $client->nopel,
-                    implode(', ', $changedFields)
-                ),
-            ]);
-        }
 
         return redirect()
             ->route('admin.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil diperbarui.');
     }
+
+    public function hapusFoto(string $id)
+    {
+        $client = DataClients::findOrFail($id);
+
+        if ($client->foto_depan) {
+            $oldPath = parse_url($client->foto_depan, PHP_URL_PATH);
+            $relativePath = ltrim(Str::after($oldPath, '/urbanet-dev/'), '/');
+
+            try {
+                $s3 = new S3Client([
+                    'version' => 'latest',
+                    'region' => env('AWS_DEFAULT_REGION'),
+                    'endpoint' => 'https://is3.cloudhost.id',
+                    'use_path_style_endpoint' => true,
+                    'credentials' => [
+                        'key' => env('AWS_ACCESS_KEY_ID'),
+                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                    ],
+                ]);
+
+                $s3->deleteObject([
+                    'Bucket' => env('AWS_BUCKET'),
+                    'Key'    => $relativePath,
+                ]);
+
+                $client->update(['foto_depan' => null]);
+
+                return back()->with('success', 'Foto berhasil dihapus.');
+            } catch (\Exception $e) {
+                Log::error('Gagal hapus foto dari S3: ' . $e->getMessage());
+                return back()->with('error', 'Gagal menghapus foto: ' . $e->getMessage());
+            }
+        }
+
+        return back()->with('warning', 'Tidak ada foto untuk dihapus.');
+    }
+
 
 
 

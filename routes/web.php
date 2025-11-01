@@ -102,6 +102,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/inactive/{id}', [\App\Http\Controllers\Pelanggan\InactiveController::class, 'softDelete'])
             ->whereUuid('id')
             ->name('inactive');
+
+        Route::delete('/hapus-foto/{id}', [PelangganController::class, 'hapusFoto'])
+            ->whereUuid('id')
+            ->name('hapus-foto');
     });
 
     // ===== ODP (master) =====
@@ -265,7 +269,3 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->whereUuid('id')
         ->name('odc_port.update');
 });
-
-// Route::get('/dashboard/pelanggan/ticket/client-search', [\App\Http\Controllers\Ticket\ComplianceController::class, 'clientSearch'])
-//     ->middleware('auth')
-//     ->name('admin.pelanggan.ticket.client_search');

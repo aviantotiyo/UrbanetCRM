@@ -246,7 +246,12 @@
 
                                             <div class="col-12">
                                                 <div class="text-muted small">Foto Depan</div>
-                                                <div class="fw-semibold">{{ $client->foto_depan ?: '—' }}</div>
+
+                                                @if ($client->foto_depan)
+                                                <img src="{{ $client->foto_depan }}" alt="Foto Depan" class="img-thumbnail" style="max-width: 200px;">
+                                                @else
+                                                <div class="text-danger small">Tidak ada foto tersedia.</div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

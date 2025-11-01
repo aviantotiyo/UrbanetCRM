@@ -43,11 +43,18 @@
                 </div>
 
               </div>
-              <div class="d-flex align-content-center flex-wrap gap-2">
-                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
-                <a href="{{ route('admin.pelanggan.index') }}" class="btn btn-outline-primary">← Kembali</a>
-              </div>
+
+
+              <form action="/admin/dashboard/pelanggan/hapus-foto/{{ $client->id }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus foto ini?');">
+                @csrf
+                @method('DELETE')
+
+                <div class="d-flex align-content-center flex-wrap gap-2">
+                  <button type="submit" class="btn btn-outline-danger">Hapus Image</button>
+                  <a href="{{ route('admin.pelanggan.index') }}" class="btn btn-outline-primary">← Kembali</a>
+                </div>
             </div>
+            </form>
 
             {{-- Alert error --}}
             {{-- Flash success --}}
@@ -58,7 +65,7 @@
             </div>
             @endif
 
-            <form id="client-edit-form" method="POST" action="{{ route('admin.pelanggan.update', $client->id) }}" novalidate>
+            <form id="client-edit-form" method="POST" action="{{ route('admin.pelanggan.update', $client->id) }}" enctype="multipart/form-data" novalidate>
               @csrf
               {{-- @method('POST')  <-- Tidak perlu jika rute update memang POST. Jika pakai PUT/PATCH, gunakan: @method('PUT') --}}
               <div class="row">
@@ -244,37 +251,55 @@
                         @error('note')<div class="invalid-feedback">{{ $message }}</div>@enderror
                       </div>
 
-                      <div class="mb-4">
-                        <label class="form-label">Foto Depan (path/URL)</label>
-                        <input name="foto_depan" type="text" class="form-control @error('foto_depan') is-invalid @enderror"
-                          value="{{ old('foto_depan', $client->foto_depan) }}" placeholder="uploads/foto_depan.jpg">
-                        @error('foto_depan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                      @if (empty($client->foto_depan))
+                      {{-- Tampilkan input upload hanya jika belum ada foto --}}
+                      <div class="mb-3">
+                        <label for="foto_depan" class="form-label">Upload Foto Depan Baru</label>
+                        <input type="file" name="foto_depan" id="foto_depan" class="form-control" accept="image/*">
                       </div>
+                      @else
+                      {{-- Jika sudah ada foto, tampilkan preview saja --}}
+                      <div class="mb-2">
+                        <label class="form-label">Foto Depan Saat Ini</label><br>
+                        <img src="{{ $client->foto_depan }}" alt="Foto Depan" class="img-thumbnail" style="max-width: 200px;">
+                      </div>
+                      @endif
+
                     </div>
                   </div>
-                </div>
-              </div>
             </form>
 
-            <!-- Content wrapper -->
-
-            <!-- / Layout page -->
 
 
-            <!-- Overlay -->
-            <div class="layout-overlay layout-menu-toggle"></div>
-
-            <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-            <div class="drag-target"></div>
-
-            <!-- / Layout wrapper -->
 
 
-            @include('template.js.edit-pelanggan')
-            @include('template.js.paket')
-            @include('template.js.no-hp')
-            @include('template.js.nik')
-            @include('template.footer')
+          </div>
+        </div>
+
+
+
+
+
+
+        <!-- Content wrapper -->
+
+        <!-- / Layout page -->
+
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
+
+        <!-- / Layout wrapper -->
+
+
+        @include('template.js.edit-pelanggan')
+        @include('template.js.paket')
+        @include('template.js.no-hp')
+        @include('template.js.nik')
+        @include('template.footer')
 </body>
 
 </html>
