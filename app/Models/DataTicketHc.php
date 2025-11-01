@@ -61,4 +61,10 @@ class DataTicketHc extends Model
     {
         return $this->hasOne(DataTeamSite::class, 'data_ticket_hc_id');
     }
+
+    // app/Models/DataTicketHC.php
+    public function images()
+    {
+        return $this->hasMany(DataImg::class, 'data_ticket_hc_id');
+    }
 }

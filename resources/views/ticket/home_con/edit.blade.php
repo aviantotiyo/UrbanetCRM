@@ -1,13 +1,13 @@
 @section('title', 'Edit/Process Data Instalasi Pelanggan')
 @include('template.head')
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+<!-- <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
 
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" /> -->
 
 </head>
 
@@ -123,7 +123,7 @@
                                             </div>
 
                                             <div class="mb-4">
-                                                <label class="form-label">Upload Dokumentasi HC</label>
+                                                <label class="form-label">Upload Dokumentasi Pekerjaan</label>
                                                 <input type="file" name="images[]" multiple class="form-control" accept="image/*">
                                                 <div class="form-text">Dapat mengunggah beberapa gambar sekaligus.</div>
                                             </div>
@@ -264,6 +264,26 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-md-12">
+                                @if ($ticket->images->count())
+                                <div class="card mt-4">
+                                    <h5 class="card-header">Dokumentasi Pekerjaan</h5>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            @foreach ($ticket->images as $img)
+                                            <div class="col-6 col-md-3">
+                                                <a href="{{ $img->url_img }}" target="_blank">
+                                                    <img src="{{ $img->url_img }}" class="img-thumbnail w-100" alt="Dok HC" style="height: 150px; object-fit: cover;">
+                                                </a>
+                                                <figcaption class="figure-caption">{{ \Carbon\Carbon::parse($img->created_at)->format('d/m/Y H:i') }}</figcaption>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
                         </div>
 
                     </div>
@@ -283,6 +303,13 @@
     </div>
     <!-- / Layout wrapper -->
 
+    <style>
+        .img-thumbnail:hover {
+            transform: scale(1.03);
+            transition: all 0.3s ease-in-out;
+            border-color: #0d6efd;
+        }
+    </style>
 
 
     @include('template.js.title-case')
@@ -291,13 +318,13 @@
 
     <!-- Vendors JS -->
     <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
+    <!-- <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-selects.js') }}"></script> -->
 
 
     <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-pickers.js') }}"></script>
+    <!-- <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-pickers.js') }}"></script> -->
 
 
 </body>

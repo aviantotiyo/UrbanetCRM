@@ -107,7 +107,7 @@ class HomeConController extends Controller
 
     public function edit($id)
     {
-        $ticket = DataTicketHC::with('teamSite.user', 'client')->findOrFail($id);
+        $ticket = DataTicketHC::with('teamSite.user', 'client', 'images')->findOrFail($id);
         $client = $ticket->client;
         $installers = User::where('role', 'Installer')->select('id', 'name')->get();
 
