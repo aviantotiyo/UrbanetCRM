@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Ticket;
 
 use App\Models\User;
+use Aws\S3\S3Client;
+use App\Models\DataImg;
 use App\Models\DataClients;
 use Illuminate\Support\Str;
 use App\Models\DataTeamSite;
 use App\Models\DataTicketHC;
 use Illuminate\Http\Request;
 use App\Models\DataTicketLog;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -122,6 +125,8 @@ class HomeConController extends Controller
             'panjang_kabel'    => 'nullable|string',
             'sambungan_kabel'  => 'nullable|string',
             'users_id'         => 'required|uuid|exists:users,id',
+            'images'           => 'nullable|array',
+            'images.*'         => 'file|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $ticket = DataTicketHC::findOrFail($id);
@@ -161,6 +166,50 @@ class HomeConController extends Controller
                 now()->format('d-m-Y H:i:s')
             ),
         ]);
+
+
+
+        // Proses upload gambar ke S3 jika ada
+        if ($request->hasFile('images')) {
+            $s3 = new S3Client([
+                'version'     => 'latest',
+                'region'      => env('AWS_DEFAULT_REGION', 'us-east-1'),
+                'endpoint'    => env('AWS_ENDPOINT'),
+                'credentials' => [
+                    'key'    => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
+                'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
+            ]);
+
+            foreach ($request->file('images') as $file) {
+                $filename = 'ticket_docs/doc_hc_' . Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+                try {
+                    $result = $s3->putObject([
+                        'Bucket' => env('AWS_BUCKET'),
+                        'Key'    => $filename,
+                        'Body'   => fopen($file->getRealPath(), 'r'),
+                        'ACL'    => 'public-read',
+                        'ContentType' => $file->getMimeType(),
+                        'ContentDisposition' => 'inline',
+                    ]);
+
+                    $url = $result['ObjectURL'];
+
+                    // Simpan ke database
+                    DataImg::create([
+                        'id'                => Str::uuid(),
+                        'client_id'         => $ticket->client_id,
+                        'data_ticket_hc_id' => $ticket->id,
+                        'url_img'           => $url,
+                        'tag'               => 'doc_hc',
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('Gagal upload gambar: ' . $e->getMessage());
+                }
+            }
+        }
 
         return redirect()->route('admin.dashboard.ticket_hc.index')
             ->with('success', 'Data berhasil diperbarui.');

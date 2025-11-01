@@ -68,7 +68,7 @@
                             <div class="col-12 col-md-6">
                                 <div class="card shadow-sm h-100">
                                     <div class="card-body">
-                                        <form action="{{ route('admin.dashboard.ticket_hc.update', $ticket->id) }}" method="POST">
+                                        <form action="{{ route('admin.dashboard.ticket_hc.update', $ticket->id) }}" enctype="multipart/form-data" method="POST">
                                             @csrf
                                             @method('PUT')
 
@@ -121,6 +121,13 @@
                                                 <label class="form-label">Catatan</label>
                                                 <textarea name="note" class="form-control" rows="4">{{ $ticket->note }}</textarea>
                                             </div>
+
+                                            <div class="mb-4">
+                                                <label class="form-label">Upload Dokumentasi HC</label>
+                                                <input type="file" name="images[]" multiple class="form-control" accept="image/*">
+                                                <div class="form-text">Dapat mengunggah beberapa gambar sekaligus.</div>
+                                            </div>
+
 
                                             <div class="">
                                                 <button type="submit" class="btn btn-primary">Update Instalasi</button>
