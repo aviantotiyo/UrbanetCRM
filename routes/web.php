@@ -26,6 +26,9 @@ use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 
+use App\Http\Controllers\UserBilling\UserAuthController;
+use App\Http\Controllers\UserBilling\UserDashboardController;
+
 // Public (no auth)
 Route::redirect('/', '/admin/login');
 
@@ -268,4 +271,23 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/dashboard/odc-port/edit/{id}', [OdcPortController::class, 'update'])
         ->whereUuid('id')
         ->name('odc_port.update');
+});
+
+// Step 1: Nomor HP
+Route::get('/pelanggan', [UserAuthController::class, 'showStep1'])->name('client.auth.step1');
+Route::post('/pelanggan', [UserAuthController::class, 'processStep1'])->name('client.auth.step1.submit');
+
+// Step 2: Verifikasi nama akhir
+Route::get('/pelanggan/verification', [UserAuthController::class, 'showStep2'])->name('client.auth.step2');
+Route::post('/pelanggan/verification', [UserAuthController::class, 'processStep2'])->name('client.auth.step2.submit');
+
+// Route::get('/pelanggan/dashboard', [UserDashboardController::class, 'index'])->name('client.dashboard');
+// Route::post('/pelanggan/logout', [UserAuthController::class, 'logout'])->name('client.logout');
+
+// Dashboard pelanggan (hanya jika lolos 2 step)
+Route::middleware('client.auth')->group(function () {
+    Route::get('/pelanggan/dashboard', [UserDashboardController::class, 'index'])->name('client.dashboard');
+    Route::post('/pelanggan/logout', [UserAuthController::class, 'logout'])->name('client.logout');
+
+    Route::get('/pelanggan/selectpayment', [UserDashboardController::class, 'selectPayment'])->name('client.selectpayment');
 });

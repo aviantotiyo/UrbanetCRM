@@ -62,7 +62,7 @@ class JobCreateBilling implements ShouldQueue
                 'client_id'      => $client->id,
                 'merchant_ref'   => $merchantRef,
                 'billing_create' => $today,
-                'status'         => 'PENDING',
+                'status'         => 'UNPAID',
                 'new_member'     => 1,
             ]);
         }
