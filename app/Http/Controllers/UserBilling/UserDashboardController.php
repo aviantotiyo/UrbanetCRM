@@ -28,6 +28,10 @@ class UserDashboardController extends Controller
         $clientId = session('client_auth_id');
         $client = DataClients::findOrFail($clientId);
 
+        if (is_null($client->email)) {
+            return redirect('/pelanggan/daftar-email');
+        }
+
         // Ambil daftar tagihan UNPAID
         $unpaidBillings = DataBilling::with('items')
             ->where('client_id', $clientId)

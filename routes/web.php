@@ -26,6 +26,7 @@ use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 
+use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
@@ -283,8 +284,6 @@ Route::post('/pelanggan', [UserAuthController::class, 'processStep1'])->name('cl
 Route::get('/pelanggan/verification', [UserAuthController::class, 'showStep2'])->name('client.auth.step2');
 Route::post('/pelanggan/verification', [UserAuthController::class, 'processStep2'])->name('client.auth.step2.submit');
 
-// Route::get('/pelanggan/dashboard', [UserDashboardController::class, 'index'])->name('client.dashboard');
-// Route::post('/pelanggan/logout', [UserAuthController::class, 'logout'])->name('client.logout');
 
 // Dashboard pelanggan (hanya jika lolos 2 step)
 Route::middleware('client.auth')->group(function () {
@@ -297,4 +296,7 @@ Route::middleware('client.auth')->group(function () {
 
     Route::get('/pelanggan/transaksi', [UserTransactionController::class, 'index'])->name('client.transaksi.index');
     Route::get('/pelanggan/transaksi/{id}', [UserTransactionController::class, 'show'])->name('client.transaksi.show');
+
+    Route::get('/pelanggan/daftar-email', [UserAddEmailController::class, 'showForm'])->name('client.add_email');
+    Route::post('/pelanggan/daftar-email', [UserAddEmailController::class, 'storeEmail'])->name('client.add_email.store');
 });

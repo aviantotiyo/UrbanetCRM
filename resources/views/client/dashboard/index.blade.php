@@ -15,6 +15,20 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y ">
                         <div class="col-md-6 col-xxl-4 mb-6">
+                            @if (session('success'))
+                            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                {!! session('success') !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+
+                            {{-- (Opsional) Alert error umum --}}
+                            @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {!! session('error') !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
                             <div class="card h-100">
                                 <div class="card-body">
                                     <div class="bg-label-primary rounded text-center mb-4 pt-4">
