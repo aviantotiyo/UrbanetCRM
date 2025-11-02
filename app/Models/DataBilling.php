@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Support\Carbon;
 
 class DataBilling extends Model
 {
@@ -46,6 +47,8 @@ class DataBilling extends Model
         'expired_time'    => 'datetime',
         'billing_create'  => 'datetime',
         'billing_paid'    => 'datetime',
+        'instructions' => 'array',
+        'expired_time' => 'datetime',
     ];
 
     // === Relasi ke Client ===
@@ -72,6 +75,11 @@ class DataBilling extends Model
         return $q->where('status', 'PAID');
     }
 
+    public function scopeUnpaid($q)
+    {
+        return $q->where('status', 'UNPAID');
+    }
+
     public function scopePending($q)
     {
         return $q->where('status', 'PENDING');
@@ -80,5 +88,22 @@ class DataBilling extends Model
     public function scopeExpired($q)
     {
         return $q->where('status', 'EXPIRED');
+    }
+
+    public function updateFromTripayResponse(array $tripay)
+    {
+        $this->reference       = $tripay['reference'];
+        $this->payment_method  = $tripay['payment_method'];
+        $this->payment_name    = $tripay['payment_name'];
+        $this->total_amount    = $tripay['amount'];
+        $this->fee_customer    = $tripay['total_fee'];
+        $this->amount_received = $tripay['amount_received'];
+        $this->pay_code        = $tripay['pay_code'];
+        // $this->qr_url        = $tripay['qr_url'];
+        $this->status          = $tripay['status'];
+        $this->expired_time    = Carbon::createFromTimestamp($tripay['expired_time']);
+        $this->instructions    = $tripay['instructions']; // pastikan field ini bertipe `json` di DB
+
+        return $this->save();
     }
 }

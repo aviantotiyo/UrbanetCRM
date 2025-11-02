@@ -28,6 +28,7 @@ use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 
 use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
+use App\Http\Controllers\UserBilling\UserAddPaymentController;
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -290,4 +291,6 @@ Route::middleware('client.auth')->group(function () {
     Route::post('/pelanggan/logout', [UserAuthController::class, 'logout'])->name('client.logout');
 
     Route::get('/pelanggan/selectpayment', [UserDashboardController::class, 'selectPayment'])->name('client.selectpayment');
+
+    Route::get('/pelanggan/payment/{id}', [UserAddPaymentController::class, 'process'])->name('billing.payment.process');
 });

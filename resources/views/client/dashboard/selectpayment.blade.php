@@ -344,54 +344,55 @@
                                     </ul>
 
 
+                                    <form action="{{ route('billing.payment.process', ['id' => $billing->merchant_ref]) }}" method="GET">
 
-                                    <h5 class="mb-2">Pilih Pembayaran</h5>
-                                    <div class="demo-inline-spacing mt-4">
-                                        <div class="list-group">
-                                            @foreach ($channels as $channel)
-                                            <label class="list-group-item d-flex align-items-center">
-                                                <input
-                                                    class="form-check-input me-2 payment-option"
-                                                    type="radio"
-                                                    name="payment_channel"
-                                                    value="{{ $channel['code'] }}"
-                                                    data-flat="{{ $channel['total_fee']['flat'] }}"
-                                                    data-percent="{{ $channel['total_fee']['percent'] }}"
-                                                    {{ $loop->first ? 'checked' : '' }} required>
-                                                <div class="d-flex align-items-center">
-                                                    <img src="{{ $channel['icon_url'] }}" alt="{{ $channel['name'] }}" width="28" class="me-3">
-                                                    <span>{{ $channel['name'] }}</span>
-                                                </div>
-                                            </label>
-                                            @endforeach
+                                        <h5 class="mb-2">Pilih Pembayaran</h5>
+                                        <div class="demo-inline-spacing mt-4">
+                                            <div class="list-group">
+                                                @foreach ($channels as $channel)
+                                                <label class="list-group-item d-flex align-items-center">
+                                                    <input
+                                                        class="form-check-input me-2 payment-option"
+                                                        type="radio"
+                                                        name="method"
+                                                        value="{{ $channel['code'] }}"
+                                                        data-flat="{{ $channel['total_fee']['flat'] }}"
+                                                        data-percent="{{ $channel['total_fee']['percent'] }}"
+                                                        {{ $loop->first ? 'checked' : '' }}
+                                                        required>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ $channel['icon_url'] }}" alt="{{ $channel['name'] }}" width="28" class="me-3">
+                                                        <span>{{ $channel['name'] }}</span>
+                                                    </div>
+                                                </label>
+                                                @endforeach
+
+                                            </div>
 
                                         </div>
-
-                                    </div>
                                 </div>
 
-
-
-                                <!-- @if (!empty($response))
-                                <div class="card my-4">
-                                    <div class="card-header">
-                                        <strong>Debug Response JSON dari Tripay</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <pre>{{ print_r(json_decode($response, true), true) }}</pre>
-                                    </div>
-                                </div>
-                                @endif -->
-
+                                <input type="hidden" name="flat" id="flatFee">
+                                <input type="hidden" name="percent" id="percentFee">
 
                                 <div class="card-body">
-                                    <a href="javascript:void(0);" class="btn btn-primary w-100">Bayar Tagihan</a>
+                                    <button type="submit" class="btn btn-primary w-100">Bayar Tagihan</button>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <!-- / Content -->
-
+                    @if (!empty($response))
+                    <div class="card my-4">
+                        <div class="card-header">
+                            <strong>Debug Response JSON dari Tripay</strong>
+                        </div>
+                        <div class="card-body">
+                            <pre>{{ print_r(json_decode($response, true), true) }}</pre>
+                        </div>
+                    </div>
+                    @endif
 
 
                     <div class="content-backdrop fade"></div>
@@ -411,6 +412,7 @@
 
 
     @include('client.template.count')
+    @include('client.template.select')
 
     <script src="../../assets/vendor/js/bootstrap.js"></script>
     <script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>

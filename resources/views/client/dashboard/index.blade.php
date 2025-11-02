@@ -301,7 +301,7 @@
 
                                 </div>
                                 <div class="card-body">
-                                    <a href="javascript:void(0);" class="btn btn-primary w-100">Bayar Tagihan</a>
+                                    <a href="{{ route('client.selectpayment') }}" class="btn btn-primary w-100">Bayar Tagihan</a>
                                 </div>
                             </div>
                         </div>
