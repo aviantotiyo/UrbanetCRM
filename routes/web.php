@@ -23,12 +23,13 @@ use App\Http\Controllers\Billing\ManualPayController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
 
 use App\Http\Controllers\Pelanggan\PelangganController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Pelanggan\ProcessPelangganController;
-
 use App\Http\Controllers\UserBilling\UserAuthController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+
 use App\Http\Controllers\UserBilling\UserDashboardController;
+use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
+use App\Http\Controllers\UserBilling\UserTransactionController;
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -293,4 +294,7 @@ Route::middleware('client.auth')->group(function () {
     Route::get('/pelanggan/selectpayment', [UserDashboardController::class, 'selectPayment'])->name('client.selectpayment');
 
     Route::get('/pelanggan/payment/{id}', [UserAddPaymentController::class, 'process'])->name('billing.payment.process');
+
+    Route::get('/pelanggan/transaksi', [UserTransactionController::class, 'index'])->name('client.transaksi.index');
+    Route::get('/pelanggan/transaksi/{id}', [UserTransactionController::class, 'show'])->name('client.transaksi.show');
 });

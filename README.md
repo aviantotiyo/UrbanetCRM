@@ -29,6 +29,10 @@ user setting
 
 -   atur password, foto dan lain lain
 
+Billing User
+
+-   kondisi bila nilai point lebih besar auto payment
+
 jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"
 
     cara pakai role auth di routes:

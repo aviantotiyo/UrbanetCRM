@@ -110,15 +110,23 @@ class UserAddPaymentController extends Controller
 
         $responseData = $response->json();
 
-        if (isset($responseData['success']) && $responseData['success']) {
-            $billing->updateFromTripayResponse($responseData['data']);
+        // if (isset($responseData['success']) && $responseData['success']) {
+        //     $billing->updateFromTripayResponse($responseData['data']);
+        // }
+
+        // return view('client.dashboard.paymentdebug', [
+        //     'response' => $response->json(),
+        //     'data' => $data,
+        //     'fee' => $fee,
+        //     'finalTotal' => $finalTotal
+        // ]);
+
+        // Jika Tripay respon success, arahkan ke halaman transaksi detail
+        if (!empty($responseData['success']) && $responseData['success'] === true) {
+            return redirect()->route('client.transaksi.show', ['id' => $merchantRef]);
         }
 
-        return view('client.dashboard.paymentdebug', [
-            'response' => $response->json(),
-            'data' => $data,
-            'fee' => $fee,
-            'finalTotal' => $finalTotal
-        ]);
+        // Jika gagal, tampilkan pesan error JSON untuk debugging
+        return back()->withErrors(['tripay' => $responseData['message'] ?? 'Gagal membuat transaksi di Tripay.']);
     }
 }

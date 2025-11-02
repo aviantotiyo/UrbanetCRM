@@ -92,15 +92,15 @@ class DataBilling extends Model
 
     public function updateFromTripayResponse(array $tripay)
     {
-        $this->reference       = $tripay['reference'];
-        $this->payment_method  = $tripay['payment_method'];
-        $this->payment_name    = $tripay['payment_name'];
-        $this->total_amount    = $tripay['amount'];
-        $this->fee_customer    = $tripay['total_fee'];
-        $this->amount_received = $tripay['amount_received'];
-        $this->pay_code        = $tripay['pay_code'];
-        // $this->qr_url        = $tripay['qr_url'];
-        $this->status          = $tripay['status'];
+        $this->reference       = $tripay['reference'] ?? null;
+        $this->payment_method  = $tripay['payment_method'] ?? null;
+        $this->payment_name    = $tripay['payment_name'] ?? null;
+        $this->total_amount    = $tripay['amount'] ?? null;
+        $this->fee_customer    = $tripay['total_fee'] ?? null;
+        $this->amount_received = $tripay['amount_received'] ?? null;
+        $this->pay_code        = $tripay['pay_code'] ?? null;
+        $this->qr_url          = $tripay['qr_url'] ?? null; // akan null jika tidak ada
+        $this->status          = $tripay['status'] ?? 'UNPAID';
         $this->expired_time    = Carbon::createFromTimestamp($tripay['expired_time']);
         $this->instructions    = $tripay['instructions']; // pastikan field ini bertipe `json` di DB
 

@@ -9,6 +9,8 @@ use App\Models\DataBilling;
 
 class UserPaymentCallbackController extends Controller
 {
+    // URL call back [domain]/api/payment/callback
+
     protected $privateKey;
 
     public function __construct()

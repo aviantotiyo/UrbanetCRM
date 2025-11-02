@@ -383,7 +383,7 @@
                         </div>
                     </div>
                     <!-- / Content -->
-                    @if (!empty($response))
+                    <!-- @if (!empty($response))
                     <div class="card my-4">
                         <div class="card-header">
                             <strong>Debug Response JSON dari Tripay</strong>
@@ -392,7 +392,7 @@
                             <pre>{{ print_r(json_decode($response, true), true) }}</pre>
                         </div>
                     </div>
-                    @endif
+                    @endif -->
 
 
                     <div class="content-backdrop fade"></div>
