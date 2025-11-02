@@ -1,4 +1,6 @@
+@section('title', 'Detail Transaksi')
 @include('client.template.head')
+
 </head>
 
 <body>

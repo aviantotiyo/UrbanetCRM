@@ -1,4 +1,6 @@
+@section('title', 'Tambah Email Pelanggan')
 @include('client.template.head')
+
 </head>
 
 <body>

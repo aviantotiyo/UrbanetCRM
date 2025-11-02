@@ -46,7 +46,7 @@ class UserAddEmailController extends Controller
             // Code 5 berarti valid
             if ($code !== "5") {
                 return back()->withErrors([
-                    'email' => "Email tidak valid atau tidak dapat diverifikasi. (Status: {$status})"
+                    'email' => "Email tidak valid atau tidak dapat diverifikasi."
                 ])->withInput();
             }
 
