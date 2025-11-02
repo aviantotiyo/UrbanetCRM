@@ -294,7 +294,7 @@
                                         </li>
                                         @endforeach
                                         @empty
-                                        <li class="text-muted">Tidak ada tagihan yang belum dibayar.</li>
+                                        <p class="text-muted">Tidak ada tagihan.</p>
                                         @endforelse
                                     </ul>
 
