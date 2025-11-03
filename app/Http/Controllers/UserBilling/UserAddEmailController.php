@@ -14,6 +14,12 @@ class UserAddEmailController extends Controller
     {
         $clientId = session('client_auth_id');
         $client = DataClients::findOrFail($clientId);
+
+        // Cek jika email sudah ada → redirect ke dashboard
+        if (!is_null($client->email)) {
+            return redirect()->route('client.dashboard');
+        }
+
         return view('client.auth.add_email',  compact('client'));
     }
 

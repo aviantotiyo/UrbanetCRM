@@ -85,6 +85,73 @@
 
                                             </div>
                                         </div>
+
+                                        @if($billing->status !== 'UNPAID')
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <ul class="p-0 m-0 mb-4 list-unstyled">
+                                                    @forelse ($unpaidBillings as $billing)
+                                                    @foreach ($billing->items as $item)
+                                                    <li class="d-flex mb-3 border-bottom pb-2">
+                                                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                            <div class="me-2">
+                                                                <h6 class="mb-0">Tagihan {{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</h6>
+                                                                <small class="text-body d-block">{{ $billing->merchant_ref }}</small>
+                                                            </div>
+                                                            <div class="user-progress d-flex align-items-center gap-1">
+                                                                <p class="mb-0">Rp {{ number_format($item->amount, 0, ',', '.') }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    @endforeach
+                                                    @empty
+                                                    <li class="text-muted text-center">Tidak ada tagihan yang belum dibayar.</li>
+                                                    @endforelse
+
+                                                    @forelse ($unpaidBillings as $billing)
+                                                    @foreach ($billing->items as $item)
+                                                    @if ($item->denda > 0)
+                                                    <li class="d-flex mb-3 border-bottom pb-2">
+                                                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                            <div class="me-2">
+                                                                <h6 class="mb-0">Denda</h6>
+                                                                <small class="text-body d-block">{{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</small>
+                                                            </div>
+                                                            <div class="user-progress d-flex align-items-center gap-1">
+                                                                <p class="mb-0 ">Rp {{ number_format($item->denda, 0, ',', '.') }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    @endif
+                                                    @endforeach
+                                                    @empty
+                                                    @endforelse
+
+
+                                                    @forelse ($unpaidBillings as $billing)
+                                                    @foreach ($billing->items as $item)
+                                                    @if ($item->discount > 0)
+                                                    <li class="d-flex mb-3 border-bottom pb-2">
+                                                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                            <div class="me-2">
+                                                                <h6 class="mb-0">Discount</h6>
+                                                                <small class="text-body d-block">{{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</small>
+                                                            </div>
+                                                            <div class="user-progress d-flex align-items-center gap-1">
+                                                                <p class="mb-0 text-success">Rp {{ number_format($item->discount, 0, ',', '.') }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    @endif
+                                                    @endforeach
+                                                    @empty
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        @endif
+
+
                                         @if($billing->status !== 'PAID')
                                         <hr>
                                         <h6 class="mb-2">Cara Bayar:</h6>

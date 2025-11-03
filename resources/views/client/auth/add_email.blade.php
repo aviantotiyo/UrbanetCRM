@@ -47,7 +47,7 @@
                                 </div>
                                 @endif
                                 <div class="card-body">
-                                    <h5 class="mb-3">Lengkapi Email Anda</h5>
+                                    <h5 class="mb-3">Lengkapi Dahulu Email Anda</h5>
                                     <p>Untuk melanjutkan pembayaran, lengkapi alamat email terlebih dahulu. Proses ini hanya satu kali saja.</p>
 
                                     <form method="POST" action="{{ route('client.add_email.store') }}">

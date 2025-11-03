@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\UserBilling;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\DataClients;
 use App\Models\DataBilling;
+use App\Models\DataClients;
+use Illuminate\Http\Request;
+use App\Jobs\JobEmailTaxPaid;
+use App\Http\Controllers\Controller;
 
 class UserPayPointController extends Controller
 {
     public function process(Request $request)
     {
         $clientId = session('client_auth_id');
+        $client = DataClients::findOrFail($clientId);
+
+        if (is_null($client->email)) {
+            return redirect('/pelanggan/daftar-email');
+        }
 
         // Cek apakah session tersedia
         if (!$clientId) {
@@ -127,6 +133,7 @@ class UserPayPointController extends Controller
             'status'          => 'PAID',
             'total_amount'    => 0,
             'fee_merchant'    => 0,
+            'fee_customer'    => 0,
             'tax'             => 0,
             'after_tax'       => 0,
             'billing_paid'    => now(),
@@ -141,6 +148,8 @@ class UserPayPointController extends Controller
         $client->update([
             'point' => $request->input('sisaPointLabel'),
         ]);
+
+        JobEmailTaxPaid::dispatch($billing->id)->onQueue('emails');
 
         return redirect()->route('client.transaksi.show', ['id' => $billing->merchant_ref])
             ->with('success', 'Pembayaran berhasil dengan poin.');

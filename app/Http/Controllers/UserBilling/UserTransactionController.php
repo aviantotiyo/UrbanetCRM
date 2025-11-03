@@ -35,6 +35,12 @@ class UserTransactionController extends Controller
             ->where('merchant_ref', $id)
             ->firstOrFail();
 
-        return view('client.dashboard.detail_transaksi', compact('client', 'billing'));
+        $unpaidBillings = DataBilling::with('items')
+            ->where('client_id', $clientId)
+            // ->where('status', 'UNPAID')
+            ->get();
+
+
+        return view('client.dashboard.detail_transaksi', compact('client', 'billing', 'unpaidBillings'));
     }
 }
