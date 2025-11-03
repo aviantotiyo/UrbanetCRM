@@ -93,9 +93,11 @@
 
 
                                 </div>
+                                @if($unpaidBillings->isNotEmpty())
                                 <div class="card-body">
                                     <a href="{{ route('client.selectpayment') }}" class="btn btn-primary w-100">Bayar Tagihan</a>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>

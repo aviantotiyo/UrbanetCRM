@@ -38,6 +38,11 @@ class UserDashboardController extends Controller
             ->where('status', 'UNPAID')
             ->get();
 
+        // Jika tidak ada tagihan UNPAID, redirect ke dashboard
+        if ($unpaidBillings->isEmpty()) {
+            return redirect()->route('client.dashboard');
+        }
+
         // === Integrasi ke API Tripay ===
         $apiKey = env('TRIPAY_API_KEY'); // pastikan sudah ditambah di .env
         $baseUrl = env('TRIPAY_BASE_URL'); // dari .env

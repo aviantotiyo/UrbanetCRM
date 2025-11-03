@@ -30,11 +30,12 @@
                                         <li class="d-flex mb-2">
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                 <div class="me-2">
-                                                    <h6 class="mb-0"><a href="{{ route('client.transaksi.show',  $billing->merchant_ref)  }}">Tagihan {{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</a></h6>
+                                                    <h6 class="mb-0"><a href="{{ route('client.transaksi.show',  $billing->merchant_ref)  }}">
+                                                            Tagihan {{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</a></h6>
                                                     <small class="text-body d-block">{{ $billing->merchant_ref }}</small>
                                                 </div>
                                                 <div class="user-progress d-flex align-items-center gap-1">
-                                                    <p class="mb-0">Rp {{ number_format($item->amount, 0, ',', '.') }}</p>
+                                                    <p class="mb-0">Rp {{ number_format($item->amount, 0, ',', '.') }} <span class="badge rounded-pill bg-label-primary">{{ $billing->status }}</span></p>
                                                 </div>
                                             </div>
                                         </li>
