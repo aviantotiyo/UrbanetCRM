@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Models\DataBilling;
+use App\Jobs\JobEmailTaxPaid;
 
 class UserPaymentCallbackController extends Controller
 {
@@ -69,6 +70,8 @@ class UserPaymentCallbackController extends Controller
                 $billing->status = $status;
                 $billing->billing_paid = now(); // Set waktu pembayaran
                 $billing->save();
+                // JobEmailTaxPaid::dispatch($billing->id);
+                JobEmailTaxPaid::dispatch($billing->id)->onQueue('emails');
                 break;
             case 'EXPIRED':
             case 'FAILED':
