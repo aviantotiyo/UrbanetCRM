@@ -20,10 +20,17 @@ class UserAuthController extends Controller
             'no_hp' => 'required|string'
         ]);
 
-        $client = DataClients::where('no_hp', $request->no_hp)->first();
+        $input = $request->no_hp;
+
+        // Coba cari berdasarkan no_hp atau nopel
+        $client = DataClients::where('no_hp', $input)
+            ->orWhere('nopel', $input)
+            ->first();
 
         if (!$client) {
-            return back()->withErrors(['no_hp' => 'Nomor HP tidak ditemukan'])->withInput();
+            return back()->withErrors([
+                'no_hp' => 'Nomor HP atau No. Pelanggan tidak ditemukan'
+            ])->withInput();
         }
 
         // Simpan session sementara
@@ -34,6 +41,7 @@ class UserAuthController extends Controller
 
         return redirect()->route('client.auth.step2');
     }
+
 
     public function showStep2()
     {

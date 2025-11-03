@@ -28,6 +28,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 
 use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
+use App\Http\Controllers\UserReferral\UserReferralController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserBilling\UserTransactionController;
@@ -299,4 +300,8 @@ Route::middleware('client.auth')->group(function () {
 
     Route::get('/pelanggan/daftar-email', [UserAddEmailController::class, 'showForm'])->name('client.add_email');
     Route::post('/pelanggan/daftar-email', [UserAddEmailController::class, 'storeEmail'])->name('client.add_email.store');
+
+    Route::get('/pelanggan/referral', [UserReferralController::class, 'index'])->name('client.referral.index');
+    Route::get('/pelanggan/referral/tambah', [UserReferralController::class, 'create'])->name('client.referral.create');
+    Route::post('/pelanggan/referral/tambah', [UserReferralController::class, 'store'])->name('client.referral.store');
 });
