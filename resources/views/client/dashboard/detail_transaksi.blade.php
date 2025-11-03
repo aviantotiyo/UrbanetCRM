@@ -70,30 +70,49 @@
                                                     <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-clock-dollar ti-28px"></i></span>
                                                 </div>
                                                 <div>
+                                                    @if ($billing->status === 'PAID')
+                                                    <h6 class="mb-0 text-nowrap">Tgl Bayar</h6>
+                                                    <small>
+                                                        {{ \Carbon\Carbon::parse($billing->billing_paid)->format('d/m/y H:i') }} WIB
+                                                    </small>
+                                                    @else
                                                     <h6 class="mb-0 text-nowrap">Exp Code</h6>
-                                                    <small>{{ \Carbon\Carbon::parse($billing->expired_time)->format('d/m/y H:i') }}
-                                                        WIB</small>
+                                                    <small>
+                                                        {{ \Carbon\Carbon::parse($billing->expired_time)->format('d/m/y H:i') }} WIB
+                                                    </small>
+                                                    @endif
                                                 </div>
+
                                             </div>
                                         </div>
+                                        @if($billing->status !== 'PAID')
                                         <hr>
                                         <h6 class="mb-2">Cara Bayar:</h6>
+
                                         @php
                                         $instructions = is_string($billing->instructions)
                                         ? json_decode($billing->instructions, true)
                                         : $billing->instructions;
                                         @endphp
+
                                         @if(is_array($instructions))
                                         <div class="accordion mt-1" id="accordionExample">
                                             @foreach ($instructions as $index => $instruction)
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="heading{{ $index }}">
-                                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion{{ $index }}" aria-expanded="false" aria-controls="accordion{{ $index }}">
+                                                    <button type="button" class="accordion-button collapsed"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#accordion{{ $index }}"
+                                                        aria-expanded="false"
+                                                        aria-controls="accordion{{ $index }}">
                                                         {{ $instruction['title'] ?? 'Instruksi Pembayaran #' . ($index+1) }}
                                                     </button>
                                                 </h2>
 
-                                                <div id="accordion{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
+                                                <div id="accordion{{ $index }}"
+                                                    class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                                                    aria-labelledby="heading{{ $index }}"
+                                                    data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
                                                         @if(isset($instruction['steps']) && is_array($instruction['steps']))
                                                         <ol class="mb-0">
@@ -112,7 +131,7 @@
                                         @else
                                         <p>Tidak ada instruksi yang tersedia.</p>
                                         @endif
-
+                                        @endif
 
                                     </div>
 
