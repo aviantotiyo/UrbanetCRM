@@ -43,6 +43,20 @@ class UserDashboardController extends Controller
             return redirect()->route('client.dashboard');
         }
 
+
+        // Hitung total nilai tagihan dari item
+        $totalAmount = 0;
+        foreach ($unpaidBillings as $billing) {
+            foreach ($billing->items as $item) {
+                $totalAmount += ($item->amount + $item->denda - $item->discount);
+            }
+        }
+
+        // Jika point cukup → redirect ke bayar pakai point
+        if ($client->point >= $totalAmount) {
+            return redirect('/pelanggan/paywithpoint');
+        }
+
         // === Integrasi ke API Tripay ===
         $apiKey = env('TRIPAY_API_KEY'); // pastikan sudah ditambah di .env
         $baseUrl = env('TRIPAY_BASE_URL'); // dari .env

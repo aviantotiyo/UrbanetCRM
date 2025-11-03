@@ -101,14 +101,15 @@
                                         @endforelse
 
                                         @if ($client->point > 0)
-                                        <li class="d-flex mb-2">
+                                        <li class="d-flex mb-3 border-bottom pb-2">
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                 <div class="me-2">
                                                     <h6 class="mb-0">Loyalti Point</h6>
                                                     <small class="text-body d-block">potongan point</small>
                                                 </div>
                                                 <div class="user-progress d-flex align-items-center gap-1">
-                                                    <p class="mb-0 text-success">Rp {{ number_format($client->point, 0, ',', '.') }}</p>
+                                                    <p class="mb-0 text-success" id="pointDisplay">Rp 0</p>
+
                                                 </div>
                                             </div>
                                         </li>
@@ -118,14 +119,15 @@
                                         <li class="d-flex mb-2">
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                 <div class="me-2">
-                                                    <h6 class="mb-0">Total</h6>
+                                                    <h6 class="mb-0">Total Bayar</h6>
                                                     <small class="text-body d-block" id="bank-fee-label">
                                                         admin bank Rp {{ number_format($channels[0]['total_fee']['flat'] + ($amountTotal * ($channels[0]['total_fee']['percent'] / 100)), 0, ',', '.') }}
                                                     </small>
 
                                                 </div>
                                                 <div class="user-progress d-flex align-items-center gap-1">
-                                                    <p class="mb-0 fw-semibold" id="final-total">Rp {{ number_format($finalTotal, 0, ',', '.') }}</p>
+                                                    <p class="mb-0" id="totalDisplay">Menghitung...</p>
+                                                    <!-- <p class="mb-0 fw-semibold" id="final-total">Rp {{ number_format($finalTotal, 0, ',', '.') }}</p> -->
                                                 </div>
                                             </div>
                                         </li>
@@ -162,7 +164,7 @@
 
                                 <input type="hidden" name="flat" id="flatFee">
                                 <input type="hidden" name="percent" id="percentFee">
-
+                                <input type="hidden" name="point_used" id="pointUsed">
                                 <div class="card-body">
                                     <button type="submit" class="btn btn-primary w-100">Bayar Tagihan</button>
                                 </div>
@@ -200,6 +202,7 @@
 
 
     @include('client.template.count')
+    <!-- @include('client.template.calculatepoint') -->
     @include('client.template.select')
 
     <script src="../../assets/vendor/js/bootstrap.js"></script>

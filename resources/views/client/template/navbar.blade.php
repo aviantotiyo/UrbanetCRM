@@ -82,15 +82,15 @@
                          </a>
                      </li>
 
-                     <!-- <li>
+                     <li>
                          <a class="dropdown-item" href="#">
                              <span class="d-flex align-items-center align-middle">
-                                 <i class="flex-shrink-0 ti ti-file-dollar me-3 ti-md"></i>
-                                 <span class="flex-grow-1 align-middle">Billing</span>
-                                 <span class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">4</span>
+                                 <i class="flex-shrink-0 ti ti-heart me-3 ti-md"></i>
+                                 <span class="flex-grow-1 align-middle">Point</span>
+                                 <span class="flex-shrink-0 badge bg-primary d-flex align-items-center justify-content-center">{{ number_format($client->point, 0, ',', '.') }}</span>
                              </span>
                          </a>
-                     </li> -->
+                     </li>
                      <li>
                          <div class="dropdown-divider my-1 mx-n2"></div>
                      </li>

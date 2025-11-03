@@ -27,6 +27,7 @@ use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 
 use App\Http\Controllers\UserBilling\UserAddEmailController;
+use App\Http\Controllers\UserBilling\UserPayPointController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\UserReferral\UserReferralController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
@@ -304,4 +305,5 @@ Route::middleware('client.auth')->group(function () {
     Route::get('/pelanggan/referral', [UserReferralController::class, 'index'])->name('client.referral.index');
     Route::get('/pelanggan/referral/tambah', [UserReferralController::class, 'create'])->name('client.referral.create');
     Route::post('/pelanggan/referral/tambah', [UserReferralController::class, 'store'])->name('client.referral.store');
+    Route::get('/pelanggan/paywithpoint', [UserPayPointController::class, 'process'])->name('client.paywithpoint');
 });
