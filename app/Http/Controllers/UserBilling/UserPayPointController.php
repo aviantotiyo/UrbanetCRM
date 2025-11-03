@@ -95,4 +95,54 @@ class UserPayPointController extends Controller
             'remainingPoint'
         ));
     }
+
+    public function redeemPoint(Request $request)
+    {
+        $clientId = session('client_auth_id');
+
+        // Cek session
+        if (!$clientId) {
+            return redirect('/pelanggan'); // fallback jika session kosong
+        }
+
+        // Validasi input form
+        $request->validate([
+            'totalPayment'   => 'required|numeric|min:0',
+            'pointUsedLabel' => 'required|numeric|min:0',
+            'sisaPointLabel' => 'required|numeric|min:0',
+        ]);
+
+        // Ambil data client
+        $client = DataClients::findOrFail($clientId);
+
+        $billing = DataBilling::where('client_id', $clientId)
+            ->where('merchant_ref', $request->merchant_ref)
+            ->firstOrFail();
+
+        $billing->update([
+            'payment_method'  => 'POINT',
+            'payment_name'    => 'Redeem Point',
+            'point'           => $request->input('pointUsedLabel'),
+            'amount_received' => $request->input('totalPayment'),
+            'status'          => 'PAID',
+            'total_amount'    => 0,
+            'fee_merchant'    => 0,
+            'tax'             => 0,
+            'after_tax'       => 0,
+            'billing_paid'    => now(),
+            'reference'       => null,
+            'pay_code'        => null,
+            'qr_url'          => null,
+            'instructions'    => null,
+            'expired_time'    => null,
+        ]);
+
+        // Update sisa poin client
+        $client->update([
+            'point' => $request->input('sisaPointLabel'),
+        ]);
+
+        return redirect()->route('client.transaksi.show', ['id' => $billing->merchant_ref])
+            ->with('success', 'Pembayaran berhasil dengan poin.');
+    }
 }

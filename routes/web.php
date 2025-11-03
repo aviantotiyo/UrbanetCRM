@@ -306,4 +306,6 @@ Route::middleware('client.auth')->group(function () {
     Route::get('/pelanggan/referral/tambah', [UserReferralController::class, 'create'])->name('client.referral.create');
     Route::post('/pelanggan/referral/tambah', [UserReferralController::class, 'store'])->name('client.referral.store');
     Route::get('/pelanggan/paywithpoint', [UserPayPointController::class, 'process'])->name('client.paywithpoint');
+
+    Route::post('/pelanggan/redeem-point', [UserPayPointController::class, 'redeemPoint'])->name('client.billing.redeempoint');
 });

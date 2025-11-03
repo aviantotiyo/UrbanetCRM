@@ -24,6 +24,7 @@ class DataBilling extends Model
         'payment_method',
         'payment_name',
         'total_amount',
+        'point',
         'fee_merchant',
         'fee_customer',
         'amount_received',
