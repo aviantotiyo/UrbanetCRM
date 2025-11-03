@@ -54,6 +54,12 @@
                 <div data-i18n="Transaksi">Transaksi</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('client.referral.*') ? 'active open' : '' }}">
+            <a href="{{ route('client.referral.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+                <div data-i18n="Undang Teman">Undang Teman</div>
+            </a>
+        </li>
     </ul>
 </aside>
 <!-- / Menu -->

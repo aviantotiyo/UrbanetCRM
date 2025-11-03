@@ -76,6 +76,12 @@
                              <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">Transaksi</span>
                          </a>
                      </li>
+                     <li>
+                         <a class="dropdown-item" href="{{ route('client.referral.index') }}">
+                             <i class="ti ti-users me-3 ti-md"></i><span class="align-middle">Undang Teman</span>
+                         </a>
+                     </li>
+
                      <!-- <li>
                          <a class="dropdown-item" href="#">
                              <span class="d-flex align-items-center align-middle">
