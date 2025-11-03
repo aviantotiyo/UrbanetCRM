@@ -19,6 +19,7 @@ class UserTransactionController extends Controller
             ->where('client_id', $clientId)
             ->whereNotNull('payment_method')
             ->orderByDesc('billing_create')
+            ->take(6)
             ->get();
 
         return view('client.dashboard.transaksi', compact('client', 'billings'));

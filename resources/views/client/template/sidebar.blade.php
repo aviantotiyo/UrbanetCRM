@@ -42,13 +42,13 @@
 
     <ul class="menu-inner py-1">
 
-        <li class="menu-item active">
+        <li class="menu-item {{ request()->routeIs('client.dashboard.*') ? 'active open' : '' }}">
             <a href="{{ route('client.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Dashboard">Dashboard</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('client.transaksi.*') ? 'active open' : '' }}">
             <a href="{{ route('client.transaksi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
                 <div data-i18n="Transaksi">Transaksi</div>
