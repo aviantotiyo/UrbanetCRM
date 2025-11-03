@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\UserReferral;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\DataClients;
-use App\Models\DataClientsProspect;
+use App\Models\DataSetting;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\DataClientsProspect;
+use App\Http\Controllers\Controller;
 
 class UserReferralController extends Controller
 {
@@ -16,10 +17,15 @@ class UserReferralController extends Controller
     {
         $clientId = session('client_auth_id');
         $client = DataClients::findOrFail($clientId);
+        $setting = DataSetting::first(); // ambil baris pertama (asumsi 1 data saja)
+        $point = $setting ? $setting->point : 0;
 
-        $referrals = DataClientsProspect::where('client_id', $clientId)->get();
+        $referrals = DataClientsProspect::where('client_id', $clientId)
+            ->latest() // urutkan berdasarkan created_at desc
+            ->take(10) // ambil maksimal 10
+            ->get();
 
-        return view('client.referral.index', compact('client', 'referrals'));
+        return view('client.referral.index', compact('client', 'referrals', 'point'));
     }
 
     // Tampilkan form tambah referral
