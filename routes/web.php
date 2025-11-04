@@ -32,6 +32,7 @@ use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\UserReferral\UserReferralController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
+use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\UserBilling\UserTransactionController;
 
 // Public (no auth)
@@ -242,6 +243,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/ticket-hc/edit/{id}', [HomeConController::class, 'edit'])->whereUuid('id')->name('ticket_hc.edit');
         Route::put('/ticket-hc/update/{id}', [HomeConController::class, 'update'])->whereUuid('id')->name('ticket_hc.update');
+    });
+
+
+    // ===== Referral  =====
+
+    Route::prefix('dashboard/referral')->name('team.referral.')->group(function () {
+        Route::get('/', [AdminReferralController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [AdminReferralController::class, 'edit'])->name('edit');
+        Route::post('/edit/{id}', [AdminReferralController::class, 'update'])->name('update');
     });
 
     // ===== Setting  =====

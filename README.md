@@ -5,14 +5,14 @@ ALUR BILLING KETIKA CLIENT MENDAPATKAN PROMO
 
 data_blling
 
--   net_income di kurangi pajak
+-   net_income di kurangi pajak (V)
 -   denda (field database sudah)
     loyalti program (point) (field database sudah)
 
 referral system
 
 -   sales internal
--   client referral
+-   client referral (V)
 
 Ticket Support
 
@@ -31,7 +31,12 @@ user setting
 
 Billing User
 
--   kondisi bila nilai point lebih besar auto payment
+-   kondisi bila nilai point lebih besar auto payment (V)
+-   lapor gangguan client
+
+-   prospect pelanggan
+
+==========================================================
 
 jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"
 
