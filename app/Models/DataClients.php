@@ -18,6 +18,7 @@ class DataClients extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
+        'id',
         'nopel',
         'nama',
         'no_hp',

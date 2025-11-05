@@ -107,7 +107,7 @@
                                             </td>
 
                                             <td>
-                                                <a href="{{ route('admin.team.referral.edit', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                <a href="{{ route('admin.referral.edit', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                             </td>
                                         </tr>
                                         @endforeach

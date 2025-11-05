@@ -248,11 +248,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // ===== Referral  =====
 
-    Route::prefix('dashboard/referral')->name('team.referral.')->group(function () {
+    Route::prefix('dashboard/referral')->name('referral.')->group(function () {
         Route::get('/', [AdminReferralController::class, 'index'])->name('index');
         Route::get('/edit/{id}', [AdminReferralController::class, 'edit'])->name('edit');
         Route::post('/edit/{id}', [AdminReferralController::class, 'update'])->name('update');
     });
+
 
     // ===== Setting  =====
     Route::prefix('dashboard/setting')

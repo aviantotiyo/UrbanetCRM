@@ -74,11 +74,14 @@
         @endif
         @endauth
 
+
+
+
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Pelanggan & Pelaporan">Pelanggan &amp; Pelaporan</span>
         </li>
         <!-- Layouts -->
-        <li class="menu-item {{ request()->routeIs('admin.pelanggan.*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.pelanggan.*', 'admin.referral.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="Data Pelanggan">Data Pelanggan</div>
@@ -94,6 +97,12 @@
                 <li class="menu-item {{ request()->routeIs('admin.pelanggan.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.pelanggan.create') }}" class="menu-link">
                         <div data-i18n="Tambah Pelanggan">Tambah Pelanggan</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ request()->routeIs('admin.referral.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.referral.index') }}" class="menu-link">
+                        <div data-i18n="Referral Pelanggan">Referral Pelanggan</div>
                     </a>
                 </li>
             </ul>
