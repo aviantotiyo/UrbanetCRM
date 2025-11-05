@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pelanggan;
 
+use Carbon\Carbon;
 use App\Models\DataOdp;
 use App\Jobs\JobAddOdpLogs;
 use App\Models\DataClients;
@@ -9,9 +10,10 @@ use App\Models\DataOdpLogs;
 use App\Models\DataOdpPort;
 use Illuminate\Http\Request;
 use App\Jobs\JobCreateBilling;
-use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use App\Models\DataClientsProspect;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -108,6 +110,27 @@ class ProcessPelangganController extends Controller
                 'status'    => 'reserved',
             ]);
 
+            // Cari DataClientsProspect berdasarkan client_prospect_id
+            $prospect = DataClientsProspect::where('client_prospect_id', $client->id)->first();
+
+            if ($prospect) {
+                // ⛔ Stop jika status bukan 'process'
+                if ($prospect->status !== 'process') {
+                    return; // atau return redirect()->back()->with('error', 'Status bukan process.');
+                }
+
+                // ✅ Update status ke 'active'
+                $prospect->update(['status' => 'active']);
+
+                // Temukan client_id dari prospect
+                $targetClient = DataClients::find($prospect->client_id);
+
+                // ✅ Tambahkan point jika client valid
+                if ($targetClient) {
+                    $currentPoint = (int) ($targetClient->point ?? 0);
+                    $targetClient->update(['point' => $currentPoint + 30000]);
+                }
+            }
 
             //Tambah log aktivitas
             $user = Auth::user();
