@@ -7,7 +7,7 @@ data_blling
 
 -   net_income di kurangi pajak (V)
 -   denda (field database sudah)
-    loyalti program (point) (field database sudah)
+    loyalti program (point) (field database sudah) (V)
 
 referral system
 
@@ -36,7 +36,9 @@ Billing User
 
 -   prospect pelanggan (V) aktifkan point proses permintaan
 
-ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem)
+ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
+
+bagian referral client perlu di tambahkan select paket.
 
 ==========================================================
 

@@ -1,6 +1,6 @@
 @section('title', 'Aplikasi Pelanggan Urbanet')
 @include('client.template.head')
-
+@include('client.template.recaptcha')
 </head>
 
 <body>
@@ -52,6 +52,9 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
+                            @if($errors->has('recaptcha'))
+                            <div class="alert alert-danger">{{ $errors->first('recaptcha') }}</div>
+                            @endif
 
                             <div class="card-body">
                                 <div class="d-flex align-items-center justify-content-center h-px-300">
@@ -61,9 +64,16 @@
 
                                         <div class="mb-6">
                                             <label class="form-label" for="form-alignment-username">No WA Pelanggan</label>
-                                            <input type="text" name="no_hp" id="no_hp" class="form-control" required placeholder="62812xxxxxxx">
+                                            <input type="text" name="no_hp" id="no_hp" class="form-control @error('no_hp') is-invalid @enderror" required placeholder="62812xxxxxxx" value="{{ old('no_hp') }}">
+
+                                            @error('no_hp')
+                                            <div class="invalid-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
                                         </div>
 
+                                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Lanjutkan</button>

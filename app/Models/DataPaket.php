@@ -25,4 +25,9 @@ class DataPaket extends Model
         'name_profile',
         'limit_radius',
     ];
+
+    public function prospects()
+    {
+        return $this->hasMany(DataClientsProspect::class, 'paket_id');
+    }
 }

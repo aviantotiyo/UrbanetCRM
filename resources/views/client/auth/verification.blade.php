@@ -1,6 +1,6 @@
 @section('title', 'Verifikasi Login')
 @include('client.template.head')
-
+@include('client.template.recaptcha')
 </head>
 
 <body>
@@ -53,7 +53,9 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
-
+                            @if($errors->has('recaptcha'))
+                            <div class="alert alert-danger">{{ $errors->first('recaptcha') }}</div>
+                            @endif
                             <div class="card-body">
                                 <div class="d-flex align-items-center justify-content-center h-px-300">
                                     <form class="w-px-400 border rounded p-3 p-md-5" method="POST" action="{{ route('client.auth.step2.submit') }}">
@@ -63,8 +65,14 @@
                                         <div class=" mb-6">
                                             <label for="nama_akhir" class="form-label">Nama Belakang</label>
                                             <input type="text" name="nama_akhir" id="nama_akhir" class="form-control" required placeholder="Misal: Jaya">
+                                            @error('nama_akhir')
+                                            <div class="invalid-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
                                         </div>
 
+                                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Lanjutkan</button>

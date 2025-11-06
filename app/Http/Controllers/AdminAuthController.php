@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 
 class AdminAuthController extends Controller
@@ -25,7 +26,21 @@ class AdminAuthController extends Controller
             'email'    => ['required', 'email'],
             'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean'],
+            'g-recaptcha-response' => ['required'],
         ]);
+
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+
+        $result = $response->json();
+        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+            return back()->withErrors(['email' => 'reCAPTCHA gagal memverifikasi pengguna.'])->onlyInput('email');
+        }
+
+
 
         if ($request->filled('website')) {
             // honeypot diisi → kemungkinan bot

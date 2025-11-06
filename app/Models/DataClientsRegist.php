@@ -5,44 +5,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class DataClientsProspect extends Model
+class DataClientsRegist extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
-    protected $table = 'data_clients_prospect';
+    protected $table = 'data_clients_regist';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'id',
-        'client_id',
+        'nik',
         'paket_id',
         'nama',
-        'nik',
+        'email',
         'no_hp',
         'alamat',
         'kecamatan',
         'kabupaten',
         'provinsi',
-        'point',
         'status',
-        'client_prospect_id',
     ];
 
-    protected $casts = [
-        'id' => 'string',
-        'client_id' => 'string',
-        'client_prospect_id' => 'string',
-        'point' => 'integer',
-        'status' => 'string',
-    ];
-
-    public function client()
-    {
-        return $this->belongsTo(DataClients::class, 'client_id');
-    }
-
+    /**
+     * Relasi ke DataPaket
+     * Setiap registrasi terkait dengan satu paket internet
+     */
     public function paket()
     {
         return $this->belongsTo(DataPaket::class, 'paket_id');

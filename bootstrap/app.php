@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'role'     => \App\Http\Middleware\RoleMiddleware::class,
             'client.auth' => \App\Http\Middleware\ClientAuthMiddleware::class,
+            'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
@@ -45,6 +46,17 @@ return Application::configure(basePath: dirname(__DIR__))
                     ])
                     ->withInput($request->except('password'));
             }
+
+            // Berlaku hanya untuk POST /registrasi (form sesi web)
+            if ($request->is('registrasi') && $request->method() === 'POST') {
+                $retryAfter = (int) ($e->getHeaders()['Retry-After'] ?? 60);
+
+                return redirect()
+                    ->route('client.regist')
+                    ->withErrors(['email' => "Terlalu banyak permintaan. Coba lagi dalam {$retryAfter} detik."])
+                    ->withInput();
+            }
+
 
             return null; // biarkan exception lain pakai default handler
         });

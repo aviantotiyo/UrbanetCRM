@@ -62,6 +62,7 @@
 
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
+    @include('client.template.recaptcha')
 </head>
 
 <body>
@@ -158,6 +159,7 @@
                                     </a>
                                 </div>
                             </div>
+                            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
                             <div class="mb-6">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                             </div>

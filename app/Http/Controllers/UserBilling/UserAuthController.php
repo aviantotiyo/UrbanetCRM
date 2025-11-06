@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\UserBilling;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use App\Models\DataClients;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class UserAuthController extends Controller
 {
@@ -17,8 +18,20 @@ class UserAuthController extends Controller
     public function processStep1(Request $request)
     {
         $request->validate([
-            'no_hp' => 'required|string'
+            'no_hp' => 'required|string',
+            'g-recaptcha-response' => 'required',
         ]);
+
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+
+        $result = $response->json();
+        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal.'])->withInput();
+        }
 
         $input = $request->no_hp;
 
@@ -59,8 +72,21 @@ class UserAuthController extends Controller
         }
 
         $request->validate([
-            'nama_akhir' => 'required|string'
+            'nama_akhir' => 'required|string',
+            'g-recaptcha-response' => 'required',
         ]);
+
+
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+
+        $result = $response->json();
+        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal.'])->withInput();
+        }
 
         $client = DataClients::find(session('client_auth_id'));
 

@@ -24,8 +24,9 @@ use App\Http\Controllers\Pelanggan\UnisolirController;
 
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\UserBilling\UserAuthController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\UserRegist\UserRegistController;
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserPayPointController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
@@ -320,3 +321,10 @@ Route::middleware('client.auth')->group(function () {
 
     Route::post('/pelanggan/redeem-point', [UserPayPointController::class, 'redeemPoint'])->name('client.billing.redeempoint');
 });
+
+Route::get('/registrasi', [UserRegistController::class, 'index'])->name('client.regist');
+// Route::post('/registrasi', [UserRegistController::class, 'store'])->name('client.regist.store');
+Route::post('/registrasi', [UserRegistController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('client.regist.store');
+Route::get('/registrasi/success', [UserRegistController::class, 'success'])->name('client.regist.success');
