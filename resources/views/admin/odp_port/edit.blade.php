@@ -100,11 +100,15 @@
                                             </select>
                                             @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
+                                        @auth
+                                        @if(in_array(auth()->user()->role, ['Admin', 'NOC']))
                                         <hr><small>Di sarankan tidak mengubah dari ODP, ubah dari <a href="{{ route('admin.pelanggan.index') }}">Data Pelanggan</a></small>
                                         <div class="col-12 d-flex gap-2 pt-2">
                                             <button class="btn btn-primary">Simpan Perubahan</button>
                                             <a href="{{ route('admin.odp.show', $port->odp_id) }}" class="btn btn-outline-secondary">Batal</a>
                                         </div>
+                                        @endif
+                                        @endauth
                                     </div>
 
                                 </form>

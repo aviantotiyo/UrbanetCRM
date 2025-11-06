@@ -33,10 +33,14 @@
                                 </div>
 
                             </div>
+                            @auth
+                            @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'CustomerCare', 'Finance']))
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
                                 <a href="{{ route('admin.pelanggan.create') }}" class="btn btn-outline-primary">Tambah Pelanggan</a>
                             </div>
+                            @endif
+                            @endauth
                         </div>
                         {{-- Alert sukses --}}
                         @if (session('success'))
@@ -135,6 +139,7 @@
                                             <th>Kontak</th>
                                             <th>Status</th>
                                             <th>Action</th>
+
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -183,6 +188,9 @@
                                                     <a href="{{ route('admin.dashboard.ticket_hc.create', $c->id) }}" class="btn btn-text-secondary rounded-pill waves-effect btn-icon">
                                                         <i class="ti ti-id-badge me-1"></i>
                                                     </a>
+                                                    @auth
+                                                    @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'CustomerCare', 'Finance']))
+
 
                                                     <div class="dropdown">
                                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -191,7 +199,7 @@
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ route('admin.pelanggan.show', $c->id) }}"><i class="ti ti-search me-1"></i> Detail</a>
                                                             <a class="dropdown-item" href="{{ route('admin.pelanggan.edit', $c->id) }}"><i class="ti ti-edit me-1"></i> Edit</a>
-                                                            @if (!in_array($c->status, ['active', 'isolir']))
+                                                            @if (!in_array($c->status, ['active', 'isolir']) && !is_null($c->paket))
                                                             <a class="dropdown-item" href="{{ route('admin.pelanggan.process.create', $c->id) }}">
                                                                 <i class="ti ti-mouse me-1"></i> Process
                                                             </a>
@@ -236,6 +244,9 @@
                                                             </form>
                                                         </div>
                                                     </div>
+
+                                                    @endif
+                                                    @endauth
                                                 </div>
                                             </td>
 

@@ -94,6 +94,8 @@
                     </a>
                 </li>
 
+                @auth
+                @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'CustomerCare', 'Finance']))
                 <li class="menu-item {{ request()->routeIs('admin.pelanggan.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.pelanggan.create') }}" class="menu-link">
                         <div data-i18n="Tambah Pelanggan">Tambah Pelanggan</div>
@@ -105,6 +107,8 @@
                         <div data-i18n="Referral Pelanggan">Referral Pelanggan</div>
                     </a>
                 </li>
+                @endif
+                @endauth
             </ul>
         </li>
 
@@ -143,6 +147,9 @@
             </ul>
         </li>
 
+
+        @auth
+        @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'CustomerCare', 'Finance']))
         <!-- Apps & Pages -->
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Server & Layanan">Server &amp; Layanan</span>
@@ -168,7 +175,10 @@
 
             </ul>
         </li>
-
+        @endif
+        @endauth
+        @auth
+        @if(in_array(auth()->user()->role, ['Admin', 'NOC']))
         <li class="menu-item {{ request()->routeIs('admin.server.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ti ti-database"></i>
@@ -225,6 +235,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @endauth
         <!-- Apps & Pages -->
         @auth
         @if(auth()->user()->role === 'Admin')

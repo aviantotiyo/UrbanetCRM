@@ -35,7 +35,8 @@ Billing User
 -   lapor gangguan client
 
 -   prospect pelanggan (V) aktifkan point proses permintaan
--   email
+
+ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem)
 
 ==========================================================
 
