@@ -53,7 +53,7 @@
                                         @endforeach
                                     </ul>
                                     @else
-                                    <p>Dapatkan point senilai {{ $point }} point dengan mengajak teman/tetangga bergabung menjadi pelanggan kami.</p>
+                                    <p>Dapatkan point senilai {{ number_format($point, 0, ',', '.') }} point dengan mengajak teman/tetangga bergabung menjadi pelanggan kami.</p>
                                     <p> Point akan langsung bisa di gunakan untuk tagihan bulanan.</p>
                                     <a href="{{ route('client.referral.create') }}" class="btn btn-primary w-100">Ajak Teman/Tetangga</a>
                                     @endif

@@ -8,6 +8,7 @@ use App\Jobs\JobAddOdpLogs;
 use App\Models\DataClients;
 use App\Models\DataOdpLogs;
 use App\Models\DataOdpPort;
+use App\Models\DataSetting;
 use Illuminate\Http\Request;
 use App\Jobs\JobCreateBilling;
 use Illuminate\Validation\Rule;
@@ -128,7 +129,8 @@ class ProcessPelangganController extends Controller
                 // ✅ Tambahkan point jika client valid
                 if ($targetClient) {
                     $currentPoint = (int) ($targetClient->point ?? 0);
-                    $targetClient->update(['point' => $currentPoint + 30000]);
+                    $pointReward = (int) DataSetting::value('point');
+                    $targetClient->update(['point' => $currentPoint + $pointReward]);
                 }
             }
 

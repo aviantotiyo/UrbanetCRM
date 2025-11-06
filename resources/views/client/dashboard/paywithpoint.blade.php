@@ -93,7 +93,7 @@
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
                                                         <!-- Ubah ini agar bisa dimanipulasi oleh JS -->
-                                                        <p class="mb-0 text-success" id="pointUsedLabel">Rp 0</p>
+                                                        <p class="mb-0 text-success" id="pointUsedLabel">0</p>
 
                                                     </div>
                                                 </div>

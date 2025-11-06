@@ -34,7 +34,8 @@ Billing User
 -   kondisi bila nilai point lebih besar auto payment (V)
 -   lapor gangguan client
 
--   prospect pelanggan
+-   prospect pelanggan (V) aktifkan point proses permintaan
+-   email
 
 ==========================================================
 

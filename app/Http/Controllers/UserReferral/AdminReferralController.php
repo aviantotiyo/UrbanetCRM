@@ -95,8 +95,6 @@ class AdminReferralController extends Controller
                 'kecamatan'  => $prospect->kecamatan,
                 'kabupaten'  => $prospect->kabupaten,
                 'provinsi'   => $prospect->provinsi,
-                // 'nopel'      => 'ID' . mt_rand(10000000, 99999999),
-                // 'user_pppoe' => 'ID' . mt_rand(10000000, 99999999),
                 'nopel'      =>  $randomNopel,
                 'user_pppoe' =>  $randomNopel,
                 'pass_pppoe' => $randomPassword,
