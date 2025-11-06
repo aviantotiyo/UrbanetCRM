@@ -75,16 +75,19 @@
         @endauth
 
 
-
-
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Pelanggan & Pelaporan">Pelanggan &amp; Pelaporan</span>
         </li>
         <!-- Layouts -->
         <li class="menu-item {{ request()->routeIs('admin.pelanggan.*', 'admin.referral.*') ? 'active open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <a href="javascript:void(0);" class="menu-link menu-toggle d-flex justify-content-between align-items-center">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="Data Pelanggan">Data Pelanggan</div>
+                @if ($pending_cust_referral > 0 || $pending_cust_regist > 0 )
+                <span class="badge badge-center rounded-pill bg-primary">
+                    <i class="ti ti-bell"></i>
+                </span>
+                @endif
             </a>
 
             <ul class="menu-sub">
@@ -101,10 +104,23 @@
                         <div data-i18n="Tambah Pelanggan">Tambah Pelanggan</div>
                     </a>
                 </li>
+                <!-- 
+                <li class="menu-item {{ request()->routeIs('admin.referral.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.referral.index') }}" class="menu-link">
+                        <div data-i18n="Online Registrasi">Online Registrasi</div>
+                        @if ($pending_cust_referral > 0)
+                        <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_referral }}</div>
+                        @endif
+                    </a>
+                </li> -->
 
                 <li class="menu-item {{ request()->routeIs('admin.referral.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.referral.index') }}" class="menu-link">
-                        <div data-i18n="Referral Pelanggan">Referral Pelanggan</div>
+                        <div data-i18n="Program Referral">Program Referral</div>
+                        @if ($pending_cust_referral > 0)
+                        <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_referral }}</div>
+                        @endif
+
                     </a>
                 </li>
                 @endif
@@ -138,7 +154,7 @@
                 </li>
                 <li class="menu-item  {{ request()->routeIs('admin.dashboard.ticket_hc.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard.ticket_hc.index') }}" class="menu-link">
-                        <div data-i18n="Data Instalasi">Data Instalasi</div>
+                        <div data-i18n="Permintaan Instalasi">Permintaan Instalasi</div>
                         @if ($jumlah_ticket_hc_open > 0)
                         <div class="badge bg-primary rounded-pill ms-auto">{{ $jumlah_ticket_hc_open }}</div>
                         @endif
