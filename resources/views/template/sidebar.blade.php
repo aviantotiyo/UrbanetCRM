@@ -104,15 +104,15 @@
                         <div data-i18n="Tambah Pelanggan">Tambah Pelanggan</div>
                     </a>
                 </li>
-                <!-- 
-                <li class="menu-item {{ request()->routeIs('admin.referral.*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.referral.index') }}" class="menu-link">
+
+                <li class="menu-item {{ request()->routeIs('admin.userregist.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.userregist.index') }}" class="menu-link">
                         <div data-i18n="Online Registrasi">Online Registrasi</div>
-                        @if ($pending_cust_referral > 0)
-                        <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_referral }}</div>
+                        @if ($pending_cust_regist > 0)
+                        <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_regist }}</div>
                         @endif
                     </a>
-                </li> -->
+                </li>
 
                 <li class="menu-item {{ request()->routeIs('admin.referral.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.referral.index') }}" class="menu-link">

@@ -36,6 +36,8 @@ Billing User
 
 -   prospect pelanggan (V) aktifkan point proses permintaan
 
+User Regist Dashboard admin (view, edit, process)
+
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
 
 bagian referral client perlu di tambahkan select paket.

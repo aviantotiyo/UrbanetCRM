@@ -11,13 +11,36 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class AdminAuthController extends Controller
 {
+    // public function showLogin()
+    // {
+    //     if (Auth::check()) {
+    //         return redirect()->route('admin.dashboard');
+    //     }
+    //     return view('admin.auth.admin-login');
+    // }
+
+
     public function showLogin()
     {
         if (Auth::check()) {
-            return redirect()->route('admin.dashboard');
+            $user = Auth::user(); // Ambil user yang sedang login
+            $internalRoles = ['Admin', 'Finance', 'NOC', 'CustomerCare', 'Installer'];
+
+            if (in_array($user->role, $internalRoles, true)) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                // Tidak boleh masuk halaman admin meskipun sudah login
+                Auth::logout();
+                return redirect()->route('admin.login')->withErrors([
+                    'email' => 'Anda tidak memiliki akses ke halaman admin.'
+                ]);
+            }
         }
+
         return view('admin.auth.admin-login');
     }
+
+
 
     public function login(Request $request)
     {

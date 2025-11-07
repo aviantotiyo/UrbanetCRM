@@ -18,6 +18,7 @@
     <title>Login Admin Dashboard</title>
 
     <meta name="description" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
@@ -179,6 +180,14 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     @include('template.footer')
+
+    <script>
+        setInterval(() => {
+            fetch('/refresh-csrf').then(res => res.text()).then(token => {
+                document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
+            });
+        }, 10 * 60 * 1000); // setiap 10 menit
+    </script>
 </body>
 
 </html>

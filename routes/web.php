@@ -27,6 +27,7 @@ use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\UserRegist\UserRegistController;
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\UserRegist\AdminRegistController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserPayPointController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
@@ -255,6 +256,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/edit/{id}', [AdminReferralController::class, 'update'])->name('update');
     });
 
+    // ===== User Regist  =====
+    Route::prefix('dashboard/user-regist')->name('userregist.')->group(function () {
+        Route::get('/', [AdminRegistController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [AdminRegistController::class, 'edit'])->name('edit');
+        Route::post('/edit/{id}', [AdminRegistController::class, 'update'])->name('update');
+    });
 
     // ===== Setting  =====
     Route::prefix('dashboard/setting')
@@ -328,3 +335,8 @@ Route::post('/registrasi', [UserRegistController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('client.regist.store');
 Route::get('/registrasi/success', [UserRegistController::class, 'success'])->name('client.regist.success');
+
+
+Route::get('/refresh-csrf', function () {
+    return csrf_token();
+});
