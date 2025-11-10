@@ -58,42 +58,43 @@
 
                             <div class="card h-100">
                                 <div class="card-body">
-                                    @if (session('success'))
-                                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                                        {!! session('success') !!}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+
+                                    @if ($errors->any())
+                                    <div class="alert alert-primary">
+                                        <ul class="mb-0">
+                                            @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                     @endif
 
-                                    {{-- (Opsional) Alert error umum --}}
-                                    @if (session('error'))
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        {!! session('error') !!}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                    @endif
                                     <form method="POST" action="{{ route('client.regist.store') }}">
                                         @csrf
 
                                         <div class="mb-3">
-                                            <label for="nama" class="form-label">Nama Sesuai KTP</label>
+                                            <label for="nama" class="form-label">Nama Lengkap<span class="text-danger">*</span></label>
                                             <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror"
                                                 value="{{ old('nama') }}" required>
                                             @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            <div class="form-text">Harus sesuai KTP.</div>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="nik" class="form-label">No KTP</label>
+                                            <label for="nik" class="form-label">No KTP<span class="text-danger">*</span></label>
                                             <input type="text" name="nik" id="nik" class="form-control"
                                                 value="{{ old('nik') }}" required>
                                             <!-- @error('nik')<div class="invalid-feedback">{{ $message }}</div>@enderror -->
+
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="no_hp" class="form-label">Nomor HP</label>
+                                            <label for="no_hp" class="form-label">Nomor HP<span class="text-danger">*</span></label>
                                             <input type="text" name="no_hp" id="no_hp" class="form-control"
                                                 value="{{ old('no_hp') }}" required>
                                             <!-- @error('no_hp')<div class="invalid-feedback">{{ $message }}</div>@enderror -->
+
                                         </div>
 
                                         <div class="mb-3">
@@ -104,40 +105,45 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="alamat" class="form-label">Alamat Lengkap</label>
-                                            <textarea name="alamat" id="alamat" class="form-control @error('alamat') is-invalid @enderror"
-                                                rows="2">{{ old('alamat') }}</textarea>
+                                            <label for="alamat" class="form-label">Alamat Lengkap<span class="text-danger">*</span></label>
+                                            <input name="alamat" id="nama" class="form-control @error('alamat') is-invalid @enderror"
+                                                value="{{ old('alamat') }}" required>
                                             @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-4 mb-3">
-                                                <label for="provinsi" class="form-label">Provinsi</label>
-                                                <input type="text" name="provinsi" id="provinsi"
-                                                    class="form-control @error('provinsi') is-invalid @enderror"
-                                                    value="{{ old('provinsi') }}" required>
-                                                @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                            </div>
 
-                                            <div class="col-md-4 mb-3">
-                                                <label for="kabupaten" class="form-label">Kabupaten/Kota</label>
-                                                <input type="text" name="kabupaten" id="kabupaten"
-                                                    class="form-control @error('kabupaten') is-invalid @enderror"
-                                                    value="{{ old('kabupaten') }}" required>
-                                                @error('kabupaten')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                            </div>
-
-                                            <div class="col-md-4 mb-3">
-                                                <label for="kecamatan" class="form-label">Kecamatan</label>
-                                                <input type="text" name="kecamatan" id="kecamatan"
-                                                    class="form-control @error('kecamatan') is-invalid @enderror"
-                                                    value="{{ old('kecamatan') }}" required>
-                                                @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                            </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="provinsi_pel">Provinsi<span class="text-danger">*</span></label>
+                                            <select id="provinsi_pel" name="provinsi" class="form-select @error('provinsi') is-invalid @enderror">
+                                                <option value="">-- pilih provinsi --</option>
+                                                @foreach(($provinsiRaw ?? []) as $p)
+                                                <option value="{{ $p['name'] ?? '' }}" data-id="{{ $p['id'] ?? '' }}"
+                                                    {{ old('provinsi')===($p['name'] ?? '') ? 'selected' : '' }}>
+                                                    {{ $p['name'] ?? '' }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="paket_id" class="form-label">Pilih Paket Internet</label>
+                                            <label class="form-label" for="kabupaten_pel">Kabupaten/Kota<span class="text-danger">*</span></label>
+                                            <select id="kabupaten_pel" name="kabupaten" class="form-select @error('kabupaten') is-invalid @enderror">
+                                                <option value="">-- pilih kabupaten/kota --</option>
+                                            </select>
+                                            @error('kabupaten')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="kecamatan_pel">Kecamatan<span class="text-danger">*</span></label>
+                                            <select id="kecamatan_pel" name="kecamatan" class="form-select @error('kecamatan') is-invalid @enderror">
+                                                <option value="">-- pilih kecamatan --</option>
+                                            </select>
+                                            @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="paket_id" class="form-label">Pilih Paket Internet<span class="text-danger">*</span></label>
                                             <select name="paket_id" id="paket_id"
                                                 class="form-select @error('paket_id') is-invalid @enderror" required>
                                                 <option value="">-- Pilih Paket --</option>
@@ -157,7 +163,12 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <button type="submit" class="btn btn-primary px-5 w-100">Kirim Registrasi</button>
+                                    <!-- <button type="submit" class="btn btn-primary px-5 w-100">Kirim Registrasi</button> -->
+                                    <button type="submit" class="btn btn-primary px-5 w-100" id="submitBtn">
+                                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true" id="spinner"></span>
+                                        Kirim Registrasi
+                                    </button>
+
                                 </div>
                                 </form>
                             </div>
@@ -182,6 +193,20 @@
         <div class="drag-target"></div>
     </div>
     <!-- / Layout wrapper -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const submitBtn = document.getElementById('submitBtn');
+            const spinner = document.getElementById('spinner');
+
+            form.addEventListener('submit', function() {
+                submitBtn.disabled = true;
+                spinner.classList.remove('d-none');
+            });
+        });
+    </script>
+
+    @include('template.js.select-city')
     @include('client.template.footer')
     @include('template.js.nik')
     @include('template.js.title-case')

@@ -99,11 +99,11 @@
 
                 @auth
                 @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'CustomerCare', 'Finance']))
-                <li class="menu-item {{ request()->routeIs('admin.pelanggan.create') ? 'active' : '' }}">
+                <!-- <li class="menu-item {{ request()->routeIs('admin.pelanggan.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.pelanggan.create') }}" class="menu-link">
                         <div data-i18n="Tambah Pelanggan">Tambah Pelanggan</div>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="menu-item {{ request()->routeIs('admin.userregist.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.userregist.index') }}" class="menu-link">

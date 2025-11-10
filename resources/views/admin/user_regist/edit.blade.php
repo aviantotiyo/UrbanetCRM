@@ -100,7 +100,15 @@
 
                                             <div class="mb-4">
                                                 <label class="form-label" for="provinsi_pel">Provinsi</label>
-                                                <input type="text" name="provinsi" value="{{ old('provinsi', $regist->provinsi) }}" class="form-control" required>
+                                                <select id="provinsi_pel" name="provinsi" class="form-select @error('provinsi') is-invalid @enderror">
+                                                    <option value="">-- pilih provinsi --</option>
+                                                    @foreach(($provinsiRaw ?? []) as $p)
+                                                    <option value="{{ $p['name'] }}" data-id="{{ $p['id'] }}"
+                                                        {{ old('provinsi', $regist->provinsi) === $p['name'] ? 'selected' : '' }}>
+                                                        {{ $p['name'] }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                                 @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
 
@@ -132,7 +140,7 @@
                                                 <select name="status" class="form-select" required>
                                                     <option value="pending" {{ $regist->status === 'pending' ? 'selected' : '' }}>Pending</option>
                                                     <option value="process" {{ $regist->status === 'process' ? 'selected' : '' }}>Process</option>
-                                                    <option value="rejected" {{ $regist->status === 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                                    <option value="reject" {{ $regist->status === 'reject' ? 'selected' : '' }}>Reject</option>
                                                 </select>
                                             </div>
 

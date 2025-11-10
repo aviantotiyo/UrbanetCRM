@@ -38,9 +38,13 @@ Billing User
 
 User Regist Dashboard admin (view, edit, process)
 
+CSR list
+
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
 
+Referral
 bagian referral client perlu di tambahkan select paket.
+NIK, no hp belum ada pengecekan di semua data pelanggan DataClient, DataClientsRegist,DataClientreferral
 
 ==========================================================
 

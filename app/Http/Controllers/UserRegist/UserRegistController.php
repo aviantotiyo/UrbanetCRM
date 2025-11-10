@@ -19,13 +19,40 @@ class UserRegistController extends Controller
      */
     public function index()
     {
+
+        // Path file JSON (di public/assets/json/...)
+        $provPath = public_path('assets/json/provinsi.json');
+        $kabPath  = public_path('assets/json/kabupaten.json');
+        $kecPath  = public_path('assets/json/kecamatan.json');
+
+        $readJson = function (string $path): array {
+            if (!is_file($path)) return [];
+            $raw = file_get_contents($path);
+            $data = json_decode($raw, true);
+            return is_array($data) ? $data : [];
+        };
+
+        $provinsiRaw  = $readJson($provPath);   // [ {id, name, ...}, ... ]
+        $kabupatenRaw = $readJson($kabPath);    // [ {id, province_id, name, ...}, ... ]
+        $kecamatanRaw = $readJson($kecPath);    // [ {id, regency_id,  name, ...}, ... ]
+
+        // urutkan A-Z
+        usort($provinsiRaw,  fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+
         // Ambil paket aktif dan tayang
         $paketList = DataPaket::where('active', 1)
             ->where('tayang', 1)
             ->orderBy('nama_paket')
             ->get(['id', 'nama_paket', 'harga']);
 
-        return view('client.regist.index', compact('paketList'));
+        return view('client.regist.index', compact(
+            'paketList',
+            'provinsiRaw',
+            'kabupatenRaw',
+            'kecamatanRaw',
+        ));
     }
 
     /**
