@@ -297,16 +297,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->name('odc_port.update');
 });
 
-// Step 1: Nomor HP
+// Routes Untuk Pelanggan 
 Route::get('/pelanggan', [UserAuthController::class, 'showStep1'])->name('client.auth.step1');
 Route::post('/pelanggan', [UserAuthController::class, 'processStep1'])->name('client.auth.step1.submit');
 
-// Step 2: Verifikasi nama akhir
+
 Route::get('/pelanggan/verification', [UserAuthController::class, 'showStep2'])->name('client.auth.step2');
 Route::post('/pelanggan/verification', [UserAuthController::class, 'processStep2'])->name('client.auth.step2.submit');
 
-
-// Dashboard pelanggan (hanya jika lolos 2 step)
 Route::middleware('client.auth')->group(function () {
     Route::get('/pelanggan/dashboard', [UserDashboardController::class, 'index'])->name('client.dashboard');
     Route::post('/pelanggan/logout', [UserAuthController::class, 'logout'])->name('client.logout');
@@ -329,13 +327,17 @@ Route::middleware('client.auth')->group(function () {
     Route::post('/pelanggan/redeem-point', [UserPayPointController::class, 'redeemPoint'])->name('client.billing.redeempoint');
 });
 
+// Routes Untuk Pelanggan End
+
+// Routes Untuk User public
+
 Route::get('/registrasi', [UserRegistController::class, 'index'])->name('client.regist');
 // Route::post('/registrasi', [UserRegistController::class, 'store'])->name('client.regist.store');
 Route::post('/registrasi', [UserRegistController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('client.regist.store');
 Route::get('/registrasi/success', [UserRegistController::class, 'success'])->name('client.regist.success');
-
+// Routes Untuk User public End
 
 Route::get('/refresh-csrf', function () {
     return csrf_token();

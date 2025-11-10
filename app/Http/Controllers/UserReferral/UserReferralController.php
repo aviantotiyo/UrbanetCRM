@@ -82,8 +82,9 @@ class UserReferralController extends Controller
                 function ($attribute, $value, $fail) {
                     $existsClient = DB::table('data_clients')->where('no_hp', $value)->exists();
                     $existsProspect = DB::table('data_clients_prospect')->where('no_hp', $value)->exists();
+                    $existsRegist = DB::table('data_clients_regist')->where('no_hp', $value)->exists();
 
-                    if ($existsClient || $existsProspect) {
+                    if ($existsClient || $existsProspect || $existsRegist) {
                         $fail('Nomor HP sudah terdaftar di sistem.');
                     }
                 },
@@ -94,8 +95,9 @@ class UserReferralController extends Controller
                 function ($attribute, $value, $fail) {
                     $existsClient = DB::table('data_clients')->where('nik', $value)->exists();
                     $existsProspect = DB::table('data_clients_prospect')->where('nik', $value)->exists();
+                    $existsRegist = DB::table('data_clients_regist')->where('nik', $value)->exists();
 
-                    if ($existsClient || $existsProspect) {
+                    if ($existsClient || $existsProspect || $existsRegist) {
                         $fail('NIK sudah terdaftar di sistem.');
                     }
                 },

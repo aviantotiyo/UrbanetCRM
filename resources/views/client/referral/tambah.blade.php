@@ -98,7 +98,7 @@
                                             @error('paket_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="submit" class="btn btn-primary">Kirim Permintaan</button>
                                         <a href="{{ route('client.referral.index') }}" class="btn btn-secondary">Kembali</a>
                                     </form>
 

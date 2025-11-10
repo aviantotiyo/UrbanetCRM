@@ -43,8 +43,12 @@ CSR list
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
 
 Referral
-bagian referral client perlu di tambahkan select paket.
-NIK, no hp belum ada pengecekan di semua data pelanggan DataClient, DataClientsRegist,DataClientreferral
+bagian referral client perlu di tambahkan select paket. (done - v)
+NIK, no hp belum ada pengecekan di semua data pelanggan DataClient, DataClientsRegist,DataClientreferral (done -v)
+
+sales app
+
+agent app
 
 ==========================================================
 
