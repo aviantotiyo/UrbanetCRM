@@ -23,6 +23,8 @@ class AdminReferralController extends Controller
     public function edit($id)
     {
         $prospect = DataClientsProspect::findOrFail($id);
+        $paketList = DataPaket::all();
+
 
         // JSON wilayah
         $provPath = public_path('assets/json/provinsi.json');
@@ -51,12 +53,17 @@ class AdminReferralController extends Controller
             'provinsiRaw',
             'kabupatenRaw',
             'kecamatanRaw',
+            'paketList',
         ));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $prospect = DataClientsProspect::findOrFail($id);
+
+        $isProcess = $request->status === 'process';
+
+        $rules = [
             'nama' => 'required|string|max:255',
             'nik' => 'nullable|string|max:50',
             'no_hp' => 'nullable|string|max:20',
@@ -66,28 +73,28 @@ class AdminReferralController extends Controller
             'provinsi' => 'nullable|string',
             'point' => 'nullable|numeric',
             'status' => 'nullable|string',
-        ]);
+        ];
 
-        $prospect = DataClientsProspect::findOrFail($id);
+        if ($isProcess) {
+            $rules['paket_id'] = 'required|exists:data_paket,id';
+        }
 
-        if ($request->status === 'process') {
-            // PENTING: Ambil client_prospect_id sebagai ID baru
+        $validated = $request->validate($rules);
+
+        if ($isProcess) {
             $clientId = $prospect->client_prospect_id;
 
-            // Cek apakah ID ini sudah pernah dipakai di DataClients
-            if (DataClients::find($prospect->client_prospect_id)) {
+            if (DataClients::find($clientId)) {
                 return back()->withErrors(['status' => 'Data dengan ID ini sudah pernah diproses ke Daftar Pelanggan.']);
             }
 
+            $paket = DataPaket::find($validated['paket_id']);
 
-            // Generate data tambahan
-            $randomNopel = 'ID' . mt_rand(10000000, 99999999); // contoh: ID27336642
-            $randomPassword = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT); // contoh: 092318
-
-            // Simpan ke DataClients
+            $randomNopel = 'ID' . mt_rand(10000000, 99999999);
+            $randomPassword = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
             DataClients::create([
-                'id'         => $prospect->client_prospect_id,
+                'id'         => $clientId,
                 'nama'       => $prospect->nama,
                 'nik'        => $prospect->nik,
                 'no_hp'      => $prospect->no_hp,
@@ -95,21 +102,33 @@ class AdminReferralController extends Controller
                 'kecamatan'  => $prospect->kecamatan,
                 'kabupaten'  => $prospect->kabupaten,
                 'provinsi'   => $prospect->provinsi,
-                'nopel'      =>  $randomNopel,
-                'user_pppoe' =>  $randomNopel,
+                'nopel'      => $randomNopel,
+                'user_pppoe' => $randomNopel,
                 'pass_pppoe' => $randomPassword,
+                'paket'      => $paket->nama_paket ?? null,
+                'tagihan'    => $paket->harga ?? 0,
                 'status'     => 'booking',
             ]);
 
-
-            // Simpan perubahan status ke prospect
             $prospect->status = 'process';
             $prospect->save();
-            return redirect()->route('admin.pelanggan.edit', $clientId)->with('success', 'Data berhasil diproses dan dipindahkan ke Daftar Pelanggan. Tambahkan Data pendukung lainnya');
-        } else {
-            // Selain 'process', hanya update DataClientsProspect
-            $prospect->update($request->all());
+
+            return redirect()->route('admin.pelanggan.edit', $clientId)
+                ->with('success', 'Data berhasil diproses dan dipindahkan ke Daftar Pelanggan. Tambahkan Data pendukung lainnya');
         }
+
+        // Hanya update kolom yang sesuai
+        $prospect->update([
+            'nama' => $validated['nama'],
+            'nik' => $validated['nik'],
+            'no_hp' => $validated['no_hp'],
+            'alamat' => $validated['alamat'],
+            'kecamatan' => $validated['kecamatan'],
+            'kabupaten' => $validated['kabupaten'],
+            'provinsi' => $validated['provinsi'],
+            'point' => $validated['point'],
+            'status' => $validated['status'],
+        ]);
 
         return redirect()->route('admin.referral.index')->with('success', 'Data berhasil diperbarui.');
     }

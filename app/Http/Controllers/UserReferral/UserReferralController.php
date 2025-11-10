@@ -111,7 +111,7 @@ class UserReferralController extends Controller
 
         DataClientsProspect::create([
             'id'                => Str::uuid(),
-            'paket_id'   => $request['paket_id'],
+            'paket_id'           => $request['paket_id'],
             'client_id'         => $clientId,
             'nama'              => $request->nama,
             'nik'              => $request->nik,

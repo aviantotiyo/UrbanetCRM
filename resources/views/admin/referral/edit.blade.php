@@ -138,6 +138,17 @@
                                             </div>
 
                                             <div class="mb-4">
+                                                <label class="form-label">Paket</label>
+                                                <select name="paket_id" class="form-select" required>
+                                                    @foreach($paketList as $paket)
+                                                    <option value="{{ $paket->id }}" {{ old('paket_id', $prospect->paket_id) == $paket->id ? 'selected' : '' }}>
+                                                        {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-4">
                                                 <label class="form-label">Status</label>
                                                 <select name="status" class="form-select">
                                                     <option value="pending" {{ old('status', $prospect->status) == 'pending' ? 'selected' : '' }}>Pending</option>
