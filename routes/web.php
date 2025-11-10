@@ -23,9 +23,10 @@ use App\Http\Controllers\Billing\ManualPayController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
 
 use App\Http\Controllers\Pelanggan\PelangganController;
+use App\Http\Controllers\Partner\AdminPartnerController;
 use App\Http\Controllers\UserBilling\UserAuthController;
-use App\Http\Controllers\UserRegist\UserRegistController;
 
+use App\Http\Controllers\UserRegist\UserRegistController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\UserRegist\AdminRegistController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
@@ -237,7 +238,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/ticket/{id}/update', [\App\Http\Controllers\Ticket\ComplianceController::class, 'update'])->name('ticket.update');
     });
 
-
+    // === Ticket Instlasi Home Connection ====
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/ticket-hc', [HomeConController::class, 'index'])->name('ticket_hc.index');
         Route::get('/ticket-hc/tambah/{id}', [HomeConController::class, 'create'])->whereUuid('id')->name('ticket_hc.create');
@@ -261,6 +262,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminRegistController::class, 'index'])->name('index');
         Route::get('/edit/{id}', [AdminRegistController::class, 'edit'])->name('edit');
         Route::post('/edit/{id}', [AdminRegistController::class, 'update'])->name('update');
+    });
+
+    // ===== Mitra  =====
+    Route::prefix('dashboard/mitra')->name('partner.')->group(function () {
+        Route::get('/', [AdminPartnerController::class, 'index'])->name('index');
+        Route::get('/tambah', [AdminPartnerController::class, 'create'])->name('create');
+        Route::post('/tambah', [AdminPartnerController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [AdminPartnerController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [AdminPartnerController::class, 'update'])->name('update');
     });
 
     // ===== Setting  =====
