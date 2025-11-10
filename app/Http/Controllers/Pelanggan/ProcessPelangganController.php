@@ -12,6 +12,7 @@ use App\Models\DataSetting;
 use Illuminate\Http\Request;
 use App\Jobs\JobCreateBilling;
 use Illuminate\Validation\Rule;
+use App\Models\DataClientsRegist;
 use Illuminate\Support\Facades\DB;
 use App\Models\DataClientsProspect;
 use Illuminate\Support\Facades\Log;
@@ -133,6 +134,15 @@ class ProcessPelangganController extends Controller
                     $targetClient->update(['point' => $currentPoint + $pointReward]);
                 }
             }
+
+
+            // ✅ Cek di DataClientsRegist bila ada ubah ke active.
+
+            $regist = DataClientsRegist::find($client->id);
+            if ($regist) {
+                $regist->update(['status' => 'active']);
+            }
+
 
             //Tambah log aktivitas
             $user = Auth::user();
