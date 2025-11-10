@@ -27,7 +27,7 @@
                         fill="#7367F0" />
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bold">Urbanet</span>
+            <span class="app-brand-text demo menu-text fw-bold">Kinara</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -79,7 +79,7 @@
             <span class="menu-header-text" data-i18n="Pelanggan & Pelaporan">Pelanggan &amp; Pelaporan</span>
         </li>
         <!-- Layouts -->
-        <li class="menu-item {{ request()->routeIs('admin.pelanggan.*', 'admin.referral.*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.pelanggan.*', 'admin.referral.*', 'admin.userregist.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle d-flex justify-content-between align-items-center">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="Data Pelanggan">Data Pelanggan</div>
@@ -93,7 +93,10 @@
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.pelanggan.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.pelanggan.index') }}" class="menu-link">
-                        <div data-i18n="Daftar Pelanggan">Daftar Pelanggan</div>
+                        <div data-i18n="Daftar Pelanggan">List Pelanggan</div>
+                        @if ($booking_cust > 0)
+                        <div class="badge bg-primary rounded-pill ms-auto">{{ $booking_cust }}</div>
+                        @endif
                     </a>
                 </li>
 
