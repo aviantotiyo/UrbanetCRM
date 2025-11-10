@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserReferral;
 
 use App\Models\DataClients;
 use App\Models\DataSetting;
+use App\Models\DataPaket;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -55,9 +56,14 @@ class UserReferralController extends Controller
         usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
         usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
 
+        $paketList = DataPaket::where('active', 1)
+            ->where('tayang', 1)
+            ->orderBy('nama_paket')
+            ->get(['id', 'nama_paket', 'harga']);
 
         return view('client.referral.tambah', compact(
             'client',
+            'paketList',
             'provinsiRaw',
             'kabupatenRaw',
             'kecamatanRaw',
@@ -98,12 +104,14 @@ class UserReferralController extends Controller
             'kecamatan' => 'nullable|string|max:100',
             'kabupaten' => 'nullable|string|max:100',
             'provinsi'  => 'nullable|string|max:100',
+            'paket_id'   => 'required|uuid|exists:data_paket,id',
         ]);
 
         $clientId = session('client_auth_id');
 
         DataClientsProspect::create([
             'id'                => Str::uuid(),
+            'paket_id'   => $request['paket_id'],
             'client_id'         => $clientId,
             'nama'              => $request->nama,
             'nik'              => $request->nik,

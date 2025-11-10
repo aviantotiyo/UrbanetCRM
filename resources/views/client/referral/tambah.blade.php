@@ -84,6 +84,20 @@
                                             @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
+                                        <div class="mb-4">
+                                            <label for="paket_id" class="form-label">Pilih Paket Internet<span class="text-danger">*</span></label>
+                                            <select name="paket_id" id="paket_id"
+                                                class="form-select @error('paket_id') is-invalid @enderror" required>
+                                                <option value="">-- Pilih Paket --</option>
+                                                @foreach($paketList as $paket)
+                                                <option value="{{ $paket->id }}" {{ old('paket_id') === $paket->id ? 'selected' : '' }}>
+                                                    {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            @error('paket_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                         <a href="{{ route('client.referral.index') }}" class="btn btn-secondary">Kembali</a>
                                     </form>

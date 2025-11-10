@@ -36,7 +36,7 @@ Billing User
 
 -   prospect pelanggan (V) aktifkan point proses permintaan
 
-User Regist Dashboard admin (view, edit, process)
+User Regist Dashboard admin (view, edit, process) done all
 
 CSR list
 
