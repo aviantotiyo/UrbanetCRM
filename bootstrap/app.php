@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'client.auth' => \App\Http\Middleware\ClientAuthMiddleware::class,
             'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-
+            'mitra' => \App\Http\Middleware\MitraAuthMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

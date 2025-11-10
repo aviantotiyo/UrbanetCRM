@@ -26,6 +26,7 @@ use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Partner\AdminPartnerController;
 use App\Http\Controllers\UserBilling\UserAuthController;
 
+use App\Http\Controllers\Partner\ClientPartnerController;
 use App\Http\Controllers\UserRegist\UserRegistController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\UserRegist\AdminRegistController;
@@ -338,6 +339,21 @@ Route::middleware('client.auth')->group(function () {
 });
 
 // Routes Untuk Pelanggan End
+
+// Routes Untuk Mitra 
+Route::prefix('mitra')->group(function () {
+    Route::get('/token/{secret_token}', [ClientPartnerController::class, 'loginWithToken'])->name('partner.login.token');
+
+    Route::get('/', [ClientPartnerController::class, 'showLoginForm'])->name('partner.login');
+    Route::post('/', [ClientPartnerController::class, 'login'])->name('partner.login.process');
+
+    Route::middleware('mitra')->group(function () {
+        Route::get('/dashboard', [ClientPartnerController::class, 'dashboard'])->name('partner.dashboard');
+        Route::post('/logout', [ClientPartnerController::class, 'logout'])->name('partner.logout');
+    });
+});
+// Routes Untuk Mitra End
+
 
 // Routes Untuk User public
 
