@@ -164,7 +164,9 @@ class ClientProcessPaymentController extends Controller
             'bank_check' => 1,
         ]);
 
-        return redirect()->route('partner.payment.detail', ['merchant_ref' => $merchant_ref])
+
+        // return redirect()->route('partner.payment.detail', ['merchant_ref' => $merchant_ref])
+        return redirect()->route('partner.transaksi')
             ->with('success', 'Konfirmasi transfer berhasil dikirim. Tagihan akan segera diverifikasi.');
     }
 }

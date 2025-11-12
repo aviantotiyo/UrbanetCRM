@@ -7,7 +7,7 @@
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            @include("client.template.sidebar")
+            @include("partner.template.sidebar")
             <!-- Layout container -->
             <div class="layout-page">
                 @include('partner.template.navbar')

@@ -33,6 +33,7 @@ use App\Http\Controllers\UserRegist\AdminRegistController;
 use App\Http\Controllers\Partner\ClientSearchDataController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserPayPointController;
+use App\Http\Controllers\Partner\ClientTransactionController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\UserReferral\UserReferralController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
@@ -359,6 +360,9 @@ Route::prefix('mitra')->group(function () {
 
         Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
             ->name('partner.payment.detail');
+
+        Route::get('/transaksi', [ClientTransactionController::class, 'index'])
+            ->name('partner.transaksi');
 
         Route::post('/konfirmasi-transfer/{merchant_ref}', [ClientProcessPaymentController::class, 'confirmTransfer'])
             ->name('partner.transfer.confirm');

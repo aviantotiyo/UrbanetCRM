@@ -102,8 +102,6 @@ class ClientPartnerController extends Controller
         return redirect()->route('partner.user.billing', ['no_hp' => $noHp]);
     }
 
-
-
     public function loginWithToken($secret_token)
     {
         $partner = DataPartner::where('secret_token', $secret_token)->first();

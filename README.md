@@ -52,6 +52,16 @@ sales app
 
 agent app
 
+-   info rekening bank belum di siapkan, masih hardcode
+-   login page belum disiapkan
+-   kondisi ketika user point melebihi tagihan
+
+/// OTOMASI
+
+-   billing setiap bulan, generate invoice tagihan bulanan rutin
+-   exp konfrimasi dari agent transaksi manual
+-   cek transaksi PIAD via mutasi bank manual
+
 ==========================================================
 
 jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"
