@@ -80,6 +80,17 @@ class ClientPartnerController extends Controller
             return redirect()->back()->withErrors(['no_hp' => 'Nomor HP tidak ditemukan.'])->withInput();
         }
 
+        // Cek apakah ada tagihan UNPAID yang sedang diproses agen lain (bank_check = 1)
+        $inProcessBilling = DataBilling::where('client_id', $client->id)
+            ->where('status', 'UNPAID')
+            ->where('bank_check', 1)
+            ->exists();
+
+        if ($inProcessBilling) {
+            return redirect()->back()->with('info', 'Tagihan sedang diproses agen lainnya.');
+        }
+
+        // Ambil semua tagihan UNPAID
         $billings = DataBilling::where('client_id', $client->id)
             ->where('status', 'UNPAID')
             ->get();
@@ -90,6 +101,7 @@ class ClientPartnerController extends Controller
 
         return redirect()->route('partner.user.billing', ['no_hp' => $noHp]);
     }
+
 
 
     public function loginWithToken($secret_token)
