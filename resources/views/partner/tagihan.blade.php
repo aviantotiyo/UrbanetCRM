@@ -19,9 +19,24 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="col-md-6 col-xxl-4 mb-6">
+
+                            @if (session('success'))
+                            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                {!! session('success') !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+
+                            {{-- (Opsional) Alert error umum --}}
+                            @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {!! session('error') !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+
                             <div class="card h-100">
                                 <div class="card-body">
-
                                     <h6 class="mb-2">Detail Tagihan</h6>
                                     <hr />
                                     <ul class="p-0 m-0 mb-4 list-unstyled">
@@ -141,7 +156,7 @@
                                     <form method="POST" action="{{ route('partner.process.submit', $billing->merchant_ref) }}">
                                         @csrf
 
-                                        <input type="text" class="form-control" value="{{ $billing->merchant_ref }}" readonly>
+                                        <!-- <input type="text" class="form-control" value="{{ $billing->merchant_ref }}" readonly> -->
                                         <div class="list-group">
                                             <label class="list-group-item">
                                                 <input class="form-check-input me-1" type="radio" name="bank" value="BCA" checked required>
@@ -154,7 +169,7 @@
                                         </div>
                                         <input type="hidden" name="total" id="hidden-total">
                                         <input type="hidden" name="client_point" id="hidden-client-point">
-
+                                        <input type="hidden" name="merchant_ref" value="{{ $billing->merchant_ref }}">
                                         <div class="mt-4">
                                             <button type="submit" class="btn btn-primary w-100">Proses Tagihan</button>
                                         </div>

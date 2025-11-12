@@ -360,6 +360,10 @@ Route::prefix('mitra')->group(function () {
         Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
             ->name('partner.payment.detail');
 
+        Route::post('/konfirmasi-transfer/{merchant_ref}', [ClientProcessPaymentController::class, 'confirmTransfer'])
+            ->name('partner.transfer.confirm');
+
+
         Route::post('/logout', [ClientPartnerController::class, 'logout'])->name('partner.logout');
     });
 });

@@ -19,9 +19,23 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="col-md-6 col-xxl-4 mb-6">
+
+                            @if (session('success'))
+                            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                {!! session('success') !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+
+                            {{-- (Opsional) Alert error umum --}}
+                            @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {!! session('error') !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
                             <div class="card h-100">
                                 <div class="card-body">
-
                                     <h6 class="mb-2">Detail Tagihan {{ $billing->merchant_ref }}</h6>
                                     <hr />
                                     <ul class="p-0 m-0 mb-4 list-unstyled">
@@ -166,13 +180,26 @@
                                     <ul>
                                         <li>Nilai yang harus di transfer Rp {{ number_format($billing->total_amount, 0, ',', '.') }}</li>
                                         <li>Transfer ke BCA No Rek 1122334455</li>
-                                        <li>Maks waktu proses {{ $billing->exp_tx_bank }}</li>
+                                        <li>Maks waktu proses {{ \Carbon\Carbon::parse($billing->exp_tx_bank)->format('d/m/Y H:i') }}
+                                            WIB</li>
                                         <li>Wajib: Lakukan konfirmasi pembayaran setelah anda transfer.</li>
                                     </ul>
                                     <hr />
+                                    @if (is_null($billing->bank_check))
+                                    <form action="{{ route('partner.transfer.confirm', ['merchant_ref' => $billing->merchant_ref]) }}" method="POST">
+                                        @csrf
+                                        <div class="mt-4">
+                                            <button type="submit" class="btn btn-primary w-100">Saya sudah transfer</button>
+                                        </div>
+                                    </form>
+                                    @else
                                     <div class="mt-4">
-                                        <button type="submit" class="btn btn-primary w-100">Saya sudah transfer</button>
+                                        <a href="{{ route('partner.dashboard') }}" class="btn btn-secondary w-100">
+                                            Kembali ke Dashboard
+                                        </a>
                                     </div>
+                                    @endif
+
                                 </div>
                             </div>
 
