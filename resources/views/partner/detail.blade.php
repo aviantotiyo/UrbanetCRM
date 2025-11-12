@@ -22,7 +22,7 @@
                             <div class="card h-100">
                                 <div class="card-body">
 
-                                    <h6 class="mb-2">Detail Tagihan</h6>
+                                    <h6 class="mb-2">Detail Tagihan {{ $billing->merchant_ref }}</h6>
                                     <hr />
                                     <ul class="p-0 m-0 mb-4 list-unstyled">
                                         <li class="d-flex mb-2">
@@ -35,7 +35,7 @@
 
                                                 </div>
                                                 <div class="user-progress d-flex align-items-center gap-1">
-                                                    <p class="mb-0"><span class="badge rounded-pill bg-label-primary">{{ $client->status }}</span></p>
+                                                    <p class="mb-0"><span class="badge rounded-pill bg-label-primary">{{ $billing->status }}</span></p>
 
                                                 </div>
                                             </div>
@@ -101,27 +101,11 @@
                                         </li>
                                         @endforeach
                                         @endif
-
-                                        @if($client->point)
+                                        <hr />
                                         <li class="d-flex mb-2">
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                 <div class="me-2">
-                                                    <h6 class="mb-0">Point</h6>
-                                                    <small class="text-body d-block" id="bank-fee-label">
-                                                        Loyalti Pelanggan
-                                                    </small>
-                                                </div>
-                                                <div class="user-progress d-flex align-items-center gap-1">
-                                                    <p class="mb-0 text-success" id="client-point">{{ number_format($client->point, 0, ',', '.') }}</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        @endif
-
-                                        <li class="d-flex mb-2">
-                                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                <div class="me-2">
-                                                    <h6 class="mb-0">Total</h6>
+                                                    <h6 class="mb-0">SubTotal</h6>
                                                     <small class="text-body d-block" id="bank-fee-label">
                                                         Pembayaran
                                                     </small>
@@ -131,34 +115,64 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        <li class="d-flex mb-2">
+                                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">Kode Unik</h6>
+                                                    <small class="text-body d-block" id="bank-fee-label">
+                                                        wajid di tambahkan
+                                                    </small>
+                                                </div>
+                                                <div class="user-progress d-flex align-items-center gap-1">
+                                                    <p class="mb-0">Rp {{ $billing->kode_unik }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="d-flex mb-2">
+                                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">Total Bayar Pelanggan</h6>
+                                                    <small class="text-body d-block" id="bank-fee-label">
+                                                        Fee Admin Rp {{ number_format( $fee_merchant_billing, 0, ',', '.') }}
+
+                                                    </small>
+                                                </div>
+                                                <div class="user-progress d-flex align-items-center gap-1">
+                                                    <p class="mb-0" id="total_admin">Rp 0</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <hr />
+                                        <li class="d-flex mb-2">
+                                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">Total Transfer Mitra</h6>
+                                                    <small class="text-body d-block" id="bank-fee-label">
+                                                        Nilai harus sama
+                                                    </small>
+                                                </div>
+                                                <div class="user-progress d-flex align-items-center gap-1">
+                                                    <p class="mb-0">Rp {{ number_format($billing->total_amount, 0, ',', '.') }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
 
                                     </ul>
                                     @endforeach
 
 
-                                    <h6 class="mb-2">Pilih Pembayaran</h6>
+                                    <h6 class="mb-2">Konfirmasi Transfer</h6>
+                                    <ul>
+                                        <li>Nilai yang harus di transfer Rp {{ number_format($billing->total_amount, 0, ',', '.') }}</li>
+                                        <li>Transfer ke BCA No Rek 1122334455</li>
+                                        <li>Maks waktu proses {{ $billing->exp_tx_bank }}</li>
+                                        <li>Wajib: Lakukan konfirmasi pembayaran setelah anda transfer.</li>
+                                    </ul>
                                     <hr />
-                                    <form method="POST" action="{{ route('partner.process.submit', $billing->merchant_ref) }}">
-                                        @csrf
-
-                                        <input type="text" class="form-control" value="{{ $billing->merchant_ref }}" readonly>
-                                        <div class="list-group">
-                                            <label class="list-group-item">
-                                                <input class="form-check-input me-1" type="radio" name="bank" value="BCA" checked required>
-                                                Bank BCA
-                                            </label>
-                                            <label class="list-group-item">
-                                                <input class="form-check-input me-1" type="radio" name="bank" value="BRI" required>
-                                                Bank BRI
-                                            </label>
-                                        </div>
-                                        <input type="hidden" name="total" id="hidden-total">
-                                        <input type="hidden" name="client_point" id="hidden-client-point">
-
-                                        <div class="mt-4">
-                                            <button type="submit" class="btn btn-primary w-100">Proses Tagihan</button>
-                                        </div>
-                                    </form>
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-primary w-100">Saya sudah transfer</button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -215,22 +229,7 @@
         });
     </script>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ambil nilai total & point dari halaman sebelumnya
-            const totalText = document.getElementById('total')?.innerText || '0';
-            const pointText = document.getElementById('client-point')?.innerText || '0';
-
-            const total = parseInt(totalText.replace(/[^\d]/g, '')) || 0;
-            const point = parseInt(pointText.replace(/[^\d]/g, '')) || 0;
-
-            // Isi hidden input
-            document.getElementById('hidden-total').value = total;
-            document.getElementById('hidden-client-point').value = point;
-        });
-    </script>
-
+    @include('partner.template.count-admin')
     <script src="../../assets/vendor/js/bootstrap.js"></script>
     <script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>
 

@@ -37,6 +37,13 @@ class DataBilling extends Model
         'after_tax',
         'billing_create',
         'billing_paid',
+        'kode_unik',
+        'bank_name_manual',
+        'exp_tx_bank',
+        'partner_id',
+        'bank_check',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
@@ -67,6 +74,11 @@ class DataBilling extends Model
     public function items()
     {
         return $this->hasMany(\App\Models\DataBillingItem::class, 'merchant_ref_id', 'merchant_ref');
+    }
+
+    public function partner()
+    {
+        return $this->belongsTo(DataPartner::class, 'partner_id');
     }
 
 

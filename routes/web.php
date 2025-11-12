@@ -39,6 +39,7 @@ use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\UserBilling\UserTransactionController;
+use App\Http\Controllers\Partner\ClientProcessPaymentController;
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -352,6 +353,13 @@ Route::prefix('mitra')->group(function () {
         Route::get('/dashboard', [ClientPartnerController::class, 'dashboard'])->name('partner.dashboard');
         Route::post('/cari-tagihan', [ClientPartnerController::class, 'checkBillingByNoHP'])->name('partner.dashboard.searchBilling');
         Route::get('/user-tagihan/{no_hp}', [ClientSearchDataController::class, 'showBilling'])->name('partner.user.billing');
+
+        Route::get('/proses-tagihan/{merchant_ref}', [ClientProcessPaymentController::class, 'showForm'])->name('partner.process.form');
+        Route::post('/proses-tagihan/{merchant_ref}', [ClientProcessPaymentController::class, 'processPayment'])->name('partner.process.submit');
+
+        Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
+            ->name('partner.payment.detail');
+
         Route::post('/logout', [ClientPartnerController::class, 'logout'])->name('partner.logout');
     });
 });

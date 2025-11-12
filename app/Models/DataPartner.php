@@ -30,6 +30,12 @@ class DataPartner extends Authenticatable
         'status',
     ];
 
+
+    public function billings()
+    {
+        return $this->hasMany(DataBilling::class, 'partner_id');
+    }
+
     protected static function booted(): void
     {
         static::creating(function ($model) {
