@@ -30,6 +30,7 @@ use App\Http\Controllers\Partner\ClientPartnerController;
 use App\Http\Controllers\UserRegist\UserRegistController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\UserRegist\AdminRegistController;
+use App\Http\Controllers\Partner\ClientSearchDataController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserPayPointController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
@@ -349,6 +350,8 @@ Route::prefix('mitra')->group(function () {
 
     Route::middleware('mitra')->group(function () {
         Route::get('/dashboard', [ClientPartnerController::class, 'dashboard'])->name('partner.dashboard');
+        Route::post('/cari-tagihan', [ClientPartnerController::class, 'checkBillingByNoHP'])->name('partner.dashboard.searchBilling');
+        Route::get('/user-tagihan/{no_hp}', [ClientSearchDataController::class, 'showBilling'])->name('partner.user.billing');
         Route::post('/logout', [ClientPartnerController::class, 'logout'])->name('partner.logout');
     });
 });

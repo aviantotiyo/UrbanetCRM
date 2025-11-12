@@ -46,6 +46,8 @@ Referral
 bagian referral client perlu di tambahkan select paket. (done - v)
 NIK, no hp belum ada pengecekan di semua data pelanggan DataClient, DataClientsRegist,DataClientreferral (done -v)
 
+selectpayment ada error. JS nya tidak menghitung angka akhirnya
+
 sales app
 
 agent app

@@ -61,34 +61,21 @@ class UserRegistController extends Controller
 
     public function store(Request $request)
     {
-        Log::debug('📥 Form submitted', [
-            'ip' => $request->ip(),
-            'input' => $request->all(),
+        // Validasi awal
+        $validated = $request->validate([
+            'nama'       => 'required|string|max:255',
+            'no_hp'      => 'required|string|max:20',
+            'nik'        => 'required|string|max:20',
+            'email'      => 'nullable|email|max:255',
+            'alamat'     => 'nullable|string|max:255',
+            'provinsi'   => 'required|string|max:100',
+            'kabupaten'  => 'required|string|max:100',
+            'kecamatan'  => 'required|string|max:100',
+            'paket_id'   => 'required|uuid|exists:data_paket,id',
+            'g-recaptcha-response' => 'required|string',
         ]);
 
-        try {
-            // ✅ Validasi awal
-            $validated = $request->validate([
-                'nama'       => 'required|string|max:255',
-                'no_hp'      => 'required|string|max:20',
-                'nik'        => 'required|string|max:20',
-                'email'      => 'nullable|email|max:255',
-                'alamat'     => 'nullable|string|max:255',
-                'provinsi'   => 'required|string|max:100',
-                'kabupaten'  => 'required|string|max:100',
-                'kecamatan'  => 'required|string|max:100',
-                'paket_id'   => 'required|uuid|exists:data_paket,id',
-                'g-recaptcha-response' => 'required|string',
-            ]);
-            Log::debug('✅ Validasi form sukses', $validated);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::warning('❌ Validasi form gagal', [
-                'errors' => $e->errors(),
-            ]);
-            throw $e;
-        }
-
-        // 🔄 Validasi no_hp & nik
+        // Cek duplikasi
         $existsInClients = DataClients::where('no_hp', $validated['no_hp'])
             ->orWhere('nik', $validated['nik'])->exists();
         $existsInRegist = DataClientsRegist::where('no_hp', $validated['no_hp'])
@@ -97,19 +84,14 @@ class UserRegistController extends Controller
             ->orWhere('nik', $validated['nik'])->exists();
 
         if ($existsInClients || $existsInRegist || $existsInProspect) {
-            Log::warning('❌ Duplikasi ditemukan', [
-                'no_hp' => $validated['no_hp'],
-                'nik'   => $validated['nik'],
-            ]);
             return back()
                 ->withErrors(['no_hp' => 'Nomor HP atau NIK sudah terdaftar.'])
                 ->withInput();
         }
 
-        // 🔐 Validasi Google reCAPTCHA
+        // Validasi Google reCAPTCHA
         try {
             $recaptchaSecret = env('RECAPTCHA_SECRET_KEY');
-
             $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
                 'secret'   => $recaptchaSecret,
                 'response' => $validated['g-recaptcha-response'],
@@ -118,22 +100,18 @@ class UserRegistController extends Controller
 
             $recaptcha = $recaptchaResponse->json();
 
-            Log::debug('🔐 Hasil reCAPTCHA', $recaptcha);
-
             if (!($recaptcha['success'] ?? false) || ($recaptcha['score'] ?? 0) < 0.5) {
-                Log::warning('❌ Verifikasi reCAPTCHA gagal');
                 return back()
                     ->withErrors(['email' => 'Verifikasi reCAPTCHA gagal. Silakan coba lagi.'])
                     ->withInput();
             }
         } catch (\Exception $e) {
-            Log::error('❌ Exception saat verifikasi reCAPTCHA', ['error' => $e->getMessage()]);
             return back()
                 ->withErrors(['email' => 'Gagal memverifikasi reCAPTCHA.'])
                 ->withInput();
         }
 
-        // 📧 Validasi email (opsional)
+        // Validasi email (opsional)
         if (!empty($validated['email'])) {
             $apiKey = env('KEY_DEBOUNCE');
 
@@ -144,26 +122,22 @@ class UserRegistController extends Controller
                 ]);
 
                 if ($response->failed()) {
-                    Log::warning('❌ Debounce gagal merespons');
                     return back()->withErrors(['email' => 'Gagal memverifikasi email.'])->withInput();
                 }
 
                 $result = $response->json();
                 $code = $result['debounce']['code'] ?? null;
 
-                Log::debug('📧 Hasil Debounce', $result);
-
                 if ($code !== "5") {
                     return back()->withErrors(['email' => 'Email tidak valid atau tidak dapat diverifikasi.'])->withInput();
                 }
             } catch (\Exception $e) {
-                Log::error('❌ Exception Debounce', ['error' => $e->getMessage()]);
                 return back()->withErrors(['email' => 'Terjadi kesalahan saat verifikasi email.'])->withInput();
             }
         }
 
-        // ✅ Simpan data
-        $data = DataClientsRegist::create([
+        // Simpan data
+        DataClientsRegist::create([
             'id'         => (string) Str::uuid(),
             'nama'       => $validated['nama'],
             'no_hp'      => $validated['no_hp'],
@@ -178,12 +152,8 @@ class UserRegistController extends Controller
             'created_at' => now(),
         ]);
 
-        Log::info('✅ Registrasi berhasil', ['id' => $data->id]);
-
         return redirect()->route('client.regist.success');
     }
-
-
 
     /**
      * Halaman sukses

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Partner;
 
+use App\Models\DataBilling;
+use App\Models\DataClients;
 use App\Models\DataPartner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 class ClientPartnerController extends Controller
@@ -21,7 +24,30 @@ class ClientPartnerController extends Controller
         $request->validate([
             'no_hp' => 'required|string',
             'password' => 'required|string',
+            'g-recaptcha-response' => 'required|string',
         ]);
+
+        try {
+            $recaptchaSecret = env('RECAPTCHA_SECRET_KEY');
+
+            $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret'   => $recaptchaSecret,
+                'response' => $request['g-recaptcha-response'],
+                'remoteip' => $request->ip(),
+            ]);
+
+            $recaptcha = $recaptchaResponse->json();
+
+            if (!($recaptcha['success'] ?? false) || ($recaptcha['score'] ?? 0) < 0.5) {
+                return back()
+                    ->withErrors(['email' => 'Verifikasi reCAPTCHA gagal. Silakan coba lagi.'])
+                    ->withInput();
+            }
+        } catch (\Exception $e) {
+            return back()
+                ->withErrors(['email' => 'Gagal memverifikasi reCAPTCHA.'])
+                ->withInput();
+        }
 
         $partner = DataPartner::where('no_hp', $request->no_hp)->first();
 
@@ -38,6 +64,33 @@ class ClientPartnerController extends Controller
 
         return redirect()->route('partner.dashboard');
     }
+
+    public function checkBillingByNoHP(Request $request)
+    {
+        $request->validate([
+            'no_hp' => 'required|string'
+        ]);
+
+        $noHp = $request->no_hp;
+
+        $partner = DataPartner::findOrFail(session('partner_auth_id'));
+        $client = DataClients::where('no_hp', $noHp)->first();
+
+        if (!$client) {
+            return redirect()->back()->withErrors(['no_hp' => 'Nomor HP tidak ditemukan.'])->withInput();
+        }
+
+        $billings = DataBilling::where('client_id', $client->id)
+            ->where('status', 'UNPAID')
+            ->get();
+
+        if ($billings->isEmpty()) {
+            return redirect()->back()->with('info', 'Tidak ada tagihan untuk nomor ini.');
+        }
+
+        return redirect()->route('partner.user.billing', ['no_hp' => $noHp]);
+    }
+
 
     public function loginWithToken($secret_token)
     {
