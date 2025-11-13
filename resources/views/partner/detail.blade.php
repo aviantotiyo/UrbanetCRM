@@ -196,13 +196,54 @@
                                     <h6 class="mb-2">Konfirmasi Transfer</h6>
                                     <ul>
                                         <li>Nilai yang harus di transfer Rp {{ number_format($billing->total_amount, 0, ',', '.') }}</li>
-                                        <li>Transfer ke BCA No Rek 1122334455</li>
+                                        @php
+                                        $targetBank = $allBanks->firstWhere('nama_bank', $billing->bank_name_manual);
+                                        @endphp
+
+                                        @if ($targetBank)
+                                        <li>
+                                            Transfer ke {{ $targetBank->nama_bank }} {{ $targetBank->nama_pic }} -
+                                            <span id="noRekWrapper" style="position: relative;">
+                                                <a href="javascript:void(0);" onclick="copyRekening()" id="noRekLink">
+                                                    {{ $targetBank->no_rek }}
+                                                </a>
+                                                <span id="tooltipText" style="
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Tooltip muncul di atas */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        ">
+                                                    Disalin!
+                                                </span>
+                                            </span>
+                                        </li>
+
+                                        @else
+
+                                        @endif
+
                                         <li>Maks waktu proses {{ \Carbon\Carbon::parse($billing->exp_tx_bank)->format('d/m/Y H:i') }}
                                             WIB</li>
                                         <li>Wajib: Lakukan konfirmasi pembayaran setelah anda transfer.</li>
                                     </ul>
+
+
+
                                     <hr />
                                     @endif
+
+
+
 
                                     @if (is_null($billing->bank_check) && $billing->status != 'PAID')
                                     <form action="{{ route('partner.transfer.confirm', ['merchant_ref' => $billing->merchant_ref]) }}" method="POST">
@@ -226,6 +267,22 @@
                     </div>
                 </div>
 
+                <script>
+                    function copyRekening() {
+                        const text = document.getElementById('noRekLink').innerText;
+                        navigator.clipboard.writeText(text).then(() => {
+                            const tooltip = document.getElementById('tooltipText');
+                            tooltip.style.visibility = 'visible';
+                            tooltip.style.opacity = '1';
+
+                            // Sembunyikan setelah 1.5 detik
+                            setTimeout(() => {
+                                tooltip.style.visibility = 'hidden';
+                                tooltip.style.opacity = '0';
+                            }, 1500);
+                        });
+                    }
+                </script>
 
 
                 <div class="content-backdrop fade"></div>

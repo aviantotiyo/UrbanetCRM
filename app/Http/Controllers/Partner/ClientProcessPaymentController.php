@@ -8,6 +8,7 @@ use App\Models\DataClients;
 use App\Models\DataPartner;
 use App\Models\DataSetting;
 use Illuminate\Http\Request;
+use App\Models\DataBankManual;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
@@ -145,6 +146,7 @@ class ClientProcessPaymentController extends Controller
         $billingItems = \App\Models\DataBillingItem::whereIn('merchant_ref_id', $merchantRefs)->get();
 
         $fee_merchant_billing = \App\Models\DataSetting::value('fee_merchant_billing');
+        $allBanks = DataBankManual::all();
 
         return view('partner.detail', compact(
             'billing',
@@ -152,7 +154,8 @@ class ClientProcessPaymentController extends Controller
             'client',
             'billings',
             'billingItems',
-            'fee_merchant_billing'
+            'fee_merchant_billing',
+            'allBanks'
         ));
     }
 

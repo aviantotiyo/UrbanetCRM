@@ -54,7 +54,7 @@ agent app
 
 -   info rekening bank belum di siapkan, masih hardcode
 -   login page belum disiapkan
--   kondisi ketika user point melebihi tagihan
+-   kondisi ketika user point melebihi tagihan (v -done)
 -   hitung pajak dan penerimaan bersih (v - done)
 
 /// OTOMASI
