@@ -55,6 +55,7 @@ agent app
 -   info rekening bank belum di siapkan, masih hardcode
 -   login page belum disiapkan
 -   kondisi ketika user point melebihi tagihan
+-   hitung pajak dan penerimaan bersih
 
 /// OTOMASI
 
@@ -62,6 +63,10 @@ agent app
 -   exp konfrimasi dari agent transaksi manual
 -   cek transaksi PIAD via mutasi bank manual
 
+==========================================================
+
+perintah queue:
+php artisan queue:work --queue=default,emails
 ==========================================================
 
 jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"

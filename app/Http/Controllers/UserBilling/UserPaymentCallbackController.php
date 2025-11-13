@@ -74,6 +74,9 @@ class UserPaymentCallbackController extends Controller
                 JobEmailTaxPaid::dispatch($billing->id)->onQueue('emails');
                 break;
             case 'EXPIRED':
+                $billing->status = $status;
+                $billing->save();
+                break;
             case 'FAILED':
                 $billing->status = $status;
                 $billing->save();
