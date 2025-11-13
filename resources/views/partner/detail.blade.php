@@ -54,6 +54,7 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        @if ($billing->status == 'PAID')
                                         <li class="d-flex mb-2">
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                 <div class="me-2">
@@ -69,6 +70,7 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        @endif
                                     </ul>
                                     <hr />
                                     @foreach ($billings as $billing)
