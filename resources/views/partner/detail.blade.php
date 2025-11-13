@@ -54,6 +54,21 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        <li class="d-flex mb-2">
+                                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">Tagihan Lunas</h6>
+                                                    <small class="text-body d-block" id="bank-fee-label">
+                                                        {{ $billing->payment_name }}
+                                                    </small>
+
+                                                </div>
+                                                <div class="user-progress d-flex align-items-center gap-1">
+                                                    <p class="mb-0">{{ ($billing->billing_paid)->format('d/m/Y H:i') }} WIB</p>
+
+                                                </div>
+                                            </div>
+                                        </li>
                                     </ul>
                                     <hr />
                                     @foreach ($billings as $billing)
@@ -175,7 +190,7 @@
                                     </ul>
                                     @endforeach
 
-
+                                    @if ($billing->status != 'PAID')
                                     <h6 class="mb-2">Konfirmasi Transfer</h6>
                                     <ul>
                                         <li>Nilai yang harus di transfer Rp {{ number_format($billing->total_amount, 0, ',', '.') }}</li>
@@ -185,7 +200,9 @@
                                         <li>Wajib: Lakukan konfirmasi pembayaran setelah anda transfer.</li>
                                     </ul>
                                     <hr />
-                                    @if (is_null($billing->bank_check))
+                                    @endif
+
+                                    @if (is_null($billing->bank_check) && $billing->status != 'PAID')
                                     <form action="{{ route('partner.transfer.confirm', ['merchant_ref' => $billing->merchant_ref]) }}" method="POST">
                                         @csrf
                                         <div class="mt-4">

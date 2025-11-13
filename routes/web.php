@@ -36,6 +36,7 @@ use App\Http\Controllers\UserBilling\UserPayPointController;
 use App\Http\Controllers\Partner\ClientTransactionController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\UserReferral\UserReferralController;
+use App\Http\Controllers\Partner\ClientProcessPointController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserReferral\AdminReferralController;
@@ -358,11 +359,16 @@ Route::prefix('mitra')->group(function () {
         Route::get('/proses-tagihan/{merchant_ref}', [ClientProcessPaymentController::class, 'showForm'])->name('partner.process.form');
         Route::post('/proses-tagihan/{merchant_ref}', [ClientProcessPaymentController::class, 'processPayment'])->name('partner.process.submit');
 
+        Route::get('/point-payment', [ClientSearchDataController::class, 'showPointPayment'])->name('partner.point.payment');
+
+
         Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
             ->name('partner.payment.detail');
 
         Route::get('/transaksi', [ClientTransactionController::class, 'index'])
             ->name('partner.transaksi');
+
+        Route::post('/proses-point/{merchant_ref_id}', [ClientProcessPointController::class, 'store'])->name('partner.process.point');
 
         Route::post('/konfirmasi-transfer/{merchant_ref}', [ClientProcessPaymentController::class, 'confirmTransfer'])
             ->name('partner.transfer.confirm');
