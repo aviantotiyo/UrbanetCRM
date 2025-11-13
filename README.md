@@ -61,13 +61,19 @@ agent app
 
 -   billing setiap bulan, generate invoice tagihan bulanan rutin
 -   exp konfrimasi dari agent transaksi manual
--   cek transaksi PIAD via mutasi bank manual
+-   cek transaksi PAID via mutasi bank manual
 
 ==========================================================
 
 perintah queue:
 php artisan queue:work --queue=default,emails
 ==========================================================
+perintah jalankan schedule
+
+php artisan schedule:run
+php artisan billing:reset-expired
+
+===========================================================
 
 jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"
 
