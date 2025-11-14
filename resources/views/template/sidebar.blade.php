@@ -181,7 +181,7 @@
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.partner.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.partner.index') }}" class="menu-link">
-                        <div data-i18n="Daftar Mitra">Daftar Mitra</div>
+                        <div data-i18n="Data Mitra POB">Data Mitra POB</div>
                     </a>
                 </li>
             </ul>

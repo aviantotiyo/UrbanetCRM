@@ -33,13 +33,27 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception): Response
     {
-        // Tambahkan penanganan error 419 (TokenMismatch)
         if ($exception instanceof TokenMismatchException) {
+
+            // ========== MITRA ==========
             if ($request->is('mitra/*') || $request->routeIs('partner.*')) {
                 return redirect()->route('partner.login')
                     ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
             }
 
+            // ========== ADMIN ==========
+            if ($request->is('admin/*') || $request->routeIs('admin.*')) {
+                return redirect()->route('admin.login')
+                    ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
+            }
+
+            // ========== PELANGGAN ==========
+            if ($request->is('pelanggan/*') || $request->routeIs('client.*')) {
+                return redirect()->route('client.auth.step1')
+                    ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
+            }
+
+            // ========== DEFAULT (pelanggan / user biasa) ==========
             return redirect()->route('login')
                 ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
         }
