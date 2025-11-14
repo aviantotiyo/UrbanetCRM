@@ -63,6 +63,8 @@ class ClientProcessPaymentController extends Controller
                 ->exists();
         } while ($exists);
 
+        $fee_merchant = DataSetting::value('fee_merchant_billing') ?? 3500;
+
         // 🔹 Update DataBilling
         $billing->update([
             'payment_method'   => 'MITRA',
@@ -76,6 +78,8 @@ class ClientProcessPaymentController extends Controller
             'amount_received'  => $amountReceived,
             'tax'              => $tax,
             'after_tax'        => $afterTax,
+            'point'            => $request->client_point ?? 0,
+            'fee_merchant'     => $fee_merchant,
         ]);
 
         // 🔹 Kurangi poin pelanggan

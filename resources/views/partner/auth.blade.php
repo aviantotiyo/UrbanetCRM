@@ -10,6 +10,12 @@
 <body class="bg-light">
     <div class="container mt-5">
         <h3 class="text-center mb-4">Login Mitra</h3>
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
+
         <form method="POST" action="{{ route('partner.login.process') }}" class="card p-4 mx-auto" style="max-width: 400px;">
             @csrf
 

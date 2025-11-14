@@ -26,8 +26,8 @@ class ClientProcessPointController extends Controller
 
         // Update billing
         $billing->update([
-            'payment_method' => 'MITRA',
-            'payment_name' => 'MITRA',
+            'payment_method' => 'MITRA-POINT',
+            'payment_name' => 'MITRA-POINT',
             'total_amount' => $request->sisa_tagihan,
             'point' => $request->poin_digunakan,
             'fee_merchant' => null,
@@ -39,7 +39,7 @@ class ClientProcessPointController extends Controller
             'partner_id' => $partner->id,
             'bank_name_manual' => 'POINT',
             'billing_paid' => now(),
-            'kode_unik' => null,
+            'kode_unik' => 0,
             'exp_tx_bank' => null,
         ]);
 
