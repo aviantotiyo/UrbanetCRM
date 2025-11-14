@@ -11,7 +11,7 @@ class AdminPartnerController extends Controller
 {
     public function index()
     {
-        $partners = DataPartner::latest()->get();
+        $partners = DataPartner::latest()->paginate(10);
         return view('admin.partner.index', compact('partners'));
     }
 

@@ -167,6 +167,27 @@
         </li>
 
 
+
+        <!-- Apps & Pages -->
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="Mitra Layanan">Mitra Layanan</span>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('admin.partner.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-files"></i>
+                <div data-i18n="Mitra Pembayaran">Mitra Pembayaran</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.partner.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.partner.index') }}" class="menu-link">
+                        <div data-i18n="Daftar Mitra">Daftar Mitra</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
         @auth
         @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'CustomerCare', 'Finance']))
         <!-- Apps & Pages -->

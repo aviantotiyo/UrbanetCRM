@@ -347,7 +347,6 @@ Route::middleware('client.auth')->group(function () {
 // Routes Untuk Mitra 
 Route::prefix('mitra')->group(function () {
     Route::get('/token/{secret_token}', [ClientPartnerController::class, 'loginWithToken'])->name('partner.login.token');
-
     Route::get('/', [ClientPartnerController::class, 'showLoginForm'])->name('partner.login');
     Route::post('/', [ClientPartnerController::class, 'login'])->name('partner.login.process');
 
@@ -355,24 +354,18 @@ Route::prefix('mitra')->group(function () {
         Route::get('/dashboard', [ClientPartnerController::class, 'dashboard'])->name('partner.dashboard');
         Route::post('/cari-tagihan', [ClientPartnerController::class, 'checkBillingByNoHP'])->name('partner.dashboard.searchBilling');
         Route::get('/user-tagihan/{no_hp}', [ClientSearchDataController::class, 'showBilling'])->name('partner.user.billing');
-
         Route::get('/proses-tagihan/{merchant_ref}', [ClientProcessPaymentController::class, 'showForm'])->name('partner.process.form');
         Route::post('/proses-tagihan/{merchant_ref}', [ClientProcessPaymentController::class, 'processPayment'])->name('partner.process.submit');
-
         Route::get('/point-payment', [ClientSearchDataController::class, 'showPointPayment'])->name('partner.point.payment');
 
 
         Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
             ->name('partner.payment.detail');
-
         Route::get('/transaksi', [ClientTransactionController::class, 'index'])
             ->name('partner.transaksi');
-
         Route::post('/proses-point/{merchant_ref_id}', [ClientProcessPointController::class, 'store'])->name('partner.process.point');
-
         Route::post('/konfirmasi-transfer/{merchant_ref}', [ClientProcessPaymentController::class, 'confirmTransfer'])
             ->name('partner.transfer.confirm');
-
 
         Route::post('/logout', [ClientPartnerController::class, 'logout'])->name('partner.logout');
     });
