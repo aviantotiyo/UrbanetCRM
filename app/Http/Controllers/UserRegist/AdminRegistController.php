@@ -19,7 +19,6 @@ class AdminRegistController extends Controller
     public function edit($id)
     {
         $regist = DataClientsRegist::findOrFail($id);
-        $paketList = DataPaket::all();
 
 
         // JSON wilayah

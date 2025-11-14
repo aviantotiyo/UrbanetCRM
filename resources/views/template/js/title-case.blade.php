@@ -1,6 +1,6 @@
 <script>
     (function() {
-        const SELECTORS = ['input[name="nama"]', 'input[name="alamat"]']; // tambah selector lain di sini
+        const SELECTORS = ['input[name="nama"]', 'input[name="alamat"]', 'input[name="nama_partner"]']; // tambah selector lain di sini
 
         const SMALL = new Set(['bin', 'binti', 'dan', 'di', 'ke', 'dari', 'yang', 'untuk', 'atau', 'al', 'as', 'ibn', 'abu']);
 

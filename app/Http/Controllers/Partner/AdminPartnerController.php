@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Partner;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\DataPaket;
 use App\Models\DataPartner;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminPartnerController extends Controller
 {
@@ -17,7 +18,33 @@ class AdminPartnerController extends Controller
 
     public function create()
     {
-        return view('admin.partner.tambah');
+
+        // Path file JSON (di public/assets/json/...)
+        $provPath = public_path('assets/json/provinsi.json');
+        $kabPath  = public_path('assets/json/kabupaten.json');
+        $kecPath  = public_path('assets/json/kecamatan.json');
+
+        $readJson = function (string $path): array {
+            if (!is_file($path)) return [];
+            $raw = file_get_contents($path);
+            $data = json_decode($raw, true);
+            return is_array($data) ? $data : [];
+        };
+
+        $provinsiRaw  = $readJson($provPath);   // [ {id, name, ...}, ... ]
+        $kabupatenRaw = $readJson($kabPath);    // [ {id, province_id, name, ...}, ... ]
+        $kecamatanRaw = $readJson($kecPath);    // [ {id, regency_id,  name, ...}, ... ]
+
+        // urutkan A-Z
+        usort($provinsiRaw,  fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+
+        return view('admin.partner.tambah', compact(
+            'provinsiRaw',
+            'kabupatenRaw',
+            'kecamatanRaw',
+        ));
     }
 
     public function store(Request $request)
@@ -51,7 +78,33 @@ class AdminPartnerController extends Controller
     public function edit($id)
     {
         $partner = DataPartner::findOrFail($id);
-        return view('admin.partner.edit', compact('partner'));
+
+        // JSON wilayah
+        $provPath = public_path('assets/json/provinsi.json');
+        $kabPath  = public_path('assets/json/kabupaten.json');
+        $kecPath  = public_path('assets/json/kecamatan.json');
+
+        $readJson = function (string $path): array {
+            if (!is_file($path)) return [];
+            $raw = file_get_contents($path);
+            $data = json_decode($raw, true);
+            return is_array($data) ? $data : [];
+        };
+
+        $provinsiRaw  = $readJson($provPath);
+        $kabupatenRaw = $readJson($kabPath);
+        $kecamatanRaw = $readJson($kecPath);
+
+        usort($provinsiRaw,  fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+
+        return view('admin.partner.edit', compact(
+            'partner',
+            'provinsiRaw',
+            'kabupatenRaw',
+            'kecamatanRaw',
+        ));
     }
 
     public function update(Request $request, $id)

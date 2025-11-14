@@ -1,18 +1,6 @@
 @section('title', 'Edit Data Mitra Pembayaran')
 @include('template.head')
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
-
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
-
 </head>
-
-
-
 
 <body>
     <!-- Layout wrapper -->
@@ -85,7 +73,7 @@
 
                                             <div class="mb-3">
                                                 <label for="no_hp" class="form-label">Nomor HP</label>
-                                                <input type="text" class="form-control" name="no_hp" value="{{ $partner->no_hp }}" required>
+                                                <input type="text" class="form-control" id="no_hp" name="no_hp" value="{{ $partner->no_hp }}" required readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -101,15 +89,33 @@
                                         <div class="col-12 col-md-6 mb-4">
                                             <div class="mb-3">
                                                 <label class="form-label">Provinsi</label>
-                                                <input type="text" class="form-control" name="provinsi" value="{{ $partner->provinsi }}">
+                                                <select id="provinsi_pel" name="provinsi" class="form-select" required>
+                                                    <option value="">-- pilih provinsi --</option>
+                                                    @foreach($provinsiRaw as $p)
+                                                    <option value="{{ $p['name'] }}" {{ old('provinsi', $partner->provinsi) === $p['name'] ? 'selected' : '' }}>
+                                                        {{ $p['name'] }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Kabupaten</label>
-                                                <input type="text" class="form-control" name="kabupaten" value="{{ $partner->kabupaten }}">
+                                                <!-- <input type="text" class="form-control mt-2" readonly value="Selected Kabupaten: {{ old('kabupaten', $partner->kabupaten) }}"> -->
+
+                                                <select id="kabupaten_pel" name="kabupaten" class="form-select" data-selected="{{ old('kabupaten', $partner->kabupaten) }}">
+                                                    <option value="">-- pilih kabupaten --</option>
+                                                </select>
+                                                @error('kabupaten')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Kecamatan</label>
-                                                <input type="text" class="form-control" name="kecamatan" value="{{ $partner->kecamatan }}">
+                                                <!-- <input type="text" class="form-control mt-2" readonly value="Selected Kecamatan: {{ old('kecamatan', $partner->kecamatan) }}"> -->
+
+                                                <select id="kecamatan_pel" name="kecamatan" class="form-select" data-selected="{{ old('kecamatan', $partner->kecamatan) }}">
+                                                    <option value="">-- pilih kecamatan --</option>
+                                                </select>
+                                                @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
                                         </div>
                                     </div>
@@ -158,21 +164,13 @@
     <div class="drag-target"></div>
     </div>
     <!-- / Layout wrapper -->
-
-
+    @include('template.js.select-city-partner')
 
     @include('template.js.title-case')
+    @include('template.js.no-hp')
 
     @include('template.footer')
 
-    <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
-
-
-    <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-pickers.js') }}"></script>
 
 </body>
 
