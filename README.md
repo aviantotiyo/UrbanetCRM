@@ -52,10 +52,12 @@ sales app
 
 agent app
 
--   info rekening bank belum di siapkan, masih hardcode
--   login page belum disiapkan
+-   info rekening bank belum di siapkan, masih hardcode (v - done)
+-   login page belum disiapkan (v-done)
 -   kondisi ketika user point melebihi tagihan (v -done)
 -   hitung pajak dan penerimaan bersih (v - done)
+-   dashboard mitra di backend admin belum di benahi UX nya
+-   Mitra melakukan inactive account dan update profile belum ada
 
 /// OTOMASI
 

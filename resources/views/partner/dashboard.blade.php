@@ -1,4 +1,4 @@
-@section('title', 'Dashboard Pelanggan')
+@section('title', 'Dashboard Mitra')
 @include('client.template.head')
 
 </head>

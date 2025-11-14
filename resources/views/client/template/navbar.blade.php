@@ -73,7 +73,7 @@
                      </li>
                      <li>
                          <a class="dropdown-item" href="{{ route('client.transaksi.index') }}">
-                             <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">Transaksi</span>
+                             <i class="ti ti-printer me-3 ti-md"></i><span class="align-middle">Transaksi</span>
                          </a>
                      </li>
                      <li>

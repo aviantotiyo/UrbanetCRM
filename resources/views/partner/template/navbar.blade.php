@@ -73,6 +73,12 @@
                      </li>
 
                      <li>
+                         <a class="dropdown-item" href="{{ route('partner.transaksi') }}">
+                             <i class="ti ti-printer me-3 ti-md"></i><span class="align-middle">Transaksi</span>
+                         </a>
+                     </li>
+
+                     <li>
                          <div class="dropdown-divider my-1 mx-n2"></div>
                      </li>
                      <li>
