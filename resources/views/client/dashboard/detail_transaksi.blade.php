@@ -146,6 +146,24 @@
                                                     @endforeach
                                                     @empty
                                                     @endforelse
+
+                                                    @if($billing->point)
+                                                    <li class="d-flex mb-2">
+                                                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                            <div class="me-2">
+                                                                <h6 class="mb-0">Point</h6>
+                                                                <small class="text-body d-block" id="bank-fee-label">
+                                                                    Loyalti Point
+                                                                </small>
+
+                                                            </div>
+                                                            <div class="user-progress d-flex align-items-center gap-1">
+                                                                <p class="mb-0 text-success discount">{{ number_format($billing->point, 0, ',', '.') }}</p>
+
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </div>
