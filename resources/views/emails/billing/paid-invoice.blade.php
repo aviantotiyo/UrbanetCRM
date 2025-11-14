@@ -120,6 +120,10 @@
                 <td>: Rp {{ number_format($billing->fee_customer, 0, ',', '.') }}</td>
             </tr>
             <tr>
+                <td>Point loyalti</td>
+                <td>: Rp {{ number_format($billing->point, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
                 <td>Total Tagihan</td>
                 <td>: <strong>Rp {{ number_format($billing->total_amount, 0, ',', '.') }}</strong></td>
             </tr>

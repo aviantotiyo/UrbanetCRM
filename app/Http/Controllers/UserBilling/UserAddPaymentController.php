@@ -118,6 +118,11 @@ class UserAddPaymentController extends Controller
         if (!empty($responseData['success']) && $responseData['success'] === true) {
             $billing->updateFromTripayResponse($responseData['data']);
 
+            // Tambahkan penyimpanan pointUsed
+            $billing->point = $pointUsed;
+            $billing->save();
+
+            // Kurangi point client
             $client->point = max(0, $client->point - $pointUsed);
             $client->save();
 

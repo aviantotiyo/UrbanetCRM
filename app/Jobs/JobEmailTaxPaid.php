@@ -34,29 +34,34 @@ class JobEmailTaxPaid implements ShouldQueue
     public function handle(): void
     {
         $billing = DataBilling::find($this->billingId);
-
         if (!$billing) return;
 
-        // Hitung pajak
+        // 🔹 Hitung pajak
         $setting = DataSetting::first();
         $taxPercent = $setting?->tax ?? 11;
 
-        // Hitung nilai pajak & pendapatan setelah pajak
         $tax = round($billing->amount_received * ($taxPercent / 100));
         $afterTax = $billing->amount_received - $tax;
 
-        // Simpan nilai ke database
-        $billing->tax = $tax;
-        $billing->after_tax = $afterTax;
-        $billing->save();
+        // 🔹 Update nilai pajak dan reset field manual transfer
+        $billing->update([
+            'tax'              => $tax,
+            'after_tax'        => $afterTax,
+            'fee_merchant'     => null,
+            'kode_unik'        => null,
+            'bank_name_manual' => null,
+            'exp_tx_bank'      => null,
+            'partner_id'       => null,
+            'bank_check'       => null,
+        ]);
 
-        // Ambil data client dan billing item
+        // 🔹 Ambil data client dan item billing
         $client = DataClients::find($billing->client_id);
         $items  = DataBillingItem::where('merchant_ref_id', $billing->merchant_ref)->get();
 
         if (!$client || !$client->email) return;
 
-        // Kirim email invoice
+        // 🔹 Kirim email invoice
         Mail::to($client->email)->send(new TaxPaidInvoiceMail($billing, $client, $items));
     }
 }

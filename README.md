@@ -60,7 +60,7 @@ agent app
 /// OTOMASI
 
 -   billing setiap bulan, generate invoice tagihan bulanan rutin
--   exp konfrimasi dari agent transaksi manual
+-   exp konfrimasi dari agent transaksi manual (v -done)
 -   cek transaksi PAID via mutasi bank manual
 
 ==========================================================
