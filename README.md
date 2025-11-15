@@ -6,7 +6,7 @@ ALUR BILLING KETIKA CLIENT MENDAPATKAN PROMO
 data_blling
 
 -   net_income di kurangi pajak (V)
--   denda (field database sudah)
+-   denda (field database sudah) (v)
     loyalti program (point) (field database sudah) (V)
 
 referral system
@@ -46,11 +46,11 @@ Referral
 bagian referral client perlu di tambahkan select paket. (done - v)
 NIK, no hp belum ada pengecekan di semua data pelanggan DataClient, DataClientsRegist,DataClientreferral (done -v)
 
-selectpayment ada error. JS nya tidak menghitung angka akhirnya
+selectpayment ada error. JS nya tidak menghitung angka akhirnya (V-done)
 
 sales app
 
-agent app
+agent app (partner)
 
 -   info rekening bank belum di siapkan, masih hardcode (v - done)
 -   login page belum disiapkan (v-done)
@@ -58,8 +58,9 @@ agent app
 -   hitung pajak dan penerimaan bersih (v - done)
 -   dashboard mitra di backend admin belum di benahi UX nya (V- done)
 -   Mitra melakukan inactive account dan update profile belum ada (V-done)
+-   belum ada fitur add client dan hitungan fee
 
-/// OTOMASI
+    /// OTOMASI
 
 -   billing setiap bulan, generate invoice tagihan bulanan rutin
 -   exp konfrimasi dari agent transaksi manual (v -done)
