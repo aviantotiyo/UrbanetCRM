@@ -26,6 +26,7 @@ use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Partner\AdminPartnerController;
 use App\Http\Controllers\UserBilling\UserAuthController;
 
+use App\Http\Controllers\Partner\ClientAddUserController;
 use App\Http\Controllers\Partner\ClientPartnerController;
 use App\Http\Controllers\UserRegist\UserRegistController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -359,6 +360,9 @@ Route::prefix('mitra')->group(function () {
         Route::post('/proses-tagihan/{merchant_ref}', [ClientProcessPaymentController::class, 'processPayment'])->name('partner.process.submit');
         Route::get('/point-payment', [ClientSearchDataController::class, 'showPointPayment'])->name('partner.point.payment');
 
+        Route::get('/client', [ClientAddUserController::class, 'index'])->name('partner.add_client');
+        Route::get('/add-client', [ClientAddUserController::class, 'create'])->name('add_client.create');
+        Route::post('/add-client', [ClientAddUserController::class, 'store'])->name('partner.add_client.store');
 
         Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
             ->name('partner.payment.detail');

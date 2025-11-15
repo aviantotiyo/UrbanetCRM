@@ -66,6 +66,8 @@ agent app (partner)
 -   exp konfrimasi dari agent transaksi manual (v -done)
 -   cek transaksi PAID via mutasi bank manual
 
+# masih adakesalahan form di edit dari form online registrasi
+
 ==========================================================
 
 perintah queue:

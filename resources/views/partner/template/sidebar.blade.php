@@ -54,6 +54,12 @@
                 <div data-i18n="Transaksi">Transaksi</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('partner.add_client.*') ? 'active open' : '' }}">
+            <a href="{{ route('partner.add_client') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+                <div data-i18n="Registrasi Pelanggan">Registrasi Pelanggan</div>
+            </a>
+        </li>
 
     </ul>
 </aside>
