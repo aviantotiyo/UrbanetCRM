@@ -57,7 +57,7 @@ agent app
 -   kondisi ketika user point melebihi tagihan (v -done)
 -   hitung pajak dan penerimaan bersih (v - done)
 -   dashboard mitra di backend admin belum di benahi UX nya (V- done)
--   Mitra melakukan inactive account dan update profile belum ada
+-   Mitra melakukan inactive account dan update profile belum ada (V-done)
 
 /// OTOMASI
 
