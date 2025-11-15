@@ -33,6 +33,7 @@ use App\Http\Controllers\UserRegist\AdminRegistController;
 use App\Http\Controllers\Partner\ClientSearchDataController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserPayPointController;
+use App\Http\Controllers\Partner\ClientEditProfileController;
 use App\Http\Controllers\Partner\ClientTransactionController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\UserReferral\UserReferralController;
@@ -366,6 +367,9 @@ Route::prefix('mitra')->group(function () {
         Route::post('/proses-point/{merchant_ref_id}', [ClientProcessPointController::class, 'store'])->name('partner.process.point');
         Route::post('/konfirmasi-transfer/{merchant_ref}', [ClientProcessPaymentController::class, 'confirmTransfer'])
             ->name('partner.transfer.confirm');
+
+        Route::get('/edit-account', [ClientEditProfileController::class, 'edit'])->name('partner.edit');
+        Route::post('/nonaktifkan-akun', [ClientEditProfileController::class, 'deactivate'])->name('partner.deactivate');
 
         Route::post('/logout', [ClientPartnerController::class, 'logout'])->name('partner.logout');
     });

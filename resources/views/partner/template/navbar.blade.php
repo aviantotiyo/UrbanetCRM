@@ -79,6 +79,12 @@
                      </li>
 
                      <li>
+                         <a class="dropdown-item" href="{{ route('partner.edit') }}">
+                             <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">User Account</span>
+                         </a>
+                     </li>
+
+                     <li>
                          <div class="dropdown-divider my-1 mx-n2"></div>
                      </li>
                      <li>
