@@ -11,7 +11,7 @@ class AdminProspectPartnerController extends Controller
 {
     public function index()
     {
-        $data = DataClientsPartner::with('partner')
+        $data = DataClientsPartner::with('partner', 'paket')
             ->latest()
             ->paginate(20);
         return view('admin.user_partner.index', compact('data'));
@@ -64,6 +64,7 @@ class AdminProspectPartnerController extends Controller
             'kabupaten' => 'nullable|string',
             'provinsi' => 'nullable|string',
             'status' => 'nullable|string',
+            'paket_id' => 'required|exists:data_paket,id',
         ]);
 
         $client = DataClientsPartner::findOrFail($id);
@@ -77,6 +78,7 @@ class AdminProspectPartnerController extends Controller
             'provinsi' => $request->provinsi,
             'email' => $request->email,
             'status' => $request->status,
+            'paket_id' => $request->paket_id,
         ]);
 
         return redirect()->route('admin.list-prospek-mitra.user_partner.index')->with('success', 'Data berhasil diperbarui.');

@@ -62,6 +62,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nama</th>
+                                            <th>Paket</th>
                                             <th>Alamat</th>
                                             <th>Status</th>
                                             <th>Mitra Pengirim</th>
@@ -85,19 +86,37 @@
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
                                                         <p class="mb-0 small fw-medium">
+                                                            {{ $client->paket->nama_paket }}
+                                                        </p>
+                                                        <small> {{ $client->paket->harga }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
                                                             {{ $client->alamat }}
                                                         </p>
                                                         <small>{{ $client->provinsi }}/{{ $client->kabupaten }}/{{ $client->kecamatan }}</small>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $client->status }}</td>
+                                            <td> {{ $client->status }}
+                                            </td>
                                             <td>
-                                                {{ $client->partner->nama_partner ?? '-' }}
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $client->partner->nama_partner ?? '-' }}
+                                                        </p>
+                                                        <small>{{ \Carbon\Carbon::parse($client->created_at)->format('d/m/Y H:i') }} WIB</small>
+                                                    </div>
+                                                </div>
                                             </td>
 
                                             <td>
-                                                <a href="{{ route('admin.list-prospek-mitra.user_partner.edit', ['id' => $client->id]) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                <a href="{{ route('admin.list-prospek-mitra.user_partner.edit', ['id' => $client->id]) }}" class="btn btn-sm btn-primary">Process</a>
                                             </td>
                                         </tr>
                                         @endforeach
