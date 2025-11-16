@@ -24,8 +24,9 @@ use App\Http\Controllers\Pelanggan\UnisolirController;
 
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Partner\AdminPartnerController;
-use App\Http\Controllers\UserBilling\UserAuthController;
+use App\Http\Controllers\Partner\ClientDetailController;
 
+use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\Partner\ClientAddUserController;
 use App\Http\Controllers\Partner\ClientPartnerController;
 use App\Http\Controllers\UserRegist\UserRegistController;
@@ -361,6 +362,8 @@ Route::prefix('mitra')->group(function () {
         Route::get('/point-payment', [ClientSearchDataController::class, 'showPointPayment'])->name('partner.point.payment');
 
         Route::get('/client', [ClientAddUserController::class, 'index'])->name('partner.add_client');
+        Route::get('/client/{id}', [ClientDetailController::class, 'show'])->name('partner.client.detail');
+
         Route::get('/add-client', [ClientAddUserController::class, 'create'])->name('add_client.create');
         Route::post('/add-client', [ClientAddUserController::class, 'store'])->name('partner.add_client.store');
 

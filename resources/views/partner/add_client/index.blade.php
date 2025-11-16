@@ -40,7 +40,12 @@
                                         <li class="d-flex mb-2">
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                 <div class="me-2">
-                                                    <h6 class="mb-0">{{ $ref->nama }}</h6>
+                                                    <h6 class="mb-0">
+                                                        <a href="{{ route('partner.client.detail', $ref->id) }}">
+                                                            {{ $ref->nama }}
+                                                        </a>
+                                                    </h6>
+
                                                     <small class="text-body d-block">{{ $ref->no_hp }}</small>
                                                 </div>
                                                 <div class="user-progress d-flex align-items-center gap-1">
