@@ -34,28 +34,25 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception): Response
     {
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
-            $path = $request->path();       // contoh: 'mitra', 'pelanggan', 'admin/dashboard'
-            $method = $request->method();   // POST, GET, etc.
+            // Coba deteksi dari current URL dan referer (fallback)
+            $currentUrl = $request->fullUrl();
+            $referer = $request->headers->get('referer');
 
-            // ========== MITRA ==========
-            if (str_starts_with($path, 'mitra')) {
+            if (str_contains($currentUrl, '/mitra') || str_contains($referer, '/mitra')) {
                 return redirect('/mitra')
                     ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
             }
 
-            // ========== PELANGGAN ==========
-            if (str_starts_with($path, 'pelanggan')) {
+            if (str_contains($currentUrl, '/pelanggan') || str_contains($referer, '/pelanggan')) {
                 return redirect('/pelanggan')
                     ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
             }
 
-            // ========== ADMIN ==========
-            if (str_starts_with($path, 'admin')) {
+            if (str_contains($currentUrl, '/admin') || str_contains($referer, '/admin')) {
                 return redirect('/admin/login')
                     ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
             }
 
-            // ========== DEFAULT ==========
             return redirect('/login')
                 ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
         }
