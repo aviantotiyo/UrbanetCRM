@@ -44,6 +44,7 @@ use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\UserBilling\UserTransactionController;
+use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
 
 // Public (no auth)
@@ -272,7 +273,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/edit/{id}', [AdminRegistController::class, 'update'])->name('update');
     });
 
-    // ===== Mitra  =====
+    // ===== Anggota Mitra  =====
     Route::prefix('dashboard/mitra')->name('partner.')->group(function () {
         Route::get('/', [AdminPartnerController::class, 'index'])->name('index');
         Route::get('/tambah', [AdminPartnerController::class, 'create'])->name('create');
@@ -280,6 +281,17 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [AdminPartnerController::class, 'edit'])->name('edit');
         Route::put('/edit/{id}', [AdminPartnerController::class, 'update'])->name('update');
     });
+
+    // ===== data Prospek dari Mitra  =====
+    Route::prefix('dashboard/list-prospek-mitra')
+        ->name('list-prospek-mitra.')
+        ->group(function () {
+            Route::get('/', [AdminProspectPartnerController::class, 'index'])->name('user_partner.index');
+            Route::get('/edit/{id}', [AdminProspectPartnerController::class, 'edit'])->name('user_partner.edit');
+            Route::post('/edit/{id}', [AdminProspectPartnerController::class, 'update'])->name('user_partner.update');
+        });
+
+
 
     // ===== Setting  =====
     Route::prefix('dashboard/setting')

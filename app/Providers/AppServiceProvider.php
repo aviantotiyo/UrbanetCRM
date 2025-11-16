@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\DataClientsProspect;
-use App\Models\DataClientsRegist;
-use App\Models\DataClients;
 use App\Models\DataTicket;
+use App\Models\DataClients;
 use App\Models\DataTicketHc;
 use Illuminate\Http\Request;
+use App\Models\DataClientsRegist;
+use App\Models\DataClientsPartner;
+use App\Models\DataClientsProspect;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -82,6 +83,11 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $booking_cust = DataClients::where('status', 'booking')->count();
             $view->with('booking_cust', $booking_cust);
+        });
+
+        view()->composer('*', function ($view) {
+            $pending_cust_mitra = DataClientsPartner::where('status', 'pending')->count();
+            $view->with('pending_cust_mitra', $pending_cust_mitra);
         });
     }
 }

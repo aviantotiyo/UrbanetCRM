@@ -126,6 +126,16 @@
 
                     </a>
                 </li>
+
+                <li class="menu-item {{ request()->routeIs('admin.list-prospek-mitra.user_partner.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.list-prospek-mitra.user_partner.index') }}" class="menu-link">
+                        <div data-i18n="Prospek Dari Mitra">Prospek Dari Mitra</div>
+                        @if ($pending_cust_mitra > 0)
+                        <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_mitra }}</div>
+                        @endif
+
+                    </a>
+                </li>
                 @endif
                 @endauth
             </ul>
