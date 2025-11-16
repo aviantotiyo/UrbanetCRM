@@ -33,24 +33,29 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception): Response
     {
-        if ($exception instanceof TokenMismatchException) {
-            $path = $request->path(); // misalnya: 'mitra', 'admin/login', 'pelanggan'
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            $path = $request->path();       // contoh: 'mitra', 'pelanggan', 'admin/dashboard'
+            $method = $request->method();   // POST, GET, etc.
 
+            // ========== MITRA ==========
             if (str_starts_with($path, 'mitra')) {
                 return redirect('/mitra')
                     ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
             }
 
-            if (str_starts_with($path, 'admin')) {
-                return redirect('/admin/login')
-                    ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
-            }
-
+            // ========== PELANGGAN ==========
             if (str_starts_with($path, 'pelanggan')) {
                 return redirect('/pelanggan')
                     ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
             }
 
+            // ========== ADMIN ==========
+            if (str_starts_with($path, 'admin')) {
+                return redirect('/admin/login')
+                    ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
+            }
+
+            // ========== DEFAULT ==========
             return redirect('/login')
                 ->with('error', 'Sesi Anda telah habis. Silakan login kembali.');
         }
