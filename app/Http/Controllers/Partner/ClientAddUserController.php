@@ -7,6 +7,7 @@ use App\Models\DataClients;
 use App\Models\DataPartner;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\DataClientsSales;
 use App\Models\DataClientsRegist;
 use App\Models\DataClientsPartner;
 use App\Models\DataClientsProspect;
@@ -97,10 +98,12 @@ class ClientAddUserController extends Controller
             ->orWhere('nik', $validated['nik'])->exists();
         $existsInPartner = DataClientsPartner::where('no_hp', $validated['no_hp'])
             ->orWhere('nik', $validated['nik'])->exists();
+        $existsInSales = DataClientsSales::where('no_hp', $validated['no_hp'])
+            ->orWhere('nik', $validated['nik'])->exists();
 
-        if ($existsInClients || $existsInRegist || $existsInProspect ||  $existsInPartner) {
+        if ($existsInClients || $existsInRegist || $existsInProspect ||  $existsInPartner || $existsInSales) {
             return back()
-                ->withErrors(['no_hp' => 'Nomor HP atau NIK sudah terdaftar.'])
+                ->with('error', 'Nomor HP atau NIK sudah terdaftar.')
                 ->withInput();
         }
 
