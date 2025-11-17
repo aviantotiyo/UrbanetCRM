@@ -12,6 +12,7 @@ use App\Models\DataSetting;
 use Illuminate\Http\Request;
 use App\Jobs\JobCreateBilling;
 use Illuminate\Validation\Rule;
+use App\Models\DataClientsSales;
 use App\Models\DataClientsRegist;
 use App\Models\DataClientsPartner;
 use Illuminate\Support\Facades\DB;
@@ -147,6 +148,17 @@ class ProcessPelangganController extends Controller
                 ]);
             }
 
+
+            // Cek juga apakah ada referensi dari Team Sales (DataClientsSales)
+            $prospectSales = DataClientsSales::where('client_prospect_id', $client->id)->first();
+
+            if ($prospectPartner) {
+                $feeSales = (int) DataSetting::value('fee_sales_internal');
+                $prospectPartner->update([
+                    'fee'    => $feeSales,
+                    'status' => 'active',
+                ]);
+            }
 
             // ✅ Cek di DataClientsRegist bila ada ubah ke active.
             $regist = DataClientsRegist::find($client->id);
