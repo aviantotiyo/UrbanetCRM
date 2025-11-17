@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Sales;
 
+use Aws\S3\S3Client;
 use App\Models\DataPaket;
 use App\Models\DataClients;
 use Illuminate\Support\Str;
@@ -11,8 +12,8 @@ use App\Models\DataClientsRegist;
 use App\Models\DataClientsProspect;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Aws\S3\S3Client;
 
 
 class SalesController extends Controller
@@ -71,7 +72,7 @@ class SalesController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'paket_id' => 'required|exists:data_paket,id',
             'nama'     => 'required|string|max:255',
             'nik'      => 'nullable|string|max:50',
@@ -104,6 +105,31 @@ class SalesController extends Controller
                 ->withInput();
         }
 
+
+        // Validasi email (opsional)
+        if (!empty($validated['email'])) {
+            $apiKey = env('KEY_DEBOUNCE');
+
+            try {
+                $response = Http::get('https://api.debounce.io/v1/', [
+                    'api' => $apiKey,
+                    'email' => $validated['email']
+                ]);
+
+                if ($response->failed()) {
+                    return back()->withErrors(['email' => 'Gagal memverifikasi email.'])->withInput();
+                }
+
+                $result = $response->json();
+                $code = $result['debounce']['code'] ?? null;
+
+                if ($code !== "5") {
+                    return back()->withErrors(['email' => 'Email tidak valid atau tidak dapat diverifikasi.'])->withInput();
+                }
+            } catch (\Exception $e) {
+                return back()->withErrors(['email' => 'Terjadi kesalahan saat verifikasi email.'])->withInput();
+            }
+        }
 
         $sales = DataClientsSales::create([
             'users_id'          => Auth::id(),
