@@ -108,7 +108,7 @@ class AdminReferralController extends Controller
                 'paket'      => $paket->nama_paket ?? null,
                 'tagihan'    => $paket->harga ?? 0,
                 'status'     => 'booking',
-                'nama_profile' => $paket->name_profile,
+                'name_profile' => $paket->name_profile,
                 'limit_radius' => $paket->limit_radius,
             ]);
 
