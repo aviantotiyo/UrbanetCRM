@@ -82,6 +82,14 @@ perintah jalankan schedule
 php artisan schedule:run
 php artisan billing:reset-expired
 
+bikin di app/Commands/
+panggil di routes/console.php
+
+untuk production pasang cron:
+
+'\* \* \* \* \* cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
+'
+
 ===========================================================
 
 jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"
