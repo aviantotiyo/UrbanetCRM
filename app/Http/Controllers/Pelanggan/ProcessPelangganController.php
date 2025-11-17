@@ -88,6 +88,8 @@ class ProcessPelangganController extends Controller
             // Logika promo
             if ($promoDay > 0) {
                 $promoEnd = $promoStart->copy()->addDays($promoDay);
+                $minuteOffset = rand(0, 6) * 5;
+                $promoEnd->setTime(8, $minuteOffset, 0);
                 $statusPromo = 1;
             } else {
                 $promoEnd = null;

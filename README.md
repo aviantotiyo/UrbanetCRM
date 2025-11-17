@@ -62,6 +62,7 @@ agent app (partner)
 -   dashboard mitra di backend admin belum di benahi UX nya (V- done)
 -   Mitra melakukan inactive account dan update profile belum ada (V-done)
 -   belum ada fitur add client dan hitungan fee
+-   data bank partner, nama, no rek dll
 
     /// OTOMASI
 
