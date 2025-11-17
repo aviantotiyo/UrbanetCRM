@@ -139,7 +139,7 @@
                                 </button>
                             </div>
                             <div class="text-center">
-                                <a href="auth-login-basic.html">
+                                <a href="{{ route('admin.login') }}">
                                     <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
                                     Back to login
                                 </a>

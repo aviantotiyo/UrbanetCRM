@@ -24,7 +24,7 @@ class AdminAuthController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user(); // Ambil user yang sedang login
-            $internalRoles = ['Admin', 'Finance', 'NOC', 'CustomerCare', 'Installer'];
+            $internalRoles = ['Admin', 'Finance', 'NOC', 'CustomerCare', 'Installer', 'Sales', 'Legal', 'AdminCust'];
 
             if (in_array($user->role, $internalRoles, true)) {
                 return redirect()->route('admin.dashboard');
@@ -88,7 +88,7 @@ class AdminAuthController extends Controller
 
         // 2) PRE-AUTH: hanya izinkan akun internal (hindari user enumeration)
         $user = User::where('email', $email)->first();
-        $internalRoles = ['Admin', 'Finance', 'NOC', 'CustomerCare', 'Installer'];
+        $internalRoles = ['Admin', 'Finance', 'NOC', 'CustomerCare', 'Installer', 'Sales', 'Legal', 'AdminCust'];
         $eligible = $user && in_array($user->role, $internalRoles, true);
 
         if (! $eligible) {

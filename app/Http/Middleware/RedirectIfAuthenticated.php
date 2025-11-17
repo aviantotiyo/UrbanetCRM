@@ -27,6 +27,9 @@ class RedirectIfAuthenticated
                     case 'NOC':
                     case 'Installer':
                     case 'CustomerCare':
+                    case 'Sales':
+                    case 'Legal':
+                    case 'AdminCust':
                         return redirect()->route('admin.dashboard');
                     default:
                         return redirect('/'); // Default redirect

@@ -50,6 +50,9 @@ selectpayment ada error. JS nya tidak menghitung angka akhirnya (V-done)
 
 sales app
 
+-   add data (done)
+-   lihat status fee
+
 agent app (partner)
 
 -   info rekening bank belum di siapkan, masih hardcode (v - done)
