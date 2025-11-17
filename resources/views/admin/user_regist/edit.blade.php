@@ -135,6 +135,8 @@
                                                 </select>
                                             </div>
 
+                                            @auth
+                                            @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'AdminCust', ]))
                                             <div class="mb-4">
                                                 <label class="form-label">Status</label>
                                                 <select name="status" class="form-select" required>
@@ -143,6 +145,8 @@
                                                     <option value="reject" {{ $regist->status === 'reject' ? 'selected' : '' }}>Reject</option>
                                                 </select>
                                             </div>
+                                            @endif
+                                            @endauth
 
                                             <div class="mb-4">
                                                 <button class="btn btn-primary" @if($regist->status === 'active' || $regist->status === 'process') disabled @endif>Update</button>

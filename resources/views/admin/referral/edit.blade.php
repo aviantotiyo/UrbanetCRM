@@ -137,6 +137,8 @@
                                                 @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
 
+                                            @auth
+                                            @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'AdminCust', ]))
                                             <div class="mb-4">
                                                 <label class="form-label">Paket</label>
                                                 <select name="paket_id" class="form-select" required>
@@ -147,6 +149,8 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            @endif
+                                            @endauth
 
                                             <div class="mb-4">
                                                 <label class="form-label">Status</label>

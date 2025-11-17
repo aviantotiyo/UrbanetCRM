@@ -155,6 +155,8 @@
                                                 </select>
                                             </div>
 
+                                            @auth
+                                            @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'AdminCust', ]))
                                             <div class="mb-4">
                                                 <label class="form-label">Status</label>
                                                 <select name="status" class="form-select">
@@ -163,6 +165,8 @@
                                                     <option value="reject" {{ old('status', $prospect->status) == 'reject' ? 'selected' : '' }}>Rejected</option>
                                                 </select>
                                             </div>
+                                            @endif
+                                            @endauth
 
                                             <div class="mb-4">
                                                 <button class="btn btn-primary" @if($prospect->status === 'active' || $prospect->status === 'process') disabled @endif>Update</button>

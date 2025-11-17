@@ -148,6 +148,8 @@
                                             </div>
 
                                             {{-- Status --}}
+                                            @auth
+                                            @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'AdminCust', ]))
                                             <div class="mb-3">
                                                 <label class="form-label">Status</label>
                                                 <select name="status" class="form-select">
@@ -156,7 +158,8 @@
                                                     <option value="reject" {{ old('status', $prospect->status) == 'reject' ? 'selected' : '' }}>Rejected</option>
                                                 </select>
                                             </div>
-
+                                            @endif
+                                            @endauth
 
                                             <div class="mb-3">
                                                 <label for="paket_id" class="form-label">Paket</label>
