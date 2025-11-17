@@ -116,7 +116,7 @@ class AdminProspectPartnerController extends Controller
                 'user_pppoe' => $randomNopel,
                 'pass_pppoe' => $randomPassword,
                 'paket'      => $paket->nama_paket ?? null,
-                'nama_profile' => $paket->nama_profile,
+                'nama_profile' => $paket->name_profile,
                 'limit_radius' => $paket->limit_radius,
                 'tagihan'    => $paket->harga ?? 0,
                 'status'     => 'booking',
