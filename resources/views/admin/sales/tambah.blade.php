@@ -51,7 +51,7 @@
                             </ul>
                         </div>
                         @endif
-                        <form method="POST" action="{{ route('admin.sales.store') }}">
+                        <form method="POST" action="{{ route('admin.sales.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row g-6">
                                 <div class="col-md-6">
@@ -208,7 +208,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <div class="mb-3">
+                                                <label for="foto_depan" class="form-label">Upload Foto Depan</label>
+                                                <input type="file" name="foto_depan" id="foto_depan" accept="image/*" class="form-control">
+                                                @error('foto_depan')
+                                                <div class="text-danger small">{{ $message }}</div>
+                                                @enderror
+                                            </div>
 
                                         </div>
                                     </div>

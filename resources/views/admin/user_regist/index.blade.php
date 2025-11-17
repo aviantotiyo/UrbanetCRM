@@ -82,7 +82,16 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $item->paket->nama_paket ?? '-' }}</td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $item->paket->nama_paket ?? '-' }}
+                                                        </p>
+                                                        <small>Rp {{ number_format((float) $item->paket->harga, 0, ',', '.') }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>{{ $item->no_hp }}</td>
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">

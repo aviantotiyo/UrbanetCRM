@@ -180,6 +180,52 @@
                                     <div class="card">
                                         <h5 class="card-header">Data Pelengkap Registrasi</h5>
                                         <div class="card-body">
+                                            {{-- No HP --}}
+                                            <div class=" mb-3">
+                                                <label for="loc_client" class="form-label">Lokasi Client (Link Gmap)</label>
+                                                <input name="loc_client" id="loc_client"
+                                                    class="form-control @error('loc_client') is-invalid @enderror"
+                                                    value="{{ old('loc_client', $prospect->loc_client) }}">
+                                                @error('loc_client')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                                <div id="defaultFormControlHelp" class="form-text">
+                                                    Contoh: https://maps.app.goo.gl/YZKJaJuhwXUFCJs27
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Latitude</label>
+                                                        <input name="lat" type="text" class="form-control @error('lat') is-invalid @enderror"
+                                                            value="{{ old('lat', $prospect->lat) }}" placeholder="">
+                                                        @error('lat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                        <div id="defaultFormControlHelp" class="form-text">
+                                                            Contoh: -7.4063726
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Longitude</label>
+                                                        <input name="long" type="text" class="form-control @error('long') is-invalid @enderror"
+                                                            value="{{ old('long', $prospect->long) }}" placeholder="">
+                                                        @error('long')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                        <div id="defaultFormControlHelp" class="form-text">
+                                                            Contoh: 112.5841074
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="text-muted small">Foto Depan</div>
+
+                                                    @if ($prospect->foto_depan)
+                                                    <img src="{{ $prospect->foto_depan }}" alt="Foto Depan" class="img-thumbnail" style="max-width: 200px;">
+                                                    @else
+                                                    <div class="text-danger small">Tidak ada foto tersedia.</div>
+                                                    @endif
+                                                </div>
+                                            </div>
                                             <div class="mb-4">
                                                 <label class="form-label">Note:</label>
                                                 <ul>

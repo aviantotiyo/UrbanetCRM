@@ -78,8 +78,12 @@
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
-                                                        <p class="mb-0 small fw-medium">{{ $row->nama ?? '-' }}</p>
-                                                        <small>{{ $row->no_hp ?? '-' }}</small>
+                                                        <p class="mb-0 small fw-medium">
+                                                            <a href="{{ route('admin.sales.edit', $row->id) }}">
+                                                                {{ $row->nama ?? '-' }}
+                                                            </a>
+                                                        </p>
+                                                        <small>{{ \Carbon\Carbon::parse($row->created_at)->format('d/m/Y H:i') }} WIB</small>
                                                     </div>
                                                 </div>
                                             </td>
@@ -110,7 +114,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="{{ route('admin.sales.edit', $row->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                <a href="{{ route('admin.sales.edit', $row->id) }}" class="btn btn-sm btn-primary">Edit/Process</a>
                                             </td>
                                         </tr>
                                         @empty

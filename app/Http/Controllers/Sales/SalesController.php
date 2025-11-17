@@ -11,6 +11,8 @@ use App\Models\DataClientsRegist;
 use App\Models\DataClientsProspect;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Aws\S3\S3Client;
+
 
 class SalesController extends Controller
 {
@@ -81,6 +83,7 @@ class SalesController extends Controller
             'loc_client' => 'nullable|string',
             'lat' => 'nullable|string',
             'long' => 'nullable|string',
+            'foto_depan' => ['nullable', 'image', 'max:2048'],
         ]);
 
         // Cek duplikasi
@@ -101,7 +104,7 @@ class SalesController extends Controller
         }
 
 
-        DataClientsSales::create([
+        $sales = DataClientsSales::create([
             'users_id'          => Auth::id(),
             'paket_id'          => $request->paket_id,
             'nama'              => $request->nama,
@@ -117,7 +120,43 @@ class SalesController extends Controller
             'long'              => $request->long,
             'client_prospect_id' =>  (string) Str::uuid(),
             'status'            => 'pending',
+            'foto_depan'    => $request['foto_depan'] ?? null,
         ]);
+
+        if ($request->hasFile('foto_depan')) {
+            $file = $request->file('foto_depan');
+            $filename = 'client_photos/foto_depan_' . Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+            $s3 = new S3Client([
+                'version' => 'latest',
+                'region'  => 'us-east-1',
+                'endpoint' => 'https://is3.cloudhost.id',
+                'credentials' => [
+                    'key'    => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
+                'use_path_style_endpoint' => true,
+            ]);
+
+            try {
+                $result = $s3->putObject([
+                    'Bucket' => env('AWS_BUCKET'),
+                    'Key'    => $filename,
+                    'Body'   => fopen($file->getRealPath(), 'r'),
+                    'ACL'    => 'public-read',
+                    'ContentType' => $file->getMimeType(), // Contoh: 'image/jpeg'
+                    'ContentDisposition' => 'inline', //
+                ]);
+
+                $url = $result['ObjectURL'];
+
+                // Simpan ke database
+                $sales->update(['foto_depan' => $url]);
+            } catch (\Exception $e) {
+                return back()->withErrors(['foto_depan' => 'Upload gagal: ' . $e->getMessage()]);
+            }
+        }
+
 
         return redirect()->route('admin.sales.index')->with('success', 'Data prospek berhasil ditambahkan.');
     }
@@ -160,27 +199,65 @@ class SalesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'email'     => 'nullable|email|max:255',
-            'alamat'    => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:100',
-            'kabupaten' => 'required|string|max:100',
-            'provinsi'  => 'required|string|max:100',
-            'status'    => 'required|in:pending,process,reject',
-            'paket_id'  => 'required|exists:data_paket,id',
+        $validated = $request->validate([
+            'nama'       => 'required|string|max:255',
+            'no_hp'      => 'required|string',
+            'nik'        => 'required|string',
+            'email'      => 'nullable|email|max:255',
+            'alamat'     => 'required|string|max:255',
+            'kecamatan'  => 'required|string|max:100',
+            'kabupaten'  => 'required|string|max:100',
+            'provinsi'   => 'required|string|max:100',
+            'loc_client' => 'nullable|string',
+            'lat'        => 'nullable|string',
+            'long'       => 'nullable|string',
+            'status'     => 'required|in:pending,process,reject',
+            'paket_id'   => 'required|exists:data_paket,id',
         ]);
 
         $prospect = DataClientsSales::findOrFail($id);
 
-        $prospect->update([
-            'email'     => $request->email,
-            'alamat'    => $request->alamat,
-            'kecamatan' => $request->kecamatan,
-            'kabupaten' => $request->kabupaten,
-            'provinsi'  => $request->provinsi,
-            'status'    => $request->status,
-            'paket_id'  => $request->paket_id,
-        ]);
+        $prospect->update($validated);
+
+        // Jika status adalah 'process', buat entri ke DataClients
+        if ($validated['status'] === 'process') {
+            // Hindari duplikasi: cek apakah client dengan ID ini sudah ada
+            $existingClient = DataClients::where('id', $prospect->client_prospect_id)->first();
+            if (!$existingClient) {
+                $clientId = $prospect->client_prospect_id;
+                $randomNopel = 'ID' . mt_rand(10000000, 99999999);
+                $randomPassword = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+                $paket = DataPaket::find($validated['paket_id']);
+
+                DataClients::create([
+                    'id'         => $clientId,
+                    'nama'       => $prospect->nama,
+                    'nik'        => $prospect->nik,
+                    'no_hp'      => $prospect->no_hp,
+                    'email'      => $prospect->email,
+                    'alamat'     => $prospect->alamat,
+                    'kecamatan'  => $prospect->kecamatan,
+                    'kabupaten'  => $prospect->kabupaten,
+                    'provinsi'   => $prospect->provinsi,
+                    'loc_client' => $prospect->loc_client,
+                    'lat'        => $prospect->lat,
+                    'long'       => $prospect->long,
+                    'nopel'      => $randomNopel,
+                    'user_pppoe' => $randomNopel,
+                    'pass_pppoe' => $randomPassword,
+                    'paket'      => $paket->nama_paket ?? null,
+                    'tagihan'    => $paket->harga ?? 0,
+                    'status'     => 'booking',
+                    'foto_depan' => $prospect->foto_depan, // dari DataClientsSales
+                ]);
+
+                $prospect->status = 'process';
+                $prospect->save();
+
+                return redirect()->route('admin.pelanggan.edit', $clientId)
+                    ->with('success', 'Data berhasil diproses dan dipindahkan ke Daftar Pelanggan. Tambahkan Data pendukung lainnya');
+            }
+        }
 
         return redirect()->route('admin.sales.index')->with('success', 'Data berhasil diperbarui.');
     }
