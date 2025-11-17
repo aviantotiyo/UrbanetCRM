@@ -165,7 +165,7 @@
                                             </div>
 
                                             <div class="mb-4">
-                                                <button class="btn btn-primary" @if($prospect->status === 'active') disabled @endif>Update</button>
+                                                <button class="btn btn-primary" @if($prospect->status === 'active' || $prospect->status === 'process') disabled @endif>Update</button>
                                                 <a href="{{ route('admin.list-prospek-mitra.user_partner.index') }}" class="btn btn-outline-secondary">Kembali</a>
                                             </div>
                                         </div>

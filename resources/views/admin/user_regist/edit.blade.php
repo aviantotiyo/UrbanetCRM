@@ -145,7 +145,7 @@
                                             </div>
 
                                             <div class="mb-4">
-                                                <button class="btn btn-primary" @if($regist->status === 'active') disabled @endif>Update</button>
+                                                <button class="btn btn-primary" @if($regist->status === 'active' || $regist->status === 'process') disabled @endif>Update</button>
 
 
                                             </div>

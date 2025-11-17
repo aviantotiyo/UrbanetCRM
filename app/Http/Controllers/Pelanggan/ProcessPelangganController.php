@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Jobs\JobCreateBilling;
 use Illuminate\Validation\Rule;
 use App\Models\DataClientsRegist;
+use App\Models\DataClientsPartner;
 use Illuminate\Support\Facades\DB;
 use App\Models\DataClientsProspect;
 use Illuminate\Support\Facades\Log;
@@ -135,9 +136,19 @@ class ProcessPelangganController extends Controller
                 }
             }
 
+            // Cek juga apakah ada referensi dari mitra (DataClientsPartner)
+            $prospectPartner = DataClientsPartner::where('client_prospect_id', $client->id)->first();
+
+            if ($prospectPartner) {
+                $feeValue = (int) DataSetting::value('fee_merchant_sales');
+                $prospectPartner->update([
+                    'fee'    => $feeValue,
+                    'status' => 'active',
+                ]);
+            }
+
 
             // ✅ Cek di DataClientsRegist bila ada ubah ke active.
-
             $regist = DataClientsRegist::find($client->id);
             if ($regist) {
                 $regist->update(['status' => 'active']);
