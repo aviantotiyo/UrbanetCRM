@@ -152,9 +152,9 @@ class ProcessPelangganController extends Controller
             // Cek juga apakah ada referensi dari Team Sales (DataClientsSales)
             $prospectSales = DataClientsSales::where('client_prospect_id', $client->id)->first();
 
-            if ($prospectPartner) {
+            if ($prospectSales) {
                 $feeSales = (int) DataSetting::value('fee_sales_internal');
-                $prospectPartner->update([
+                $prospectSales->update([
                     'fee'    => $feeSales,
                     'status' => 'active',
                 ]);

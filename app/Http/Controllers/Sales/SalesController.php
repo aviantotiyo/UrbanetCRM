@@ -247,6 +247,8 @@ class SalesController extends Controller
                     'pass_pppoe' => $randomPassword,
                     'paket'      => $paket->nama_paket ?? null,
                     'tagihan'    => $paket->harga ?? 0,
+                    'nama_profile' => $paket->nama_profile,
+                    'limit_radius' => $paket->limit_radius,
                     'status'     => 'booking',
                     'foto_depan' => $prospect->foto_depan, // dari DataClientsSales
                 ]);
