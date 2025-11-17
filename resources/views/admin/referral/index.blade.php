@@ -62,7 +62,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nama</th>
-                                            <th>NIK</th>
+                                            <th>Paket</th>
                                             <th>Alamat</th>
                                             <th>Status</th>
                                             <th>Client Pengirim</th>
@@ -70,7 +70,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        @foreach ($prospects as $data)
+                                        @forelse ($prospects as $data)
                                         <tr>
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
@@ -82,7 +82,17 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $data->nik }}</td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $data->paket->nama_paket ?? '-' }}
+                                                        </p>
+                                                        <small>Rp {{ $data->paket && $data->paket->harga !== null ? number_format((float) $data->paket->harga, 0, ',', '.') : '-' }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
@@ -99,13 +109,13 @@
                                                     <div>
                                                         <p class="mb-0 small fw-medium">
                                                             <a href="{{ route('admin.pelanggan.show', $data->client->id) }}">
-                                                                {{ $data->client->nama ?? '-' }}</a>
+                                                                {{ $data->client->nama ?? '-' }}
+                                                            </a>
                                                         </p>
                                                         <small>{{ $data->client->nopel ?? '-' }}</small>
                                                     </div>
                                                 </div>
                                             </td>
-
                                             <td>
                                                 <a href="{{ route('admin.referral.edit', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                             </td>
@@ -114,8 +124,9 @@
                                         <tr>
                                             <td colspan="6" class="text-center text-muted">Belum ada data pelanggan.</td>
                                         </tr>
-                                        @endforeach
+                                        @endforelse
                                     </tbody>
+
                                 </table>
                                 <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
                                     {{-- Links pagination --}}

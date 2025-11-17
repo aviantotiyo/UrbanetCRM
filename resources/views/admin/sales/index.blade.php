@@ -65,7 +65,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nama</th>
-                                            <th>NIK</th>
+                                            <th>Paket</th>
                                             <th>Alamat</th>
                                             <th>Status</th>
                                             <th>Client Pengirim</th>
@@ -83,7 +83,15 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $row->nik }}</td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">{{ $row->paket->nama_paket ?? '-' }}</p>
+                                                        <small>Rp {{ number_format((float) $row->paket->harga, 0, ',', '.') }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>

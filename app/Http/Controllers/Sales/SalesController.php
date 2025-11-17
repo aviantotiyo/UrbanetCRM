@@ -78,6 +78,9 @@ class SalesController extends Controller
             'kecamatan' => 'nullable|string',
             'kabupaten' => 'nullable|string',
             'provinsi' => 'nullable|string',
+            'loc_client' => 'nullable|string',
+            'lat' => 'nullable|string',
+            'long' => 'nullable|string',
         ]);
 
         // Cek duplikasi
@@ -109,6 +112,9 @@ class SalesController extends Controller
             'kecamatan'         => $request->kecamatan,
             'kabupaten'         => $request->kabupaten,
             'provinsi'          => $request->provinsi,
+            'loc_client'        => $request->loc_client,
+            'lat'               => $request->lat,
+            'long'              => $request->long,
             'client_prospect_id' =>  (string) Str::uuid(),
             'status'            => 'pending',
         ]);
@@ -118,8 +124,64 @@ class SalesController extends Controller
 
     public function edit($id)
     {
-        $sales = DataClientsSales::findOrFail($id);
+        $prospect = DataClientsSales::findOrFail($id);
         $paketList = DataPaket::all();
-        return view('admin.sales.edit', compact('sales', 'paketList'));
+
+        // JSON wilayah
+        $provPath = public_path('assets/json/provinsi.json');
+        $kabPath  = public_path('assets/json/kabupaten.json');
+        $kecPath  = public_path('assets/json/kecamatan.json');
+
+        $readJson = function (string $path): array {
+            if (!is_file($path)) return [];
+            $raw = file_get_contents($path);
+            $data = json_decode($raw, true);
+            return is_array($data) ? $data : [];
+        };
+
+        $provinsiRaw  = $readJson($provPath);
+        $kabupatenRaw = $readJson($kabPath);
+        $kecamatanRaw = $readJson($kecPath);
+
+        usort($provinsiRaw,  fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+
+
+
+        return view('admin.sales.edit', compact(
+            'prospect',
+            'paketList',
+            'provinsiRaw',
+            'kabupatenRaw',
+            'kecamatanRaw',
+        ));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'email'     => 'nullable|email|max:255',
+            'alamat'    => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:100',
+            'kabupaten' => 'required|string|max:100',
+            'provinsi'  => 'required|string|max:100',
+            'status'    => 'required|in:pending,process,reject',
+            'paket_id'  => 'required|exists:data_paket,id',
+        ]);
+
+        $prospect = DataClientsSales::findOrFail($id);
+
+        $prospect->update([
+            'email'     => $request->email,
+            'alamat'    => $request->alamat,
+            'kecamatan' => $request->kecamatan,
+            'kabupaten' => $request->kabupaten,
+            'provinsi'  => $request->provinsi,
+            'status'    => $request->status,
+            'paket_id'  => $request->paket_id,
+        ]);
+
+        return redirect()->route('admin.sales.index')->with('success', 'Data berhasil diperbarui.');
     }
 }

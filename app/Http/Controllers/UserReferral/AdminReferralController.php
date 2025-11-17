@@ -13,7 +13,7 @@ class AdminReferralController extends Controller
 {
     public function index()
     {
-        $prospects = DataClientsProspect::with('client')
+        $prospects = DataClientsProspect::with('client', 'paket')
             ->latest()
             ->paginate(20);
 

@@ -1,55 +1,226 @@
-<div class="container py-4">
-    <h4>Edit Prospek Sales</h4>
+@section('title', 'Edit Data Calon Pelanggan')
+@include('template.head')
+<!-- <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" /> -->
 
-    <form method="POST" action="{{ route('admin.sales.update', $sales->id) }}">
-        @csrf
-        @method('PUT')
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
 
-        {{-- Paket --}}
-        <div class="mb-3">
-            <label for="paket_id" class="form-label">Paket</label>
-            <select name="paket_id" id="paket_id" class="form-select @error('paket_id') is-invalid @enderror" disabled>
-                @foreach($paketList as $paket)
-                <option value="{{ $paket->id }}" {{ $sales->paket_id == $paket->id ? 'selected' : '' }}>
-                    {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }}
-                </option>
-                @endforeach
-            </select>
-            @error('paket_id')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class=" layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            @include('template.sidebar')
+            <div class="menu-mobile-toggler d-xl-none rounded-1">
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large text-bg-secondary p-2 rounded-1">
+                    <i class="ti tabler-menu icon-base"></i>
+                    <i class="ti tabler-chevron-right icon-base"></i>
+                </a>
+            </div>
+            <!-- / Menu -->
+
+            <!-- Layout container -->
+            <div class="layout-page">
+                @include('template.navbar')
+
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+                            <div class="d-flex flex-column justify-content-center">
+                                <div class="mb-1">
+                                    <span class="h5">Tambah Data Pelanggan</span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="d-flex align-content-center flex-wrap gap-2">
+
+                                <a href="{{ route('admin.sales.index') }}" class="btn btn-outline-primary">← Kembali</a>
+                            </div>
+                        </div>
+
+                        <form method="POST" action="{{ route('admin.sales.update', $prospect->id) }}">
+                            @csrf
+                            @method('PUT')
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <h5 class="card-header">Data Pelanggan</h5>
+                                        <div class="card-body">
+                                            {{-- Paket --}}
+
+
+                                            {{-- Nama --}}
+                                            <div class="mb-3">
+                                                <label for="nama" class="form-label">Nama Lengkap</label>
+                                                <input name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror"
+                                                    value="{{ old('nama', $prospect->nama) }}">
+                                                @error('nama')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            {{-- No HP --}}
+                                            <div class="mb-3">
+                                                <label for="no_hp" class="form-label">No Whatsapp<span class="text-danger">*</span></label>
+                                                <input name="no_hp" id="no_hp" class="form-control @error('no_hp') is-invalid @enderror"
+                                                    value="{{ old('no_hp', $prospect->no_hp) }}">
+                                                @error('no_hp')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            {{-- NIK --}}
+                                            <div class="mb-3">
+                                                <label for="nik" class="form-label">NIK<span class="text-danger">*</span></label>
+                                                <input name="nik" id="nik"
+                                                    class="form-control @error('nik') is-invalid @enderror"
+                                                    value="{{ old('nik', $prospect->nik) }}"
+                                                    placeholder="____.____.____.____">
+                                                @error('nik')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            {{-- Email --}}
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input name="email" id="email"
+                                                    class="form-control @error('email') is-invalid @enderror"
+                                                    value="{{ old('email', $prospect->email) }}">
+                                                @error('email')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                                <div class="form-text">Opsional</div>
+                                            </div>
+
+                                            {{-- Alamat --}}
+                                            <div class="mb-3">
+                                                <label for="alamat" class="form-label">Alamat<span class="text-danger">*</span></label>
+                                                <textarea name="alamat" id="alamat"
+                                                    class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', $prospect->alamat) }}</textarea>
+                                                @error('alamat')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="provinsi_pel">Provinsi</label>
+                                                <select id="provinsi_pel" name="provinsi" class="form-select @error('provinsi') is-invalid @enderror">
+                                                    <option value="">-- pilih provinsi --</option>
+                                                    @foreach(($provinsiRaw ?? []) as $p)
+                                                    <option value="{{ $p['name'] }}" data-id="{{ $p['id'] }}"
+                                                        {{ old('provinsi', $prospect->provinsi) === $p['name'] ? 'selected' : '' }}>
+                                                        {{ $p['name'] }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="kabupaten_pel">Kabupaten/Kota</label>
+                                                <select id="kabupaten_pel" name="kabupaten" class="form-select @error('kabupaten') is-invalid @enderror">
+                                                    <option value="">-- pilih kabupaten/kota --</option>
+                                                </select>
+                                                @error('kabupaten')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="kecamatan_pel">Kecamatan</label>
+                                                <select id="kecamatan_pel" name="kecamatan" class="form-select @error('kecamatan') is-invalid @enderror">
+                                                    <option value="">-- pilih kecamatan --</option>
+                                                </select>
+                                                @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+
+                                            {{-- Status --}}
+                                            <div class="mb-3">
+                                                <label class="form-label">Status</label>
+                                                <select name="status" class="form-select">
+                                                    <option value="pending" {{ old('status', $prospect->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                    <option value="process" {{ old('status', $prospect->status) == 'process' ? 'selected' : '' }}>Process</option>
+                                                    <option value="reject" {{ old('status', $prospect->status) == 'reject' ? 'selected' : '' }}>Rejected</option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="mb-3">
+                                                <label for="paket_id" class="form-label">Paket</label>
+                                                <select name="paket_id" id="paket_id" class="form-select @error('paket_id') is-invalid @enderror">
+                                                    @foreach($paketList as $paket)
+                                                    <option value="{{ $paket->id }}" {{ $prospect->paket_id == $paket->id ? 'selected' : '' }}>
+                                                        {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('paket_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <button class="btn btn-primary" @if($prospect->status === 'active' || $prospect->status === 'process') disabled @endif>Update</button>
+                                            <a href="{{ route('admin.sales.index') }}" class="btn btn-secondary">Kembali</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <h5 class="card-header">Data Pelengkap Registrasi</h5>
+                                        <div class="card-body">
+                                            <div class="mb-4">
+                                                <label class="form-label">Note:</label>
+                                                <ul>
+                                                    <li>Pastikan posisi alamat rumah dalam jangkauan ODP</li>
+                                                    <li>Validasi dahulu data ini sudah benar, NIK, Nama KTP, No WA. </li>
+                                                    <li>Minta data pelengkap share lock rumah </li>
+                                                    <li>Minta data pelengkap foto dengan rumah </li>
+                                                    <li>Minta data pelengkap email (bila ada) </li>
+                                                    <li>Setelah itu baru lanjutkan ke status "Process"</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
 
-        {{-- Nama --}}
-        <div class="mb-3">
-            <label for="nama" class="form-label">Nama</label>
-            <input name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror"
-                value="{{ old('nama', $sales->nama) }}" readonly>
-            @error('nama')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+        <!-- Content wrapper -->
 
-        {{-- No HP --}}
-        <div class="mb-3">
-            <label for="no_hp" class="form-label">No HP</label>
-            <input name="no_hp" id="no_hp" class="form-control @error('no_hp') is-invalid @enderror"
-                value="{{ old('no_hp', $sales->no_hp) }}" readonly>
-            @error('no_hp')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+        <!-- / Layout page -->
 
-        {{-- Status --}}
-        <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
-            <input name="status" id="status" class="form-control @error('status') is-invalid @enderror"
-                value="{{ old('status', $sales->status) }}" readonly>
-            @error('status')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
 
-        <a href="{{ route('admin.sales.index') }}" class="btn btn-secondary">Kembali</a>
-    </form>
-</div>
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
+
+        <!-- / Layout wrapper -->
+
+
+
+        @include('template.js.edit-kota-referral')
+        @include('template.js.no-hp')
+        @include('template.js.nik')
+        @include('template.footer')
+</body>
+
+</html>
