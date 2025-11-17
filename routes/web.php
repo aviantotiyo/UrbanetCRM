@@ -11,21 +11,22 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Odc\OdcPortController;
 use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
+use App\Http\Controllers\Sales\SalesController;
 use App\Http\Controllers\Team\InviteController;
-use App\Http\Controllers\Server\ServerController;
 
+use App\Http\Controllers\Server\ServerController;
 use App\Http\Controllers\Ticket\HomeConController;
 use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Pelanggan\IsolirController;
 use App\Http\Controllers\Billing\ManualPayController;
-use App\Http\Controllers\Pelanggan\UnisolirController;
 
+use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Partner\AdminPartnerController;
-use App\Http\Controllers\Partner\ClientDetailController;
 
+use App\Http\Controllers\Partner\ClientDetailController;
 use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\Partner\ClientAddUserController;
 use App\Http\Controllers\Partner\ClientPartnerController;
@@ -282,6 +283,16 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/edit/{id}', [AdminPartnerController::class, 'update'])->name('update');
     });
 
+    // ===== Team Sales  =====
+    Route::prefix('dashboard/sales')->name('sales.')->group(function () {
+        Route::get('/', [SalesController::class, 'index'])->name('index');
+        Route::get('/tambah', [SalesController::class, 'create'])->name('create');
+        Route::post('/tambah', [SalesController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [SalesController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [SalesController::class, 'update'])->name('update');
+    });
+
+
     // ===== data Prospek dari Mitra  =====
     Route::prefix('dashboard/list-prospek-mitra')
         ->name('list-prospek-mitra.')
@@ -290,7 +301,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             Route::get('/edit/{id}', [AdminProspectPartnerController::class, 'edit'])->name('user_partner.edit');
             Route::post('/edit/{id}', [AdminProspectPartnerController::class, 'update'])->name('user_partner.update');
         });
-
 
 
     // ===== Setting  =====

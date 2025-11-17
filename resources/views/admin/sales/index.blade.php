@@ -1,4 +1,4 @@
-@section('title', 'Daftar Referral Pelanggan')
+@section('title', 'Daftar Prospek Sales')
 @include('template.head')
 
 </head>
@@ -29,13 +29,16 @@
                             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
                             <div class="d-flex flex-column justify-content-center">
                                 <div class="mb-1">
-                                    <span class="h5">Referral Program</span>
+                                    <span class="h5">Sales Prospek</span>
                                 </div>
 
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
-                                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
-                                <a href="#" class="btn btn-outline-primary">Tambah Data</a>
+                                @auth
+                                @if(in_array(auth()->user()->role, ['Admin', 'Sales', 'Installer', ]))
+                                <a href="{{ route('admin.sales.create') }}" class="btn btn-outline-primary">Tambah Data</a>
+                                @endif
+                                @endauth
                             </div>
                         </div>
                         {{-- Alert sukses --}}
@@ -70,56 +73,49 @@
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        @foreach ($prospects as $data)
+                                        @forelse($data as $row)
                                         <tr>
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
-                                                        <p class="mb-0 small fw-medium">
-                                                            {{ $data->nama ?? '-' }}
-                                                        </p>
-                                                        <small>{{ $data->no_hp ?? '-' }}</small>
+                                                        <p class="mb-0 small fw-medium">{{ $row->nama ?? '-' }}</p>
+                                                        <small>{{ $row->no_hp ?? '-' }}</small>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $data->nik }}</td>
+                                            <td>{{ $row->nik }}</td>
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
-                                                        <p class="mb-0 small fw-medium">
-                                                            {{ $data->alamat }}
-                                                        </p>
-                                                        <small>{{ $data->provinsi }}/{{ $data->kabupaten }}/{{ $data->kecamatan }}</small>
+                                                        <p class="mb-0 small fw-medium">{{ $row->alamat }}</p>
+                                                        <small>{{ $row->provinsi }}/{{ $row->kabupaten }}/{{ $row->kecamatan }}</small>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $data->status }}</td>
+                                            <td>{{ $row->status }}</td>
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
-                                                        <p class="mb-0 small fw-medium">
-                                                            <a href="{{ route('admin.pelanggan.show', $data->client->id) }}">
-                                                                {{ $data->client->nama ?? '-' }}</a>
-                                                        </p>
-                                                        <small>{{ $data->client->nopel ?? '-' }}</small>
+                                                        <p class="mb-0 small fw-medium">{{ $row->user->name ?? '-' }}</p>
+                                                        <small>{{ $row->user->role ?? '-' }}</small>
                                                     </div>
                                                 </div>
                                             </td>
-
                                             <td>
-                                                <a href="{{ route('admin.referral.edit', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                <a href="{{ route('admin.sales.edit', $row->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                             </td>
                                         </tr>
                                         @empty
                                         <tr>
                                             <td colspan="6" class="text-center text-muted">Belum ada data pelanggan.</td>
                                         </tr>
-                                        @endforeach
+                                        @endforelse
                                     </tbody>
+
                                 </table>
                                 <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
                                     {{-- Links pagination --}}
-                                    {{ $prospects->links() }}
+                                    {{ $data->links() }}
                                 </div>
                             </div>
 

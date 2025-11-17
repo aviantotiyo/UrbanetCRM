@@ -84,7 +84,7 @@
                                         <div class="mb-3">
                                             <label for="nik" class="form-label">No KTP<span class="text-danger">*</span></label>
                                             <input type="text" name="nik" id="nik" class="form-control"
-                                                value="{{ old('nik') }}" required>
+                                                value="{{ old('nik') }}" placeholder="____.____.____.____" required>
                                             <!-- @error('nik')<div class="invalid-feedback">{{ $message }}</div>@enderror -->
 
                                         </div>

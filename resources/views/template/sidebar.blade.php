@@ -75,6 +75,29 @@
         @endauth
 
 
+        @auth
+        @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'Sales', 'Installer', 'AdminCust']))
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="Sales Admin">Sales Admin</span>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('admin.sales.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-align-box-bottom-right"></i>
+                <div data-i18n="Sales Report">Sales Report</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.sales.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.sales.index') }}" class="menu-link">
+                        <div data-i18n="Data Pelanggan">Data Pelanggan</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @endif
+        @endauth
+
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Pelanggan & Pelaporan">Pelanggan &amp; Pelaporan</span>
         </li>
