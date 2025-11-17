@@ -11,6 +11,7 @@ use App\Models\DataClientsRegist;
 use App\Models\DataClientsProspect;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Aws\S3\S3Client;
 
 
@@ -20,8 +21,8 @@ class SalesController extends Controller
     {
         $query = DataClientsSales::with('paket', 'user')->latest();
 
-        // Jika user yang login adalah Sales → tampilkan data miliknya sendiri saja
-        if (Auth::user()->role === ['Sales', 'Installer']) {
+        // Jika role adalah Sales atau Installer → filter by users_id
+        if (in_array(Auth::user()->role, ['Sales', 'Installer'])) {
             $query->where('users_id', Auth::id());
         }
 
@@ -129,8 +130,8 @@ class SalesController extends Controller
 
             $s3 = new S3Client([
                 'version' => 'latest',
-                'region'  => 'us-east-1',
-                'endpoint' => 'https://is3.cloudhost.id',
+                'region'  => env('AWS_DEFAULT_REGION'),
+                'endpoint' => env('AWS_ENDPOINT'),
                 'credentials' => [
                     'key'    => env('AWS_ACCESS_KEY_ID'),
                     'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -156,7 +157,6 @@ class SalesController extends Controller
                 return back()->withErrors(['foto_depan' => 'Upload gagal: ' . $e->getMessage()]);
             }
         }
-
 
         return redirect()->route('admin.sales.index')->with('success', 'Data prospek berhasil ditambahkan.');
     }

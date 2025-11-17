@@ -219,8 +219,8 @@ class PelangganController extends Controller
 
             $s3 = new S3Client([
                 'version' => 'latest',
-                'region'  => 'us-east-1',
-                'endpoint' => 'https://is3.cloudhost.id',
+                'region'  => env('AWS_DEFAULT_REGION'),
+                'endpoint' => env('AWS_ENDPOINT'),
                 'credentials' => [
                     'key'    => env('AWS_ACCESS_KEY_ID'),
                     'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -398,8 +398,8 @@ class PelangganController extends Controller
                 try {
                     $s3 = new S3Client([
                         'version' => 'latest',
-                        'region' => env('AWS_DEFAULT_REGION'),
-                        'endpoint' => 'https://is3.cloudhost.id',
+                        'region'  => env('AWS_DEFAULT_REGION'),
+                        'endpoint' => env('AWS_ENDPOINT'),
                         'use_path_style_endpoint' => true,
                         'credentials' => [
                             'key'    => env('AWS_ACCESS_KEY_ID'),
@@ -422,8 +422,8 @@ class PelangganController extends Controller
 
                 $s3 = new S3Client([
                     'version' => 'latest',
-                    'region' => env('AWS_DEFAULT_REGION'),
-                    'endpoint' => 'https://is3.cloudhost.id',
+                    'region'  => env('AWS_DEFAULT_REGION'),
+                    'endpoint' => env('AWS_ENDPOINT'),
                     'use_path_style_endpoint' => true,
                     'credentials' => [
                         'key'    => env('AWS_ACCESS_KEY_ID'),
@@ -509,13 +509,16 @@ class PelangganController extends Controller
 
         if ($client->foto_depan) {
             $oldPath = parse_url($client->foto_depan, PHP_URL_PATH);
-            $relativePath = ltrim(Str::after($oldPath, '/urbanet-dev/'), '/');
+            // $relativePath = ltrim(Str::after($oldPath, '/urbanet-dev/'), '/');
+            $bucketPrefix = '/' . trim(env('AWS_BUCKET_PREFIX'), '/') . '/'; // ex: /urbanet-dev/
+            $relativePath = ltrim(Str::after($oldPath, $bucketPrefix), '/');
+
 
             try {
                 $s3 = new S3Client([
                     'version' => 'latest',
-                    'region' => env('AWS_DEFAULT_REGION'),
-                    'endpoint' => 'https://is3.cloudhost.id',
+                    'region'  => env('AWS_DEFAULT_REGION'),
+                    'endpoint' => env('AWS_ENDPOINT'),
                     'use_path_style_endpoint' => true,
                     'credentials' => [
                         'key' => env('AWS_ACCESS_KEY_ID'),
