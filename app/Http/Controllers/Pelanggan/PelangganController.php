@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pelanggan;
 
+use Aws\S3\S3Client;
 use App\Models\DataImg;
 use App\Models\DataOdp;
 use App\Models\DataPaket;
@@ -13,11 +14,11 @@ use Illuminate\Http\Request;
 use App\Models\DataClientLogs;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\UploadClientPhotoToS3;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Aws\S3\S3Client;
 use Illuminate\Contracts\Filesystem\Cloud;
 
 
@@ -194,7 +195,7 @@ class PelangganController extends Controller
             'active_user'   => $validated['active_user'] ?? null,
             'status'        => $validated['status'],
             'note'          => $validated['note'] ?? null,
-            'foto_depan'    => $validated['foto_depan'] ?? null,
+            'foto_depan' => null,
         ]);
 
         // === ✅ Tambahkan log ke DataClientLogs ===
@@ -215,38 +216,13 @@ class PelangganController extends Controller
 
         if ($request->hasFile('foto_depan')) {
             $file = $request->file('foto_depan');
-            $filename = 'client_photos/foto_depan_' . Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $ext = $file->getClientOriginalExtension();
+            $tempPath = storage_path('app/temp_client_' . Str::uuid() . '.' . $ext);
+            $file->move(dirname($tempPath), basename($tempPath));
 
-            $s3 = new S3Client([
-                'version' => 'latest',
-                'region'  => config('filesystems.disks.s3.region'),
-                'endpoint' => config('filesystems.disks.s3.endpoint'),
-                'credentials' => [
-                    'key' => config('filesystems.disks.s3.key'),
-                    'secret' => config('filesystems.disks.s3.secret'),
-                ],
-                'use_path_style_endpoint' => config('filesystems.disks.s3.use_path_style_endpoint'),
-            ]);
-
-            try {
-                $result = $s3->putObject([
-                    'Bucket' => config('filesystems.disks.s3.bucket'),
-                    'Key'    => $filename,
-                    'Body'   => fopen($file->getRealPath(), 'r'),
-                    'ACL'    => 'public-read',
-                    'ContentType' => $file->getMimeType(), // Contoh: 'image/jpeg'
-                    'ContentDisposition' => 'inline', //
-                ]);
-
-                $url = $result['ObjectURL'];
-
-                // Simpan ke database
-                $client->update(['foto_depan' => $url]);
-            } catch (\Exception $e) {
-                return back()->withErrors(['foto_depan' => 'Upload gagal: ' . $e->getMessage()]);
-            }
+            // Dispatch Job upload S3 (buat job baru kalau belum)
+            UploadClientPhotoToS3::dispatch($client->id, $tempPath);
         }
-
 
         return redirect()
             ->route('admin.pelanggan.index')
