@@ -89,8 +89,18 @@ untuk production pasang cron:
 
 '\* \* \* \* \* cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
 '
-
 ===========================================================
+Cara menjalakna radius di server WSL
+sudo freeradius -X
+
+untuk detail nya
+
+radtest testing 1234 localhost 0 testing123
+hasilnya:
+
+# Sent Access-Request Id 79 from 0.0.0.0:35636 to 127.0.0.1:1812 length 77 User-Name = "testing" User-Password = "1234" NAS-IP-Address = 127.0.1.1 NAS-Port = 0 Cleartext-Password = "1234" Received Access-Accept Id 79 from 127.0.0.1:1812 to 127.0.0.1:35636 length 38 Message-Authenticator = 0x99d9e0aa224af355dc4b5a13a826621c
+
+=================================================================
 
 jalankan minio: C:\>minio.exe server D:\minio-data --address ":9000" --console-address ":9001"
 

@@ -48,6 +48,8 @@ use App\Http\Controllers\UserBilling\UserTransactionController;
 use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
 
+use App\Services\RadiusAuthService;
+
 // Public (no auth)
 Route::redirect('/', '/admin/login');
 
@@ -418,4 +420,9 @@ Route::get('/registrasi/success', [UserRegistController::class, 'success'])->nam
 
 Route::get('/refresh-csrf', function () {
     return csrf_token();
+});
+
+Route::get('/tes-radius', function () {
+    $auth = new RadiusAuthService();
+    return $auth->authenticate('testing', '1234') ? '✅ Login OK via RADIUS' : '❌ Login gagal';
 });
