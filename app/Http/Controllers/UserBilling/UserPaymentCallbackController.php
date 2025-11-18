@@ -10,19 +10,20 @@ use App\Jobs\JobEmailTaxPaid;
 
 class UserPaymentCallbackController extends Controller
 {
-    // URL call back [domain]/api/payment/callback
-
     protected $privateKey;
 
     public function __construct()
     {
-        $this->privateKey = env('TRIPAY_PRIVATE_KEY');
+        // Ambil private key dari config (bukan env)
+        $this->privateKey = config('services.tripay.private_key');
     }
 
     public function handle(Request $request)
     {
+        // ======== Validasi Signature ========
         $callbackSignature = $request->server('HTTP_X_CALLBACK_SIGNATURE');
         $json = $request->getContent();
+
         $signature = hash_hmac('sha256', $json, $this->privateKey);
 
         if ($signature !== (string) $callbackSignature) {
@@ -32,6 +33,7 @@ class UserPaymentCallbackController extends Controller
             ], 403);
         }
 
+        // ======== Validasi Event ========
         if ('payment_status' !== (string) $request->server('HTTP_X_CALLBACK_EVENT')) {
             return Response::json([
                 'success' => false,
@@ -39,6 +41,7 @@ class UserPaymentCallbackController extends Controller
             ], 400);
         }
 
+        // ======== Decode payload JSON ========
         $data = json_decode($json);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -48,11 +51,12 @@ class UserPaymentCallbackController extends Controller
             ], 422);
         }
 
+        // Ambil data penting
         $merchantRef = $data->merchant_ref ?? null;
-        $reference = $data->reference ?? null;
-        $status = strtoupper($data->status ?? 'UNPAID');
+        $reference   = $data->reference ?? null;
+        $status      = strtoupper($data->status ?? 'UNPAID');
 
-        // Cari billing yang belum selesai
+        // ======== Cari Billing ========
         $billing = DataBilling::where('merchant_ref', $merchantRef)
             ->where('reference', $reference)
             ->first();
@@ -64,19 +68,19 @@ class UserPaymentCallbackController extends Controller
             ], 404);
         }
 
-        // Update status
+        // ======== Update Status Pembayaran ========
         switch ($status) {
+
             case 'PAID':
-                $billing->status = $status;
-                $billing->billing_paid = now(); // Set waktu pembayaran
+                $billing->status       = $status;
+                $billing->billing_paid = now();
                 $billing->save();
-                // JobEmailTaxPaid::dispatch($billing->id);
+
+                // Kirim email menggunakan queue khusus
                 JobEmailTaxPaid::dispatch($billing->id)->onQueue('emails');
                 break;
+
             case 'EXPIRED':
-                $billing->status = $status;
-                $billing->save();
-                break;
             case 'FAILED':
                 $billing->status = $status;
                 $billing->save();
