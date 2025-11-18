@@ -19,19 +19,19 @@ class UserAuthController extends Controller
     {
         $request->validate([
             'no_hp' => 'required|string',
-            // 'g-recaptcha-response' => 'required',
+            'g-recaptcha-response' => 'required',
         ]);
 
-        // $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-        //     'secret'   => env('RECAPTCHA_SECRET_KEY'),
-        //     'response' => $request->input('g-recaptcha-response'),
-        //     'remoteip' => $request->ip(),
-        // ]);
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
 
-        // $result = $response->json();
-        // if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
-        //     return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal.'])->withInput();
-        // }
+        $result = $response->json();
+        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal.'])->withInput();
+        }
 
         $input = $request->no_hp;
 
@@ -73,20 +73,20 @@ class UserAuthController extends Controller
 
         $request->validate([
             'nama_akhir' => 'required|string',
-            // 'g-recaptcha-response' => 'required',
+            'g-recaptcha-response' => 'required',
         ]);
 
 
-        // $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-        //     'secret'   => env('RECAPTCHA_SECRET_KEY'),
-        //     'response' => $request->input('g-recaptcha-response'),
-        //     'remoteip' => $request->ip(),
-        // ]);
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
 
-        // $result = $response->json();
-        // if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
-        //     return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal.'])->withInput();
-        // }
+        $result = $response->json();
+        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal.'])->withInput();
+        }
 
         $client = DataClients::find(session('client_auth_id'));
 

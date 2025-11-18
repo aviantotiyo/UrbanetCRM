@@ -30,7 +30,7 @@ class UserAddEmailController extends Controller
         ]);
 
         $email = trim($request->email);
-        $apiKey = env('KEY_DEBOUNCE');
+        $apiKey = config('services.debounce.api_key');
 
         try {
             // === 🔍 Panggil API Debounce ===

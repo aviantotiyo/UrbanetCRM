@@ -1,6 +1,6 @@
 @section('title', 'Verifikasi Login')
 @include('client.template.head')
-<!-- @include('client.template.recaptcha') -->
+@include('client.template.recaptcha')
 </head>
 
 <body>
@@ -72,7 +72,7 @@
                                             @enderror
                                         </div>
 
-                                        <!-- <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response"> -->
+                                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">Lanjutkan</button>

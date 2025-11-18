@@ -40,11 +40,21 @@ return [
         'token' => env('WHATSAPP_TOKEN'),
     ],
 
+    // API ke OneSender
     'tripay' => [
         'api_key' => env('TRIPAY_API_KEY'),
         'merchant_code' => env('TRIPAY_MERCHANT_CODE'),
         'private_key' => env('TRIPAY_PRIVATE_KEY'),
         'base_url' => env('TRIPAY_BASE_URL'),
+    ],
+
+    'recaptcha' => [
+        'site_key'   => env('RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+    ],
+
+    'debounce' => [
+        'api_key' => env('KEY_DEBOUNCE'),
     ],
 
 

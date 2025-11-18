@@ -94,9 +94,9 @@ class UserRegistController extends Controller
 
         // Validasi Google reCAPTCHA
         try {
-            $recaptchaSecret = env('RECAPTCHA_SECRET_KEY');
+
             $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret'   => $recaptchaSecret,
+                'secret' => config('services.recaptcha.secret_key'),
                 'response' => $validated['g-recaptcha-response'],
                 'remoteip' => $request->ip(),
             ]);
@@ -116,7 +116,7 @@ class UserRegistController extends Controller
 
         // Validasi email (opsional)
         if (!empty($validated['email'])) {
-            $apiKey = env('KEY_DEBOUNCE');
+            $apiKey = config('services.debounce.api_key');
 
             try {
                 $response = Http::get('https://api.debounce.io/v1/', [

@@ -28,10 +28,10 @@ class ClientPartnerController extends Controller
         ]);
 
         try {
-            $recaptchaSecret = env('RECAPTCHA_SECRET_KEY');
+
 
             $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret'   => $recaptchaSecret,
+                'secret' => config('services.recaptcha.secret_key'),
                 'response' => $request['g-recaptcha-response'],
                 'remoteip' => $request->ip(),
             ]);

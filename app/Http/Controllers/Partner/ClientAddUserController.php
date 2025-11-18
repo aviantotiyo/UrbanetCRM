@@ -110,7 +110,7 @@ class ClientAddUserController extends Controller
 
         // Validasi email (opsional)
         if (!empty($validated['email'])) {
-            $apiKey = env('KEY_DEBOUNCE');
+            $apiKey = config('services.debounce.api_key');
 
             try {
                 $response = Http::get('https://api.debounce.io/v1/', [
