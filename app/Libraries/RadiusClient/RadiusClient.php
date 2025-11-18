@@ -11,7 +11,7 @@ class RadiusClient
 
     public function __construct($host, $secret, $port = 1812, $timeout = 3)
     {
-        $this->host = '172.19.192.49';
+        $this->host = '192.168.1.14';
         $this->secret = $secret;
         $this->port = $port;
         $this->timeout = $timeout;

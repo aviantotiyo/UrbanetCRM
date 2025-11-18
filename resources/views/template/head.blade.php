@@ -40,6 +40,12 @@
     <link rel="stylesheet"
         href="{{ asset('assets/vendor/css/rtl/core.css') }}" />
 
+    <!-- <link rel="stylesheet"
+        href="https://pc-dev.autumn.co.id/assets/vendor/css/rtl/core.css" />
+
+    <link rel="stylesheet"
+        href="https://pc-dev.autumn.co.id/assets/vendor/css/rtl/theme-default.css" /> -->
+
     <link rel="stylesheet"
         href="{{ asset('assets/vendor/css/rtl/theme-default.css') }}" />
 

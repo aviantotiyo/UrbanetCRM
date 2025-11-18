@@ -104,7 +104,8 @@ kalau error, kill lalu jalakan ulang
 sudo killall freeradius
 sudo freeradius -X
 
-=================================================================
+# akses lokal http://localhost/UrbanetCRM/public/tes-radius
+
 Radius LIb sederhana
 App\Libraries\RadiusClient\RadiusClient.php
 App\Services\RadiusAuthService.php
