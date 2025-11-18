@@ -5,6 +5,7 @@ namespace App\Http\Controllers\UserBilling;
 use App\Models\DataBilling;
 use App\Models\DataClients;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class UserDashboardController extends Controller
@@ -58,10 +59,19 @@ class UserDashboardController extends Controller
         }
 
         // === Integrasi ke API Tripay ===
-        $apiKey = env('TRIPAY_API_KEY'); // pastikan sudah ditambah di .env
-        $baseUrl = env('TRIPAY_BASE_URL'); // dari .env
+        // $apiKey = env('TRIPAY_API_KEY'); // pastikan sudah ditambah di .env
+        // $baseUrl = env('TRIPAY_BASE_URL'); 
+        $apiKey = config('services.tripay.api_key');
+        $baseUrl = config('services.tripay.base_url'); // ✅ Lebih aman
         $endpoint = $baseUrl . '/merchant/payment-channel';
         $curl = curl_init();
+
+        // dd([
+        //     'apiKey' => $apiKey,
+        //     'baseUrl' => $baseUrl,
+        //     'endpoint' => $endpoint
+        // ]);
+
 
         curl_setopt_array($curl, [
             CURLOPT_FRESH_CONNECT  => true,
@@ -81,12 +91,28 @@ class UserDashboardController extends Controller
 
         if (empty($error)) {
             $result = json_decode($response, true);
+
+            // Log::info('[Tripay API Raw Response]', ['raw' => $response]);
+            // Log::info('[Tripay API Parsed Result]', ['result' => $result]);
+
             if (!empty($result['success']) && !empty($result['data'])) {
                 // Filter hanya yang aktif
                 $channels = collect($result['data'])->where('active', true)->values();
             }
         }
 
+        // if (!empty($error)) {
+        //     dd("CURL ERROR:", $error);
+        // }
+
+
         return view('client.dashboard.selectpayment', compact('client', 'unpaidBillings', 'channels',  'response'));
+        // return view('client.dashboard.selectpaymentdebug', [
+        //     'client' => $client,
+        //     'unpaidBillings' => $unpaidBillings,
+        //     'channels' => $channels,
+        //     'response' => $response,
+        //     'result' => $result ?? null
+        // ]);
     }
 }

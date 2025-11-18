@@ -121,7 +121,7 @@
                                                 <div class="me-2">
                                                     <h6 class="mb-0">Total Bayar</h6>
                                                     <small class="text-body d-block" id="bank-fee-label">
-                                                        admin bank Rp {{ number_format($channels[0]['total_fee']['flat'] + ($amountTotal * ($channels[0]['total_fee']['percent'] / 100)), 0, ',', '.') }}
+
                                                     </small>
 
                                                 </div>
@@ -132,6 +132,7 @@
                                             </div>
                                         </li>
                                     </ul>
+
 
 
                                     <form action="{{ route('billing.payment.process', ['id' => $billing->merchant_ref]) }}" method="GET">
