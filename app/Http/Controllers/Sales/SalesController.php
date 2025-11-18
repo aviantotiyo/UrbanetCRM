@@ -156,18 +156,18 @@ class SalesController extends Controller
 
             $s3 = new S3Client([
                 'version' => 'latest',
-                'region'  => env('AWS_DEFAULT_REGION'),
-                'endpoint' => env('AWS_ENDPOINT'),
+                'region'  => config('filesystems.disks.s3.region'),
+                'endpoint' => config('filesystems.disks.s3.endpoint'),
                 'credentials' => [
-                    'key'    => env('AWS_ACCESS_KEY_ID'),
-                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                    'key' => config('filesystems.disks.s3.key'),
+                    'secret' => config('filesystems.disks.s3.secret'),
                 ],
-                'use_path_style_endpoint' => true,
+                'use_path_style_endpoint' => config('filesystems.disks.s3.use_path_style_endpoint'),
             ]);
 
             try {
                 $result = $s3->putObject([
-                    'Bucket' => env('AWS_BUCKET'),
+                    'Bucket' => config('filesystems.disks.s3.bucket'),
                     'Key'    => $filename,
                     'Body'   => fopen($file->getRealPath(), 'r'),
                     'ACL'    => 'public-read',

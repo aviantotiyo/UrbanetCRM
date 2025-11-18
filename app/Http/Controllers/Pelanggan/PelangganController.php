@@ -219,18 +219,18 @@ class PelangganController extends Controller
 
             $s3 = new S3Client([
                 'version' => 'latest',
-                'region'  => env('AWS_DEFAULT_REGION'),
-                'endpoint' => env('AWS_ENDPOINT'),
+                'region'  => config('filesystems.disks.s3.region'),
+                'endpoint' => config('filesystems.disks.s3.endpoint'),
                 'credentials' => [
-                    'key'    => env('AWS_ACCESS_KEY_ID'),
-                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                    'key' => config('filesystems.disks.s3.key'),
+                    'secret' => config('filesystems.disks.s3.secret'),
                 ],
-                'use_path_style_endpoint' => true,
+                'use_path_style_endpoint' => config('filesystems.disks.s3.use_path_style_endpoint'),
             ]);
 
             try {
                 $result = $s3->putObject([
-                    'Bucket' => env('AWS_BUCKET'),
+                    'Bucket' => config('filesystems.disks.s3.bucket'),
                     'Key'    => $filename,
                     'Body'   => fopen($file->getRealPath(), 'r'),
                     'ACL'    => 'public-read',
@@ -398,16 +398,16 @@ class PelangganController extends Controller
                 try {
                     $s3 = new S3Client([
                         'version' => 'latest',
-                        'region'  => env('AWS_DEFAULT_REGION'),
-                        'endpoint' => env('AWS_ENDPOINT'),
+                        'region'  => config('filesystems.disks.s3.region'),
+                        'endpoint' => config('filesystems.disks.s3.endpoint'),
                         'use_path_style_endpoint' => true,
                         'credentials' => [
-                            'key'    => env('AWS_ACCESS_KEY_ID'),
-                            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                            'key' => config('filesystems.disks.s3.key'),
+                            'secret' => config('filesystems.disks.s3.secret'),
                         ],
                     ]);
                     $s3->deleteObject([
-                        'Bucket' => env('AWS_BUCKET'),
+                        'Bucket' => config('filesystems.disks.s3.bucket'),
                         'Key' => $relativePath,
                     ]);
                 } catch (\Exception $e) {
@@ -422,17 +422,17 @@ class PelangganController extends Controller
 
                 $s3 = new S3Client([
                     'version' => 'latest',
-                    'region'  => env('AWS_DEFAULT_REGION'),
-                    'endpoint' => env('AWS_ENDPOINT'),
+                    'region'  => config('filesystems.disks.s3.region'),
+                    'endpoint' => config('filesystems.disks.s3.endpoint'),
                     'use_path_style_endpoint' => true,
                     'credentials' => [
-                        'key'    => env('AWS_ACCESS_KEY_ID'),
-                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                        'key' => config('filesystems.disks.s3.key'),
+                        'secret' => config('filesystems.disks.s3.secret'),
                     ],
                 ]);
 
                 $result = $s3->putObject([
-                    'Bucket' => env('AWS_BUCKET'),
+                    'Bucket' => config('filesystems.disks.s3.bucket'),
                     'Key' => $filename,
                     'Body' => fopen($file->getRealPath(), 'r'),
                     'ACL' => 'public-read',
@@ -510,24 +510,24 @@ class PelangganController extends Controller
         if ($client->foto_depan) {
             $oldPath = parse_url($client->foto_depan, PHP_URL_PATH);
             // $relativePath = ltrim(Str::after($oldPath, '/urbanet-dev/'), '/');
-            $bucketPrefix = '/' . trim(env('AWS_BUCKET_PREFIX'), '/') . '/'; // ex: /urbanet-dev/
+            $bucketPrefix = '/' . trim(config('filesystems.disks.s3.bucket_prefix'), '/') . '/';
             $relativePath = ltrim(Str::after($oldPath, $bucketPrefix), '/');
 
 
             try {
                 $s3 = new S3Client([
                     'version' => 'latest',
-                    'region'  => env('AWS_DEFAULT_REGION'),
-                    'endpoint' => env('AWS_ENDPOINT'),
+                    'region'  => config('filesystems.disks.s3.region'),
+                    'endpoint' => config('filesystems.disks.s3.endpoint'),
                     'use_path_style_endpoint' => true,
                     'credentials' => [
-                        'key' => env('AWS_ACCESS_KEY_ID'),
-                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                        'key' => config('filesystems.disks.s3.key'),
+                        'secret' => config('filesystems.disks.s3.secret'),
                     ],
                 ]);
 
                 $s3->deleteObject([
-                    'Bucket' => env('AWS_BUCKET'),
+                    'Bucket' => config('filesystems.disks.s3.bucket'),
                     'Key'    => $relativePath,
                 ]);
 
