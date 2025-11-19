@@ -2,13 +2,14 @@
 
 use Illuminate\Foundation\Inspiring;
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schedule;
-
 use App\Console\Commands\CheckPromoEnd;
-use App\Console\Commands\ResetExpiredBilling;
+use Illuminate\Support\Facades\Artisan;
+
 use App\Console\Commands\BillingBulanan;
+use Illuminate\Support\Facades\Schedule;
+use App\Console\Commands\ResetExpiredBilling;
 use App\Console\Commands\MessageBillingInsert;
+use App\Console\Commands\MessageBillingBulanan;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -24,5 +25,12 @@ Schedule::command(MessageBillingInsert::class)
     ->everyTenMinutes()
     ->when(function () {
         return now()->day === 1 && now()->between('08:00', '19:00');
+    })
+    ->withoutOverlapping();
+
+Schedule::command(MessageBillingBulanan::class)
+    ->everyTenMinutes()
+    ->when(function () {
+        return now()->day === 10 && now()->between('08:00', '19:00');
     })
     ->withoutOverlapping();
