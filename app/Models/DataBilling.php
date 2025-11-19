@@ -42,6 +42,7 @@ class DataBilling extends Model
         'exp_tx_bank',
         'partner_id',
         'bank_check',
+        'message_count',
         'created_at',
         'updated_at',
     ];

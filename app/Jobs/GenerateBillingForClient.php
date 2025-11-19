@@ -45,7 +45,7 @@ class GenerateBillingForClient implements ShouldQueue
 
         $billing = DataBilling::create([
             'client_id'      => $client->id,
-            'new_member'     => 1,
+            'new_member'     => 0,
             'merchant_ref'   => $merchant_ref,
             'status'         => 'UNPAID',
             'billing_create' => now(),
