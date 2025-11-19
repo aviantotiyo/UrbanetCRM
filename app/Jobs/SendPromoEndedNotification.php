@@ -35,7 +35,7 @@ class SendPromoEndedNotification implements ShouldQueue
         $billingMonth = \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y');
 
         $message = "Halo {$client->nama},\n\nMasa promo Anda telah berakhir. Kami telah menerbitkan tagihan baru:\n\n"
-            . "Inv: {$item->merchant_ref_id}\n"
+            . "No.Inv: {$item->merchant_ref_id}\n"
             . "Periode: {$billingMonth}\n"
             . "Paket: {$item->name}\n"
             . "Total: Rp " . number_format($item->amount, 0, ',', '.') . "\n\n"

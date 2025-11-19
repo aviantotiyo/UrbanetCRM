@@ -17,9 +17,12 @@ Artisan::command('inspire', function () {
 
 Schedule::command(ResetExpiredBilling::class)->everyFiveMinutes()->withoutOverlapping();
 Schedule::command(CheckPromoEnd::class)->everyFiveMinutes()->withoutOverlapping();
-Schedule::command(BillingBulanan::class)->monthlyOn(1, '01:00');
 
-// Tagihan pertama ke pelanggan tiap bulan
+// Jadwal rutin bulanan
+Schedule::command(BillingBulanan::class)->monthlyOn(1, '01:00');
 Schedule::command(MessageBillingInsert::class)
     ->everyTenMinutes()
+    ->when(function () {
+        return now()->day === 1 && now()->between('08:00', '19:00');
+    })
     ->withoutOverlapping();

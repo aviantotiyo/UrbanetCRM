@@ -64,21 +64,21 @@ class JobEmailTaxPaid implements ShouldQueue
         if (!$client || !$client->email) return;
 
         // 🔹 Kirim email invoice
-        //Mail::to($client->email)->send(new TaxPaidInvoiceMail($billing, $client, $items));
+        Mail::to($client->email)->send(new TaxPaidInvoiceMail($billing, $client, $items));
 
         // 🔹 Kirim WhatsApp
-        // if ($client->no_hp) {
-        //     $wa = new WhatsAppSender();
-        //     $wa->sendPaymentSuccess($client, $billing->amount_received, $billing->merchant_ref);
-        // }
-
-        Log::info('[WA] Triggering sendPaymentSuccess');
-        try {
+        if ($client->no_hp) {
             $wa = new WhatsAppSender();
-            $res = $wa->sendPaymentSuccess($client, $billing->amount_received, $billing->merchant_ref);
-            Log::info('[WA RESULT]', $res);
-        } catch (\Throwable $e) {
-            Log::error('[WA ERROR]', ['message' => $e->getMessage()]);
+            $wa->sendPaymentSuccess($client, $billing->amount_received, $billing->merchant_ref);
         }
+
+        // Log::info('[WA] Triggering sendPaymentSuccess');
+        // try {
+        //     $wa = new WhatsAppSender();
+        //     $res = $wa->sendPaymentSuccess($client, $billing->amount_received, $billing->merchant_ref);
+        //     Log::info('[WA RESULT]', $res);
+        // } catch (\Throwable $e) {
+        //     Log::error('[WA ERROR]', ['message' => $e->getMessage()]);
+        // }
     }
 }
