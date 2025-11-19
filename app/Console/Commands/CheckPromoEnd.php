@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\DataBillingItem;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendPromoEndedNotification;
 
 
 class CheckPromoEnd extends Command
@@ -64,8 +65,12 @@ class CheckPromoEnd extends Command
         // Generate merchant_ref unik: ID + 8 alphanumeric
         $merchant_ref = $this->generateUniqueMerchantRef();
 
+        $daysInMonth = now()->daysInMonth;
+        $daysRemaining = $daysInMonth - now()->day + 1;
+        $proratedAmount = ceil(($client->tagihan / $daysInMonth) * $daysRemaining);
+
         // Create DataBilling
-        DataBilling::create([
+        $billing = DataBilling::create([
             'client_id'      => $client->id,
             'new_member'     => 1,
             'merchant_ref'   => $merchant_ref,
@@ -78,13 +83,16 @@ class CheckPromoEnd extends Command
             'merchant_ref_id' => $merchant_ref,
             'sku'             => $client->name_profile,
             'name'            => $client->paket,
-            'amount'          => $client->tagihan,
+            'amount'          => $proratedAmount,
             'billing_cycle'   => now(),
         ]);
 
         $client->update([
             'status_promo' => 0
         ]);
+
+        // Kirim WhatsApp via Job
+        SendPromoEndedNotification::dispatch($billing->id);
     }
 
 
@@ -96,7 +104,7 @@ class CheckPromoEnd extends Command
     {
         do {
             $random = strtoupper(Str::random(8)); // A-Z0-9
-            $ref = "ID{$random}";
+            $ref = "INV-{$random}";
             $exists = DataBilling::where('merchant_ref', $ref)->exists();
         } while ($exists);
 

@@ -72,13 +72,6 @@ class WhatsAppSender
         $status = $response->status();
         $body = $response->json();
 
-        // Log::channel('whatsapp')->info('WA SEND', [
-        //     'endpoint' => $endpoint,
-        //     'payload'  => $payload,
-        //     'status'   => $status,
-        //     'response' => $body,
-        // ]);
-
         return [
             'status' => $status,
             'data'   => $body,

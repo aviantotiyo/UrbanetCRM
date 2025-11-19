@@ -82,6 +82,9 @@ perintah jalankan schedule
 php artisan schedule:run
 php artisan billing:reset-expired
 
+bila perlu force:
+php artisan billing:bulanan --force
+
 bikin di app/Commands/
 panggil di routes/console.php
 
