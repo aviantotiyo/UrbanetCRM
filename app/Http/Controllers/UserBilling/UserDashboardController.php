@@ -7,6 +7,7 @@ use App\Models\DataClients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class UserDashboardController extends Controller
 {
@@ -39,13 +40,11 @@ class UserDashboardController extends Controller
             ->where('status', 'UNPAID')
             ->get();
 
-        // Jika tidak ada tagihan UNPAID, redirect ke dashboard
         if ($unpaidBillings->isEmpty()) {
             return redirect()->route('client.dashboard');
         }
 
-
-        // Hitung total nilai tagihan dari item
+        // Hitung total nilai tagihan
         $totalAmount = 0;
         foreach ($unpaidBillings as $billing) {
             foreach ($billing->items as $item) {
@@ -53,44 +52,42 @@ class UserDashboardController extends Controller
             }
         }
 
-        // Jika point cukup → redirect ke bayar pakai point
         if ($client->point >= $totalAmount) {
             return redirect('/pelanggan/paywithpoint');
         }
 
-        // === Integrasi ke API Tripay ===
+        // === Caching API Tripay ===
+        $channels = Cache::remember('tripay_payment_channels', now()->addDay(), function () {
+            $apiKey = config('services.tripay.api_key');
+            $baseUrl = config('services.tripay.base_url');
+            $endpoint = $baseUrl . '/merchant/payment-channel';
 
-        $apiKey = config('services.tripay.api_key');
-        $baseUrl = config('services.tripay.base_url'); // ✅ Lebih aman
-        $endpoint = $baseUrl . '/merchant/payment-channel';
-        $curl = curl_init();
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_FRESH_CONNECT  => true,
+                CURLOPT_URL            => $endpoint,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER         => false,
+                CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $apiKey],
+                CURLOPT_FAILONERROR    => false,
+                CURLOPT_IPRESOLVE      => CURL_IPRESOLVE_V4
+            ]);
 
-        curl_setopt_array($curl, [
-            CURLOPT_FRESH_CONNECT  => true,
-            CURLOPT_URL            =>  $endpoint,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => false,
-            CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $apiKey],
-            CURLOPT_FAILONERROR    => false,
-            CURLOPT_IPRESOLVE      => CURL_IPRESOLVE_V4
-        ]);
+            $response = curl_exec($curl);
+            $error = curl_error($curl);
+            curl_close($curl);
 
-        $response = curl_exec($curl);
-        $error = curl_error($curl);
-        curl_close($curl);
+            if (!empty($error)) return [];
 
-        $channels = [];
-
-        if (empty($error)) {
             $result = json_decode($response, true);
-
             if (!empty($result['success']) && !empty($result['data'])) {
-                // Filter hanya yang aktif
-                $channels = collect($result['data'])->where('active', true)->values();
+                return collect($result['data'])->where('active', true)->values()->toArray();
             }
-        }
 
-        return view('client.dashboard.selectpayment', compact('client', 'unpaidBillings', 'channels',  'response'));
+            return [];
+        });
+
+        return view('client.dashboard.selectpayment', compact('client', 'unpaidBillings', 'channels'));
         // return view('client.dashboard.selectpaymentdebug', [
         //     'client' => $client,
         //     'unpaidBillings' => $unpaidBillings,
@@ -98,5 +95,6 @@ class UserDashboardController extends Controller
         //     'response' => $response,
         //     'result' => $result ?? null
         // ]);
+
     }
 }

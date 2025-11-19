@@ -21,13 +21,14 @@ Schedule::command(CheckPromoEnd::class)->everyFiveMinutes()->withoutOverlapping(
 
 // Jadwal rutin bulanan
 Schedule::command(BillingBulanan::class)->monthlyOn(1, '01:00');
+// Kirim info awal tagihan
 Schedule::command(MessageBillingInsert::class)
     ->everyTenMinutes()
     ->when(function () {
         return now()->day === 1 && now()->between('08:00', '19:00');
     })
     ->withoutOverlapping();
-
+// Kirim info tagihan pengingat
 Schedule::command(MessageBillingBulanan::class)
     ->everyTenMinutes()
     ->when(function () {
