@@ -8,6 +8,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\DataBilling;
+use App\Models\DataOdpLogs;
+use App\Models\DataOdpPort;
+use App\Models\DataOdp;
 use App\Services\WhatsApp\WhatsAppSender;
 use Carbon\Carbon;
 
@@ -41,15 +44,54 @@ class JobInactiveUser implements ShouldQueue
 
         $wa->sendToClient($client, $message);
 
-        // Update message_count
+        // Update billing message_count
         $billing->update([
             'message_count' => 5
         ]);
 
+        // Simpan data lama sebelum null-kan
+        $oldPortId  = $client->odp_port_id;
+        $oldOdpId   = $client->odp_id;
+        $clientName = $client->nama ?? 'UNKNOWN';
+        $clientNopel = $client->nopel ?? 'UNKNOWN';
+
+        // Update client status dan lepas port
         $client->update([
             'status' => 'inactive',
-            'odp_id' => 'null',
-            'odp_port_id' => 'null',
+            'odp_id' => null,
+            'odp_port_id' => null,
+        ]);
+
+        // Update port jika ada
+        if ($oldPortId) {
+            $port = DataOdpPort::find($oldPortId);
+            if ($port) {
+                $port->client_id = null;
+                $port->status = 'available';
+                $port->save();
+            }
+        }
+
+        // Ambil kode untuk log (fallback ke ID jika tidak ada)
+        $odpKode   = DataOdp::where('id', $oldOdpId)->value('kode_odp') ?? $oldOdpId;
+        $portKode  = DataOdpPort::where('id', $oldPortId)->value('port_numb') ?? $oldPortId;
+
+        $odpExists  = DataOdp::where('id', $oldOdpId)->exists();
+        $portExists = DataOdpPort::where('id', $oldPortId)->exists();
+
+        // Simpan log
+        DataOdpLogs::create([
+            'users_id'  => null, // karena dijalankan oleh sistem
+            'odp_id'    => $odpExists ? $oldOdpId : null,
+            'odp_port'  => $portExists ? $oldPortId : null,
+            'client_id' => $client->id,
+            'status'    => sprintf(
+                '[SYSTEM] Client (%s)-(%s) dinonaktifkan otomatis dan ODP(%s)/Port(%s) dilepas karena tidak membayar hingga akhir bulan.',
+                $clientName,
+                $clientNopel,
+                $odpKode,
+                $portKode
+            ),
         ]);
     }
 }
