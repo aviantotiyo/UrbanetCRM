@@ -15,18 +15,17 @@ use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Sales\SalesController;
 
 use App\Http\Controllers\Team\InviteController;
-use App\Http\Controllers\UserBilling\UserSuspendController;
 use App\Http\Controllers\Server\ServerController;
 use App\Http\Controllers\Ticket\HomeConController;
 use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Auth\NewPasswordController;
-
 use App\Http\Controllers\Pelanggan\IsolirController;
+
 use App\Http\Controllers\Billing\ManualPayController;
 use App\Http\Controllers\Pelanggan\UnisolirController;
-
 use App\Http\Controllers\Pelanggan\PelangganController;
+
 use App\Http\Controllers\Partner\AdminPartnerController;
 use App\Http\Controllers\Partner\ClientDetailController;
 use App\Http\Controllers\UserBilling\UserAuthController;
@@ -35,6 +34,7 @@ use App\Http\Controllers\Partner\ClientPartnerController;
 use App\Http\Controllers\UserRegist\UserRegistController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\UserRegist\AdminRegistController;
+use App\Http\Controllers\UserBilling\UserSuspendController;
 use App\Http\Controllers\Partner\ClientSearchDataController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
 use App\Http\Controllers\UserBilling\UserPayPointController;
@@ -43,11 +43,12 @@ use App\Http\Controllers\Partner\ClientTransactionController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\UserReferral\UserReferralController;
 use App\Http\Controllers\Partner\ClientProcessPointController;
+use App\Http\Controllers\Partner\UserSuspendPartnerController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserReferral\AdminReferralController;
-use App\Http\Controllers\UserBilling\UserTransactionController;
 
+use App\Http\Controllers\UserBilling\UserTransactionController;
 use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
 
@@ -393,6 +394,9 @@ Route::prefix('mitra')->group(function () {
 
         Route::get('/add-client', [ClientAddUserController::class, 'create'])->name('add_client.create');
         Route::post('/add-client', [ClientAddUserController::class, 'store'])->name('partner.add_client.store');
+
+        Route::get('/user-suspend/{id}', [UserSuspendPartnerController::class, 'show'])->name('partner.user_suspend');
+        Route::get('/user-suspend/proses/{id}', [UserSuspendPartnerController::class, 'process'])->name('partner.user_suspend.process');
 
         Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
             ->name('partner.payment.detail');

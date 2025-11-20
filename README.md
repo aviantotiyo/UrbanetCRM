@@ -67,7 +67,7 @@ agent app (partner)
 
 user app
 
--   tagihan ketika suspend harus ada mekanisme baru
+-   tagihan ketika suspend harus ada mekanisme baru (done -v)
 
     /// OTOMASI
 
@@ -78,6 +78,7 @@ user app
 -   pesan pengingat tagihan (v-done)
 -   pesan isolir jaringan (v-done)
 -   inactive user (v-done)
+-   handling pesan ketika DataBillingItem lebih dari 1 data
 
 # masih adakesalahan form di edit dari form online registrasi
 

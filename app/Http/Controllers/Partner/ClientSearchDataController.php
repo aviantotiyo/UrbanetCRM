@@ -22,12 +22,18 @@ class ClientSearchDataController extends Controller
             return back()->withErrors(['no_hp' => 'Nomor HP tidak ditemukan'])->withInput();
         }
 
+
         $billings = DataBilling::where('client_id', $client->id)
             ->where('status', 'UNPAID')
             ->get();
 
         if ($billings->isEmpty()) {
             return back()->with('info', 'Tidak ada tagihan aktif untuk nomor ini.');
+        }
+
+        if ($client->status === 'suspend' && $billings->isNotEmpty()) {
+            return redirect()->route('partner.user_suspend', ['id' => $client->id])
+                ->with('warning', 'Pelanggan dalam status suspend.');
         }
 
         $merchantRefs = $billings->pluck('merchant_ref')->toArray();

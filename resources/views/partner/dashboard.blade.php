@@ -91,7 +91,7 @@
                                         @csrf
                                         <div class="input-group input-group-merge">
                                             <span class="input-group-text"><i class="ti ti-search"></i></span>
-                                            <input type="text" name="no_hp" class="form-control" placeholder="Cari No HP..." required>
+                                            <input type="text" id='no_hp' name="no_hp" class="form-control" placeholder="Cari No HP..." required>
                                         </div>
                                         <div class="mt-2">
                                             <button type="submit" class="btn btn-primary w-100">Cari Tagihan</button>
@@ -120,6 +120,7 @@
             </div>
             <!-- / Layout wrapper -->
             @include('client.template.footer')
+            @include('template.js.no-hp')
 
 </body>
 
