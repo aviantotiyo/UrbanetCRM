@@ -63,12 +63,17 @@ agent app (partner)
 -   Mitra melakukan inactive account dan update profile belum ada (V-done)
 -   belum ada fitur add client dan hitungan fee
 -   data bank partner, nama, no rek dll
+-   tagihan ketika suspend
 
     /// OTOMASI
 
 -   billing setiap bulan, generate invoice tagihan bulanan rutin
 -   exp konfrimasi dari agent transaksi manual (v -done)
 -   cek transaksi PAID via mutasi bank manual
+-   billing tagihan tiap bulan ( v- done)
+-   pesan pengingat tagihan (v-done)
+-   pesan isolir jaringan (v-done)
+-   inactive user (v-done)
 
 # masih adakesalahan form di edit dari form online registrasi
 

@@ -11,7 +11,7 @@ use App\Models\DataBilling;
 use App\Services\WhatsApp\WhatsAppSender;
 use Carbon\Carbon;
 
-class JobIsolirUser implements ShouldQueue
+class JobInactiveUser implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,23 +31,25 @@ class JobIsolirUser implements ShouldQueue
         $item = $billing->items->first();
         $billingMonth = Carbon::parse($item->billing_cycle)->format('m/Y');
 
-        $message = "Halo {$client->nama},\n\nSaat ini jaringan Anda dalam kondisi *ISOLIR*. Lakukan pembayaran agar jaringan kembali akti.\n\nBerikut ini adalah tagihan internet Anda:\n\n"
+        $message = "Halo {$client->nama},\n\nSaat ini kami telah melakukan *pemutusan jaringan*. Anda perlu melakukan permintaan penyambungan kembali melalui CS dan lakukan pembayaran agar jaringan kembali aktif.\n\nBerikut ini adalah tagihan internet Anda:\n\n"
             . "No.Inv: {$item->merchant_ref_id}\n"
             . "Periode: {$billingMonth}\n"
             . "Paket: {$item->name}\n"
             . "Total: Rp " . number_format($item->amount, 0, ',', '.') . "\n\n"
-            . "Jaringan akan aktif kembali setidaknya 1-2 Jam setelah pelunasan.\n\n"
+            . "Pelanggan akan aktif kembali setelah pelunasan tunggakan serta melakukan *registrasi ulang* melalui CS.\n\n"
             . "Terima kasih 🙏";
 
         $wa->sendToClient($client, $message);
 
         // Update message_count
         $billing->update([
-            'message_count' => 3
+            'message_count' => 5
         ]);
 
         $client->update([
-            'status' => 'isolir'
+            'status' => 'inactive',
+            'odp_id' => 'null',
+            'odp_port_id' => 'null',
         ]);
     }
 }

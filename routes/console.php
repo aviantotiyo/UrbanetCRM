@@ -1,10 +1,13 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+use App\Console\Commands\IsolirUser;
 
+use Illuminate\Foundation\Inspiring;
+use App\Console\Commands\SuspendUser;
+
+use App\Console\Commands\InactiveUser;
 use App\Console\Commands\CheckPromoEnd;
 use Illuminate\Support\Facades\Artisan;
-
 use App\Console\Commands\BillingBulanan;
 use Illuminate\Support\Facades\Schedule;
 use App\Console\Commands\ResetExpiredBilling;
@@ -33,5 +36,28 @@ Schedule::command(MessageBillingBulanan::class)
     ->everyTenMinutes()
     ->when(function () {
         return now()->day === 10 && now()->between('08:00', '19:00');
+    })
+    ->withoutOverlapping();
+
+Schedule::command(IsolirUser::class)
+    ->everyTenMinutes()
+    ->when(function () {
+        return now()->day === 15 && now()->between('08:00', '19:00');
+    })
+    ->withoutOverlapping();
+
+Schedule::command(SuspendUser::class)
+    ->everyTenMinutes()
+    ->when(function () {
+        return now()->isSameDay(now()->copy()->endOfMonth()) &&
+            now()->between('08:00', '19:00');
+    })
+    ->withoutOverlapping();
+
+Schedule::command(InactiveUser::class)
+    ->everyTenMinutes()
+    ->when(function () {
+        return now()->isSameDay(now()->copy()->endOfMonth()) &&
+            now()->between('08:00', '19:00');
     })
     ->withoutOverlapping();
