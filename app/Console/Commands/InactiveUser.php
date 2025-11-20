@@ -21,7 +21,7 @@ class InactiveUser extends Command
         $now = Carbon::now();
 
         $billings = DataBilling::where('status', 'UNPAID')
-            ->where('message_count', 4)
+            ->where('message_count', 3)
             ->where('new_member', 0)
             ->whereDate('billing_create', '<', now()->startOfMonth())
             ->limit(3)

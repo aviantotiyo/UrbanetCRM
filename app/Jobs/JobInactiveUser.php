@@ -46,7 +46,7 @@ class JobInactiveUser implements ShouldQueue
 
         // Update billing message_count
         $billing->update([
-            'message_count' => 5
+            'message_count' => 4
         ]);
 
         // Simpan data lama sebelum null-kan

@@ -56,8 +56,8 @@ Schedule::command(SuspendUser::class)
 
 Schedule::command(InactiveUser::class)
     ->everyTenMinutes()
-    ->when(function () {
-        return now()->isSameDay(now()->copy()->endOfMonth()) &&
-            now()->between('08:00', '19:00');
-    })
+    // ->when(function () {
+    //     return now()->isSameDay(now()->copy()->endOfMonth()) &&
+    //         now()->between('08:00', '19:00');
+    // })
     ->withoutOverlapping();
