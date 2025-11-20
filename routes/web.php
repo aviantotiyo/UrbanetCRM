@@ -2,6 +2,7 @@
 
 
 use App\Mail\TestEmail;
+use App\Services\RadiusAuthService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -12,20 +13,21 @@ use App\Http\Controllers\Odc\OdcPortController;
 use App\Http\Controllers\Odp\OdpPortController;
 use App\Http\Controllers\Paket\PaketController;
 use App\Http\Controllers\Sales\SalesController;
-use App\Http\Controllers\Team\InviteController;
 
+use App\Http\Controllers\Team\InviteController;
+use App\Http\Controllers\UserBilling\UserSuspendController;
 use App\Http\Controllers\Server\ServerController;
 use App\Http\Controllers\Ticket\HomeConController;
 use App\Http\Controllers\Billing\BillingController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Auth\NewPasswordController;
+
 use App\Http\Controllers\Pelanggan\IsolirController;
 use App\Http\Controllers\Billing\ManualPayController;
-
 use App\Http\Controllers\Pelanggan\UnisolirController;
+
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Partner\AdminPartnerController;
-
 use App\Http\Controllers\Partner\ClientDetailController;
 use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\Partner\ClientAddUserController;
@@ -45,10 +47,9 @@ use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\UserBilling\UserTransactionController;
+
 use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
-
-use App\Services\RadiusAuthService;
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -365,6 +366,8 @@ Route::middleware('client.auth')->group(function () {
     Route::get('/pelanggan/referral/tambah', [UserReferralController::class, 'create'])->name('client.referral.create');
     Route::post('/pelanggan/referral/tambah', [UserReferralController::class, 'store'])->name('client.referral.store');
     Route::get('/pelanggan/paywithpoint', [UserPayPointController::class, 'process'])->name('client.paywithpoint');
+
+    Route::get('/pelanggan/suspend/{id}', [UserSuspendController::class, 'suspend'])->name('client.suspend');
 
     Route::post('/pelanggan/redeem-point', [UserPayPointController::class, 'redeemPoint'])->name('client.billing.redeempoint');
 });

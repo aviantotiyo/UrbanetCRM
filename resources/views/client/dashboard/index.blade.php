@@ -31,6 +31,29 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                             @endif
+
+                            <!-- apabila user status inactive -->
+                            @if($client->status == 'inactive')
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Akun anda tidak aktif. Lakukan registrasi pemasangan dari awal melalui CS.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+
+                            @if($client->status == 'isolir')
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Saat ini jaringan anda terisolir. Segera lakukan pembayaran agar layanan kembali aktif.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+
+                            @if($client->status == 'suspend')
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Akun anda memasuki masa tenggang. Anda harus membayar tagihan bulan lalu dan tagihan baru.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+                            <!-- apabila user status inactive end-->
                             <div class="card h-100">
                                 <div class="card-body">
                                     <div class="bg-label-primary rounded text-center mb-4 pt-4">
@@ -93,9 +116,15 @@
 
 
                                 </div>
-                                @if($unpaidBillings->isNotEmpty())
+                                @if($unpaidBillings->isNotEmpty() && $client->status !== 'inactive' && $client->status !== 'suspend')
                                 <div class="card-body">
-                                    <a href="{{ route('client.paywithpoint') }}" class="btn btn-primary w-100">Bayar Tagihan</a>
+                                    <a href="{{ route('client.paywithpoint') }}" class="btn btn-primary w-100" id="spinner">Bayar Tagihan</a>
+                                </div>
+                                @endif
+
+                                @if($client->status == 'suspend')
+                                <div class="card-body">
+                                    <a href="/pelanggan/suspend/{{ $client->id }}" class="btn btn-primary w-100">Buka Isolir & Bayar Tagihan</a>
                                 </div>
                                 @endif
                             </div>
@@ -120,6 +149,7 @@
         <div class="drag-target"></div>
     </div>
     <!-- / Layout wrapper -->
+
     @include('client.template.footer')
 
 </body>

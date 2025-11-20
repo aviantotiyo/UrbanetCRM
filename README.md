@@ -63,7 +63,11 @@ agent app (partner)
 -   Mitra melakukan inactive account dan update profile belum ada (V-done)
 -   belum ada fitur add client dan hitungan fee
 -   data bank partner, nama, no rek dll
--   tagihan ketika suspend
+-   tagihan ketika suspend harus ada mekanisme baru
+
+user app
+
+-   tagihan ketika suspend harus ada mekanisme baru
 
     /// OTOMASI
 
