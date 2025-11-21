@@ -213,7 +213,16 @@
                                     @if ($billing->status != 'PAID')
                                     <h6 class="mb-2">Konfirmasi Transfer</h6>
                                     <ul>
-                                        <li>Nilai yang harus di transfer Rp {{ number_format($billing->total_amount, 0, ',', '.') }}</li>
+                                        <li>
+                                            Nilai yang harus ditransfer:
+                                            <span id="amountWrapper" style="position: relative;">
+                                                <a href="javascript:void(0);" onclick="copyToClipboard('amountText', 'tooltipAmount')" id="amountLink">
+                                                    Rp {{ number_format($billing->total_amount, 0, ',', '.') }}
+                                                </a>
+                                                <span id="tooltipAmount" class="custom-tooltip">Disalin!</span>
+                                            </span>
+                                        </li>
+
                                         @php
                                         $targetBank = $allBanks->firstWhere('nama_bank', $billing->bank_name_manual);
                                         @endphp
@@ -222,40 +231,26 @@
                                         <li>
                                             Transfer ke {{ $targetBank->nama_bank }} {{ $targetBank->nama_pic }} -
                                             <span id="noRekWrapper" style="position: relative;">
-                                                <a href="javascript:void(0);" onclick="copyRekening()" id="noRekLink">
+                                                <a href="javascript:void(0);" onclick="copyToClipboard('rekText', 'tooltipRek')" id="noRekLink">
                                                     {{ $targetBank->no_rek }}
                                                 </a>
-                                                <span id="tooltipText" style="
-            visibility: hidden;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 4px;
-            padding: 5px 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%; /* Tooltip muncul di atas */
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 12px;
-        ">
-                                                    Disalin!
-                                                </span>
+                                                <span id="tooltipRek" class="custom-tooltip">Disalin!</span>
                                             </span>
                                         </li>
-
-                                        @else
-
                                         @endif
 
-                                        <li>Maks waktu proses {{ \Carbon\Carbon::parse($billing->exp_tx_bank)->format('d/m/Y H:i') }}
-                                            WIB</li>
-                                        <li>Wajib: Lakukan konfirmasi pembayaran setelah anda transfer.</li>
+                                        <li>
+                                            Maks waktu proses:
+                                            {{ \Carbon\Carbon::parse($billing->exp_tx_bank)->format('d/m/Y H:i') }} WIB
+                                        </li>
+                                        <li>
+                                            <strong>Wajib:</strong> Lakukan konfirmasi pembayaran setelah Anda transfer.
+                                        </li>
                                     </ul>
 
-
+                                    <!-- Hidden texts for copy -->
+                                    <span id="amountText" class="d-none">{{ $billing->total_amount }}</span>
+                                    <span id="rekText" class="d-none">{{ $targetBank->no_rek ?? '' }}</span>
 
                                     <hr />
                                     @endif
@@ -285,18 +280,38 @@
                     </div>
                 </div>
 
-                <script>
-                    function copyRekening() {
-                        const text = document.getElementById('noRekLink').innerText;
-                        navigator.clipboard.writeText(text).then(() => {
-                            const tooltip = document.getElementById('tooltipText');
-                            tooltip.style.visibility = 'visible';
-                            tooltip.style.opacity = '1';
+                <style>
+                    .custom-tooltip {
+                        visibility: hidden;
+                        background-color: #333;
+                        color: #fff;
+                        text-align: center;
+                        border-radius: 4px;
+                        padding: 5px 8px;
+                        position: absolute;
+                        z-index: 1;
+                        bottom: 125%;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                        font-size: 12px;
+                    }
 
-                            // Sembunyikan setelah 1.5 detik
+                    .custom-tooltip.show {
+                        visibility: visible;
+                        opacity: 1;
+                    }
+                </style>
+
+                <script>
+                    function copyToClipboard(textId, tooltipId) {
+                        const text = document.getElementById(textId).innerText;
+                        navigator.clipboard.writeText(text).then(() => {
+                            const tooltip = document.getElementById(tooltipId);
+                            tooltip.classList.add('show');
                             setTimeout(() => {
-                                tooltip.style.visibility = 'hidden';
-                                tooltip.style.opacity = '0';
+                                tooltip.classList.remove('show');
                             }, 1500);
                         });
                     }
