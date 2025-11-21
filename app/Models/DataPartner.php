@@ -28,6 +28,9 @@ class DataPartner extends Authenticatable
         'secret_token',
         'password',
         'status',
+        'bank_name',
+        'bank_pic',
+        'bank_account'
     ];
 
 

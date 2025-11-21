@@ -80,7 +80,40 @@
                                                 <label for="alamat" class="form-label">Alamat</label>
                                                 <textarea class="form-control" name="alamat" rows="2">{{ $partner->alamat }}</textarea>
                                             </div>
+                                            <div class="mb-3">
+                                                <label for="bank_name" class="form-label">Bank</label>
+                                                <select class="form-select" name="bank_name">
 
+                                                    <option value="" {{ $partner->status === '' ? 'selected' : '' }}>Pilih Bank</option>
+                                                    <option value="BCA" {{ $partner->status === 'BCA' ? 'selected' : '' }}>BCA</option>
+                                                    <option value="BRI" {{ $partner->status === 'BRI' ? 'selected' : '' }}>BRI</option>
+                                                </select>
+                                                @error('bank_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="bank_pic" class="form-label">Nama Pemilik Bank</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control @error('bank_pic') is-invalid @enderror"
+                                                    id="bank_pic"
+                                                    name="bank_pic"
+                                                    value="{{ old('bank_pic', $partner->bank_pic ?? '') }}"
+                                                    required>
+                                                @error('bank_pic')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="bank_account" class="form-label">Nomor Rekening</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control @error('bank_account') is-invalid @enderror"
+                                                    id="bank_account"
+                                                    name="bank_account"
+                                                    value="{{ old('bank_account', $partner->bank_account ?? '') }}"
+                                                    required>
+                                                @error('bank_account')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
 
                                         </div>
 

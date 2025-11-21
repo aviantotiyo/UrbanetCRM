@@ -56,6 +56,9 @@ class AdminPartnerController extends Controller
             'provinsi'     => 'nullable|string',
             'kabupaten'    => 'nullable|string',
             'kecamatan'    => 'nullable|string',
+            'bank_name'    => 'nullable|string',
+            'bank_pic'    => 'nullable|string',
+            'bank_account'    => 'nullable|string',
             'password'     => 'required|string|min:6',
         ]);
 
@@ -67,6 +70,9 @@ class AdminPartnerController extends Controller
             'provinsi'     => $request->provinsi,
             'kabupaten'    => $request->kabupaten,
             'kecamatan'    => $request->kecamatan,
+            'bank_name'    => $request->bank_name,
+            'bank_pic'    => $request->bank_pic,
+            'bank_account'    => $request->bank_account,
             'secret_token' => Str::random(32),
             'password'     => bcrypt($request->password),
             'status'       => 'active',
@@ -118,6 +124,9 @@ class AdminPartnerController extends Controller
             'provinsi'     => 'nullable|string',
             'kabupaten'    => 'nullable|string',
             'kecamatan'    => 'nullable|string',
+            'bank_name'    => 'nullable|string',
+            'bank_pic'    => 'nullable|string',
+            'bank_account'    => 'nullable|string',
             'status'       => 'required|in:active,inactive',
         ]);
 
@@ -128,6 +137,9 @@ class AdminPartnerController extends Controller
             'provinsi',
             'kabupaten',
             'kecamatan',
+            'bank_name',
+            'bank_pic',
+            'bank_account',
             'status'
         ]));
 
