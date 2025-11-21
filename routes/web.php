@@ -397,6 +397,9 @@ Route::prefix('mitra')->group(function () {
 
         Route::get('/user-suspend/{id}', [UserSuspendPartnerController::class, 'show'])->name('partner.user_suspend');
         Route::get('/user-suspend/proses/{id}', [UserSuspendPartnerController::class, 'process'])->name('partner.user_suspend.process');
+        Route::get('/select-payment/{id}', [UserSuspendPartnerController::class, 'selectpayment'])->name('partner.user_suspend.select');
+        Route::post('/create-payment/{merchant_ref}', [UserSuspendPartnerController::class, 'paymentprocess'])->name('partner.user_suspend.paymentprocess');
+
 
         Route::get('/detail-payment/{merchant_ref}', [ClientProcessPaymentController::class, 'showDetail'])
             ->name('partner.payment.detail');

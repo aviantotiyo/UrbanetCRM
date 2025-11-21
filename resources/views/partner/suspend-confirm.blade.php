@@ -23,7 +23,7 @@
                                     <p>
                                         Pelanggan <strong>{{ $client->nama }}</strong> NoPel: {{ $client->nopel ?? '-' }} saat ini dalam kondisi <strong>Masa Tenggang</strong> karena belum melakukan pembayaran.
                                     </p>
-                                    <p>Pelanggan di wajibkan membayar tagihan bulan sebelumnya dan tagihan bulan berjalan.
+                                    <p>Pelanggan di wajibkan membayar tagihan bulan sebelumnya dan tagihan bulan berjalan, agar layanan kembali aktif.
                                     </p>
 
                                     <div class="mt-2">
