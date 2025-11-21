@@ -48,6 +48,8 @@ NIK, no hp belum ada pengecekan di semua data pelanggan DataClient, DataClientsR
 
 selectpayment ada error. JS nya tidak menghitung angka akhirnya (V-done)
 
+backend:
+
 sales app
 
 -   add data (done)
@@ -63,7 +65,7 @@ agent app (partner)
 -   Mitra melakukan inactive account dan update profile belum ada (V-done)
 -   belum ada fitur add client dan hitungan fee
 -   data bank partner, nama, no rek dll
--   tagihan ketika suspend harus ada mekanisme baru
+-   tagihan ketika suspend harus ada mekanisme baru (done)
 
 user app
 
