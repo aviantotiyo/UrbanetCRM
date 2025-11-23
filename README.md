@@ -38,7 +38,9 @@ Billing User
 
 User Regist Dashboard admin (view, edit, process) (done all)
 
-CSR list
+# CSR list
+
+# Broadcast gangguan
 
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
 
@@ -82,6 +84,13 @@ user app
 -   pesan isolir jaringan (v-done)
 -   inactive user (v-done)
 -   handling pesan ketika DataBillingItem lebih dari 1 data
+
+==============================
+Data Radius:
+103.52.115.151
+testing123
+Auth port 1812
+Acc port 1813
 
 # masih adakesalahan form di edit dari form online registrasi
 

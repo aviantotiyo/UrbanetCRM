@@ -11,6 +11,7 @@ use App\Models\DataOdpPort;
 use App\Models\DataSetting;
 use Illuminate\Http\Request;
 use App\Jobs\JobCreateBilling;
+use App\Jobs\JobCreateUserRadius;
 use Illuminate\Validation\Rule;
 use App\Models\DataClientsSales;
 use App\Models\DataClientsRegist;
@@ -115,6 +116,8 @@ class ProcessPelangganController extends Controller
                 'client_id' => $client->id,
                 'status'    => 'reserved',
             ]);
+
+            JobCreateUserRadius::dispatch($client->id)->afterCommit();
 
             // Cari DataClientsProspect berdasarkan client_prospect_id
             $prospect = DataClientsProspect::where('client_prospect_id', $client->id)->first();

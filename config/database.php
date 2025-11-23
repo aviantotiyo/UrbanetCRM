@@ -64,6 +64,20 @@ return [
             ]) : [],
         ],
 
+        // config/database.php
+
+        'radius' => [
+            'driver' => 'mysql',
+            'host' => env('DB_RADIUS_HOST', '103.52.115.151'),
+            'port' => env('DB_RADIUS_PORT', 3306),
+            'database' => env('DB_RADIUS_DATABASE', 'radius'),
+            'username' => env('DB_RADIUS_USERNAME', 'radius'),
+            'password' => env('DB_RADIUS_PASSWORD', 'SuraBaya2012!'),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+        ],
+
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
