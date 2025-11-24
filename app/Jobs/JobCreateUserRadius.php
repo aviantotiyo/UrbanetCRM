@@ -38,6 +38,8 @@ class JobCreateUserRadius implements ShouldQueue
         }
 
         $apiUrl = rtrim(config('radius.base_url'), '/') . '/api/users';
+        $apiUrlGroup = rtrim(config('radius.base_url'), '/') . '/api/user-group';
+
         $apiKey = config('radius.api_key');
 
         Log::info('⛳ [JobCreateUserRadius] URL & KEY', [
@@ -52,6 +54,15 @@ class JobCreateUserRadius implements ShouldQueue
             'username' => $client->user_pppoe,
             'password' => $client->pass_pppoe,
         ]);
+
+        $response = Http::withHeaders([
+            'x-api-key' => $apiKey,
+            'Content-Type' => 'application/json',
+        ])->post($apiUrlGroup, [
+            'username' => $client->user_pppoe,
+            'groupname' => $client->paket,
+        ]);
+
 
         if ($response->successful()) {
             Log::info("✅ Berhasil buat user Radius untuk {$client->user_pppoe}");
