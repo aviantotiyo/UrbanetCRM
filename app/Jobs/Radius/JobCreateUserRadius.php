@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Radius;
 
 use App\Models\DataClients;
 use Illuminate\Bus\Queueable;
