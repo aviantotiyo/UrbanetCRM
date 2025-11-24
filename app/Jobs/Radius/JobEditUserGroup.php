@@ -8,7 +8,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Log;
 use App\Services\Radius\RadiusAPIService;
 
 class JobEditUserGroup implements ShouldQueue
@@ -24,32 +23,17 @@ class JobEditUserGroup implements ShouldQueue
 
     public function handle(): void
     {
-        Log::info("[JobEditUserGroup] Mulai handle job untuk paket ID: {$this->paketId}");
-
         $paket = DataPaket::find($this->paketId);
 
         if (!$paket || !$paket->name_profile || !$paket->limit_radius || !$paket->ip_pool) {
-            Log::warning("[JobEditUserGroup] DataPaket tidak lengkap atau tidak ditemukan.", ['paket_id' => $this->paketId]);
             return;
         }
 
-        try {
-            $service = new RadiusAPIService();
-            $response = $service->updateGroup(
-                $paket->name_profile,
-                $paket->limit_radius,
-                $paket->ip_pool
-            );
-
-            Log::info("[JobEditUserGroup] Radius group berhasil diperbarui.", [
-                'group' => $paket->name_profile,
-                'response' => $response,
-            ]);
-        } catch (\Exception $e) {
-            Log::error("[JobEditUserGroup] Gagal update ke Radius API.", [
-                'error' => $e->getMessage(),
-                'paket_id' => $this->paketId
-            ]);
-        }
+        $service = new RadiusAPIService();
+        $service->updateGroup(
+            $paket->name_profile,
+            $paket->limit_radius,
+            $paket->ip_pool
+        );
     }
 }
