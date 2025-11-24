@@ -42,10 +42,10 @@ class JobCreateUserRadius implements ShouldQueue
 
         $apiKey = config('radius.api_key');
 
-        Log::info('⛳ [JobCreateUserRadius] URL & KEY', [
-            'url' => $apiUrl,
-            'key' => $apiKey,
-        ]);
+        // Log::info('⛳ [JobCreateUserRadius] URL & KEY', [
+        //     'url' => $apiUrl,
+        //     'key' => $apiKey,
+        // ]);
 
         $response = Http::withHeaders([
             'x-api-key' => $apiKey,
@@ -64,13 +64,13 @@ class JobCreateUserRadius implements ShouldQueue
         ]);
 
 
-        if ($response->successful()) {
-            Log::info("✅ Berhasil buat user Radius untuk {$client->user_pppoe}");
-        } else {
-            Log::error("❌ Gagal buat user Radius untuk {$client->user_pppoe}", [
-                'status' => $response->status(),
-                'body'   => $response->body(),
-            ]);
-        }
+        // if ($response->successful()) {
+        //     Log::info("✅ Berhasil buat user Radius untuk {$client->user_pppoe}");
+        // } else {
+        //     Log::error("❌ Gagal buat user Radius untuk {$client->user_pppoe}", [
+        //         'status' => $response->status(),
+        //         'body'   => $response->body(),
+        //     ]);
+        // }
     }
 }

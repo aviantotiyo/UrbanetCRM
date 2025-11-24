@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Jobs\JobCreatePaketRadius;
+use App\Jobs\Radius\JobEditUserGroup;
 
 
 class PaketController extends Controller
@@ -85,6 +86,7 @@ class PaketController extends Controller
             'harga'        => ['required', 'string', 'max:64'],
             'name_profile' => ['nullable', 'string', 'max:191'],
             'limit_radius' => ['nullable', 'string', 'max:191'],
+            'ip_pool' => ['nullable', 'string', 'max:191'],
             'active'       => ['required', Rule::in(['0', '1'])],
             'tayang'       => ['required', Rule::in(['0', '1'])],
         ]);
@@ -94,6 +96,7 @@ class PaketController extends Controller
         $validated['tayang'] = (int) $validated['tayang'];
 
         $paket->update($validated);
+        JobEditUserGroup::dispatch($paket->id)->afterCommit();
 
         return redirect()
             ->route('admin.paket.index')

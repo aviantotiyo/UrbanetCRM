@@ -8,6 +8,6 @@ class RadiusAPI extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \App\Services\RadiusAPIService::class;
+        return \App\Services\Radius\RadiusAPIService::class;
     }
 }

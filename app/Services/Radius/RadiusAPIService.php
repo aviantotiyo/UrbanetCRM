@@ -61,4 +61,35 @@ class RadiusAPIService
             'Content-Type' => 'application/json'
         ])->post("{$this->baseUrl}/api/groups", $payload)->json();
     }
+
+    public function updateGroup(string $groupname, string $rateLimit, string $ipPool)
+    {
+        $payload = [
+            'check' => [
+                [
+                    'attribute' => 'Auth-Type',
+                    'op' => ':=',
+                    'value' => 'Accept'
+                ]
+            ],
+            'reply' => [
+                [
+                    'attribute' => 'Mikrotik-Rate-Limit',
+                    'op' => '=',
+                    'value' => $rateLimit
+                ],
+                [
+                    'attribute' => 'Framed-Pool',
+                    'op' => '=',
+                    'value' => $ipPool
+                ]
+            ]
+        ];
+
+
+        return Http::withHeaders([
+            'x-api-key' => $this->apiKey,
+            'Content-Type' => 'application/json'
+        ])->put("{$this->baseUrl}/api/groups/{$groupname}", $payload)->json();
+    }
 }
