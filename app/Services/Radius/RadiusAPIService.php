@@ -11,23 +11,31 @@ class RadiusAPIService
 
     public function __construct()
     {
-        $this->baseUrl = config('radius.base_url');
+        $this->baseUrl = rtrim(config('radius.base_url'), '/');
         $this->apiKey  = config('radius.api_key');
+    }
+
+    protected function request(string $method, string $endpoint, array $payload = [])
+    {
+        return Http::withHeaders([
+            'x-api-key' => $this->apiKey,
+            'Content-Type' => 'application/json'
+        ])->send($method, $this->baseUrl . $endpoint, ['json' => $payload])->json();
     }
 
     public function getAllUsers()
     {
-        return Http::withToken($this->apiKey)->get("{$this->baseUrl}/api/users")->json();
+        return $this->request('GET', '/api/users');
     }
 
     public function createUser(array $data)
     {
-        return Http::withToken($this->apiKey)->post("{$this->baseUrl}/api/users", $data)->json();
+        return $this->request('POST', '/api/users', $data);
     }
 
     public function deleteUser(string $username)
     {
-        return Http::withToken($this->apiKey)->delete("{$this->baseUrl}/api/users/{$username}")->json();
+        return $this->request('DELETE', "/api/users/{$username}");
     }
 
     public function createGroup(string $groupname, string $rateLimit, string $ipPool)
@@ -35,61 +43,37 @@ class RadiusAPIService
         $payload = [
             'groupname' => $groupname,
             'check' => [
-                [
-                    'attribute' => 'Auth-Type',
-                    'op' => ':=',
-                    'value' => 'Accept'
-                ]
+                ['attribute' => 'Auth-Type', 'op' => ':=', 'value' => 'Accept']
             ],
             'reply' => [
-                [
-                    'attribute' => 'Mikrotik-Rate-Limit',
-                    'op' => '=',
-                    'value' => $rateLimit
-                ],
-                [
-                    'attribute' => 'Framed-Pool',
-                    'op' => '=',
-                    'value' => $ipPool
-                ]
+                ['attribute' => 'Mikrotik-Rate-Limit', 'op' => '=', 'value' => $rateLimit],
+                ['attribute' => 'Framed-Pool', 'op' => '=', 'value' => $ipPool]
             ]
         ];
 
-
-        return Http::withHeaders([
-            'x-api-key' => $this->apiKey,
-            'Content-Type' => 'application/json'
-        ])->post("{$this->baseUrl}/api/groups", $payload)->json();
+        return $this->request('POST', '/api/groups', $payload);
     }
 
     public function updateGroup(string $groupname, string $rateLimit, string $ipPool)
     {
         $payload = [
             'check' => [
-                [
-                    'attribute' => 'Auth-Type',
-                    'op' => ':=',
-                    'value' => 'Accept'
-                ]
+                ['attribute' => 'Auth-Type', 'op' => ':=', 'value' => 'Accept']
             ],
             'reply' => [
-                [
-                    'attribute' => 'Mikrotik-Rate-Limit',
-                    'op' => '=',
-                    'value' => $rateLimit
-                ],
-                [
-                    'attribute' => 'Framed-Pool',
-                    'op' => '=',
-                    'value' => $ipPool
-                ]
+                ['attribute' => 'Mikrotik-Rate-Limit', 'op' => '=', 'value' => $rateLimit],
+                ['attribute' => 'Framed-Pool', 'op' => '=', 'value' => $ipPool]
             ]
         ];
 
+        return $this->request('PUT', "/api/groups/{$groupname}", $payload);
+    }
 
-        return Http::withHeaders([
-            'x-api-key' => $this->apiKey,
-            'Content-Type' => 'application/json'
-        ])->put("{$this->baseUrl}/api/groups/{$groupname}", $payload)->json();
+    public function assignUserToGroup(string $username, string $groupname)
+    {
+        return $this->request('POST', '/api/user-group', [
+            'username' => $username,
+            'groupname' => $groupname,
+        ]);
     }
 }
