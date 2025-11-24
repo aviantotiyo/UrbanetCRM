@@ -30,17 +30,28 @@ class JobCreateUserRadius implements ShouldQueue
      */
     public function handle(): void
     {
-        $client = \App\Models\DataClients::find($this->clientId);
+        $client = \App\Models\DataClients::with(['odp.server'])->find($this->clientId);
 
-        if (!$client || !$client->user_pppoe || !$client->pass_pppoe || !$client->paket) {
+        if (
+            !$client ||
+            !$client->user_pppoe ||
+            !$client->pass_pppoe ||
+            !$client->paket ||
+            !$client->odp ||
+            !$client->odp->server ||
+            !$client->odp->server->ip_public
+        ) {
             return;
         }
+
+        $nasIp = $client->odp->server->ip_public;
 
         $radius = new \App\Services\Radius\RadiusAPIService();
 
         $radius->createUser([
             'username' => $client->user_pppoe,
             'password' => $client->pass_pppoe,
+            'nas_ip'   => $nasIp,
         ]);
 
         $radius->assignUserToGroup(
