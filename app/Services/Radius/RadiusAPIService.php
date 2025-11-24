@@ -29,4 +29,36 @@ class RadiusAPIService
     {
         return Http::withToken($this->apiKey)->delete("{$this->baseUrl}/api/users/{$username}")->json();
     }
+
+    public function createGroup(string $groupname, string $rateLimit, string $ipPool)
+    {
+        $payload = [
+            'groupname' => $groupname,
+            'check' => [
+                [
+                    'attribute' => 'Auth-Type',
+                    'op' => ':=',
+                    'value' => 'Accept'
+                ]
+            ],
+            'reply' => [
+                [
+                    'attribute' => 'Mikrotik-Rate-Limit',
+                    'op' => '=',
+                    'value' => $rateLimit
+                ],
+                [
+                    'attribute' => 'Framed-Pool',
+                    'op' => '=',
+                    'value' => $ipPool
+                ]
+            ]
+        ];
+
+
+        return Http::withHeaders([
+            'x-api-key' => $this->apiKey,
+            'Content-Type' => 'application/json'
+        ])->post("{$this->baseUrl}/api/groups", $payload)->json();
+    }
 }

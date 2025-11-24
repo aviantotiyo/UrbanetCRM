@@ -85,6 +85,13 @@
                                             @error('limit_radius')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
+                                        <div class="col-md-6">
+                                            <label class="form-label">IP Pool</label>
+                                            <input name="ip_pool" class="form-control @error('ip_pool') is-invalid @enderror"
+                                                value="{{ old('ip_pool') }}" placeholder="IPPool-30Mbps">
+                                            @error('ip_pool')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+
                                         <div class="mb-3">
                                             <label class="form-label d-block">Aktifkan Paket</label>
                                             @php $oldActive = old('active','1'); @endphp

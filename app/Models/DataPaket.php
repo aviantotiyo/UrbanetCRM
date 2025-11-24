@@ -24,6 +24,7 @@ class DataPaket extends Model
         'tayang',
         'name_profile',
         'limit_radius',
+        'ip_pool',
     ];
 
     public function prospects()
