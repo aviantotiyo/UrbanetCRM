@@ -72,19 +72,28 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="form-label">IP Public</label>
+                                            <label class="form-label">IP Public - Radius IP <span class="text-danger">*</span></label>
                                             <input name="ip_public" class="form-control @error('ip_public') is-invalid @enderror"
                                                 value="{{ old('ip_public') }}" placeholder="x.x.x.x">
                                             @error('ip_public')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="form-label">IP Static</label>
-                                            <input name="ip_static" class="form-control @error('ip_static') is-invalid @enderror"
-                                                value="{{ old('ip_static') }}" placeholder="x.x.x.x">
-                                            @error('ip_static')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            <label class="form-label">Radius Secret <span class="text-danger">*</span></label>
+                                            <input name="radius_secret" type="text"
+                                                class="form-control @error('radius_secret') is-invalid @enderror"
+                                                value="{{ old('radius_secret') }}" required>
+                                            @error('radius_secret')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
+                                        <div class="col-md-6">
+                                            <label class="form-label">IP Static <span class="text-danger">*</span></label>
+                                            <input name="ip_static" class="form-control @error('ip_static') is-invalid @enderror"
+                                                value="{{ old('ip_static') }}" placeholder="x.x.x.x" required>
+                                            @error('ip_static')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+                                        <div class="row">
+                                        </div>
                                         <div class="col-md-6">
                                             <label class="form-label">User <span class="text-danger">*</span></label>
                                             <input name="user" class="form-control @error('user') is-invalid @enderror"
@@ -99,6 +108,7 @@
                                                 value="{{ old('password') }}" required>
                                             @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
+
 
                                         <div class="col-12 d-flex gap-2 pt-2">
                                             <button class="btn btn-primary">Simpan</button>

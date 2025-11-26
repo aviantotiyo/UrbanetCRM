@@ -21,5 +21,6 @@ class DataServer extends Model
         'ip_static',
         'user',
         'password',
+        'radius_secret',
     ];
 }

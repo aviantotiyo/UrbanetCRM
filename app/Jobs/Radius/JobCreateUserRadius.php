@@ -54,9 +54,17 @@ class JobCreateUserRadius implements ShouldQueue
             'nas_ip'   => $nasIp,
         ]);
 
-        $radius->assignUserToGroup(
+        $response = $radius->assignUserToGroup(
             $client->user_pppoe,
-            $client->paket
+            $client->name_profile
         );
+
+        if (!is_array($response) || isset($response['error']) || (isset($response['status']) && $response['status'] !== 'success')) {
+            Log::warning('[JobCreateUserRadius] Gagal assign user ke group', [
+                'username'   => $client->user_pppoe,
+                'groupname'  => $client->name_profile,
+                'response'   => $response,
+            ]);
+        }
     }
 }

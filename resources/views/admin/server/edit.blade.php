@@ -72,9 +72,9 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="form-label">IP Public</label>
+                                            <label class="form-label">IP Public (Tidak boleh di ubah)</label>
                                             <input name="ip_public" class="form-control @error('ip_public') is-invalid @enderror"
-                                                value="{{ old('ip_public', $server->ip_public) }}">
+                                                value="{{ old('ip_public', $server->ip_public) }}" readonly>
                                             @error('ip_public')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
@@ -98,6 +98,14 @@
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 value="{{ old('password', $server->password) }}" required>
                                             @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">Radius Secret <span class="text-danger">*</span></label>
+                                            <input name="radius_secret" type="text"
+                                                class="form-control @error('radius_secret') is-invalid @enderror"
+                                                value="{{ old('radius_secret', $server->radius_secret) }}" required>
+                                            @error('radius_secret')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
 
                                         <div class="col-12 d-flex gap-2 pt-2">

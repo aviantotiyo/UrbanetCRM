@@ -76,4 +76,14 @@ class RadiusAPIService
             'groupname' => $groupname,
         ]);
     }
+
+    public function createNas(array $data)
+    {
+        return $this->request('POST', '/api/nas', $data);
+    }
+
+    public function updateNas(string $nasname, array $data)
+    {
+        return $this->request('PUT', "/api/nas/{$nasname}", $data);
+    }
 }

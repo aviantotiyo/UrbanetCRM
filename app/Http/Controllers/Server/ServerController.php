@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Jobs\Radius\JobCreateServerNas;
+
+use App\Jobs\Radius\JobEditServerNas;
+
 use App\Http\Controllers\Controller;
 use App\Models\DataServer;
 use Illuminate\Http\Request;
@@ -33,18 +37,25 @@ class ServerController extends Controller
         $validated = $request->validate([
             'nama_pop'  => ['required', 'string', 'max:191'],
             'lokasi'    => ['nullable', 'string', 'max:255'],
-            'ip_public' => ['nullable', 'ip'],   // jika ingin bebas, ganti ke string|max:191
+            'ip_public' => ['nullable', 'ip', 'unique:data_server,ip_public'],
             'ip_static' => ['nullable', 'ip'],
             'user'      => ['required', 'string', 'max:191'],
             'password'  => ['required', 'string', 'max:191'],
+            'radius_secret'  => ['nullable', 'string', 'max:191'],
+        ], [
+            'ip_public.unique' => 'Alamat IP Public ini sudah digunakan oleh server lain.',
+            'ip_public.ip' => 'Format IP Public tidak valid.',
         ]);
 
-        DataServer::create($validated);
+        $server = DataServer::create($validated);
+
+        dispatch(new JobCreateServerNas($server->id));
 
         return redirect()
             ->route('admin.server.index')
             ->with('success', 'Server berhasil ditambahkan.');
     }
+
 
     /**
      * Form edit server.
@@ -67,6 +78,8 @@ class ServerController extends Controller
         if (!$server) {
             abort(404, 'Data server tidak ditemukan.');
         }
+        $oldIpPublic = $server->ip_public; // ← simpan sebelum update
+
 
         $validated = $request->validate([
             'nama_pop'  => ['required', 'string', 'max:191'],
@@ -75,9 +88,13 @@ class ServerController extends Controller
             'ip_static' => ['nullable', 'ip'],
             'user'      => ['required', 'string', 'max:191'],
             'password'  => ['required', 'string', 'max:191'],
+            'radius_secret'  => ['nullable', 'string', 'max:191'],
         ]);
 
         $server->update($validated);
+
+        dispatch(new JobEditServerNas($server->id, $oldIpPublic)); // kirim old IP ke Job
+
 
         return redirect()
             ->route('admin.server.index')
