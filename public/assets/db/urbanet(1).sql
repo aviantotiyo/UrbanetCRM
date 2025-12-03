@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Waktu pembuatan: 03 Des 2025 pada 01.38
--- Versi server: 5.7.39
--- Versi PHP: 8.2.0
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 03 Des 2025 pada 05.14
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -48,8 +48,8 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -60,11 +60,11 @@ CREATE TABLE `cache_locks` (
 --
 
 CREATE TABLE `data_bank_manual` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama_bank` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama_pic` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_rek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `id` char(36) NOT NULL,
+  `nama_bank` varchar(255) NOT NULL,
+  `nama_pic` varchar(255) NOT NULL,
+  `no_rek` varchar(255) NOT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -85,33 +85,33 @@ INSERT INTO `data_bank_manual` (`id`, `nama_bank`, `nama_pic`, `no_rek`, `status
 --
 
 CREATE TABLE `data_billing` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `new_member` tinyint(1) NOT NULL DEFAULT '0',
-  `reference` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `merchant_ref` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `new_member` tinyint(1) NOT NULL DEFAULT 0,
+  `reference` varchar(255) DEFAULT NULL,
+  `merchant_ref` varchar(255) DEFAULT NULL,
+  `payment_method` varchar(255) DEFAULT NULL,
+  `payment_name` varchar(255) DEFAULT NULL,
   `total_amount` int(11) DEFAULT NULL,
   `point` int(11) DEFAULT NULL,
-  `fee_merchant` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fee_customer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `amount_received` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pay_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `qr_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expired_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `instructions` text COLLATE utf8mb4_unicode_ci,
+  `fee_merchant` varchar(255) DEFAULT NULL,
+  `fee_customer` varchar(255) DEFAULT NULL,
+  `amount_received` varchar(255) DEFAULT NULL,
+  `pay_code` varchar(255) DEFAULT NULL,
+  `qr_url` varchar(255) DEFAULT NULL,
+  `status` varchar(255) NOT NULL,
+  `expired_time` varchar(255) DEFAULT NULL,
+  `instructions` text DEFAULT NULL,
   `after_tax` int(11) DEFAULT NULL,
   `tax` int(11) DEFAULT NULL,
   `billing_create` datetime NOT NULL,
   `billing_paid` datetime DEFAULT NULL,
   `kode_unik` int(11) DEFAULT NULL,
-  `bank_name_manual` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_name_manual` varchar(255) DEFAULT NULL,
   `exp_tx_bank` datetime DEFAULT NULL,
-  `partner_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_check` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `message_count` int(11) DEFAULT '0',
+  `partner_id` char(36) DEFAULT NULL,
+  `bank_check` varchar(255) DEFAULT NULL,
+  `message_count` int(11) DEFAULT 0,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -138,10 +138,10 @@ INSERT INTO `data_billing` (`id`, `client_id`, `new_member`, `reference`, `merch
 --
 
 CREATE TABLE `data_billing_item` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `merchant_ref_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sku` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `merchant_ref_id` varchar(255) DEFAULT NULL,
+  `sku` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `amount` int(11) NOT NULL,
   `billing_cycle` datetime NOT NULL,
   `discount` int(11) DEFAULT NULL,
@@ -208,11 +208,11 @@ INSERT INTO `data_billing_item` (`id`, `merchant_ref_id`, `sku`, `name`, `amount
 --
 
 CREATE TABLE `data_billing_log` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `merchant_ref_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `user_id` char(36) NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `merchant_ref_id` varchar(255) NOT NULL,
+  `status` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -233,37 +233,37 @@ INSERT INTO `data_billing_log` (`id`, `user_id`, `client_id`, `merchant_ref_id`,
 --
 
 CREATE TABLE `data_clients` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nopel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loc_client` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `long` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `paket` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tagihan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `nopel` varchar(255) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `no_hp` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `nik` varchar(255) DEFAULT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `kecamatan` varchar(255) DEFAULT NULL,
+  `kabupaten` varchar(255) DEFAULT NULL,
+  `provinsi` varchar(255) DEFAULT NULL,
+  `loc_client` varchar(255) DEFAULT NULL,
+  `lat` varchar(255) DEFAULT NULL,
+  `long` varchar(255) DEFAULT NULL,
+  `paket` varchar(255) DEFAULT NULL,
+  `tagihan` varchar(255) DEFAULT NULL,
   `promo_day` int(11) DEFAULT NULL,
   `promo_day_start` datetime DEFAULT NULL,
   `promo_day_end` datetime DEFAULT NULL,
-  `status_promo` tinyint(1) NOT NULL DEFAULT '0',
-  `user_pppoe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pass_pppoe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name_profile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `limit_radius` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `odp_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `odp_port_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tag` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_promo` tinyint(1) NOT NULL DEFAULT 0,
+  `user_pppoe` varchar(255) NOT NULL,
+  `pass_pppoe` varchar(255) NOT NULL,
+  `name_profile` varchar(255) DEFAULT NULL,
+  `limit_radius` varchar(255) DEFAULT NULL,
+  `odp_id` char(36) DEFAULT NULL,
+  `odp_port_id` char(36) DEFAULT NULL,
+  `tag` varchar(255) DEFAULT NULL,
   `active_user` datetime DEFAULT NULL,
-  `status` enum('active','isolir','suspend','inactive','booking') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'booking',
-  `note` text COLLATE utf8mb4_unicode_ci,
+  `status` enum('active','isolir','suspend','inactive','booking') NOT NULL DEFAULT 'booking',
+  `note` text DEFAULT NULL,
   `point` int(11) DEFAULT NULL,
-  `foto_depan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto_depan` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -300,21 +300,21 @@ INSERT INTO `data_clients` (`id`, `nopel`, `nama`, `no_hp`, `email`, `nik`, `ala
 --
 
 CREATE TABLE `data_clients_partner` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `partner_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paket_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` text COLLATE utf8mb4_unicode_ci,
-  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_prospect_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `partner_id` char(36) NOT NULL,
+  `paket_id` char(36) NOT NULL,
+  `nik` varchar(255) DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `no_hp` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `kecamatan` varchar(255) DEFAULT NULL,
+  `kabupaten` varchar(255) DEFAULT NULL,
+  `provinsi` varchar(255) DEFAULT NULL,
+  `status` enum('pending','process','active','reject') NOT NULL,
+  `client_prospect_id` char(36) NOT NULL,
   `fee` int(11) DEFAULT NULL,
-  `fee_paid` tinyint(1) NOT NULL DEFAULT '0',
+  `fee_paid` tinyint(1) NOT NULL DEFAULT 0,
   `fee_date_paid` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -337,19 +337,19 @@ INSERT INTO `data_clients_partner` (`id`, `partner_id`, `paket_id`, `nik`, `nama
 --
 
 CREATE TABLE `data_clients_prospect` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` text COLLATE utf8mb4_unicode_ci,
-  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `point` int(11) NOT NULL DEFAULT '0',
-  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `client_prospect_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `paket_id` char(36) DEFAULT NULL,
+  `nama` varchar(255) NOT NULL,
+  `nik` varchar(255) DEFAULT NULL,
+  `no_hp` varchar(255) NOT NULL,
+  `alamat` text DEFAULT NULL,
+  `kecamatan` varchar(255) DEFAULT NULL,
+  `kabupaten` varchar(255) DEFAULT NULL,
+  `provinsi` varchar(255) DEFAULT NULL,
+  `point` int(11) NOT NULL DEFAULT 0,
+  `status` enum('pending','process','active','reject') NOT NULL DEFAULT 'pending',
+  `client_prospect_id` char(36) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -372,17 +372,17 @@ INSERT INTO `data_clients_prospect` (`id`, `client_id`, `paket_id`, `nama`, `nik
 --
 
 CREATE TABLE `data_clients_regist` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nik` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `paket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `no_hp` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kecamatan` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kabupaten` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `provinsi` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `id` char(36) NOT NULL,
+  `nik` varchar(50) DEFAULT NULL,
+  `paket_id` char(36) DEFAULT NULL,
+  `nama` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `no_hp` varchar(50) NOT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `kecamatan` varchar(100) DEFAULT NULL,
+  `kabupaten` varchar(100) DEFAULT NULL,
+  `provinsi` varchar(100) DEFAULT NULL,
+  `status` enum('pending','process','active','reject') NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -404,25 +404,25 @@ INSERT INTO `data_clients_regist` (`id`, `nik`, `paket_id`, `nama`, `email`, `no
 --
 
 CREATE TABLE `data_clients_sales` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `users_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paket_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `client_prospect_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loc_client` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `long` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `foto_depan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fee` int(11) NOT NULL DEFAULT '0',
-  `fee_paid` tinyint(1) NOT NULL DEFAULT '0',
+  `id` char(36) NOT NULL,
+  `users_id` char(36) NOT NULL,
+  `paket_id` char(36) NOT NULL,
+  `nik` varchar(255) DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `no_hp` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `kecamatan` varchar(255) DEFAULT NULL,
+  `kabupaten` varchar(255) DEFAULT NULL,
+  `provinsi` varchar(255) DEFAULT NULL,
+  `status` enum('pending','process','active','reject') NOT NULL DEFAULT 'pending',
+  `client_prospect_id` char(36) DEFAULT NULL,
+  `loc_client` varchar(255) DEFAULT NULL,
+  `lat` varchar(255) DEFAULT NULL,
+  `long` varchar(255) DEFAULT NULL,
+  `foto_depan` varchar(255) DEFAULT NULL,
+  `fee` int(11) NOT NULL DEFAULT 0,
+  `fee_paid` tinyint(1) NOT NULL DEFAULT 0,
   `fee_date_paid` datetime DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -450,10 +450,10 @@ INSERT INTO `data_clients_sales` (`id`, `users_id`, `paket_id`, `nik`, `nama`, `
 --
 
 CREATE TABLE `data_client_logs` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `users_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `users_id` char(36) NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `status` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -479,16 +479,56 @@ INSERT INTO `data_client_logs` (`id`, `users_id`, `client_id`, `status`, `create
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `data_csr`
+--
+
+CREATE TABLE `data_csr` (
+  `id` char(36) NOT NULL,
+  `nopel` varchar(255) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `detail_pic` text DEFAULT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `kecamatan` varchar(255) DEFAULT NULL,
+  `kabupaten` varchar(255) DEFAULT NULL,
+  `provinsi` varchar(255) DEFAULT NULL,
+  `loc_client` varchar(255) DEFAULT NULL,
+  `lat` varchar(255) DEFAULT NULL,
+  `long` varchar(255) DEFAULT NULL,
+  `paket` varchar(255) DEFAULT NULL,
+  `foto_depan` varchar(255) DEFAULT NULL,
+  `user_pppoe` varchar(255) NOT NULL,
+  `pass_pppoe` varchar(255) NOT NULL,
+  `name_profile` varchar(255) DEFAULT NULL,
+  `limit_radius` varchar(255) DEFAULT NULL,
+  `odp_id` char(36) DEFAULT NULL,
+  `odp_port_id` char(36) DEFAULT NULL,
+  `status` enum('booking','active','isolir','suspend','inactive') DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `data_csr`
+--
+
+INSERT INTO `data_csr` (`id`, `nopel`, `nama`, `detail_pic`, `alamat`, `kecamatan`, `kabupaten`, `provinsi`, `loc_client`, `lat`, `long`, `paket`, `foto_depan`, `user_pppoe`, `pass_pppoe`, `name_profile`, `limit_radius`, `odp_id`, `odp_port_id`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('6850d4cc-87bb-4efe-9df2-7dff0630706c', 'CSR-81281893', 'Tes', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CSR-81281893', '542144', NULL, NULL, '019a1eb1-e607-7241-afe6-a796c525b5b6', NULL, NULL, '2025-12-03 03:25:26', '2025-12-03 03:25:26', NULL),
+('a3d57c5c-24e0-415b-8b27-cb548006c463', 'CSR-65416799', 'Pos Satpam Perum Krian Indah', NULL, 'Areka Jalan Musi', 'PRAJEKAN', 'KABUPATEN BONDOWOSO', 'JAWA TIMUR', 'https://maps.app.goo.gl/YZKJaJuhwXUFCJs27', '-7.4063726', '112.5841074', 'Paket 3Mbps', NULL, 'CSR-65416799', '732229', 'lite-3Mbps', '3M/3M', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', 'booking', '2025-12-03 04:09:17', '2025-12-03 04:09:17', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `data_img`
 --
 
 CREATE TABLE `data_img` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `data_ticket_hc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `data_ticket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `url_img` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tag` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `data_ticket_hc_id` char(36) DEFAULT NULL,
+  `data_ticket_id` char(36) DEFAULT NULL,
+  `url_img` varchar(255) NOT NULL,
+  `tag` varchar(255) DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -508,25 +548,25 @@ INSERT INTO `data_img` (`id`, `client_id`, `data_ticket_hc_id`, `data_ticket_id`
 --
 
 CREATE TABLE `data_odc` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `server_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kode_odc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama_odc` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `prov` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kota` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kec` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `desa` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loc_odp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `long` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `port_cap` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `port_install` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rasio` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `warna_core` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `core_cable` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `note` text COLLATE utf8mb4_unicode_ci,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `server_id` char(36) DEFAULT NULL,
+  `kode_odc` varchar(255) NOT NULL,
+  `nama_odc` varchar(255) DEFAULT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `prov` varchar(255) DEFAULT NULL,
+  `kota` varchar(255) DEFAULT NULL,
+  `kec` varchar(255) DEFAULT NULL,
+  `desa` varchar(255) DEFAULT NULL,
+  `loc_odp` varchar(255) DEFAULT NULL,
+  `lat` varchar(255) DEFAULT NULL,
+  `long` varchar(255) DEFAULT NULL,
+  `port_cap` varchar(255) DEFAULT NULL,
+  `port_install` varchar(255) DEFAULT NULL,
+  `rasio` varchar(255) DEFAULT NULL,
+  `warna_core` varchar(255) DEFAULT NULL,
+  `core_cable` varchar(255) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -551,11 +591,11 @@ INSERT INTO `data_odc` (`id`, `server_id`, `kode_odc`, `nama_odc`, `alamat`, `pr
 --
 
 CREATE TABLE `data_odc_port` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `odc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `odp_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `port_numb` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('available','reserved','active','faulty','blocked') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'available',
+  `id` char(36) NOT NULL,
+  `odc_id` char(36) DEFAULT NULL,
+  `odp_id` char(36) NOT NULL,
+  `port_numb` varchar(255) NOT NULL,
+  `status` enum('available','reserved','active','faulty','blocked') NOT NULL DEFAULT 'available',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -575,22 +615,22 @@ INSERT INTO `data_odc_port` (`id`, `odc_id`, `odp_id`, `port_numb`, `status`, `c
 --
 
 CREATE TABLE `data_odp` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `kode_odp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `server_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nama_odp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `prov` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kota` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kec` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `desa` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loc_odp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `port_cap` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `port_install` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vlan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `warna_core` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `core_cable` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `note` text COLLATE utf8mb4_unicode_ci,
+  `id` char(36) NOT NULL,
+  `kode_odp` varchar(255) NOT NULL,
+  `server_id` char(36) DEFAULT NULL,
+  `nama_odp` varchar(255) DEFAULT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `prov` varchar(255) DEFAULT NULL,
+  `kota` varchar(255) DEFAULT NULL,
+  `kec` varchar(255) DEFAULT NULL,
+  `desa` varchar(255) DEFAULT NULL,
+  `loc_odp` varchar(255) DEFAULT NULL,
+  `port_cap` varchar(255) DEFAULT NULL,
+  `port_install` varchar(255) DEFAULT NULL,
+  `vlan` varchar(255) DEFAULT NULL,
+  `warna_core` varchar(255) DEFAULT NULL,
+  `core_cable` varchar(255) DEFAULT NULL,
+  `note` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -616,12 +656,12 @@ INSERT INTO `data_odp` (`id`, `kode_odp`, `server_id`, `nama_odp`, `alamat`, `pr
 --
 
 CREATE TABLE `data_odp_logs` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `users_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `odp_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `odp_port` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `users_id` char(36) DEFAULT NULL,
+  `odp_id` char(36) DEFAULT NULL,
+  `odp_port` char(36) DEFAULT NULL,
+  `client_id` char(36) DEFAULT NULL,
+  `status` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -688,11 +728,12 @@ INSERT INTO `data_odp_logs` (`id`, `users_id`, `odp_id`, `odp_port`, `client_id`
 --
 
 CREATE TABLE `data_odp_port` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `odp_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `port_numb` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('available','reserved','active','faulty','blocked') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'available',
+  `id` char(36) NOT NULL,
+  `odp_id` char(36) NOT NULL,
+  `client_id` char(36) DEFAULT NULL,
+  `client_csr_id` char(36) DEFAULT NULL,
+  `port_numb` varchar(255) NOT NULL,
+  `status` enum('available','reserved','active','faulty','blocked') NOT NULL DEFAULT 'available',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -701,13 +742,13 @@ CREATE TABLE `data_odp_port` (
 -- Dumping data untuk tabel `data_odp_port`
 --
 
-INSERT INTO `data_odp_port` (`id`, `odp_id`, `client_id`, `port_numb`, `status`, `created_at`, `updated_at`) VALUES
-('019a09a4-d495-7220-8181-62c61cccb5b6', '0199faf2-9a90-7201-8f13-7d5aaab3e586', '019a0a2f-3a1d-7338-8ecd-1142899e573a', 'A1', 'reserved', '2025-10-22 01:59:48', '2025-10-28 15:22:04'),
-('019a1efb-d251-71fc-81ba-55a4c225bb5a', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a0ff8-6782-71e6-ac4f-aec442caa8c1', 'A1', 'reserved', '2025-10-26 05:26:51', '2025-10-28 12:35:17'),
-('019a402a-cbf7-7066-ac8d-ab3b854d9e1e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a3d59-f090-701a-b9b3-ebcffadda253', 'A2', 'reserved', '2025-11-01 16:05:37', '2025-11-01 16:05:56'),
-('019a439d-10a9-70d9-a69d-ed944d7d22d2', '019a1eb1-e607-7241-afe6-a796c525b5b6', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'A3', 'reserved', '2025-11-02 08:09:18', '2025-11-24 19:31:42'),
-('019a523f-d020-73d7-a4e3-3429cfb7a1af', '019a1eb1-e607-7241-afe6-a796c525b5b6', '0b295ed1-dd57-482d-a438-bcfb82ff5c6e', 'A4', 'reserved', '2025-11-05 04:21:45', '2025-11-11 04:04:28'),
-('019a90ab-160b-7223-a6df-9100bc7102eb', '019a1eb1-e607-7241-afe6-a796c525b5b6', NULL, 'A5', 'available', '2025-11-17 07:15:22', '2025-11-23 08:51:02');
+INSERT INTO `data_odp_port` (`id`, `odp_id`, `client_id`, `client_csr_id`, `port_numb`, `status`, `created_at`, `updated_at`) VALUES
+('019a09a4-d495-7220-8181-62c61cccb5b6', '0199faf2-9a90-7201-8f13-7d5aaab3e586', '019a0a2f-3a1d-7338-8ecd-1142899e573a', NULL, 'A1', 'reserved', '2025-10-22 01:59:48', '2025-10-28 15:22:04'),
+('019a1efb-d251-71fc-81ba-55a4c225bb5a', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a0ff8-6782-71e6-ac4f-aec442caa8c1', NULL, 'A1', 'reserved', '2025-10-26 05:26:51', '2025-10-28 12:35:17'),
+('019a402a-cbf7-7066-ac8d-ab3b854d9e1e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a3d59-f090-701a-b9b3-ebcffadda253', NULL, 'A2', 'reserved', '2025-11-01 16:05:37', '2025-11-01 16:05:56'),
+('019a439d-10a9-70d9-a69d-ed944d7d22d2', '019a1eb1-e607-7241-afe6-a796c525b5b6', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', NULL, 'A3', 'reserved', '2025-11-02 08:09:18', '2025-11-24 19:31:42'),
+('019a523f-d020-73d7-a4e3-3429cfb7a1af', '019a1eb1-e607-7241-afe6-a796c525b5b6', '0b295ed1-dd57-482d-a438-bcfb82ff5c6e', NULL, 'A4', 'reserved', '2025-11-05 04:21:45', '2025-11-11 04:04:28'),
+('019a90ab-160b-7223-a6df-9100bc7102eb', '019a1eb1-e607-7241-afe6-a796c525b5b6', NULL, NULL, 'A5', 'available', '2025-11-17 07:15:22', '2025-12-03 04:06:03');
 
 -- --------------------------------------------------------
 
@@ -716,15 +757,15 @@ INSERT INTO `data_odp_port` (`id`, `odp_id`, `client_id`, `port_numb`, `status`,
 --
 
 CREATE TABLE `data_paket` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama_paket` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `harga` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `tayang` tinyint(1) NOT NULL DEFAULT '1',
-  `name_profile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `limit_radius` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ip_pool` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `nama_paket` varchar(255) NOT NULL,
+  `deskripsi` varchar(255) DEFAULT NULL,
+  `harga` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `tayang` tinyint(1) NOT NULL DEFAULT 1,
+  `name_profile` varchar(255) DEFAULT NULL,
+  `limit_radius` varchar(255) DEFAULT NULL,
+  `ip_pool` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -748,19 +789,19 @@ INSERT INTO `data_paket` (`id`, `nama_paket`, `deskripsi`, `harga`, `active`, `t
 --
 
 CREATE TABLE `data_partner` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama_partner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `secret_token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'inactive',
-  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_pic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_account` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `nama_partner` varchar(255) NOT NULL,
+  `no_hp` varchar(255) NOT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `provinsi` varchar(255) DEFAULT NULL,
+  `kabupaten` varchar(255) DEFAULT NULL,
+  `kecamatan` varchar(255) DEFAULT NULL,
+  `secret_token` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'inactive',
+  `bank_name` varchar(255) DEFAULT NULL,
+  `bank_pic` varchar(255) DEFAULT NULL,
+  `bank_account` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -784,14 +825,14 @@ INSERT INTO `data_partner` (`id`, `nama_partner`, `no_hp`, `alamat`, `provinsi`,
 --
 
 CREATE TABLE `data_server` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama_pop` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lokasi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ip_public` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ip_static` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `radius_secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `nama_pop` varchar(255) NOT NULL,
+  `lokasi` varchar(255) NOT NULL,
+  `ip_public` varchar(255) NOT NULL,
+  `ip_static` varchar(255) NOT NULL,
+  `user` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `radius_secret` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -813,7 +854,7 @@ INSERT INTO `data_server` (`id`, `nama_pop`, `lokasi`, `ip_public`, `ip_static`,
 --
 
 CREATE TABLE `data_setting` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
   `denda` int(11) DEFAULT NULL,
   `point` int(11) DEFAULT NULL,
   `tax` int(11) DEFAULT NULL,
@@ -840,11 +881,11 @@ INSERT INTO `data_setting` (`id`, `denda`, `point`, `tax`, `fee_merchant_billing
 --
 
 CREATE TABLE `data_team_site` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `users_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `data_ticket_hc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `data_ticket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `users_id` char(36) NOT NULL,
+  `data_ticket_hc_id` char(36) DEFAULT NULL,
+  `data_ticket_id` char(36) DEFAULT NULL,
+  `client_id` char(36) DEFAULT NULL,
   `fee` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -874,16 +915,16 @@ INSERT INTO `data_team_site` (`id`, `users_id`, `data_ticket_hc_id`, `data_ticke
 --
 
 CREATE TABLE `data_ticket` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ticket_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type_task` enum('Gangguan','Customers Support','Support NOC','Maintenance') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `detail_task` text COLLATE utf8mb4_unicode_ci,
-  `note` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('open','cancel','process','finish') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `ticket_code` varchar(255) NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `type_task` enum('Gangguan','Customers Support','Support NOC','Maintenance') NOT NULL,
+  `detail_task` text DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `status` enum('open','cancel','process','finish') NOT NULL,
   `status_finish` datetime DEFAULT NULL,
-  `solving` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ticket_guarantee` tinyint(1) NOT NULL DEFAULT '0',
+  `solving` varchar(255) DEFAULT NULL,
+  `ticket_guarantee` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -910,14 +951,14 @@ INSERT INTO `data_ticket` (`id`, `ticket_code`, `client_id`, `type_task`, `detai
 --
 
 CREATE TABLE `data_ticket_hc` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ticket_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `note` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('open','process','pending','cancel','finish') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `merk_kabel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `panjang_kabel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sambungan_kabel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` char(36) NOT NULL,
+  `ticket_code` varchar(255) NOT NULL,
+  `client_id` char(36) NOT NULL,
+  `note` text DEFAULT NULL,
+  `status` enum('open','process','pending','cancel','finish') NOT NULL,
+  `merk_kabel` varchar(255) DEFAULT NULL,
+  `panjang_kabel` varchar(255) DEFAULT NULL,
+  `sambungan_kabel` varchar(255) DEFAULT NULL,
   `status_finish` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -938,10 +979,10 @@ INSERT INTO `data_ticket_hc` (`id`, `ticket_code`, `client_id`, `note`, `status`
 --
 
 CREATE TABLE `data_ticket_log` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `data_ticket_hc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `data_ticket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `data_ticket_hc_id` char(36) DEFAULT NULL,
+  `data_ticket_id` char(36) DEFAULT NULL,
+  `status` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -967,12 +1008,12 @@ INSERT INTO `data_ticket_log` (`id`, `data_ticket_hc_id`, `data_ticket_id`, `sta
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -996,8 +1037,8 @@ INSERT INTO `failed_jobs` (`id`, `uuid`, `connection`, `queue`, `payload`, `exce
 
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
@@ -1011,13 +1052,13 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `total_jobs` int(11) NOT NULL,
   `pending_jobs` int(11) NOT NULL,
   `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
   `cancelled_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `finished_at` int(11) DEFAULT NULL
@@ -1031,7 +1072,7 @@ CREATE TABLE `job_batches` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1103,7 +1144,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (69, '2025_11_19_095940_add_message_count_to_data_billing_table', 57),
 (70, '2025_11_21_103308_add_bank_fields_to_data_partner_table', 58),
 (71, '2025_11_24_100204_add_ip_pool_to_data_paket_table', 59),
-(72, '2025_11_25_093910_add_radius_secret_to_data_server_table', 60);
+(72, '2025_11_25_093910_add_radius_secret_to_data_server_table', 60),
+(73, '2025_12_03_085822_create_data_csr_table', 61),
+(74, '2025_12_03_101030_add_status_to_data_csr_table', 62),
+(75, '2025_12_03_105349_add_client_csr_id_to_data_odp_port_table', 63);
 
 -- --------------------------------------------------------
 
@@ -1112,8 +1156,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1132,11 +1176,11 @@ INSERT INTO `password_reset_tokens` (`email`, `token`, `created_at`) VALUES
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` char(36) NOT NULL,
+  `name` text NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1150,15 +1194,15 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `users` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` enum('Admin','Finance','NOC','CustomerCare','Installer','Sales','Legal','AdminCust') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '0',
-  `is_first_login` tinyint(1) NOT NULL DEFAULT '0',
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('Admin','Finance','NOC','CustomerCare','Installer','Sales','Legal','AdminCust') DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0,
+  `is_first_login` tinyint(1) NOT NULL DEFAULT 0,
+  `remember_token` varchar(100) DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1278,6 +1322,16 @@ ALTER TABLE `data_client_logs`
   ADD KEY `data_client_logs_client_id_foreign` (`client_id`);
 
 --
+-- Indeks untuk tabel `data_csr`
+--
+ALTER TABLE `data_csr`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `data_csr_nopel_unique` (`nopel`),
+  ADD UNIQUE KEY `data_csr_user_pppoe_unique` (`user_pppoe`),
+  ADD KEY `data_csr_odp_id_foreign` (`odp_id`),
+  ADD KEY `data_csr_odp_port_id_foreign` (`odp_port_id`);
+
+--
 -- Indeks untuk tabel `data_img`
 --
 ALTER TABLE `data_img`
@@ -1327,7 +1381,8 @@ ALTER TABLE `data_odp_port`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `data_odp_port_odp_id_port_numb_unique` (`odp_id`,`port_numb`),
   ADD KEY `data_odp_port_client_id_index` (`client_id`),
-  ADD KEY `data_odp_port_status_index` (`status`);
+  ADD KEY `data_odp_port_status_index` (`status`),
+  ADD KEY `data_odp_port_client_csr_id_foreign` (`client_csr_id`);
 
 --
 -- Indeks untuk tabel `data_paket`
@@ -1457,7 +1512,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -1532,6 +1587,13 @@ ALTER TABLE `data_client_logs`
   ADD CONSTRAINT `data_client_logs_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Ketidakleluasaan untuk tabel `data_csr`
+--
+ALTER TABLE `data_csr`
+  ADD CONSTRAINT `data_csr_odp_id_foreign` FOREIGN KEY (`odp_id`) REFERENCES `data_odp` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `data_csr_odp_port_id_foreign` FOREIGN KEY (`odp_port_id`) REFERENCES `data_odp_port` (`id`) ON DELETE SET NULL;
+
+--
 -- Ketidakleluasaan untuk tabel `data_img`
 --
 ALTER TABLE `data_img`
@@ -1571,6 +1633,7 @@ ALTER TABLE `data_odp_logs`
 -- Ketidakleluasaan untuk tabel `data_odp_port`
 --
 ALTER TABLE `data_odp_port`
+  ADD CONSTRAINT `data_odp_port_client_csr_id_foreign` FOREIGN KEY (`client_csr_id`) REFERENCES `data_csr` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `data_odp_port_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `data_clients` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `data_odp_port_odp_id_foreign` FOREIGN KEY (`odp_id`) REFERENCES `data_odp` (`id`) ON DELETE CASCADE;
 
