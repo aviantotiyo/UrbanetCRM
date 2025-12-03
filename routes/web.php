@@ -47,6 +47,8 @@ use App\Http\Controllers\Partner\UserSuspendPartnerController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserReferral\AdminReferralController;
+use App\Http\Controllers\PelangganCsr\CsrController;
+
 
 use App\Http\Controllers\UserBilling\UserTransactionController;
 use App\Http\Controllers\Partner\AdminProspectPartnerController;
@@ -308,6 +310,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             Route::post('/edit/{id}', [AdminProspectPartnerController::class, 'update'])->name('user_partner.update');
         });
 
+    // ===== data Pelanggan CSR  =====
+    Route::prefix('dashboard/pelanggan-csr')->name('pelanggan_csr.')->group(function () {
+        Route::get('/', [CsrController::class, 'index'])->name('index');
+        Route::get('/tambah', [CsrController::class, 'create'])->name('create');
+        Route::post('/tambah', [CsrController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [CsrController::class, 'edit'])->whereUuid('id')->name('edit');
+        Route::post('/edit/{id}', [CsrController::class, 'update'])->whereUuid('id')->name('update');
+    });
 
     // ===== Setting  =====
     Route::prefix('dashboard/setting')

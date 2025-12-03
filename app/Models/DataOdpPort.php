@@ -18,6 +18,7 @@ class DataOdpPort extends Model
     protected $fillable = [
         'odp_id',
         'client_id',
+        'client_csr_id',
         'port_numb',
         'status',
     ];
@@ -30,6 +31,11 @@ class DataOdpPort extends Model
     public function odp()
     {
         return $this->belongsTo(DataOdp::class, 'odp_id', 'id');
+    }
+
+    public function clientCsr()
+    {
+        return $this->belongsTo(\App\Models\DataCsr::class, 'client_csr_id', 'id');
     }
 
     // (opsional) konstanta status biar konsisten
