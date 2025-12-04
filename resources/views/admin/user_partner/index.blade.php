@@ -88,7 +88,7 @@
                                                         <p class="mb-0 small fw-medium">
                                                             {{ $client->paket->nama_paket }}
                                                         </p>
-                                                        <small> {{ $client->paket->harga }}</small>
+                                                        <small>Rp {{ number_format((float) $client->paket->harga, 0, ',', '.') }}</small>
                                                     </div>
                                                 </div>
                                             </td>
