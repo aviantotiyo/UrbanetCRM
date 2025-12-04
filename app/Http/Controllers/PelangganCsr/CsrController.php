@@ -6,10 +6,13 @@ use App\Models\DataCsr;
 use App\Models\DataOdp;
 use App\Models\DataPaket;
 use App\Models\DataOdpPort;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DataOdpLogs;
+use Carbon\Carbon;
 
 class CsrController extends Controller
 {
@@ -92,33 +95,53 @@ class CsrController extends Controller
             'limit_radius'  => ['required', 'string', 'max:255'],
             'odp_id'        => ['required', 'uuid', Rule::exists('data_odp', 'id')],
             'odp_port_id'   => ['required', 'uuid', Rule::exists('data_odp_port', 'id')],
-            'status'       => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
+            'status'        => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
         ]);
 
-        // Generate 8 digit random number
+        // Generate CSR ID prefix
         $randomDigits = str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT);
         $generatedId = 'CSR-' . $randomDigits;
 
         $validated['id'] = Str::uuid();
         $validated['nopel'] = $generatedId;
         $validated['user_pppoe'] = $generatedId;
-        $validated['pass_pppoe'] = (string) mt_rand(100000, 999999); // 6 digit password
+        $validated['pass_pppoe'] = (string) mt_rand(100000, 999999);
 
+        // Simpan CSR
         $dataCsr = DataCsr::create($validated);
 
-        // Hanya update port jika status = 'active'
+        // Ambil actor (user yang melakukan tindakan)
+        $user = Auth::user();
+        $actorId = $user?->id;
+        $actorName = $user?->name ?? 'Unknown User';
+
+        // Format waktu
+        $timestamp = Carbon::now()->format('Y-m-d H:i:s');
+
+        // Hanya update port & log jika status = 'active'
         if ($validated['status'] === 'active') {
-            \App\Models\DataOdpPort::where('id', $validated['odp_port_id'])
-                ->where('odp_id', $validated['odp_id']) // pastikan port memang milik ODP
+
+            // Update Port
+            DataOdpPort::where('id', $validated['odp_port_id'])
+                ->where('odp_id', $validated['odp_id'])
                 ->update([
                     'client_csr_id' => $dataCsr->id,
-                    'status'        => \App\Models\DataOdpPort::STATUS_RESERVED
+                    'status'        => DataOdpPort::STATUS_RESERVED
                 ]);
+
+            // Log aktivitas ODP
+            DataOdpLogs::create([
+                'users_id'     => $actorId,
+                'odp_id'      => $validated['odp_id'],
+                'odp_port' => $validated['odp_port_id'],
+                'status'      => "User CSR '{$validated['nama']}' ditambahkan oleh {$actorName} pada {$timestamp}",
+            ]);
         }
 
-
-        return redirect()->route('admin.pelanggan_csr.index')->with('success', 'Data berhasil ditambahkan');
+        return redirect()->route('admin.pelanggan_csr.index')
+            ->with('success', 'Data berhasil ditambahkan');
     }
+
 
     public function edit($id)
     {
