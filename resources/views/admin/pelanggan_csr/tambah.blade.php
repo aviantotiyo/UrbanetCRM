@@ -93,14 +93,6 @@
                                                 <div class="form-text">Pilih paket layanan dari master paket.</div>
                                             </div>
 
-                                            <!-- <div class="mb-3">
-                                                <label class="form-label">Tagihan</label>
-                                                <input id="tagihan" name="tagihan" type="text"
-                                                    class="form-control @error('tagihan') is-invalid @enderror"
-                                                    value="{{ old('tagihan') }}" placeholder="250000" readonly>
-                                                @error('tagihan')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                            </div> -->
-
                                             <div class="mb-3">
                                                 <label class="form-label">Name Profile</label>
                                                 <input id="name_profile" name="name_profile" type="text"

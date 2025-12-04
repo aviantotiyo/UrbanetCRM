@@ -148,7 +148,52 @@ class CsrController extends Controller
         $item = DataCsr::findOrFail($id);
         $odps = DataOdp::all();
         $odp_ports = DataOdpPort::all();
-        return view('admin.pelanggan_csr.edit', compact('item', 'odps', 'odp_ports'));
+
+        // JSON wilayah
+        $provPath = public_path('assets/json/provinsi.json');
+        $kabPath  = public_path('assets/json/kabupaten.json');
+        $kecPath  = public_path('assets/json/kecamatan.json');
+
+        $readJson = function (string $path): array {
+            if (!is_file($path)) return [];
+            $raw = file_get_contents($path);
+            $data = json_decode($raw, true);
+            return is_array($data) ? $data : [];
+        };
+
+        $provinsiRaw  = $readJson($provPath);
+        $kabupatenRaw = $readJson($kabPath);
+        $kecamatanRaw = $readJson($kecPath);
+
+        usort($provinsiRaw,  fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kabupatenRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($kecamatanRaw, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+
+        $pakets = DataPaket::query()
+            ->where('active', 1)
+            ->orderBy('nama_paket')
+            ->get(['id', 'nama_paket', 'harga', 'name_profile', 'limit_radius']);
+
+        // Siapkan data ringan untuk JS (hindari map arrow di Blade)
+        $paketsForJs = $pakets->map(function ($x) {
+            return [
+                'nama_paket'   => $x->nama_paket,
+                'harga'        => $x->harga,
+                'name_profile' => $x->name_profile,
+                'limit_radius' => $x->limit_radius,
+            ];
+        })->values(); // values() supaya index rapi dari 0
+
+        return view('admin.pelanggan_csr.edit', compact(
+            'item',
+            'odps',
+            'odp_ports',
+            'pakets',
+            'paketsForJs',
+            'provinsiRaw',
+            'kabupatenRaw',
+            'kecamatanRaw',
+        ));
     }
 
     public function update(Request $request, $id)

@@ -56,7 +56,7 @@
 
 
                         <div class="card">
-                            <h5 class="card-header">Data Calon Pelanggan</h5>
+                            <h5 class="card-header">Detail Pelanggan CSR</h5>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-striped">
                                     <thead>
