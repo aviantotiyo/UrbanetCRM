@@ -41,7 +41,7 @@
                             </div>
                             <div class="d-flex gap-2 flex-wrap">
                                 <button type="submit" form="client-edit-form" class="btn btn-outline-danger">Hapus Image</button>
-                                <a href="{{ route('admin.pelanggan.index') }}" class="btn btn-outline-primary">← Kembali</a>
+                                <a href="{{ route('admin.pelanggan_csr.index') }}" class="btn btn-outline-primary">← Kembali</a>
                             </div>
                         </div>
 
@@ -71,7 +71,7 @@
                                             </div>
 
                                             <hr>
-                                            <h5>Paket Berlangganan</h5>
+                                            <h5>Paket Internet</h5>
 
                                             <div class="mb-4">
                                                 <label class="form-label">Paket</label>
@@ -93,7 +93,6 @@
                                                     class="form-control @error('name_profile') is-invalid @enderror"
                                                     value="{{ old('name_profile', $item->name_profile) }}" placeholder="home-20m / biz-50m" readonly>
                                                 @error('name_profile')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                                <div class="form-text">Otomatis dari sistem.</div>
                                             </div>
 
                                             <div class="mb-4">
@@ -102,8 +101,8 @@
                                                     class="form-control @error('limit_radius') is-invalid @enderror"
                                                     value="{{ old('limit_radius', $item->limit_radius) }}" placeholder="512k/512k" readonly>
                                                 @error('limit_radius')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                                <div class="form-text">Otomatis dari sistem.</div>
                                             </div>
+
                                         </div>
                                         <div class="card-footer d-flex gap-2">
                                             <button class="btn btn-primary">Update</button>

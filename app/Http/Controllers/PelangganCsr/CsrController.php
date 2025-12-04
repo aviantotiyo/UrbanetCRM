@@ -201,12 +201,22 @@ class CsrController extends Controller
         $data = DataCsr::findOrFail($id);
 
         $request->validate([
-            'nopel' => 'required|unique:data_csr,nopel,' . $data->id,
-            'user_pppoe' => 'required|unique:data_csr,user_pppoe,' . $data->id,
-            'nama' => 'required',
+            'nama'         => 'required|string|max:255',
+            'alamat'       => 'nullable|string',
+            'provinsi'     => 'nullable|string',
+            'kabupaten'    => 'nullable|string',
+            'kecamatan'    => 'nullable|string',
+            'paket'        => ['required', Rule::exists('data_paket', 'nama_paket')],
+            'odp_id'       => 'nullable|exists:data_odp,id',
+            'odp_port_id'  => 'nullable|exists:data_odp_ports,id',
+            // tambahkan field lain jika relevan
         ]);
 
-        $data->update($request->all());
+        $updateData = $request->except(['nopel', 'user_pppoe']);
+        $updateData['nopel'] = $data->nopel; // jaga-jaga
+        $updateData['user_pppoe'] = $data->user_pppoe; // jaga-jaga
+
+        $data->update($updateData);
 
         return redirect()->route('admin.pelanggan_csr.index')->with('success', 'Data berhasil diperbarui');
     }
