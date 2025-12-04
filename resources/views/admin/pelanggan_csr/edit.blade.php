@@ -281,7 +281,7 @@
                                                 @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div> -->
 
-                                            @if (empty($client->foto_depan))
+                                            @if (empty($item->foto_depan))
                                             <div class="mb-3">
                                                 <label for="foto_depan" class="form-label">Upload Foto Depan Baru</label>
                                                 <input type="file" name="foto_depan" id="foto_depan" class="form-control" accept="image/*">
@@ -289,9 +289,12 @@
                                             @else
                                             <div class="mb-2">
                                                 <label class="form-label">Foto Depan Saat Ini</label><br>
-                                                <img src="{{ $client->foto_depan }}" alt="Foto Depan" class="img-thumbnail" style="max-width: 200px;">
+                                                <img src="{{ $item->foto_depan }}" alt="Foto Depan" class="img-thumbnail" style="max-width: 200px;">
                                             </div>
                                             @endif
+
+
+
                                         </div>
                                     </div>
                                 </div>

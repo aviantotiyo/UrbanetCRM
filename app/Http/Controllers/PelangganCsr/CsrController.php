@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DataOdpLogs;
+use App\Jobs\UploadClientCsrPhotoToS3;
+
 use Carbon\Carbon;
 
 class CsrController extends Controller
@@ -90,7 +92,7 @@ class CsrController extends Controller
             'lat'           => ['nullable', 'string', 'max:255'],
             'long'          => ['nullable', 'string', 'max:255'],
             'paket'         => ['required', Rule::exists('data_paket', 'nama_paket')],
-            'foto_depan'    => ['nullable', 'string', 'max:255'],
+            'foto_depan' => ['nullable', 'image', 'max:2048'],
             'name_profile'  => ['required', 'string', 'max:255'],
             'limit_radius'  => ['required', 'string', 'max:255'],
             'odp_id'        => ['required', 'uuid', Rule::exists('data_odp', 'id')],
@@ -137,6 +139,18 @@ class CsrController extends Controller
                 'status'      => "User CSR '{$validated['nama']}' ditambahkan oleh {$actorName} pada {$timestamp}",
             ]);
         }
+
+        // Cek & jalankan upload foto jika ada file
+        if ($request->hasFile('foto_depan')) {
+            $file = $request->file('foto_depan');
+            $ext = $file->getClientOriginalExtension();
+            $tempPath = storage_path('app/temp_csr_' . Str::uuid() . '.' . $ext);
+            $file->move(dirname($tempPath), basename($tempPath));
+
+            // Dispatch Job upload ke S3
+            UploadClientCsrPhotoToS3::dispatch($dataCsr->id, $tempPath);
+        }
+
 
         return redirect()->route('admin.pelanggan_csr.index')
             ->with('success', 'Data berhasil ditambahkan');
@@ -219,6 +233,15 @@ class CsrController extends Controller
         $updateData['user_pppoe'] = $data->user_pppoe; // jaga-jaga
 
         $data->update($updateData);
+
+        // Ambil actor (user yang melakukan tindakan)
+        $user = Auth::user();
+        $actorId = $user?->id;
+        $actorName = $user?->name ?? 'Unknown User';
+
+        // Format waktu
+        $timestamp = Carbon::now()->format('Y-m-d H:i:s');
+
         // Jika status aktif, update juga data ODP Port
         if ($request->status === 'active') {
             DataOdpPort::where('id', $request->odp_port_id)
@@ -227,6 +250,14 @@ class CsrController extends Controller
                     'client_csr_id' => $data->id,
                     'status'        => DataOdpPort::STATUS_RESERVED,
                 ]);
+
+            // Log aktivitas ODP
+            DataOdpLogs::create([
+                'users_id'     => $actorId,
+                'odp_id'      => $request['odp_id'],
+                'odp_port' => $request['odp_port_id'],
+                'status'      => "User CSR '{$request['nama']}' diubah oleh {$actorName} pada {$timestamp}",
+            ]);
         }
 
 
