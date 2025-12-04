@@ -42,7 +42,7 @@ CSR list
 
 -   tambah data crs sudah bisa
 -   antisipasi odp port sudah di pakai. ketika client masih berada di kondisi bukan 'active'
--   history log siapa yang melakukan pengisian data.
+-   history log siapa yang melakukan pengisian data. (v-done)
 -   inactive dan isolir belum
 
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)

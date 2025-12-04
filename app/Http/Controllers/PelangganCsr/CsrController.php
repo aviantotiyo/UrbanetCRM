@@ -18,7 +18,7 @@ class CsrController extends Controller
 {
     public function index()
     {
-        $data = DataCsr::latest()->get();
+        $data = DataCsr::latest()->paginate(15);
         return view('admin.pelanggan_csr.index', compact('data'));
     }
 

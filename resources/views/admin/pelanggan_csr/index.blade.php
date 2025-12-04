@@ -1,44 +1,152 @@
-<!DOCTYPE html>
-<html lang="id">
+@section('title', 'Daftar Pelanggan CSR')
+@include('template.head')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Data Pelanggan CSR</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="p-4">
-    <h2>Daftar Pelanggan CSR</h2>
-    <a href="{{ route('admin.pelanggan_csr.create') }}" class="btn btn-primary mb-3">+ Tambah Data</a>
+<body>
+    <!-- Layout wrapper -->
+    <div class=" layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            @include('template.sidebar')
+            <div class="menu-mobile-toggler d-xl-none rounded-1">
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large text-bg-secondary p-2 rounded-1">
+                    <i class="ti tabler-menu icon-base"></i>
+                    <i class="ti tabler-chevron-right icon-base"></i>
+                </a>
+            </div>
+            <!-- / Menu -->
 
-    @if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+            <!-- Layout container -->
+            <div class="layout-page">
+                @include('template.navbar')
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nopel</th>
-                <th>Nama</th>
-                <th>User PPPoE</th>
-                <th>Paket</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($data as $d)
-            <tr>
-                <td>{{ $d->nopel }}</td>
-                <td>{{ $d->nama }}</td>
-                <td>{{ $d->user_pppoe }}</td>
-                <td>{{ $d->paket }}</td>
-                <td>
-                    <a href="{{ route('admin.pelanggan_csr.edit', $d->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+                            <div class="d-flex flex-column justify-content-center">
+                                <div class="mb-1">
+                                    <span class="h5">Data Pelanggan CSR</span>
+                                </div>
+
+                            </div>
+                            <div class="d-flex align-content-center flex-wrap gap-2">
+                                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
+                                <a href="{{ route('admin.pelanggan_csr.create') }}" class="btn btn-outline-primary">Tambah Data</a>
+                            </div>
+                        </div>
+                        {{-- Alert sukses --}}
+                        @if (session('success'))
+                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            {!! session('success') !!}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+
+                        {{-- (Opsional) Alert error umum --}}
+                        @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {!! session('error') !!}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+
+
+                        <div class="card">
+                            <h5 class="card-header">Data Calon Pelanggan</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Paket</th>
+                                            <th>PPPoE</th>
+                                            <th>Alamat</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @forelse ($data as $d)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $d->nama }}
+                                                        </p>
+                                                        <small>{{ $d->nopel }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ $d->paket }}</td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $d->user_pppoe }}
+                                                        </p>
+                                                        <small>{{ $d->pass_pppoe }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $d->alamat }}
+                                                        </p>
+                                                        <small>{{ $d->provinsi }}/{{ $d->kabupaten }}/{{ $d->kecamatan }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ $d->status }}</td>
+
+                                            <td>
+                                                <a href="{{ route('admin.pelanggan_csr.edit', $d->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">Belum ada data pelanggan.</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+
+                                </table>
+                                <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    {{-- Links pagination --}}
+                                    {{ $data->links() }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- / Content -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
+        </div>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    @include('template.footer')
+
 </body>
 
 </html>
