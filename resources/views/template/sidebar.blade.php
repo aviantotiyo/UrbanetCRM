@@ -27,7 +27,7 @@
                         fill="#7367F0" />
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bold">Kinara</span>
+            <span class="app-brand-text demo menu-text fw-bold">Nova Net</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -102,7 +102,8 @@
             <span class="menu-header-text" data-i18n="Pelanggan & Pelaporan">Pelanggan &amp; Pelaporan</span>
         </li>
         <!-- Layouts -->
-        <li class="menu-item {{ request()->routeIs('admin.pelanggan.*', 'admin.referral.*', 'admin.userregist.*', 'admin.list-prospek-mitra.user_partner.*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.pelanggan.*', 'admin.referral.*', 'admin.userregist.*', 
+        'admin.list-prospek-mitra.user_partner.*', 'admin.pelanggan_csr.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle d-flex justify-content-between align-items-center">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="Data Pelanggan">Data Pelanggan</div>
@@ -156,6 +157,16 @@
                         @if ($pending_cust_mitra > 0)
                         <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_mitra }}</div>
                         @endif
+
+                    </a>
+                </li>
+
+                <li class="menu-item {{ request()->routeIs('admin.pelanggan_csr.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pelanggan_csr.index') }}" class="menu-link">
+                        <div data-i18n="Pelanggan CSR">Pelanggan CSR</div>
+                        <!-- @if ($pending_cust_mitra > 0)
+                        <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_mitra }}</div>
+                        @endif -->
 
                     </a>
                 </li>

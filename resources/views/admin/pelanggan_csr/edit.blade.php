@@ -67,12 +67,25 @@
                                                 <input name="nama" type="text" class="form-control @error('nama') is-invalid @enderror"
                                                     value="{{ old('nama', $item->nama) }}" required data-titlecase>
                                                 @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                                <div class="form-text">Nama sesuai KTP.</div>
+                                            </div>
+
+                                            <hr>
+                                            <h5>PPPoE Detail</h5>
+                                            <div class="mb-4">
+                                                <label class="form-label">User PPPoE</label>
+                                                <input name="user_pppoe" type="text" class="form-control @error('user_pppoe') is-invalid @enderror"
+                                                    value="{{ old('user_pppoe', $item->user_pppoe) }}" readonly data-titlecase>
+                                                @error('user_pppoe')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label">Pass PPPoE</label>
+                                                <input name="pass_pppoe" type="text" class="form-control @error('pass_pppoe') is-invalid @enderror"
+                                                    value="{{ old('pass_pppoe', $item->pass_pppoe) }}" readonly data-titlecase>
+                                                @error('pass_pppoe')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
 
                                             <hr>
                                             <h5>Paket Internet</h5>
-
                                             <div class="mb-4">
                                                 <label class="form-label">Paket</label>
                                                 <select id="paket" name="paket" class="form-select @error('paket') is-invalid @enderror">
