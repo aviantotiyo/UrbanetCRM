@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DataOdpLogs;
 use App\Jobs\UploadClientCsrPhotoToS3;
+use Aws\S3\S3Client;
+use Illuminate\Support\Facades\Log;
 
 use Carbon\Carbon;
 
@@ -262,5 +264,43 @@ class CsrController extends Controller
 
 
         return redirect()->route('admin.pelanggan_csr.index')->with('success', 'Data berhasil diperbarui');
+    }
+
+    public function deleteImage(string $id)
+    {
+        $client = DataCsr::findOrFail($id);
+
+        if ($client->foto_depan) {
+            $oldPath = parse_url($client->foto_depan, PHP_URL_PATH);
+            $bucketPrefix = '/' . trim(config('filesystems.disks.s3.bucket_prefix'), '/') . '/';
+            $relativePath = ltrim(Str::after($oldPath, $bucketPrefix), '/');
+
+            try {
+                $s3 = new S3Client([
+                    'version' => 'latest',
+                    'region'  => config('filesystems.disks.s3.region'),
+                    'endpoint' => config('filesystems.disks.s3.endpoint'),
+                    'use_path_style_endpoint' => true,
+                    'credentials' => [
+                        'key'    => config('filesystems.disks.s3.key'),
+                        'secret' => config('filesystems.disks.s3.secret'),
+                    ],
+                ]);
+
+                $s3->deleteObject([
+                    'Bucket' => config('filesystems.disks.s3.bucket'),
+                    'Key'    => $relativePath,
+                ]);
+
+                $client->update(['foto_depan' => null]);
+
+                return back()->with('success', 'Foto berhasil dihapus.');
+            } catch (\Exception $e) {
+                Log::error('Gagal hapus foto dari S3: ' . $e->getMessage());
+                return back()->with('error', 'Gagal menghapus foto: ' . $e->getMessage());
+            }
+        }
+
+        return back()->with('warning', 'Tidak ada foto untuk dihapus.');
     }
 }

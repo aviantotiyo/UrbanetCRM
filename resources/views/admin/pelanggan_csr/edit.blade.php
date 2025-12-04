@@ -40,7 +40,15 @@
                                 <h4 class="fw-bold">Tambah Data Pelanggan</h4>
                             </div>
                             <div class="d-flex gap-2 flex-wrap">
-                                <button type="submit" form="client-edit-form" class="btn btn-outline-danger">Hapus Image</button>
+                                <form action="{{ route('admin.pelanggan_csr.deleteImage', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus foto ini?')">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="ti ti-trash me-1"></i> Hapus Image
+                                    </button>
+                                </form>
+
+
+                                <!-- <button type="submit" form="client-edit-form" class="btn btn-outline-danger">Hapus Image</button> -->
                                 <a href="{{ route('admin.pelanggan_csr.index') }}" class="btn btn-outline-primary">← Kembali</a>
                             </div>
                         </div>

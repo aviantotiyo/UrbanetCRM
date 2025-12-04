@@ -321,6 +321,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
         Route::post('/inactive/{id}', [ProcessCsrController::class, 'inactive'])->name('inactive');
         Route::post('/isolir/{id}', [ProcessCsrController::class, 'isolirCsr'])->name('isolirCsr');
+
+        Route::post('/delete-image/{id}', [CsrController::class, 'deleteImage'])->name('deleteImage');
     });
 
     // ===== Setting  =====
