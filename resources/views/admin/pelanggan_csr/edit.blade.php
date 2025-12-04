@@ -152,11 +152,29 @@
                                                 @enderror
                                             </div>
 
+                                            @php
+                                            $currentStatus = old('status', $item->status ?? '');
+                                            @endphp
+
+                                            @if ($currentStatus !== 'active')
+                                            <div class="mb-4">
+                                                <label class="form-label">Status <span class="text-danger">*</span></label>
+                                                <select name="status" class="form-select">
+                                                    <option value="">-- Pilih Status --</option>
+                                                    @foreach (['active', 'isolir', 'inactive'] as $s)
+                                                    <option value="{{ $s }}" {{ $currentStatus === $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                            @endif
+
+
 
                                         </div>
                                         <div class="card-footer d-flex gap-2">
                                             <button class="btn btn-primary">Update</button>
-                                            <a href="#" class="btn btn-outline-secondary">Batal</a>
+                                            <a href="{{ route('admin.pelanggan_csr.index') }}" class="btn btn-outline-secondary">Batal</a>
                                         </div>
                                     </div>
                                 </div>

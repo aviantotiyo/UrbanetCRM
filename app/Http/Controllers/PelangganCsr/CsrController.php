@@ -208,8 +208,9 @@ class CsrController extends Controller
             'kabupaten'    => 'nullable|string',
             'kecamatan'    => 'nullable|string',
             'paket'        => ['required', Rule::exists('data_paket', 'nama_paket')],
-            'odp_id'       => 'nullable|exists:data_odp,id',
-            'odp_port_id'  => 'nullable|exists:data_odp_ports,id',
+            'odp_id'       => 'required|exists:data_odp,id',
+            'odp_port_id'  => 'required|exists:data_odp_port,id',
+            'status'        => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
             // tambahkan field lain jika relevan
         ]);
 
@@ -218,6 +219,16 @@ class CsrController extends Controller
         $updateData['user_pppoe'] = $data->user_pppoe; // jaga-jaga
 
         $data->update($updateData);
+        // Jika status aktif, update juga data ODP Port
+        if ($request->status === 'active') {
+            DataOdpPort::where('id', $request->odp_port_id)
+                ->where('odp_id', $request->odp_id)
+                ->update([
+                    'client_csr_id' => $data->id,
+                    'status'        => DataOdpPort::STATUS_RESERVED,
+                ]);
+        }
+
 
         return redirect()->route('admin.pelanggan_csr.index')->with('success', 'Data berhasil diperbarui');
     }

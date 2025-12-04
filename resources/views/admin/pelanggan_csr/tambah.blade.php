@@ -223,7 +223,7 @@
                                             <label class="form-label">Status <span class="text-danger">*</span></label>
                                             <select name="status" class="form-select">
                                                 <option value="">-- Pilih Status --</option>
-                                                @foreach (['booking', 'active', 'isolir', 'suspend', 'inactive'] as $s)
+                                                @foreach (['active', 'isolir', 'inactive'] as $s)
                                                 <option value="{{ $s }}" {{ old('status', $item->status ?? '') == $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
                                                 @endforeach
                                             </select>
