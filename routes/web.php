@@ -48,6 +48,7 @@ use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\PelangganCsr\CsrController;
+use App\Http\Controllers\PelangganCsr\ProcessCsrController;
 
 
 use App\Http\Controllers\UserBilling\UserTransactionController;
@@ -317,6 +318,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/tambah', [CsrController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [CsrController::class, 'edit'])->whereUuid('id')->name('edit');
         Route::post('/edit/{id}', [CsrController::class, 'update'])->whereUuid('id')->name('update');
+
+        Route::post('/inactive/{id}', [ProcessCsrController::class, 'inactive'])->name('inactive');
+        Route::post('/isolir/{id}', [ProcessCsrController::class, 'isolirCsr'])->name('isolirCsr');
     });
 
     // ===== Setting  =====

@@ -107,8 +107,39 @@
                                             </td>
                                             <td>{{ $d->status }}</td>
 
-                                            <td>
+                                            <!-- <td>
                                                 <a href="{{ route('admin.pelanggan_csr.edit', $d->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                            </td> -->
+
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                            <i class="ti ti-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="{{ route('admin.pelanggan_csr.edit', $d->id) }}"><i class="ti ti-edit me-1"></i> Edit/View</a>
+                                                            <form action="{{ route('admin.pelanggan_csr.isolirCsr', $d->id) }}" method="POST"
+                                                                onsubmit="return confirm('Apakah Anda yakin ingin mengisolir pelanggan ini?')"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item text-warning" style="background: none; border: none; padding: 0.5rem 1rem; width: 100%; text-align: left;">
+                                                                    <i class="ti ti-lock me-1"></i> Isolir
+                                                                </button>
+                                                            </form>
+                                                            <form action="{{ route('admin.pelanggan_csr.inactive', $d->id) }}" method="POST"
+                                                                onsubmit="return confirm('Apakah Anda yakin ingin menonaktifkan pelanggan ini?')"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item text-danger" style="background: none; border: none; padding: 0.5rem 1rem; width: 100%; text-align: left;">
+                                                                    <i class="ti ti-ban me-1"></i> Inactive
+                                                                </button>
+                                                            </form>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         @empty
