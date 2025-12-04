@@ -103,6 +103,43 @@
                                                 @error('limit_radius')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
 
+                                            <hr>
+                                            <h5>Pilih ODP</h5>
+                                            <div class="mb-4">
+                                                <label class="form-label">ODP</label>
+                                                <select name="odp_id"
+                                                    id="select-odp"
+                                                    class="form-select @error('odp_id') is-invalid @enderror"
+                                                    data-selected="{{ old('odp_id', $item->odp_id) }}"
+                                                    required>
+                                                    <option value="">-- Pilih --</option>
+                                                    @foreach ($odps as $odp)
+                                                    <option value="{{ $odp->id }}" {{ old('odp_id', $item->odp_id) == $odp->id ? 'selected' : '' }}>
+                                                        {{ $odp->kode_odp ?? $odp->id }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('odp_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="form-label">ODP Port</label>
+                                                <select name="odp_port_id"
+                                                    id="select-odp-port"
+                                                    class="form-select @error('odp_port_id') is-invalid @enderror"
+                                                    data-selected="{{ old('odp_port_id', $item->odp_port_id) }}"
+                                                    required>
+                                                    <option value="">-- Pilih --</option>
+                                                    {{-- Port list akan diisi lewat JavaScript --}}
+                                                </select>
+                                                @error('odp_port_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+
                                         </div>
                                         <div class="card-footer d-flex gap-2">
                                             <button class="btn btn-primary">Update</button>
@@ -250,9 +287,53 @@
                 <div class="drag-target"></div>
 
                 <!-- / Layout wrapper -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const allPorts = @json($odp_ports); // dari controller
+                        const odpSelect = document.getElementById('select-odp');
+                        const portSelect = document.getElementById('select-odp-port');
+                        const selectedPortId = portSelect.dataset.selected;
+
+                        function resetPortOptions() {
+                            portSelect.innerHTML = '<option value="">-- Pilih --</option>';
+                        }
+
+                        function populatePortOptions(odpId) {
+                            resetPortOptions();
+
+                            const filteredPorts = allPorts.filter(p =>
+                                p.odp_id == odpId &&
+                                (p.status === 'available' || p.id == selectedPortId) // tampilkan hanya yang available atau sedang digunakan oleh item ini
+                            );
+
+                            filteredPorts.forEach(p => {
+                                const opt = document.createElement('option');
+                                opt.value = p.id;
+                                opt.textContent = `PORT ${p.port_numb || '-'}`;
+                                if (p.id == selectedPortId) {
+                                    opt.selected = true;
+                                }
+                                portSelect.appendChild(opt);
+                            });
+                        }
+
+                        // Trigger awal (edit mode)
+                        const selectedOdpId = odpSelect.dataset.selected;
+                        if (selectedOdpId) {
+                            populatePortOptions(selectedOdpId);
+                        }
+
+                        // Event ganti ODP
+                        odpSelect.addEventListener('change', function() {
+                            populatePortOptions(this.value);
+                        });
+                    });
+                </script>
+
 
 
                 @include('template.js.select-edit-csr')
+                <!-- @include('template.js.select-odp-csr') -->
                 @include('template.js.paket')
                 @include('template.js.no-hp')
                 @include('template.js.nik')

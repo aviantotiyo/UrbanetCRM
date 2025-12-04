@@ -147,7 +147,8 @@ class CsrController extends Controller
     {
         $item = DataCsr::findOrFail($id);
         $odps = DataOdp::all();
-        $odp_ports = DataOdpPort::all();
+        $odp_ports = DataOdpPort::select('id', 'odp_id', 'port_numb', 'status')->get();
+
 
         // JSON wilayah
         $provPath = public_path('assets/json/provinsi.json');
