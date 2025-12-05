@@ -41,6 +41,7 @@ class JobMutasiBank implements ShouldQueue
                 'amount'         => (int) $item['amount'],
                 'balance'        => $item['balance'],
                 'date'           => $item['created_at'],
+                'mutasi_check'   => 0,
             ]);
         }
     }
