@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Schedule;
 use App\Console\Commands\ResetExpiredBilling;
 use App\Console\Commands\MessageBillingInsert;
 use App\Console\Commands\MessageBillingBulanan;
+use App\Console\Commands\GetMutasiBank;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -61,3 +62,7 @@ Schedule::command(InactiveUser::class)
     //         now()->between('08:00', '19:00');
     // })
     ->withoutOverlapping();
+
+
+// Jadwal check mutasi ke moota
+Schedule::command(GetMutasiBank::class)->everyFiveMinutes()->withoutOverlapping();

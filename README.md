@@ -40,12 +40,12 @@ User Regist Dashboard admin (view, edit, process) (done all)
 
 CSR list
 
--   tambah data crs sudah bisa
--   antisipasi odp port sudah di pakai. ketika client masih berada di kondisi bukan 'active'
+-   tambah data crs sudah bisa (v-done)
+-   antisipasi odp port sudah di pakai. ketika client masih berada di kondisi bukan 'active' (v-done)
 -   history log siapa yang melakukan pengisian data. (v-done)
 -   inactive dan isolir belum (logic sudah ada v-done)
--   kondisi ketika user isolir kembali ke active
--   ketika user menggunakan port odp A1 kemudian di pindah ke A2 masih belum ada logic yang melakuakn handling
+-   kondisi ketika user isolir kembali ke active (v-done)
+-   ketika user menggunakan port odp A1 kemudian di pindah ke A2 masih belum ada logic yang melakuakn handling (v-done)
 
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
 
@@ -89,6 +89,12 @@ user app
 -   pesan isolir jaringan (v-done)
 -   inactive user (v-done)
 -   handling pesan ketika DataBillingItem lebih dari 1 data
+
+Table Mutasi Bank Manual
+
+-   table database mutasi
+-   update cron mutasi
+-   pencocokan bank mutasi dengan billing.
 
 # masih adakesalahan form di edit dari form online registrasi
 
