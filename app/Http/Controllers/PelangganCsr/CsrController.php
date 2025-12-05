@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DataOdpLogs;
 use App\Jobs\UploadClientCsrPhotoToS3;
+use App\Jobs\UploadClientEditCsrPhotoToS3;
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Log;
 
@@ -213,6 +214,7 @@ class CsrController extends Controller
         ));
     }
 
+
     public function update(Request $request, $id)
     {
         $data = DataCsr::findOrFail($id);
@@ -226,25 +228,17 @@ class CsrController extends Controller
             'paket'        => ['required', Rule::exists('data_paket', 'nama_paket')],
             'odp_id'       => 'required|exists:data_odp,id',
             'odp_port_id'  => 'required|exists:data_odp_port,id',
-            'status'        => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
-            // tambahkan field lain jika relevan
+            'status'       => ['required', Rule::in(['active', 'isolir', 'suspend', 'inactive', 'booking'])],
+            'foto_depan'   => ['nullable', 'image', 'max:2048'],
         ]);
 
         $updateData = $request->except(['nopel', 'user_pppoe']);
-        $updateData['nopel'] = $data->nopel; // jaga-jaga
-        $updateData['user_pppoe'] = $data->user_pppoe; // jaga-jaga
+        $updateData['nopel'] = $data->nopel;
+        $updateData['user_pppoe'] = $data->user_pppoe;
 
         $data->update($updateData);
 
-        // Ambil actor (user yang melakukan tindakan)
-        $user = Auth::user();
-        $actorId = $user?->id;
-        $actorName = $user?->name ?? 'Unknown User';
-
-        // Format waktu
-        $timestamp = Carbon::now()->format('Y-m-d H:i:s');
-
-        // Jika status aktif, update juga data ODP Port
+        // Jika status aktif, tandai ODP port sebagai reserved
         if ($request->status === 'active') {
             DataOdpPort::where('id', $request->odp_port_id)
                 ->where('odp_id', $request->odp_id)
@@ -253,18 +247,28 @@ class CsrController extends Controller
                     'status'        => DataOdpPort::STATUS_RESERVED,
                 ]);
 
-            // Log aktivitas ODP
             DataOdpLogs::create([
-                'users_id'     => $actorId,
-                'odp_id'      => $request['odp_id'],
-                'odp_port' => $request['odp_port_id'],
-                'status'      => "User CSR '{$request['nama']}' diubah oleh {$actorName} pada {$timestamp}",
+                'users_id' => Auth::id(),
+                'odp_id'   => $request->odp_id,
+                'odp_port' => $request->odp_port_id,
+                'status'   => "User CSR '{$request->nama}' diubah oleh " . (Auth::user()?->name ?? 'Unknown User') . " pada " . now(),
             ]);
         }
 
+        // Upload foto jika ada file baru
+        if ($request->hasFile('foto_depan')) {
+            $file = $request->file('foto_depan');
+            $ext = $file->getClientOriginalExtension();
+            $tempPath = storage_path('app/temp_csr_' . Str::uuid() . '.' . $ext);
+            $file->move(dirname($tempPath), basename($tempPath));
+
+            UploadClientCsrPhotoToS3::dispatch($data->id, $tempPath);
+        }
 
         return redirect()->route('admin.pelanggan_csr.index')->with('success', 'Data berhasil diperbarui');
     }
+
+
 
     public function deleteImage(string $id)
     {

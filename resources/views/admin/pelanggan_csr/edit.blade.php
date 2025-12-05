@@ -61,8 +61,10 @@
                         </div>
                         @endif
 
-                        <form id="client-edit-form" method="POST" action="{{ route('admin.pelanggan_csr.update', $item->id) }}" enctype="multipart/form-data" novalidate>
+                        <!-- <form id="client-edit-form" method="POST" action="{{ route('admin.pelanggan_csr.update', $item->id) }}" enctype="multipart/form-data" novalidate> -->
+                        <form method="POST" action="{{ route('admin.pelanggan_csr.update', $item->id) }}" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
 
                             <div class="row">
                                 {{-- Kolom Kiri --}}
@@ -170,14 +172,17 @@
                                                 <select name="status" class="form-select">
                                                     <option value="">-- Pilih Status --</option>
                                                     @foreach (['active', 'isolir', 'inactive'] as $s)
-                                                    <option value="{{ $s }}" {{ $currentStatus === $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
+                                                    <option value="{{ $s }}" {{ $currentStatus === $s ? 'selected' : '' }}>
+                                                        {{ ucfirst($s) }}
+                                                    </option>
                                                     @endforeach
                                                 </select>
                                                 @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
+                                            @else
+                                            {{-- Hidden input karena status active --}}
+                                            <input type="hidden" name="status" value="active">
                                             @endif
-
-
 
                                         </div>
                                         <div class="card-footer d-flex gap-2">

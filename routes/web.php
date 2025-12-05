@@ -317,7 +317,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/tambah', [CsrController::class, 'create'])->name('create');
         Route::post('/tambah', [CsrController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [CsrController::class, 'edit'])->whereUuid('id')->name('edit');
-        Route::post('/edit/{id}', [CsrController::class, 'update'])->whereUuid('id')->name('update');
+        // Route::post('/edit/{id}', [CsrController::class, 'update'])->whereUuid('id')->name('update');
+        Route::put('/edit/{id}', [CsrController::class, 'update'])->name('update');
 
         Route::post('/inactive/{id}', [ProcessCsrController::class, 'inactive'])->name('inactive');
         Route::post('/isolir/{id}', [ProcessCsrController::class, 'isolirCsr'])->name('isolirCsr');

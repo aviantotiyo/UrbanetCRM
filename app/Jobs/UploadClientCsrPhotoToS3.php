@@ -26,6 +26,7 @@ class UploadClientCsrPhotoToS3 implements ShouldQueue
 
     public function handle(): void
     {
+
         $client = DataCsr::find($this->csrId);
         if (!$client || !file_exists($this->tempPath)) return;
 
