@@ -46,6 +46,7 @@ CSR list
 -   inactive dan isolir belum (logic sudah ada v-done)
 -   kondisi ketika user isolir kembali ke active (v-done)
 -   ketika user menggunakan port odp A1 kemudian di pindah ke A2 masih belum ada logic yang melakuakn handling (v-done)
+-   Konek ke radius
 
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
 
@@ -81,14 +82,14 @@ user app
 
     /// OTOMASI
 
--   billing setiap bulan, generate invoice tagihan bulanan rutin
+-   billing setiap bulan, generate invoice tagihan bulanan rutin (v-done)
 -   exp konfrimasi dari agent transaksi manual (v -done)
--   cek transaksi PAID via mutasi bank manual
+-   cek transaksi PAID via mutasi bank manual (v-done, sudah sampai Wa message)
 -   billing tagihan tiap bulan ( v- done)
 -   pesan pengingat tagihan (v-done)
 -   pesan isolir jaringan (v-done)
 -   inactive user (v-done)
--   handling pesan ketika DataBillingItem lebih dari 1 data
+-   handling pesan ketika DataBillingItem lebih dari 1 data (sudah di gabung)
 
 Table Mutasi Bank Manual
 

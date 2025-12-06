@@ -10,6 +10,7 @@ use App\Models\DataSetting;
 use Illuminate\Http\Request;
 use App\Models\DataBankManual;
 use App\Http\Controllers\Controller;
+use App\Jobs\WAMessage\ClientWaitVerification;
 use Illuminate\Support\Facades\Session;
 
 class ClientProcessPaymentController extends Controller
@@ -186,7 +187,7 @@ class ClientProcessPaymentController extends Controller
             'bank_check' => 1,
             'fee_merchant' => $fee_merchant,
         ]);
-
+        ClientWaitVerification::dispatch($billing->id);
 
         // return redirect()->route('partner.payment.detail', ['merchant_ref' => $merchant_ref])
         return redirect()->route('partner.transaksi')
