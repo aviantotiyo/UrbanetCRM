@@ -34,13 +34,13 @@ class PaidBillingAgent implements ShouldQueue
             ? Carbon::parse($item->billing_cycle)->format('m/Y')
             : '-';
 
-        $message = "Halo {$client->nama},\n\n"
+        $message = "*[E-Nota] Pembayaran* Halo {$client->nama},\n\n"
             . "Pembayaran Anda telah kami terima melalui mutasi bank. Terima kasih atas pembayarannya.\n\n"
             . "Detail Tagihan:\n"
             . "No.Inv: {$item->merchant_ref_id}\n"
             . "Periode: {$billingMonth}\n"
             . "Paket: {$item->name}\n"
-            . "Jumlah: Rp " . number_format($item->amount, 0, ',', '.') . "\n\n"
+            . "Jumlah: Rp " . number_format($billing->amount_received, 0, ',', '.') . "\n\n"
             . "Layanan Anda tetap aktif. 🙏";
 
         $wa->sendToClient($client, $message);
