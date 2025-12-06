@@ -14,6 +14,7 @@ use App\Console\Commands\ResetExpiredBilling;
 use App\Console\Commands\MessageBillingInsert;
 use App\Console\Commands\MessageBillingBulanan;
 use App\Console\Commands\GetMutasiBank;
+use App\Console\Commands\CheckBankPayment;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -66,3 +67,4 @@ Schedule::command(InactiveUser::class)
 
 // Jadwal check mutasi ke moota
 Schedule::command(GetMutasiBank::class)->everyFiveMinutes()->withoutOverlapping();
+Schedule::command(CheckBankPayment::class)->everyFiveMinutes()->withoutOverlapping();
