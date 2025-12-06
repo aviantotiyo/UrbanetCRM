@@ -93,9 +93,9 @@ user app
 
 Table Mutasi Bank Manual
 
--   table database mutasi
--   update cron mutasi
--   pencocokan bank mutasi dengan billing.
+-   table database mutasi (v - done)
+-   update cron mutasi (v - done)
+-   pencocokan bank mutasi dengan billing. (v - done)
 
 # masih adakesalahan form di edit dari form online registrasi
 

@@ -11,6 +11,7 @@ use App\Models\DataClientsSales;
 use App\Models\DataClientsRegist;
 use App\Models\DataClientsPartner;
 use App\Models\DataClientsProspect;
+use App\Models\DataSetting;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
@@ -29,7 +30,8 @@ class ClientAddUserController extends Controller
             ->take(20) // ambil maksimal 10
             ->get();
 
-        return view('partner.add_client.index', compact('partner', 'referrals'));
+        $feePerClient = DataSetting::value('fee_merchant_sales') ?? 0;
+        return view('partner.add_client.index', compact('partner', 'referrals', 'feePerClient'));
     }
 
     public function create()

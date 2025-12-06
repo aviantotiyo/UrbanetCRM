@@ -62,8 +62,8 @@
                                         @endforelse
                                     </ul>
                                     @else
-                                    <p>Dapatkan pendapatan senilai () dengan mengajak teman/tetangga bergabung menjadi pelanggan kami.</p>
-                                    <p> Point akan langsung bisa di gunakan untuk tagihan bulanan.</p>
+                                    <p>Dapatkan pendapatan senilai Rp {{ number_format($feePerClient, 0, ',', '.') }} dengan mengajak/memproses menjadi calon pelanggan kami.</p>
+                                    <p>Fee di bayar apabila pelanggan yang di approve oleh sistem.</p>
                                     <a href="{{ route('add_client.create') }}" class="btn btn-primary w-100">Tambahkan Pelanggan</a>
 
 

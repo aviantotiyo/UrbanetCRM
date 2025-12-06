@@ -46,7 +46,7 @@
                                         <div class="mb-3">
                                             <label for="nik" class="form-label">No KTP<span class="text-danger">*</span></label>
                                             <input type="text" name="nik" id="nik" class="form-control"
-                                                value="{{ old('nik') }}" required>
+                                                value="{{ old('nik') }}" placeholder="____.____.____.____" required>
                                             <!-- @error('nik')<div class="invalid-feedback">{{ $message }}</div>@enderror -->
 
                                         </div>
@@ -54,7 +54,7 @@
                                         <div class="mb-3">
                                             <label for="no_hp" class="form-label">Nomor HP<span class="text-danger">*</span></label>
                                             <input type="text" name="no_hp" id="no_hp" class="form-control"
-                                                value="{{ old('no_hp') }}" required>
+                                                value="{{ old('no_hp') }}" placeholder="6281122334455" required>
                                             <!-- @error('no_hp')<div class="invalid-feedback">{{ $message }}</div>@enderror -->
 
                                         </div>
