@@ -20,15 +20,24 @@
                                 <div class="card-body">
                                     <h5 class="mb-2">Pengaturan Akun</h5>
                                     <hr />
-                                    <p>Nama Mitra: <strong>{{ $partner->nama_partner }}</strong></p>
-                                    <p>Nomor HP: <strong>{{ $partner->no_hp }}</strong></p>
-                                    <p>Alamat: <strong>{{ $partner->alamat }}<br />{{ $partner->provinsi }}/{{ $partner->kabupaten }}/{{ $partner->kecamatan }}</strong></p>
-                                    <p>Status Akun:
-                                        <strong class="{{ $partner->status === 'active' ? 'text-success' : 'text-danger' }}">
-                                            {{ ucfirst($partner->status) }}
-                                        </strong>
-                                    </p>
-
+                                    <dl class="row mb-0 gx-2">
+                                        <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Nama Mitra</dt>
+                                        <dd class="col-sm-9">{{ $partner->nama_partner }}</dd>
+                                        <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Nomor HP</dt>
+                                        <dd class="col-sm-9">{{ $partner->no_hp }}</dd>
+                                        <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Alamat</dt>
+                                        <dd class="col-sm-9">{{ $partner->alamat }}<br />{{ $partner->provinsi }}/{{ $partner->kabupaten }}/{{ $partner->kecamatan }}</dd>
+                                        <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Bank</dt>
+                                        <dd class="col-sm-9">{{ $partner->bank_name }}</dd>
+                                        <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Rekening Bank</dt>
+                                        <dd class="col-sm-9">{{ $partner->bank_account }}</dd>
+                                        <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Pemilik Bank</dt>
+                                        <dd class="col-sm-9">{{ $partner->bank_pic }}</dd>
+                                        <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Status Akun</dt>
+                                        <dd class="col-sm-9"><strong class="{{ $partner->status === 'active' ? 'text-success' : 'text-danger' }}">
+                                                {{ ucfirst($partner->status) }}
+                                            </strong></dd>
+                                    </dl>
                                     <hr />
 
                                     @if($partner->status === 'active')
