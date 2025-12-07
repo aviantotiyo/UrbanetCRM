@@ -26,6 +26,12 @@ class DataTeamSite extends Model
         'fee',
         'fee_2',
         'fee_3',
+        'fee_paid',
+        'fee_paid_2',
+        'fee_paid_3',
+        'fee_paid_at',
+        'fee2_paid_at',
+        'fee3_paid_at',
     ];
 
     /**
