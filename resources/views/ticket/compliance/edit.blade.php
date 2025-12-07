@@ -79,12 +79,12 @@
                                         <!-- KIRI -->
                                         <div class="col-12 col-md-6 mb-4">
                                             <div class="mb-3">
-                                                <label>Kode Tiket</label>
+                                                <label class="form-label">Kode Tiket</label>
                                                 <input type="text" class="form-control" value="{{ $ticket->ticket_code }}" disabled>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label>Client</label>
+                                                <label class="form-label">Client</label>
                                                 <select class="form-control" disabled>
                                                     @foreach($clients as $client)
                                                     <option value="{{ $client->id }}" {{ $ticket->client_id == $client->id ? 'selected' : '' }}>
@@ -98,7 +98,7 @@
 
 
                                             <div class="mb-3">
-                                                <label>Type Task</label>
+                                                <label class="form-label">Type Task</label>
                                                 <select name="type_task" class="form-select" required>
                                                     @foreach(['Gangguan', 'Customers Support', 'Support NOC', 'Maintenance'] as $type)
                                                     <option value="{{ $type }}" {{ $ticket->type_task == $type ? 'selected' : '' }}>
@@ -109,8 +109,9 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label>Detail Task</label>
+                                                <label class="form-label">Detail Kronologi</label>
                                                 <textarea name="detail_task" class="form-control">{{ $ticket->detail_task }}</textarea>
+                                                <div class="form-text">Diisi oleh customer care</div>
                                             </div>
 
 
@@ -121,7 +122,7 @@
                                         @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'Installer']))
                                         <div class="col-12 col-md-6 mb-4">
                                             <div class="mb-3">
-                                                <label for="users_id" class="form-label">Installer</label>
+                                                <label for="users_id" class="form-label">Teknisi</label>
                                                 <select name="users_id" class="form-select" required>
                                                     <option value="">-- Pilih Installer --</option>
                                                     @foreach($installers as $installer)
@@ -134,7 +135,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label>Status</label>
+                                                <label class="form-label">Status</label>
                                                 <select name="status" class="form-select" required>
                                                     @foreach(['open', 'cancel', 'process', 'finish'] as $status)
                                                     <option value="{{ $status }}" {{ $ticket->status == $status ? 'selected' : '' }}>
@@ -145,7 +146,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label>Solving</label>
+                                                <label class="form-label">Penyelesaian</label>
                                                 <select name="solving" class="form-select">
                                                     @foreach(['Ganti Router', 'Ganti Adaptor', 'Kabel Putus', 'Setting NOC', 'Lainnya'] as $solve)
                                                     <option value="{{ $solve }}" {{ $ticket->solving == $solve ? 'selected' : '' }}>
@@ -155,8 +156,9 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3">
-                                                <label>Note</label>
+                                                <label class="form-label">Pekerjaan yang dilakukan</label>
                                                 <textarea name="note" class="form-control">{{ $ticket->note }}</textarea>
+                                                <div class="form-text">Diisi oleh teknisi</div>
                                             </div>
                                         </div>
                                         @endif

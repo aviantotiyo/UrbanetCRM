@@ -182,10 +182,27 @@
                                                     <!-- <a href="{{ route('admin.pelanggan.show', $c->id) }}" class="btn btn-text-secondary rounded-pill waves-effect btn-icon">
                                                         <i class="ti ti-eye me-1"></i>
                                                     </a> -->
-                                                    <a href="{{ route('admin.pelanggan.show', $c->id) }}" class="btn btn-text-secondary rounded-pill waves-effect btn-icon">
+                                                    @if ($c->status === 'active')
+                                                    <a href="{{ route('admin.dashboard.ticket.create', $c->id) }}"
+                                                        class="btn btn-text-primary rounded-pill waves-effect btn-icon"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-bs-custom-class="tooltip-primary"
+                                                        data-bs-original-title="Laporan Gangguan">
                                                         <i class="fa-solid fa-comment"></i>
                                                     </a>
-                                                    <a href="{{ route('admin.dashboard.ticket_hc.create', $c->id) }}" class="btn btn-text-secondary rounded-pill waves-effect btn-icon">
+                                                    @else
+                                                    <a href=""
+                                                        class="btn btn-text-secondary rounded-pill waves-effect btn-icon"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-bs-custom-class="tooltip-secondary"
+                                                        data-bs-original-title="User Nonactive">
+                                                        <i class="fa-solid fa-comment"></i>
+                                                    </a>
+                                                    @endif
+
+                                                    <a href="{{ route('admin.dashboard.ticket_hc.create', $c->id) }}" class="btn btn-text-primary rounded-pill waves-effect btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" data-bs-original-title="Permintaan Instalasi">
                                                         <i class="ti ti-id-badge me-1"></i>
                                                     </a>
                                                     @auth

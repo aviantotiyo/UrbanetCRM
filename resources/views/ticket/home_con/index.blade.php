@@ -35,7 +35,7 @@
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
-                                <!-- <a href="{{ route('admin.dashboard.ticket.create') }}" class="btn btn-outline-primary">Tambah Data</a> -->
+                                <!-- <a href="#" class="btn btn-outline-primary">Tambah Data</a> -->
                             </div>
                         </div>
                         {{-- Alert sukses --}}

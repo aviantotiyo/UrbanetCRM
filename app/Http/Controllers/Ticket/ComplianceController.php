@@ -26,13 +26,22 @@ class ComplianceController extends Controller
     }
 
 
-    public function create()
+    // public function create()
+    // {
+    //     $clients = DataClients::select('id', 'nama', 'nopel', 'no_hp')->get();
+    //     $installers = User::where('role', 'Installer')->select('id', 'name')->get();
+
+    //     return view('ticket.compliance.tambah', compact('clients', 'installers'));
+    // }
+
+    public function create($id)
     {
-        $clients = DataClients::select('id', 'nama', 'nopel', 'no_hp')->get();
+        $client = DataClients::findOrFail($id); // ambil 1 data client
         $installers = User::where('role', 'Installer')->select('id', 'name')->get();
 
-        return view('ticket.compliance.tambah', compact('clients', 'installers'));
+        return view('ticket.compliance.tambah', compact('client', 'installers'));
     }
+
 
 
     public function store(Request $request)

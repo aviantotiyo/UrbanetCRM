@@ -97,6 +97,12 @@ Table Mutasi Bank Manual
 -   update cron mutasi (v - done)
 -   pencocokan bank mutasi dengan billing. (v - done)
 
+Tiket dan gangguan
+
+-   hitungan fee instalasi
+-   hitungan fee gangguan
+-   hitungan ketika perlu ada beberapa teknisi
+
 # masih adakesalahan form di edit dari form online registrasi
 
 ==========================================================

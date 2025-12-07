@@ -90,6 +90,17 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <div class="mb-3">
+                                                <label for="users_id_2" class="form-label">Teknisi Pembantu (Opsional)</label>
+                                                <select name="users_id_2" class="form-select">
+                                                    <option value="">-- Pilih Installer --</option>
+                                                    @foreach($installers as $installer)
+                                                    <option value="{{ $installer->id }}" {{ ($ticket->teamSite && $ticket->teamSite->users_id_2 == $installer->id) ? 'selected' : '' }}>
+                                                        {{ $installer->name }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Status</label>

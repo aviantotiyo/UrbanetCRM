@@ -9,6 +9,7 @@ use App\Models\DataClients;
 use Illuminate\Support\Str;
 use App\Models\DataTeamSite;
 use App\Models\DataTicketHC;
+use App\Models\DataSetting;
 use Illuminate\Http\Request;
 use App\Models\DataTicketLog;
 use Illuminate\Support\Facades\Log;
@@ -85,6 +86,8 @@ class HomeConController extends Controller
         $teamSite = DataTeamSite::create([
             'id'                => Str::uuid(),
             'users_id'          => $request->users_id,
+            'users_id_2'          => $request->users_id_2,
+            'users_id_3'          => $request->users_id_3,
             'data_ticket_hc_id' => $ticket->id,
             'client_id'         => $request->client_id,
         ]);
@@ -125,6 +128,7 @@ class HomeConController extends Controller
             'panjang_kabel'    => 'nullable|string',
             'sambungan_kabel'  => 'nullable|string',
             'users_id'         => 'required|uuid|exists:users,id',
+            'users_id_2'       => 'nullable|uuid|exists:users,id',
             'images'           => 'nullable|array',
             'images.*'         => 'file|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -141,14 +145,25 @@ class HomeConController extends Controller
             'status_finish'    => now(),
         ]);
 
+
         // Update atau buat ulang data teknisi di DataTeamSite
+        $teamSiteData = [
+            'users_id'  => $request->users_id,
+            'users_id_2' => $request->users_id_2,
+            'client_id' => $ticket->client_id,
+        ];
+
+        if ($request->status === 'finish') {
+            $feeEngineer = DataSetting::first()?->fee_engineer;
+            $teamSiteData['fee'] = (int) $feeEngineer;
+        }
+
+
         $ticket->teamSite()->updateOrCreate(
             ['data_ticket_hc_id' => $ticket->id],
-            [
-                'users_id'  => $request->users_id,
-                'client_id' => $ticket->client_id,
-            ]
+            $teamSiteData
         );
+
 
         // Ambil nama teknisi dari DataTeamSite (relasi ke users)
         $teamSite = $ticket->teamSite;

@@ -35,7 +35,7 @@
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
-                                <a href="{{ route('admin.dashboard.ticket.create') }}" class="btn btn-outline-primary">Tambah Data</a>
+                                <!-- <a href="#" class="btn btn-outline-primary">Tambah Data</a> -->
                             </div>
                         </div>
                         {{-- Alert sukses --}}
@@ -105,9 +105,9 @@
                                                         <small>
 
                                                             @if ($ticket->ticket_guarantee == 0)
-                                                            Laporan Baru
+                                                            <span class="badge rounded-pill bg-label-primary">Laporan Baru</span>
                                                             @elseif ($ticket->ticket_guarantee == 1)
-                                                            Gangguan Berulang
+                                                            <span class="badge rounded-pill bg-label-warning">Gangguan Berulang</span>
                                                             @endif
                                                         </small>
                                                     </div>
@@ -125,7 +125,12 @@
                                             <td>{{ $ticket->status }}</td> -->
 
                                             <td>
+                                                @if ($ticket->status === 'finish')
                                                 <span class="badge bg-primary">{{ $ticket->status }}</span>
+                                                @else
+                                                <span class="badge bg-secondary">{{ $ticket->status }}</span>
+                                                @endif
+
                                             </td>
                                             <td>
                                                 {{ \Carbon\Carbon::parse($ticket->status_finish)->format('d/m/Y H:i') }} WIB

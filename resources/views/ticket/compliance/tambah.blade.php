@@ -42,13 +42,14 @@
                                 <div class="mb-1">
                                     <span class="h5">Tambah Laporan Gangguan</span>
                                 </div>
-
+                                <p class="mb-0">{{ $client->nopel }} - {{ $client->nama }} ({{ $client->no_hp }})</p>
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
                                 <a href="{{ route('admin.dashboard.ticket.index') }}" class="btn btn-outline-primary">← Kembali</a>
                             </div>
                         </div>
+
 
                         {{-- Alert error --}}
                         @if ($errors->any())
@@ -68,18 +69,17 @@
                                     @csrf
                                     <div class="row gx-3 gy-4">
                                         <div class="col-md-6 col-12">
-                                            <div class="mb-3">
-                                                <label for="select2Basic" class="form-label">Client</label>
-                                                <select id="select2Basic" name="client_id" class="select2 form-control form-control-lg" data-allow-clear="true" style="width: 100%">
-                                                    <option value="">-- Pilih Client --</option>
-                                                    @foreach($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->nopel }} - {{ $client->nama }} {{ $client->no_hp }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+
+                                            <!-- <div class="mb-3">
+                                                <label class="form-label fw-bold">Client</label>
+                                                <input type="hidden" name="client_id" value="{{ $client->id }}">
+                                                <div class="form-control-plaintext">
+                                                    {{ $client->nopel }} - {{ $client->nama }} ({{ $client->no_hp }})
+                                                </div>
+                                            </div> -->
 
                                             <div class="mb-3">
-                                                <label for="users_id" class="form-label">Pilih Installer</label>
+                                                <label for="users_id" class="form-label">Pilih Teknisi</label>
                                                 <select name="users_id" class="form-control" required>
                                                     <option value="">-- Pilih Installer --</option>
                                                     @foreach($installers as $installer)
@@ -99,8 +99,9 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label class="form-label">Detail Task</label>
+                                                <label class="form-label">Detail Kronologi</label>
                                                 <textarea name="detail_task" class="form-control"></textarea>
+                                                <div class="form-text">Diisi oleh customer care</div>
                                             </div>
 
                                         </div>
@@ -135,8 +136,9 @@
 
 
                                             <div class="mb-3">
-                                                <label class="form-label">Note</label>
+                                                <label class="form-label">Pekerjaan yang dilakukan</label>
                                                 <textarea name="note" class="form-control"></textarea>
+                                                <div class="form-text">Diisi oleh customer care</div>
                                             </div>
                                             <!-- <div class="mb-3">
                                                 <label>Ticket Guarantee</label>
@@ -147,6 +149,7 @@
                                         </div>
 
                                         <div class="col-12  mt-4">
+                                            <input type="hidden" name="client_id" value="{{ $client->id }}">
                                             <button type="submit" class="btn btn-primary">Simpan</button>
                                         </div>
                                     </div>

@@ -251,7 +251,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/ticket', [\App\Http\Controllers\Ticket\ComplianceController::class, 'index'])->name('ticket.index');
-        Route::get('/ticket/tambah', [\App\Http\Controllers\Ticket\ComplianceController::class, 'create'])->name('ticket.create');
+        // Route::get('/ticket/tambah', [\App\Http\Controllers\Ticket\ComplianceController::class, 'create'])->name('ticket.create');
+        Route::get('/ticket/tambah/{id}', [\App\Http\Controllers\Ticket\ComplianceController::class, 'create'])->name('ticket.create');
         Route::post('/ticket/tambah', [\App\Http\Controllers\Ticket\ComplianceController::class, 'store'])->name('ticket.store');
         Route::get('/ticket/{id}/edit', [\App\Http\Controllers\Ticket\ComplianceController::class, 'edit'])->name('ticket.edit');
         Route::put('/ticket/{id}/update', [\App\Http\Controllers\Ticket\ComplianceController::class, 'update'])->name('ticket.update');

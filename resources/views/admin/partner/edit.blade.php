@@ -82,14 +82,16 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="bank_name" class="form-label">Bank</label>
-                                                <select class="form-select" name="bank_name">
-
-                                                    <option value="" {{ $partner->status === '' ? 'selected' : '' }}>Pilih Bank</option>
-                                                    <option value="BCA" {{ $partner->status === 'BCA' ? 'selected' : '' }}>BCA</option>
-                                                    <option value="BRI" {{ $partner->status === 'BRI' ? 'selected' : '' }}>BRI</option>
+                                                <select class="form-select" name="bank_name" id="bank_name">
+                                                    <option value="" {{ $partner->bank_name === '' ? 'selected' : '' }}>Pilih Bank</option>
+                                                    <option value="BCA" {{ $partner->bank_name === 'BCA' ? 'selected' : '' }}>BCA</option>
+                                                    <option value="BRI" {{ $partner->bank_name === 'BRI' ? 'selected' : '' }}>BRI</option>
                                                 </select>
-                                                @error('bank_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                @error('bank_name')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
+
 
                                             <div class="mb-3">
                                                 <label for="bank_pic" class="form-label">Nama Pemilik Bank</label>

@@ -18,10 +18,14 @@ class DataTeamSite extends Model
     protected $fillable = [
         'id',
         'users_id',
+        'users_id_2',
+        'users_id_3',
         'data_ticket_hc_id',
         'data_ticket_id',
         'client_id',
         'fee',
+        'fee_2',
+        'fee_3',
     ];
 
     /**

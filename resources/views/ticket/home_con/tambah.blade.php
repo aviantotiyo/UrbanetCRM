@@ -82,8 +82,18 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="users_id" class="form-label">Pilih Installer</label>
+                                            <label for="users_id" class="form-label">Pilih Teknisi Installer</label>
                                             <select name="users_id" class="form-select" required>
+                                                <option value="">-- Pilih Installer --</option>
+                                                @foreach($installers as $installer)
+                                                <option value="{{ $installer->id }}">{{ $installer->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="users_id" class="form-label">Teknisi Pembantu (Opsional)</label>
+                                            <select name="users_id_2" class="form-select">
                                                 <option value="">-- Pilih Installer --</option>
                                                 @foreach($installers as $installer)
                                                 <option value="{{ $installer->id }}">{{ $installer->name }}</option>
@@ -119,11 +129,11 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label>Catatan</label>
+                                            <label class="form-label">Catatan Untuk Teknisi</label>
                                             <textarea name="note" class="form-control" rows="4"></textarea>
                                         </div>
 
-                                        <button type="submit" class="btn btn-success">Simpan</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                     </form>
                                 </div>
                             </div>
