@@ -155,7 +155,9 @@ class HomeConController extends Controller
 
         if ($request->status === 'finish') {
             $feeEngineer = DataSetting::first()?->fee_engineer;
+            $feeEngineer2 = DataSetting::first()?->fee_engineer_2;
             $teamSiteData['fee'] = (int) $feeEngineer;
+            $teamSiteData['fee_2'] = $request->users_id_2 ? (int) $feeEngineer2 : null;
         }
 
 

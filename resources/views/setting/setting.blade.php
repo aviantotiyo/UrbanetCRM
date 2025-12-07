@@ -70,7 +70,8 @@
                                     'fee_merchant_sales' => 'Fee Merchant Sales',
                                     'fee_sales_internal' => 'Fee Sales Internal',
                                     'fee_engineer_sales' => 'Fee Engineer Sales',
-                                    'fee_engineer' => 'Fee Engineer'
+                                    'fee_engineer' => 'Fee Engineer',
+                                    'fee_engineer_2' => 'Fee Engineer Support'
                                     ] as $field => $label)
                                     <div class="mb-3 col-4">
                                         <label for="{{ $field }}" class="form-label">{{ $label }}</label>

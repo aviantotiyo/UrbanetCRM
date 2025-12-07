@@ -23,5 +23,6 @@ class DataSetting extends Model
         'fee_sales_internal',
         'fee_engineer_sales',
         'fee_engineer',
+        'fee_engineer_2',
     ];
 }

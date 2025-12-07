@@ -33,6 +33,7 @@ class SettingController extends Controller
             'fee_sales_internal'   => 'nullable|integer',
             'fee_engineer_sales'   => 'nullable|integer',
             'fee_engineer'         => 'nullable|integer',
+            'fee_engineer_2'         => 'nullable|integer',
         ]);
 
         $setting = DataSetting::first();
