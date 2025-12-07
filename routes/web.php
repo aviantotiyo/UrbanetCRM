@@ -50,10 +50,11 @@ use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\PelangganCsr\CsrController;
 use App\Http\Controllers\PelangganCsr\ProcessCsrController;
 
-
 use App\Http\Controllers\UserBilling\UserTransactionController;
 use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
+
+use App\Http\Controllers\Komisi\SalesKomisiController;
 
 
 
@@ -266,6 +267,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/ticket-hc/edit/{id}', [HomeConController::class, 'edit'])->whereUuid('id')->name('ticket_hc.edit');
         Route::put('/ticket-hc/update/{id}', [HomeConController::class, 'update'])->whereUuid('id')->name('ticket_hc.update');
+    });
+
+    // ===== Komisi Sales  =====
+
+    Route::prefix('dashboard/komisi-sales')->name('komisi_sales.')->group(function () {
+        Route::get('/', [SalesKomisiController::class, 'index'])->name('index');
     });
 
 

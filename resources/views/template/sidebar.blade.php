@@ -70,6 +70,36 @@
                     </a>
                 </li>
             </ul>
+
+        </li>
+
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-checkup-list"></i>
+                <div data-i18n="Laporan Komisi">Laporan Komisi</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Komisi Sales">Komisi Sales</div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Komisi Teknisi">Komisi Teknisi</div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Komisi Mitra">Komisi Mitra</div>
+                    </a>
+                </li>
+            </ul>
+
         </li>
         @endif
         @endauth
