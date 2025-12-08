@@ -64,13 +64,40 @@
                         </div>
                         @endif
 
+                        <form method="GET" action="{{ route('admin.komisi_sales.index') }}" class="align-items-end mb-4">
+
+                            <div class="card">
+
+                                <div class="card-body py-3">
+                                    <div class="row g-2 align-items-end">
+                                        <div class="col-md-4">
+                                            <label for="sales" class="form-label">Nama Sales</label>
+                                            <input type="text" name="sales" id="sales" value="{{ request('sales') }}" class="form-control" placeholder="Cari nama sales...">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="tanggal_awal" class="form-label">Tanggal Mulai</label>
+                                            <input type="date" name="tanggal_awal" id="tanggal_awal" value="{{ request('tanggal_awal') }}" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="tanggal_akhir" class="form-label">Tanggal Akhir</label>
+                                            <input type="date" name="tanggal_akhir" id="tanggal_akhir" value="{{ request('tanggal_akhir') }}" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-2 d-grid">
+                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 
                         <div class="card">
                             <h5 class="card-header">Data Pelanggan</h5>
                             <div class="table-responsive text-nowrap">
                                 <form id="form-paid-multiple" action="{{ route('admin.komisi_sales.paid_multiple') }}" method="POST" onsubmit="return confirm('Tandai semua data yang dipilih sebagai sudah dibayar?')">
                                     @csrf
-
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
@@ -78,10 +105,8 @@
                                                 <th>Nama Pelanggan</th>
                                                 <th>Nama Sales</th>
                                                 <th>Paket</th>
-                                                <!-- <th>Alamat Pelanggan</th> -->
                                                 <th>Status</th>
                                                 <th>Paid</th>
-                                                <!-- <th>Action</th> -->
                                             </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">
@@ -142,33 +167,10 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $item->fee_paid ? 'Ya' : 'Belum' }}</td>
-                                                <!-- <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                                <i class="ti ti-dots-vertical"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item" href="{{ route('admin.sales.edit', $item->id) }}"><i class="ti ti-search me-1"></i> Detail</a>
-                                                                <li>
-                                                                    <a href="{{ route('admin.komisi_sales.paid', $item->id) }}"
-                                                                        onclick="event.preventDefault(); document.getElementById('paid-form-{{ $item->id }}').submit();"
-                                                                        class="dropdown-item">
-                                                                        <i class="ti ti-cash me-1"></i> Tandai Dibayar
-                                                                    </a>
-
-                                                                    <form id="paid-form-{{ $item->id }}" action="{{ route('admin.komisi_sales.paid', $item->id) }}" method="POST" style="display: none;">
-                                                                        @csrf
-                                                                    </form>
-                                                                </li>
-
-                                                            </div>
-                                                        </div>
-                                                </td> -->
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td colspan="6" class="text-center text-muted">Belum ada data pelanggan.</td>
+                                                <td colspan="6" class="text-center text-muted">Belum ada data.</td>
                                             </tr>
                                             @endforelse
                                         </tbody>

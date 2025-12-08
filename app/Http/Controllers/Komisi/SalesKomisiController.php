@@ -10,15 +10,34 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SalesKomisiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = DataClientsSales::with(['user:id,name,role', 'paket:id,nama_paket,harga'])
+        $query = DataClientsSales::with(['user:id,name,role', 'paket:id,nama_paket,harga'])
             ->where('status', 'active')
-            ->where('fee_paid', 0)
-            ->paginate(10);
+            ->where('fee_paid', 0);
+
+        // Filter by nama sales
+        if ($request->filled('sales')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->sales . '%');
+            });
+        }
+
+        // Filter by tanggal_awal
+        if ($request->filled('tanggal_awal')) {
+            $query->whereDate('created_at', '>=', $request->tanggal_awal);
+        }
+
+        // Filter by tanggal_akhir
+        if ($request->filled('tanggal_akhir')) {
+            $query->whereDate('created_at', '<=', $request->tanggal_akhir);
+        }
+
+        $data = $query->latest()->paginate(10)->withQueryString();
 
         return view('admin.komisi_sales.index', compact('data'));
     }
+
 
     public function paidList()
     {
