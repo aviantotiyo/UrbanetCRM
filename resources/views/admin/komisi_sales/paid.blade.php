@@ -29,13 +29,13 @@
                             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
                             <div class="d-flex flex-column justify-content-center">
                                 <div class="mb-1">
-                                    <span class="h5">Data Komisi Sales</span>
+                                    <span class="h5">Histori Data Komisi Sales</span>
                                 </div>
 
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
 
-                                <a href="{{ route('admin.komisi_sales.paidList') }}" class="btn btn-outline-primary">Daftar History</a>
+                                <a href="{{ route('admin.komisi_sales.index') }}" class="btn btn-outline-primary">Kembali</a>
 
                             </div>
                         </div>

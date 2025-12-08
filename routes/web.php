@@ -273,6 +273,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('dashboard/komisi-sales')->name('komisi_sales.')->group(function () {
         Route::get('/', [SalesKomisiController::class, 'index'])->name('index');
+        Route::get('/paid-list', [SalesKomisiController::class, 'paidList'])->name('paidList');
     });
 
 
