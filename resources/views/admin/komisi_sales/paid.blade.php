@@ -66,8 +66,7 @@
                                             <th>Nama Sales</th>
                                             <th>Paket</th>
                                             <th>Alamat Pelanggan</th>
-                                            <th>Status</th>
-                                            <th>Fee</th>
+                                            <th>Komisi</th>
                                             <th>Paid</th>
                                         </tr>
                                     </thead>
@@ -120,9 +119,19 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ ucfirst($item->status) }}</td>
                                             <td>Rp {{ number_format($item->fee, 0, ',', '.') }}</td>
-                                            <td>{{ $item->fee_paid ? 'Ya' : 'Belum' }}</td>
+                                            <td>
+                                                <div class="d-flex flex-wrap align-items-center mb-50">
+                                                    <div>
+                                                        <p class="mb-0 small fw-medium">
+                                                            {{ $item->fee_paid ? 'Lunas' : 'Belum' }}
+                                                        </p>
+                                                        <small>{{ \Carbon\Carbon::parse($item->fee_date_paid)->format('d/m/Y H:i') }} WIB
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </td>
+
                                         </tr>
                                         @empty
                                         <tr>

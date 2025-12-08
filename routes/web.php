@@ -274,6 +274,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::prefix('dashboard/komisi-sales')->name('komisi_sales.')->group(function () {
         Route::get('/', [SalesKomisiController::class, 'index'])->name('index');
         Route::get('/paid-list', [SalesKomisiController::class, 'paidList'])->name('paidList');
+        Route::post('/paid/{id}', [SalesKomisiController::class, 'markAsPaid'])->name('paid');
+        Route::post('/paid-multiple', [SalesKomisiController::class, 'markAsPaidMultiple'])->name('paid_multiple');
+        Route::get('/export-excel', [SalesKomisiController::class, 'exportExcel'])->name('export_excel');
     });
 
 

@@ -73,14 +73,14 @@
 
         </li>
 
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.komisi_sales.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-checkup-list"></i>
                 <div data-i18n="Laporan Komisi">Laporan Komisi</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('admin.komisi_sales.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.komisi_sales.index') }}" class="menu-link">
                         <div data-i18n="Komisi Sales">Komisi Sales</div>
                     </a>
                 </li>
