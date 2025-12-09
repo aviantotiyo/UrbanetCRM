@@ -11,12 +11,53 @@ use Illuminate\Http\Request;
 class BillingController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $billings = DataBilling::with(['client', 'items'])->latest()->paginate(10);
+        $query = DataBilling::with(['client', 'items']);
+
+        // Keyword: nama, nopel, no_hp
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->whereHas('client', function ($q) use ($search) {
+                $q->where('nama', 'like', "%$search%")
+                    ->orWhere('nopel', 'like', "%$search%")
+                    ->orWhere('no_hp', 'like', "%$search%");
+            });
+        }
+
+        // Status billing
+        if ($request->filled('billing_status')) {
+            $query->where('status', $request->billing_status);
+        }
+
+        // Status client
+        if ($request->filled('client_status')) {
+            $query->whereHas('client', function ($q) use ($request) {
+                $q->where('status', $request->client_status);
+            });
+        }
+
+        if ($request->filled('billing_range')) {
+            $dates = explode(' to ', $request->billing_range);
+
+            if (count($dates) === 2) {
+                $start = $dates[0];
+                $end = $dates[1];
+
+                $query->whereHas('items', function ($q) use ($start, $end) {
+                    $q->whereDate('billing_cycle', '>=', $start)
+                        ->whereDate('billing_cycle', '<=', $end);
+                });
+            }
+        }
+
+
+
+        $billings = $query->latest()->paginate(10)->withQueryString();
 
         return view('finance.billing.index', compact('billings'));
     }
+
 
     public function detail(string $id)
     {
