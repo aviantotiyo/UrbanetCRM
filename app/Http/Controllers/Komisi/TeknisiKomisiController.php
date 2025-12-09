@@ -72,7 +72,7 @@ class TeknisiKomisiController extends Controller
             }
         }
 
-        return view('admin.komisi_teknisi.index', [
+        return view('finance.komisi_teknisi.index', [
             'teknisiRows' => $processed,
             'pagination' => $data, // Tetap dikirim agar tombol pagination tetap bisa dipakai
         ]);
@@ -95,7 +95,7 @@ class TeknisiKomisiController extends Controller
             })
             ->paginate(10);
 
-        return view('admin.komisi_teknisi.paid', compact('data'));
+        return view('finance.komisi_teknisi.paid', compact('data'));
     }
 
     public function markAsPaidMultiple(Request $request)

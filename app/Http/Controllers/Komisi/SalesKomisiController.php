@@ -35,7 +35,7 @@ class SalesKomisiController extends Controller
 
         $data = $query->latest()->paginate(10)->withQueryString();
 
-        return view('admin.komisi_sales.index', compact('data'));
+        return view('finance.komisi_sales.index', compact('data'));
     }
 
 
@@ -46,7 +46,7 @@ class SalesKomisiController extends Controller
             ->where('fee_paid', 1)
             ->paginate(10);
 
-        return view('admin.komisi_sales.paid', compact('data'));
+        return view('finance.komisi_sales.paid', compact('data'));
     }
 
     public function markAsPaid($id)
@@ -58,7 +58,7 @@ class SalesKomisiController extends Controller
             'fee_date_paid' => now(),
         ]);
 
-        return redirect()->route('admin.komisi_sales.paidList')->with('success', 'Komisi berhasil ditandai sebagai sudah dibayar.');
+        return redirect()->route('finance.komisi_sales.paidList')->with('success', 'Komisi berhasil ditandai sebagai sudah dibayar.');
     }
 
     public function markAsPaidMultiple(Request $request)
@@ -75,7 +75,7 @@ class SalesKomisiController extends Controller
             'fee_date_paid' => now(),
         ]);
 
-        return redirect()->route('admin.komisi_sales.paidList')->with('success', 'Data berhasil ditandai sebagai dibayar.');
+        return redirect()->route('finance.komisi_sales.paidList')->with('success', 'Data berhasil ditandai sebagai dibayar.');
     }
 
     public function exportExcel()

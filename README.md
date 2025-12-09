@@ -106,7 +106,7 @@ Tiket dan gangguan
 ========================================================
 tanggal 5-30 Isolir
 tanggal 1-30 Suspend
-tanggal 1 inactive
+tanggal 1 inactive di awal bulan berikutnya
 
 # masih adakesalahan form di edit dari form online registrasi
 

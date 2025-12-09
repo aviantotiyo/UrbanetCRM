@@ -56,6 +56,8 @@ use App\Http\Controllers\Partner\ClientProcessPaymentController;
 
 use App\Http\Controllers\Komisi\SalesKomisiController;
 use App\Http\Controllers\Komisi\TeknisiKomisiController;
+use App\Http\Controllers\Komisi\PartnerKomisiController;
+
 
 
 // Public (no auth)
@@ -288,6 +290,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/export-excel', [TeknisiKomisiController::class, 'exportExcel'])->name('export_excel');
     });
 
+
+    // ===== Komisi Mitra  =====
+    Route::prefix('dashboard/komisi-mitra')->name('komisi_mitra.')->group(function () {
+        Route::get('/', [PartnerKomisiController::class, 'index'])->name('index');
+    });
 
     // ===== Referral  =====
 
