@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DataTeamSite;
 use Illuminate\Support\Facades\DB;
+use App\Exports\KomisiTeknisiExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
 
 
 class TeknisiKomisiController extends Controller
@@ -131,5 +134,44 @@ class TeknisiKomisiController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function exportExcel()
+    {
+        $query = DataTeamSite::with([
+            'user:id,name,role',
+            'user2:id,name,role',
+            'user3:id,name,role',
+            'ticketHC:id,ticket_code',
+            'ticket:id,ticket_code',
+            'client:id,nama,nopel'
+        ])->whereNotNull('fee')->latest()->get();
+
+        $teknisiRows = collect();
+
+        foreach ($query as $row) {
+            foreach (
+                [
+                    ['user' => $row->user, 'fee' => $row->fee, 'paid' => $row->fee_paid, 'pos' => 1],
+                    ['user' => $row->user2, 'fee' => $row->fee_2, 'paid' => $row->fee_paid_2, 'pos' => 2],
+                    ['user' => $row->user3, 'fee' => $row->fee_3, 'paid' => $row->fee_paid_3, 'pos' => 3],
+                ] as $teknisi
+            ) {
+                if (!$teknisi['user'] || $teknisi['paid'] == 1) continue;
+
+                $teknisiRows->push([
+                    'row_id' => $row->id,
+                    'pos' => $teknisi['pos'],
+                    'user' => $teknisi['user'],
+                    'fee' => $teknisi['fee'],
+                    'ticketHC' => $row->ticketHC,
+                    'ticket' => $row->ticket,
+                    'client' => $row->client,
+                    'updated_at' => $row->updated_at,
+                ]);
+            }
+        }
+
+        return Excel::download(new KomisiTeknisiExport($teknisiRows), 'komisi_teknisi.xlsx');
     }
 }

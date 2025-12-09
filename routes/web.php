@@ -285,6 +285,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [TeknisiKomisiController::class, 'index'])->name('index');
         Route::get('/paid-list', [TeknisiKomisiController::class, 'paidList'])->name('paidList');
         Route::post('/paid-multiple', [TeknisiKomisiController::class, 'markAsPaidMultiple'])->name('paid_multiple');
+        Route::get('/export-excel', [TeknisiKomisiController::class, 'exportExcel'])->name('export_excel');
     });
 
 

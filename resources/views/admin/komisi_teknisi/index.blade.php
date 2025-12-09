@@ -35,9 +35,11 @@
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
 
-                                <a href="#" class="btn btn-outline-success mb-3">
-                                    Download Excel
-                                </a>
+                                <form action="{{ route('admin.komisi_teknisi.export_excel') }}" method="GET">
+                                    <button type="submit" class="btn btn-outline-success mb-3">
+                                        <i class="bx bx-download"></i> Download Excel
+                                    </button>
+                                </form>
                                 <a href="{{ route('admin.komisi_teknisi.paidList') }}" class="btn btn-outline-primary mb-3">Daftar History</a>
 
                             </div>
