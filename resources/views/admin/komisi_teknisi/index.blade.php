@@ -123,7 +123,7 @@
                                                 </td>
                                                 <td>
                                                     Rp {{ number_format($row['fee'] ?? 0, 0, ',', '.') }}<br>
-                                                    <span class="badge bg-primary">Belum Dibayar</span>
+                                                    <span class="badge bg-secondary">Belum Dibayar</span>
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($row['updated_at'])->format('d/m/Y H:i') }} WIB</td>
                                             </tr>

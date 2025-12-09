@@ -34,16 +34,10 @@
 
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
-                                <button type="button" id="submit-multiple" class="btn btn-primary mb-3">
-                                    Tandai Dibayar
-                                </button>
 
                                 <a href="{{ route('admin.komisi_sales.export_excel') }}" class="btn btn-outline-success mb-3">
                                     Download Excel
                                 </a>
-
-
-
                                 <a href="{{ route('admin.komisi_sales.paidList') }}" class="btn btn-outline-primary mb-3">Daftar History</a>
 
                             </div>
@@ -93,11 +87,19 @@
                             </div>
                         </form>
 
-                        <div class="card">
-                            <h5 class="card-header">Data Pelanggan</h5>
-                            <div class="table-responsive text-nowrap">
-                                <form id="form-paid-multiple" action="{{ route('admin.komisi_sales.paid_multiple') }}" method="POST" onsubmit="return confirm('Tandai semua data yang dipilih sebagai sudah dibayar?')">
-                                    @csrf
+                        <form id="form-paid-multiple" action="{{ route('admin.komisi_sales.paid_multiple') }}" method="POST">
+                            @csrf
+
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Data Komisi Sales</h5>
+                                    <button type="submit" id="submit-multiple" class="btn btn-sm btn-primary">
+                                        Tandai Dibayar
+                                    </button>
+
+                                </div>
+
+                                <div class="table-responsive text-nowrap">
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
@@ -112,61 +114,34 @@
                                         <tbody class="table-border-bottom-0">
                                             @forelse($data as $item)
                                             <tr>
+                                                <td><input type="checkbox" name="selected_ids[]" value="{{ $item->id }}"></td>
                                                 <td>
-                                                    <label>
-                                                        <input type="checkbox" name="selected_ids[]" value="{{ $item->id }}">
-                                                    </label>
-                                                </td>
-
-
-                                                <td>
-                                                    <div class="d-flex flex-wrap align-items-center mb-50">
-                                                        <div>
-                                                            <p class="mb-0 small fw-medium">
-                                                                <a href="{{ route('admin.sales.edit', $item->id) }}">
-                                                                    {{ $item->nama }}
-                                                                </a>
-                                                            </p>
-                                                            <small>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }} WIB</small>
-                                                        </div>
-                                                    </div>
+                                                    <p class="mb-0 small fw-medium">
+                                                        <a href="{{ route('admin.sales.edit', $item->id) }}">
+                                                            {{ $item->nama }}
+                                                        </a>
+                                                    </p>
+                                                    <small>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }} WIB</small>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex flex-wrap align-items-center mb-50">
-                                                        <div>
-                                                            <p class="mb-0 small fw-medium">
-                                                                <a href="#">
-                                                                    {{ $item->user->name ?? '-' }}
-                                                                </a>
-                                                            </p>
-                                                            <small>{{ $item->user->role ?? '-' }}</small>
-                                                        </div>
-                                                    </div>
+                                                    <p class="mb-0 small fw-medium">{{ $item->user->name ?? '-' }}</p>
+                                                    <small>{{ $item->user->role ?? '-' }}</small>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex flex-wrap align-items-center mb-50">
-                                                        <div>
-                                                            <p class="mb-0 small fw-medium">
-                                                                {{ $item->paket->nama_paket ?? '-' }}
-                                                            </p>
-                                                            <small>Rp {{ number_format($item->paket->harga, 0, ',', '.') }}
-                                                            </small>
-                                                        </div>
-                                                    </div>
+                                                    <p class="mb-0 small fw-medium">{{ $item->paket->nama_paket ?? '-' }}</p>
+                                                    <small>Rp {{ number_format($item->paket->harga, 0, ',', '.') }}</small>
                                                 </td>
-
                                                 <td>
-                                                    <div class="d-flex flex-wrap align-items-center mb-50">
-                                                        <div>
-                                                            <p class="mb-0 small fw-medium">
-                                                                {{ ucfirst($item->status) }}
-                                                            </p>
-                                                            <small>Fee: Rp {{ number_format($item->fee, 0, ',', '.') }}
-                                                            </small>
-                                                        </div>
-                                                    </div>
+                                                    <p class="mb-0 small fw-medium">{{ ucfirst($item->status) }}</p>
+                                                    <small>Fee: Rp {{ number_format($item->fee, 0, ',', '.') }}</small>
                                                 </td>
-                                                <td>{{ $item->fee_paid ? 'Ya' : 'Belum' }}</td>
+                                                <td>
+                                                    @if($item->fee_paid)
+                                                    <span class="badge bg-primary">Ya</span>
+                                                    @else
+                                                    <span class="badge bg-secondary">Belum</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                             @empty
                                             <tr>
@@ -174,39 +149,39 @@
                                             </tr>
                                             @endforelse
                                         </tbody>
-
                                     </table>
-
-                                </form>
-
-                                <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                    {{-- Links pagination --}}
-                                    {{ $data->links() }}
                                 </div>
-                            </div>
+                            </div> <!-- ❗️ Penutup card -->
+                        </form> <!-- ✅ Penutup form di sini -->
 
+
+                        <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            {{ $data->links() }}
                         </div>
-
                     </div>
-                    <!-- / Content -->
-
-                    <div class="content-backdrop fade"></div>
                 </div>
-                <!-- Content wrapper -->
+
+
             </div>
-            <!-- / Layout page -->
+            <!-- / Content -->
+
+            <div class="content-backdrop fade"></div>
         </div>
+        <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+    </div>
 
-        <!-- Overlay -->
-        <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
 
-        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-        <div class="drag-target"></div>
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
     </div>
     <!-- / Layout wrapper -->
 
     @include('template.footer')
-    <script>
+    <!-- <script>
         document.getElementById('select-all').addEventListener('change', function(e) {
             const checkboxes = document.querySelectorAll('input[name="selected_ids[]"]');
 
@@ -217,9 +192,9 @@
                 cb.dispatchEvent(new Event('change'));
             });
         });
-    </script>
+    </script> -->
 
-    <script>
+    <!-- <script>
         // Submit form dari tombol luar
         document.getElementById('submit-multiple').addEventListener('click', function() {
             const selected = document.querySelectorAll('input[name="selected_ids[]"]:checked');
@@ -234,6 +209,25 @@
         });
 
         // Select all
+        document.getElementById('select-all').addEventListener('change', function(e) {
+            const checkboxes = document.querySelectorAll('input[name="selected_ids[]"]');
+            checkboxes.forEach(cb => cb.checked = e.target.checked);
+        });
+    </script> -->
+
+    <script>
+        document.getElementById('submit-multiple').addEventListener('click', function() {
+            const selected = document.querySelectorAll('input[name="selected_ids[]"]:checked');
+            if (selected.length === 0) {
+                alert('Tidak ada data yang dipilih.');
+                return;
+            }
+
+            if (confirm('Tandai semua data yang dipilih sebagai sudah dibayar?')) {
+                document.getElementById('form-paid-multiple').submit();
+            }
+        });
+
         document.getElementById('select-all').addEventListener('change', function(e) {
             const checkboxes = document.querySelectorAll('input[name="selected_ids[]"]');
             checkboxes.forEach(cb => cb.checked = e.target.checked);
