@@ -139,6 +139,10 @@
                                                 <dd class="col-sm-9">Rp {{ number_format($item->amount, 0, ',', '.') }}</dd>
                                                 <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Periode</dt>
                                                 <dd class="col-sm-9">{{ $item->billing_cycle->format('m/Y') }}</dd>
+                                                <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Denda</dt>
+                                                <dd class="col-sm-9">Rp {{ number_format($item->denda, 0, ',', '.') }}</dd>
+                                                <dt class="col-sm-3 mb-sm-2 text-nowrap fw-medium text-heading">Discount</dt>
+                                                <dd class="col-sm-9">Rp {{ number_format($item->discount, 0, ',', '.') }}</dd>
                                             </dl>
 
                                             @empty

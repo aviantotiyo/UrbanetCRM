@@ -2,6 +2,7 @@
 
 // Kirim pesan Inactive
 // ambil setidaknya satu bulan lalu
+// Tanggal pembuatan billing (billing_create) lebih lama dari awal bulan ini.
 
 
 namespace App\Console\Commands;

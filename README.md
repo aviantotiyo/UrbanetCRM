@@ -99,9 +99,14 @@ Table Mutasi Bank Manual
 
 Tiket dan gangguan
 
--   hitungan fee instalasi
--   hitungan fee gangguan
--   hitungan ketika perlu ada beberapa teknisi
+-   hitungan fee instalasi (v -done)
+-   hitungan fee gangguan (v -done)
+-   hitungan ketika perlu ada beberapa teknisi (v -done)
+
+========================================================
+tanggal 5-30 Isolir
+tanggal 1-30 Suspend
+tanggal 1 inactive
 
 # masih adakesalahan form di edit dari form online registrasi
 
