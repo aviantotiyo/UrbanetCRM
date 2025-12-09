@@ -55,7 +55,7 @@ use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
 
 use App\Http\Controllers\Komisi\SalesKomisiController;
-
+use App\Http\Controllers\Komisi\TeknisiKomisiController;
 
 
 // Public (no auth)
@@ -277,6 +277,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/paid/{id}', [SalesKomisiController::class, 'markAsPaid'])->name('paid');
         Route::post('/paid-multiple', [SalesKomisiController::class, 'markAsPaidMultiple'])->name('paid_multiple');
         Route::get('/export-excel', [SalesKomisiController::class, 'exportExcel'])->name('export_excel');
+    });
+
+    // ===== Komisi Teknisi  =====
+
+    Route::prefix('dashboard/komisi-teknisi')->name('komisi_teknisi.')->group(function () {
+        Route::get('/', [TeknisiKomisiController::class, 'index'])->name('index');
+        Route::get('/paid-list', [TeknisiKomisiController::class, 'paidList'])->name('paidList');
+        Route::post('/paid-multiple', [TeknisiKomisiController::class, 'markAsPaidMultiple'])->name('paid_multiple');
     });
 
 

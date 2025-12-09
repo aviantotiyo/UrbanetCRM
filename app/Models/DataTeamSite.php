@@ -42,6 +42,16 @@ class DataTeamSite extends Model
         return $this->belongsTo(User::class, 'users_id');
     }
 
+    public function user2()
+    {
+        return $this->belongsTo(User::class, 'users_id_2');
+    }
+
+    public function user3()
+    {
+        return $this->belongsTo(User::class, 'users_id_3');
+    }
+
     /**
      * Relasi ke DataTicketHc
      */
