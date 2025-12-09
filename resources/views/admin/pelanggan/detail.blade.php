@@ -1,4 +1,4 @@
-@section('title', 'Detail Planggan Pelanggan')
+@section('title', 'Detail Data Pelanggan')
 @include('template.head')
 
 </head>

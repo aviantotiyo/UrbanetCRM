@@ -123,10 +123,7 @@
                                 <h5 class="mb-0 me-2">Data Tagihan Pelanggan</h5>
 
                                 <div class="card-header-elements ms-auto">
-                                    <form method="GET" action="{{ route('admin.billing.index') }}" class="mb-3">
-                                        <input type="text" name="q" class="form-control" placeholder="Cari nama, NoPel, atau No HP"
-                                            value="{{ request('q') }}">
-                                    </form>
+
                                 </div>
                             </div>
                             <div class="card-body">
