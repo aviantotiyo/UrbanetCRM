@@ -294,6 +294,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // ===== Komisi Mitra  =====
     Route::prefix('dashboard/komisi-mitra')->name('komisi_mitra.')->group(function () {
         Route::get('/', [PartnerKomisiController::class, 'index'])->name('index');
+        Route::get('/paid-list', [PartnerKomisiController::class, 'paidList'])->name('paidList');
+        Route::post('/paid-multiple', [PartnerKomisiController::class, 'markAsPaidMultiple'])->name('paid_multiple');
     });
 
     // ===== Referral  =====

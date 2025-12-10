@@ -38,7 +38,7 @@
                                 <a href="#" class="btn btn-outline-success mb-3">
                                     Download Excel
                                 </a>
-                                <a href="#" class="btn btn-outline-primary mb-3">Daftar History</a>
+                                <a href="{{ route('admin.komisi_mitra.paidList') }}" class="btn btn-outline-primary mb-3">Daftar History</a>
 
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                             </div>
                         </form>
 
-                        <form id="form-paid-multiple" action="#" method="POST">
+                        <form id="form-paid-multiple" action="{{ route('admin.komisi_mitra.paid_multiple') }}" method="POST">
                             @csrf
 
                             <div class="card">
