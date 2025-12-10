@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\DataClientsPartner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Exports\KomisiPartnerExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PartnerKomisiController extends Controller
 {
@@ -44,5 +46,10 @@ class PartnerKomisiController extends Controller
             ]);
 
         return redirect()->route('admin.komisi_mitra.paidList')->with('success', 'Komisi mitra berhasil ditandai sebagai sudah dibayar.');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new KomisiPartnerExport, 'komisi-mitra-paid.xlsx');
     }
 }

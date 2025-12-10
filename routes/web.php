@@ -296,6 +296,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [PartnerKomisiController::class, 'index'])->name('index');
         Route::get('/paid-list', [PartnerKomisiController::class, 'paidList'])->name('paidList');
         Route::post('/paid-multiple', [PartnerKomisiController::class, 'markAsPaidMultiple'])->name('paid_multiple');
+        Route::get('/export-excel', [PartnerKomisiController::class, 'exportExcel'])->name('export_excel');
     });
 
     // ===== Referral  =====

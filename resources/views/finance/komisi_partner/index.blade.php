@@ -35,7 +35,7 @@
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
 
-                                <a href="#" class="btn btn-outline-success mb-3">
+                                <a href="{{ route('admin.komisi_mitra.export_excel') }}" class="btn btn-outline-success mb-3">
                                     Download Excel
                                 </a>
                                 <a href="{{ route('admin.komisi_mitra.paidList') }}" class="btn btn-outline-primary mb-3">Daftar History</a>
