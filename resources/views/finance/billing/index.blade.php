@@ -141,8 +141,6 @@
                                                 <th>Tagihan</th>
                                                 <th>Lainnya</th>
                                                 <th>Periode</th>
-                                                <th>user</th>
-                                                <th>Status</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -155,14 +153,19 @@
                                                         <div>
                                                             <p class="mb-0 small fw-medium"><a href="{{ route('admin.billing.detail', $billing->id) }}">
                                                                     {{ $billing->merchant_ref }}</a></p>
-                                                            <small>{{ \Carbon\Carbon::parse($billing->created_at)->format('d/m/Y') }}</small>
+                                                            <small>
+                                                                <span class="badge rounded-pill {{ $billing->client->status === 'active' ? 'text-bg-primary' : 'text-bg-secondary' }}">
+                                                                    {{ $billing->client->status }}
+                                                                </span></small>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex flex-wrap align-items-center mb-50">
                                                         <div>
-                                                            <p class="mb-0 small fw-medium">{{ $billing->client->nama ?? '-' }}</p>
+                                                            <p class="mb-0 small fw-medium">
+                                                                <a href="{{ route('admin.pelanggan.show',  $billing->client->id) }}">{{ $billing->client->nama ?? '-' }}</a>
+                                                            </p>
                                                             <small>{{ $billing->client->nopel ?? '-' }}</small>
                                                         </div>
                                                     </div>
@@ -183,17 +186,18 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</td>
                                                 <td>
-                                                    <span class="badge rounded-pill {{ $billing->client->status === 'active' ? 'bg-label-primary' : 'bg-label-secondary' }}">
-                                                        {{ $billing->client->status }}
-                                                    </span>
+                                                    <div class="d-flex flex-wrap align-items-center mb-50">
+                                                        <div>
+                                                            <p class="mb-0 small fw-medium">Periode: {{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</p>
+                                                            <small>Status: <span class="badge rounded-pill {{ $billing->status === 'PAID' ? 'text-bg-success' : 'text-bg-secondary' }}">
+                                                                    {{ $billing->status }}
+                                                                </span>
+                                                            </small>
+                                                        </div>
+                                                    </div>
                                                 </td>
-                                                <td>
-                                                    <span class="badge rounded-pill {{ $billing->status === 'PAID' ? 'text-bg-success' : 'text-bg-secondary' }}">
-                                                        {{ $billing->status }}
-                                                    </span>
-                                                </td>
+
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="dropdown">
