@@ -155,7 +155,7 @@
                                                         <div>
                                                             <p class="mb-0 small fw-medium"><a href="{{ route('admin.billing.detail', $billing->id) }}">
                                                                     {{ $billing->merchant_ref }}</a></p>
-                                                            <small>Periode: {{ \Carbon\Carbon::parse($billing->created_at)->format('m/Y') }}</small>
+                                                            <small>{{ \Carbon\Carbon::parse($billing->created_at)->format('d/m/Y') }}</small>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -185,11 +185,15 @@
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</td>
                                                 <td>
-                                                    <span class="badge {{ $billing->client->status === 'active' ? 'text-bg-primary' : 'text-bg-secondary' }}">
+                                                    <span class="badge rounded-pill {{ $billing->client->status === 'active' ? 'bg-label-primary' : 'bg-label-secondary' }}">
                                                         {{ $billing->client->status }}
                                                     </span>
                                                 </td>
-                                                <td>{{ $billing->status }}</td>
+                                                <td>
+                                                    <span class="badge rounded-pill {{ $billing->status === 'PAID' ? 'text-bg-success' : 'text-bg-secondary' }}">
+                                                        {{ $billing->status }}
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="dropdown">

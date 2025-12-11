@@ -112,7 +112,12 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="text-muted small">Status</div>
-                                                <div class="fw-semibold">{{ $billing->status }}</div>
+                                                <div class="fw-semibold">
+                                                    <span class="badge rounded-pill {{ $billing->status === 'PAID' ? 'bg-label-primary' : 'bg-label-secondary' }}">
+                                                        {{ $billing->status }}
+                                                    </span>
+                                                    {{ $billing->billing_paid ? \Carbon\Carbon::parse($billing->billing_paid)->format('d/m/Y H:i') . ' WIB' : '' }}
+                                                </div>
                                             </div>
                                         </div>
                                         <hr class="mb-3">

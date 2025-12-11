@@ -55,7 +55,7 @@ class BillingController extends Controller
 
 
 
-        $billings = $query->latest()->paginate(10)->withQueryString();
+        $billings = $query->latest()->paginate(20)->withQueryString();
 
         return view('finance.billing.index', compact('billings'));
     }
