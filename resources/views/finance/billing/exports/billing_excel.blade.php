@@ -2,9 +2,8 @@
     <thead>
         <tr>
             <th>Invoice</th>
-            <th>Nama</th>
             <th>NoPel</th>
-            <th>No HP</th>
+            <th>Nama</th>
             <th>Item</th>
             <th>Harga</th>
             <th>Denda</th>
@@ -29,9 +28,8 @@
         @foreach($billing->items as $item)
         <tr>
             <td>{{ $billing->merchant_ref }}</td>
-            <td>{{ $billing->client->nama ?? '-' }}</td>
             <td>{{ $billing->client->nopel ?? '-' }}</td>
-            <td>{{ $billing->client->no_hp ?? '-' }}</td>
+            <td>{{ $billing->client->nama ?? '-' }}</td>
             <td>{{ $item->name }}</td>
             <td>{{ $item->amount }}</td>
             <td>{{ $item->denda }}</td>
