@@ -64,7 +64,7 @@
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.billing.index') ? 'active' : '' }}">
+                <li class="menu-item {{ request()->routeIs('admin.billing.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.billing.index') }}" class="menu-link">
                         <div data-i18n="Tagihan Pelanggan">Tagihan Pelanggan</div>
                     </a>
@@ -76,7 +76,7 @@
         <li class="menu-item {{ request()->routeIs('admin.komisi_sales.*', 'admin.komisi_teknisi.*', 'admin.komisi_mitra.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-checkup-list"></i>
-                <div data-i18n="Laporan Komisi">Laporan Komisi</div>
+                <div data-i18n="Laporan Keuangan">Laporan Keuangan</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.komisi_sales.*') ? 'active' : '' }}">
