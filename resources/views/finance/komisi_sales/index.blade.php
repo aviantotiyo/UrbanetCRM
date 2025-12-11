@@ -36,7 +36,7 @@
                             <div class="d-flex align-content-center flex-wrap gap-2">
 
                                 <a href="{{ route('admin.komisi_sales.export_excel') }}" class="btn btn-outline-success mb-3">
-                                    Download Excel
+                                    <i class="ti ti-download me-1"></i> Download Excel
                                 </a>
                                 <a href="{{ route('admin.komisi_sales.paidList') }}" class="btn btn-outline-primary mb-3">Daftar History</a>
 
