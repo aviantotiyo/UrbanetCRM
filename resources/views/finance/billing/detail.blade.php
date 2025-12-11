@@ -34,8 +34,33 @@
 
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
-                                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
                                 <a href="{{ route('admin.billing.index') }}" class="btn btn-outline-primary">← Kembali</a>
+
+                                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
+                                @auth
+                                @if(in_array(auth()->user()->role, ['Admin', 'Finance']))
+                                @if($billing->status === 'UNPAID')
+                                <a href="{{ route('admin.billing.pay', $billing->id) }}"
+                                    onclick="return confirm('Tandai tagihan ini sebagai sudah dibayar secara manual?')"
+                                    class="btn btn-outline-success">
+                                    Tandai Lunas
+                                </a>
+                                @endif
+
+                                <form action="{{ route('admin.billing.soft_delete', $billing->id) }}" method="POST"
+                                    onsubmit="return confirm('Yakin ingin menghapus sementara tagihan ini?');">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    @if($billing->status !== 'PAID')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="ti ti-trash me-1"></i> Hapus
+                                    </button>
+                                    @endif
+                                </form>
+                                @endif
+                                @endauth
+
 
                             </div>
                         </div>

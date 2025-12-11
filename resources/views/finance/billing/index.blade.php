@@ -40,6 +40,11 @@
 
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
+                                <a href="{{ route('admin.billing.export_excel', request()->query()) }}"
+                                    class="btn btn-outline-success mb-3">
+                                    <i class="ti ti-download me-1"></i> Export ke Excel
+                                </a>
+
                                 <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
                                 <!-- <a href="{{ route('admin.pelanggan.create') }}" class="btn btn-outline-primary">Tambah Pelanggan</a> -->
                             </div>
@@ -133,10 +138,9 @@
                                             <tr>
                                                 <th>Inv</th>
                                                 <th>NoPel</th>
-                                                <th>Nama Tagihan</th>
-                                                <th>Total</th>
-                                                <th>Denda</th>
                                                 <th>Tagihan</th>
+                                                <th>Lainnya</th>
+                                                <th>Periode</th>
                                                 <th>user</th>
                                                 <th>Status</th>
                                                 <th>Aksi</th>
@@ -163,9 +167,22 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>{{ $item->name ?? '-' }}</td>
-                                                <td>Rp {{ number_format((float) $item->amount, 0, ',', '.') }}</td>
-                                                <td>Rp {{ number_format((float) $item->denda, 0, ',', '.') }}</td>
+                                                <td>
+                                                    <div class="d-flex flex-wrap align-items-center mb-50">
+                                                        <div>
+                                                            <p class="mb-0 small fw-medium">{{ $item->name ?? '-' }}</p>
+                                                            <small>Tagihan: Rp {{ number_format((float) $item->amount, 0, ',', '.') }}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex flex-wrap align-items-center mb-50">
+                                                        <div>
+                                                            <p class="mb-0 small fw-medium">Denda: Rp {{ number_format((float) $item->denda, 0, ',', '.') }}</p>
+                                                            <small>Discount: Rp {{ number_format((float) $item->discount, 0, ',', '.') }}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td>{{ \Carbon\Carbon::parse($item->billing_cycle)->format('m/Y') }}</td>
                                                 <td>
                                                     <span class="badge {{ $billing->client->status === 'active' ? 'text-bg-primary' : 'text-bg-secondary' }}">
@@ -186,28 +203,6 @@
                                                                 <a class="dropdown-item" href="{{ route('admin.pelanggan.show',  $billing->client->id) }}">
                                                                     <i class="ti ti-user me-1"></i> Detail User
                                                                 </a>
-
-                                                                @auth
-                                                                @if(in_array(auth()->user()->role, ['Admin', 'Finance']))
-                                                                @if($billing->status === 'UNPAID')
-                                                                <a class="dropdown-item text-success"
-                                                                    href="{{ route('admin.billing.pay', $billing->id) }}"
-                                                                    onclick="return confirm('Tandai tagihan ini sebagai sudah dibayar secara manual?')">
-                                                                    <i class="ti ti-check me-1"></i> Bayar
-                                                                </a>
-                                                                @endif
-
-                                                                {{-- Tombol Soft Delete --}}
-                                                                <form action="{{ route('admin.billing.soft_delete', $billing->id) }}" method="POST"
-                                                                    onsubmit="return confirm('Yakin ingin menghapus sementara tagihan ini?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="dropdown-item text-danger">
-                                                                        <i class="ti ti-trash me-1"></i> Hapus
-                                                                    </button>
-                                                                </form>
-                                                                @endif
-                                                                @endauth
                                                             </div>
                                                         </div>
                                                     </div>

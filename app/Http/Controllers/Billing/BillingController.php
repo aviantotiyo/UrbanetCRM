@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\DataBillingLog;
 use App\Models\DataBilling;
 use Illuminate\Http\Request;
+use App\Exports\BillingExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BillingController extends Controller
 {
@@ -84,5 +86,10 @@ class BillingController extends Controller
         return redirect()
             ->route('admin.billing.index')
             ->with('success', 'Tagihan telah dihapus.');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(new BillingExport($request), 'billing-export.xlsx');
     }
 }

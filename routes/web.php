@@ -215,6 +215,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->name('billing.')
         ->middleware(['auth', 'role:Admin,Finance,CustomerCare'])
         ->group(function () {
+            Route::get('/export-excel', [BillingController::class, 'exportExcel'])->name('export_excel'); // ⬅️ Tambahan ini
             Route::get('/', [BillingController::class, 'index'])->name('index');
             Route::get('/{id}', [BillingController::class, 'detail'])->name('detail');
         });

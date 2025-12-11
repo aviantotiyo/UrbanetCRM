@@ -57,7 +57,8 @@ NIK, no hp belum ada pengecekan di semua data pelanggan DataClient, DataClientsR
 selectpayment ada error. JS nya tidak menghitung angka akhirnya (V-done)
 
 backend:
-CSR list tidak di pungut ke billing. di buatkan odp port list
+CSR list tidak di pungut ke billing. di buatkan odp port list (v-done)
+CSR PPPoE belum konek ke radius
 
 sales app
 
