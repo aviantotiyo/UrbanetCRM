@@ -5,7 +5,7 @@
             <th>NoPel</th>
             <th>Nama</th>
             <th>Item</th>
-            <th>Harga</th>
+            <th>Tagihan</th>
             <th>Denda</th>
             <th>Diskon</th>
             <th>Payment Method</th>
