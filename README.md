@@ -108,6 +108,9 @@ Tiket dan gangguan
 tanggal 5-30 Isolir
 tanggal 1-30 Suspend
 tanggal 1 inactive di awal bulan berikutnya
+========================================================
+==> Pengecekan radius dengan kondisi status user saat payment.
+========================================================
 
 # masih adakesalahan form di edit dari form online registrasi
 

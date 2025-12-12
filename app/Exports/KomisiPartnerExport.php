@@ -17,6 +17,9 @@ class KomisiPartnerExport implements FromCollection, WithHeadings
             ->map(function ($item) {
                 return [
                     'Nama Mitra'    => $item->partner->nama_partner ?? '-',
+                    'Bank Mitra'    => $item->partner->bank_name ?? '-',
+                    'Rekening Mitra'    => $item->partner->bank_account ?? '-',
+                    'Bank PIC'      => $item->partner->bank_pic ?? '-',
                     'Pelanggan'     => $item->nama ?? '-',
                     'No HP'         => $item->no_hp ?? '-',
                     'Alamat'        => $item->alamat ?? '-',
@@ -33,6 +36,9 @@ class KomisiPartnerExport implements FromCollection, WithHeadings
     {
         return [
             'Nama Mitra',
+            'Bank Mitra',
+            'Rekening Mitra',
+            'Bank PIC',
             'Pelanggan',
             'No HP',
             'Alamat',
