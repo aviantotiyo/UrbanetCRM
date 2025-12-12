@@ -105,28 +105,7 @@
         @endauth
 
 
-        @auth
-        @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'Sales', 'Installer', 'AdminCust']))
-        <li class="menu-header small">
-            <span class="menu-header-text" data-i18n="Sales Admin">Sales Admin</span>
-        </li>
 
-        <li class="menu-item {{ request()->routeIs('admin.sales.*') ? 'active open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-align-box-bottom-right"></i>
-                <div data-i18n="Sales Report">Sales Report</div>
-            </a>
-
-            <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.sales.index') ? 'active' : '' }}">
-                    <a href="{{ route('admin.sales.index') }}" class="menu-link">
-                        <div data-i18n="Data Pelanggan">Data Pelanggan</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        @endif
-        @endauth
 
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="Pelanggan & Pelaporan">Pelanggan &amp; Pelaporan</span>
@@ -156,11 +135,6 @@
 
                 @auth
                 @if(in_array(auth()->user()->role, ['Admin', 'NOC', 'CustomerCare', 'Finance']))
-                <!-- <li class="menu-item {{ request()->routeIs('admin.pelanggan.create') ? 'active' : '' }}">
-                    <a href="{{ route('admin.pelanggan.create') }}" class="menu-link">
-                        <div data-i18n="Tambah Pelanggan">Tambah Pelanggan</div>
-                    </a>
-                </li> -->
 
                 <li class="menu-item {{ request()->routeIs('admin.userregist.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.userregist.index') }}" class="menu-link">
@@ -194,10 +168,6 @@
                 <li class="menu-item {{ request()->routeIs('admin.pelanggan_csr.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.pelanggan_csr.index') }}" class="menu-link">
                         <div data-i18n="Pelanggan CSR">Pelanggan CSR</div>
-                        <!-- @if ($pending_cust_mitra > 0)
-                        <div class="badge bg-primary rounded-pill ms-auto">{{ $pending_cust_mitra }}</div>
-                        @endif -->
-
                     </a>
                 </li>
                 @endif
@@ -210,7 +180,7 @@
             <a href="javascript:void(0);" class="menu-link menu-toggle d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
                     <i class="menu-icon tf-icons ti ti-messages me-2"></i>
-                    <div data-i18n="Pelaporan">Pelaporan</div>
+                    <div data-i18n="Ticket Support">Ticket Support</div>
                 </div>
                 @if ($jumlah_ticket_open > 0 || $jumlah_ticket_hc_open > 0 )
                 <span class="badge badge-center rounded-pill bg-primary">
@@ -240,7 +210,28 @@
             </ul>
         </li>
 
+        @auth
+        @if(in_array(auth()->user()->role, ['Admin', 'Finance', 'Sales', 'Installer', 'AdminCust']))
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="Sales Admin">Sales Admin</span>
+        </li>
 
+        <li class="menu-item {{ request()->routeIs('admin.sales.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-align-box-bottom-right"></i>
+                <div data-i18n="Sales Report">Sales Report</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.sales.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.sales.index') }}" class="menu-link">
+                        <div data-i18n="Data Pelanggan">Data Pelanggan</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @endif
+        @endauth
 
         <!-- Apps & Pages -->
         <li class="menu-header small">
