@@ -64,6 +64,20 @@ return [
             ]) : [],
         ],
 
+        'warehouse' => [
+            'driver' => 'mysql',
+            'host' => env('DB_WAREHOUSE_HOST', '127.0.0.1'),
+            'port' => env('DB_WAREHOUSE_PORT', '3306'),
+            'database' => env('DB_WAREHOUSE_DATABASE', 'warehouse'),
+            'username' => env('DB_WAREHOUSE_USERNAME', 'root'),
+            'password' => env('DB_WAREHOUSE_PASSWORD', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         // config/database.php
 
         'radius' => [

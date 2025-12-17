@@ -58,7 +58,7 @@ use App\Http\Controllers\Komisi\SalesKomisiController;
 use App\Http\Controllers\Komisi\TeknisiKomisiController;
 use App\Http\Controllers\Komisi\PartnerKomisiController;
 
-
+use App\Http\Controllers\Warehouse\DataWarehouse\DataWarehouseController;
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -333,6 +333,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/edit/{id}', [SalesController::class, 'update'])->name('update');
     });
 
+    // ===== Warehouse  =====
+    Route::prefix('dashboard/warehouse')->name('dashboard_warehouse.')->group(function () {
+        Route::get('/', [DataWarehouseController::class, 'index'])->name('index');
+        Route::get('/tambah', [DataWarehouseController::class, 'create'])->name('create');
+        Route::post('/tambah', [DataWarehouseController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [DataWarehouseController::class, 'edit'])->name('edit');
+        Route::post('/edit/{id}', [DataWarehouseController::class, 'update'])->name('update');
+    });
 
     // ===== data Prospek dari Mitra  =====
     Route::prefix('dashboard/list-prospek-mitra')
