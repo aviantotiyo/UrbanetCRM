@@ -83,7 +83,7 @@
                                             <td>{{ $gudang->lokasi ?? '-' }}</td>
                                             <td>{{ ucfirst($gudang->jenis) }}</td>
                                             <td>
-                                                <a href="{{ route('admin.dashboard_warehouse.edit', $gudang->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                                <a href="{{ route('admin.dashboard_warehouse.edit', $gudang->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                             </td>
 
                                         </tr>

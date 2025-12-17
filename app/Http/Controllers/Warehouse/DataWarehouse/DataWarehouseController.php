@@ -70,14 +70,12 @@ class DataWarehouseController extends Controller
         $gudang = DataWarehouse::findOrFail($id);
 
         $request->validate([
-            'kode_gudang' => 'required|string|unique:warehouse.data_warehouses,kode_gudang,' . $gudang->id . ',id',
             'nama_gudang' => 'required|string',
             'lokasi'      => 'nullable|string',
             'jenis'       => 'required|in:internal,personal',
         ]);
 
         $gudang->update([
-            'kode_gudang' => $request->kode_gudang,
             'nama_gudang' => $request->nama_gudang,
             'lokasi'      => $request->lokasi,
             'jenis'       => $request->jenis,
