@@ -59,6 +59,8 @@ use App\Http\Controllers\Komisi\TeknisiKomisiController;
 use App\Http\Controllers\Komisi\PartnerKomisiController;
 
 use App\Http\Controllers\Warehouse\DataWarehouse\DataWarehouseController;
+use App\Http\Controllers\Warehouse\Category\CategoryController;
+
 
 // Public (no auth)
 Route::redirect('/', '/admin/login');
@@ -340,6 +342,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/tambah', [DataWarehouseController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [DataWarehouseController::class, 'edit'])->name('edit');
         Route::post('/edit/{id}', [DataWarehouseController::class, 'update'])->name('update');
+    });
+
+    // ===== Categories Warehouse  =====
+    Route::prefix('dashboard/warehouse-category')->name('warehouse_category.')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/tambah', [CategoryController::class, 'create'])->name('create');
+        Route::post('/tambah', [CategoryController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
+        Route::post('/edit/{id}', [CategoryController::class, 'update'])->name('update');
     });
 
     // ===== data Prospek dari Mitra  =====

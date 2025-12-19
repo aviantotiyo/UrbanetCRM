@@ -342,7 +342,58 @@
         </li>
         @endif
         @endauth
-        <!-- Apps & Pages -->
+
+        <li class="menu-header small">
+            <span class="menu-header-text" data-i18n="Gudang & Persediaan">Gudang & Persediaan</span>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.dashboard_warehouse.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-building"></i>
+                <div data-i18n="Gudang">Gudang</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.dashboard_warehouse.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard_warehouse.index') }}" class="menu-link">
+                        <div data-i18n="Lokasi Gudang">Lokasi Gudang</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('admin.dashboard_warehouse.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard_warehouse.create') }}" class="menu-link">
+                        <div data-i18n="Tambah Gudang">Tambah Gudang</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-list-check"></i>
+                <div data-i18n="Persediaan">Persediaan</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Persediaan Barang">Persediaan Barang</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Mutasi Persediaan">Mutasi Persediaan</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Tambah Kategori">Tambah Kategori</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Tambah Item Barang">Tambah Item Barang</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Team & Admin -->
         @auth
         @if(auth()->user()->role === 'Admin')
         <li class="menu-header small">
