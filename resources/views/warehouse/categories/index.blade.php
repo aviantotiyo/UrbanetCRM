@@ -23,7 +23,7 @@
                 <td>{{ $kat->nama_kategori }}</td>
                 <td>{{ $kat->deskripsi }}</td>
                 <td>
-                    <a href="{{ route('warehouse_category.edit', $kat->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ route('admin.warehouse_category.edit', $kat->id) }}" class="btn btn-warning btn-sm">Edit</a>
                 </td>
             </tr>
             @endforeach
