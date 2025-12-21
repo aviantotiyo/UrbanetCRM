@@ -364,7 +364,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item  {{ request()->routeIs('admin.warehouse_category.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-list-check"></i>
                 <div data-i18n="Persediaan">Persediaan</div>
@@ -380,14 +380,14 @@
                         <div data-i18n="Mutasi Persediaan">Mutasi Persediaan</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Tambah Kategori">Tambah Kategori</div>
+                <li class="menu-item {{ request()->routeIs('admin.warehouse_category.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.warehouse_category.index') }}" class="menu-link">
+                        <div data-i18n="Kategori Barang">Kategori Barang</div>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="#" class="menu-link">
-                        <div data-i18n="Tambah Item Barang">Tambah Item Barang</div>
+                        <div data-i18n="Item Barang">Item Barang</div>
                     </a>
                 </li>
             </ul>
