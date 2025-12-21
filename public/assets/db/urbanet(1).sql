@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 03 Des 2025 pada 05.14
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Host: localhost:8889
+-- Waktu pembuatan: 21 Des 2025 pada 03.07
+-- Versi server: 5.7.39
+-- Versi PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) NOT NULL,
-  `value` mediumtext NOT NULL,
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -48,8 +48,8 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) NOT NULL,
-  `owner` varchar(255) NOT NULL,
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -60,11 +60,11 @@ CREATE TABLE `cache_locks` (
 --
 
 CREATE TABLE `data_bank_manual` (
-  `id` char(36) NOT NULL,
-  `nama_bank` varchar(255) NOT NULL,
-  `nama_pic` varchar(255) NOT NULL,
-  `no_rek` varchar(255) NOT NULL,
-  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_bank` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_pic` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_rek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -85,33 +85,33 @@ INSERT INTO `data_bank_manual` (`id`, `nama_bank`, `nama_pic`, `no_rek`, `status
 --
 
 CREATE TABLE `data_billing` (
-  `id` char(36) NOT NULL,
-  `client_id` char(36) NOT NULL,
-  `new_member` tinyint(1) NOT NULL DEFAULT 0,
-  `reference` varchar(255) DEFAULT NULL,
-  `merchant_ref` varchar(255) DEFAULT NULL,
-  `payment_method` varchar(255) DEFAULT NULL,
-  `payment_name` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `new_member` tinyint(1) NOT NULL DEFAULT '0',
+  `reference` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `merchant_ref` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `total_amount` int(11) DEFAULT NULL,
   `point` int(11) DEFAULT NULL,
-  `fee_merchant` varchar(255) DEFAULT NULL,
-  `fee_customer` varchar(255) DEFAULT NULL,
-  `amount_received` varchar(255) DEFAULT NULL,
-  `pay_code` varchar(255) DEFAULT NULL,
-  `qr_url` varchar(255) DEFAULT NULL,
-  `status` varchar(255) NOT NULL,
-  `expired_time` varchar(255) DEFAULT NULL,
-  `instructions` text DEFAULT NULL,
+  `fee_merchant` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fee_customer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `amount_received` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pay_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `qr_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expired_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instructions` text COLLATE utf8mb4_unicode_ci,
   `after_tax` int(11) DEFAULT NULL,
   `tax` int(11) DEFAULT NULL,
   `billing_create` datetime NOT NULL,
   `billing_paid` datetime DEFAULT NULL,
   `kode_unik` int(11) DEFAULT NULL,
-  `bank_name_manual` varchar(255) DEFAULT NULL,
+  `bank_name_manual` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `exp_tx_bank` datetime DEFAULT NULL,
-  `partner_id` char(36) DEFAULT NULL,
-  `bank_check` varchar(255) DEFAULT NULL,
-  `message_count` int(11) DEFAULT 0,
+  `partner_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_check` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message_count` int(11) DEFAULT '0',
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -126,9 +126,9 @@ INSERT INTO `data_billing` (`id`, `client_id`, `new_member`, `reference`, `merch
 ('019a2b69-8018-7389-991f-70072a3b5ede', '019a0a2f-3a1d-7338-8ecd-1142899e573a', 1, NULL, 'INV-49GE48RL', 'Bayar Manual', 'Bayar Manual', 19355, NULL, '0', '0', '19355', NULL, NULL, 'PAID', NULL, NULL, 17226, 2129, '2025-10-28 22:22:05', '2025-10-30 05:06:21', NULL, NULL, NULL, NULL, NULL, 0, '2025-10-29 22:46:20', '2025-10-28 15:22:05', '2025-10-29 22:46:20'),
 ('019a402d-02e8-7227-bd43-2b5b8b7d0a78', '019a3d59-f090-701a-b9b3-ebcffadda253', 1, 'DEV-T1549309449P6KUR', 'INV-83VO92FY', 'BNIVA', 'BNI Virtual Account', 257834, 2000, NULL, '4250', '253584', '565816560228638', NULL, 'UNPAID', '2025-11-19 00:45:58', '[{\"title\":\"Wondr By BNI\",\"steps\":[\"Buka Aplikasi Wondr By BNI\",\"Pilih menu <b>Virtual Account<\\/b>\",\"Pilih <b>Tujuan Baru<\\/b>\",\"Masukkan Nomor <b>Virtual Account<\\/b>\",\"Klik tombol <b>Lanjut<\\/b>\",\"Akan ditampikan detail transaksi, Pilih rekening sumber dana\",\"Klik tombol <b>Lanjut<\\/b>\",\"Pastikan semua informasi sudah sesuai kemudian klik <b>Transaksi Sekarang<\\/b>\",\"Masukan PIN Anda\",\"Transaksi selesai, simpan bukti pembayaran Anda\"]},{\"title\":\"Internet Banking\",\"steps\":[\"Login ke internet banking Bank BNI Anda\",\"Pilih menu <b>Transaksi<\\/b> lalu klik menu <b>Virtual Account Billing<\\/b>\",\"Masukkan Nomor VA (<b>565816560228638<\\/b>) lalu pilih <b>Rekening Debit<\\/b>\",\"Detail transaksi akan ditampilkan, pastikan data sudah sesuai\",\"Masukkan respon key BNI appli 2\",\"Transaksi sukses, simpan bukti transaksi Anda\"]},{\"title\":\"ATM BNI\",\"steps\":[\"Masukkan kartu Anda\",\"Pilih Bahasa\",\"Masukkan PIN ATM Anda\",\"Kemudian, pilih <b>Menu Lainnya<\\/b>\",\"Pilih <b>Transfer<\\/b> dan pilih jenis rekening yang akan digunakan (Contoh: Dari rekening Tabungan)\",\"Pilih <b>Virtual Account Billing<\\/b>. Masukkan Nomor VA (<b>565816560228638<\\/b>)\",\"Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi\",\"Konfirmasi, apabila telah selesai, lanjutkan transaksi\",\"Transaksi Anda telah selesai\"]},{\"title\":\"Mobile Banking BNI\",\"steps\":[\"Akses BNI Mobile Banking dari handphone kemudian masukkan <b>User ID dan Password<\\/b>\",\"Pilih menu <b>Transfer<\\/b>\",\"Pilih menu <b>Virtual Account Billing<\\/b> kemudian pilih rekening debet\",\"Masukkan Nomor <b>Virtual Account<\\/b>\",\"Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi\",\"Konfirmasi transaksi dan masukkan Password Transaksi\",\"Pembayaran Anda Telah Berhasil\"]}]', NULL, NULL, '2025-11-01 23:08:03', '2025-11-02 12:05:44', NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-11-01 16:08:03', '2025-11-18 00:47:00'),
 ('019a439d-9cc9-73f8-8d13-2719d923330e', '019a021c-48d4-7068-9596-04d59c9357b9', 0, NULL, 'INV-23UH56WT', 'MITRA', 'MITRA', 198895, NULL, '3500', NULL, '198834', NULL, NULL, 'UNPAID', '2025-11-15 02:52:29', NULL, 176962, 21872, '2025-10-19 15:09:54', NULL, 61, 'BCA', '2025-11-21 08:49:31', '91bacb70-4335-42ec-ac77-ad04cde78ae2', '1', 4, NULL, '2025-11-02 08:09:54', '2025-11-21 02:46:58'),
-('019a53ea-c425-7127-94a5-e995a254885c', '22253285-4362-42ff-b84d-895ee24bdc62', 1, NULL, 'INV-21VI60WT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'UNPAID', NULL, NULL, NULL, NULL, '2025-11-05 19:08:05', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-11-05 12:08:05', '2025-11-05 12:08:05'),
+('019a53ea-c425-7127-94a5-e995a254885c', '22253285-4362-42ff-b84d-895ee24bdc62', 1, NULL, 'INV-21VI60WT', NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL, 'UNPAID', NULL, NULL, NULL, NULL, '2025-11-05 19:08:05', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-11-05 12:08:05', '2025-12-11 01:55:49'),
 ('019a7116-29ae-7372-92b4-1ed6841cfa8c', '0b295ed1-dd57-482d-a438-bcfb82ff5c6e', 1, NULL, 'INV-334N87RR', 'MITRA-POINT', 'MITRA-POINT', 0, 127167, NULL, NULL, '0', NULL, NULL, 'PAID', NULL, NULL, NULL, NULL, '2025-11-11 11:04:29', '2025-11-14 07:54:35', 0, 'POINT', NULL, 'bcc3e7ff-1882-4fb2-91a5-fea47095a195', NULL, 1, NULL, '2025-11-11 04:04:29', '2025-11-14 00:54:35'),
-('019a8f3d-e633-71c6-8d21-d673c0e519b5', 'a84ccd50-71f0-4122-b0d4-c126daeb58f8', 1, NULL, 'INV-60S663EJ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'UNPAID', NULL, NULL, NULL, NULL, '2025-11-17 07:36:29', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-11-17 00:36:29', '2025-11-17 00:36:29'),
+('019a8f3d-e633-71c6-8d21-d673c0e519b5', 'a84ccd50-71f0-4122-b0d4-c126daeb58f8', 1, NULL, 'INV-60S663EJ', 'MITRA', 'MITRA', 125706, 0, '3500', NULL, '125668', NULL, NULL, 'UNPAID', NULL, NULL, 111845, 13823, '2025-11-17 07:36:29', NULL, 38, 'BCA', '2025-12-06 09:38:12', 'bcc3e7ff-1882-4fb2-91a5-fea47095a195', '1', 3, NULL, '2025-11-17 00:36:29', '2025-12-06 01:38:18'),
 ('019a99b3-d94e-7043-b703-58a8632523ab', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 1, NULL, 'INV-ILXEPK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'UNPAID', NULL, NULL, NULL, NULL, '2025-11-19 08:21:31', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-11-19 01:21:31', '2025-11-19 01:21:31');
 
 -- --------------------------------------------------------
@@ -138,10 +138,10 @@ INSERT INTO `data_billing` (`id`, `client_id`, `new_member`, `reference`, `merch
 --
 
 CREATE TABLE `data_billing_item` (
-  `id` char(36) NOT NULL,
-  `merchant_ref_id` varchar(255) DEFAULT NULL,
-  `sku` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `merchant_ref_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sku` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `amount` int(11) NOT NULL,
   `billing_cycle` datetime NOT NULL,
   `discount` int(11) DEFAULT NULL,
@@ -162,33 +162,21 @@ INSERT INTO `data_billing_item` (`id`, `merchant_ref_id`, `sku`, `name`, `amount
 ('2481d7a7-9ea1-49f2-a19a-8db749f303ff', 'INV-23UH56WT', 'home-20', 'Home 20Mbps', 150000, '2025-10-19 15:09:54', 1000, 1500, '2025-10-19 08:09:54', '2025-11-20 12:27:08', NULL),
 ('2632c0ae-e737-47a5-9b43-cac2d8cc0db6', 'INV-60S663EJ', NULL, 'Home 20Mbps', 62834, '2025-11-17 07:40:19', NULL, NULL, '2025-11-17 00:40:19', '2025-11-17 00:40:19', NULL),
 ('3408ffe9-61b3-405d-a8d3-cabf978ca61d', 'INV-610L62JU', 'home-20', 'Home 20Mbps', 14033, '2025-10-28 19:22:51', NULL, NULL, '2025-10-28 12:22:51', '2025-10-28 12:22:51', NULL),
-('3f060c5b-dc46-4be7-a2ec-277596a18db7', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 33334, '2025-11-25 01:50:20', NULL, NULL, '2025-11-24 18:50:20', '2025-11-24 18:50:20', NULL),
-('43addb3d-f7ad-4996-b69e-3518886d828a', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 46667, '2025-11-23 16:08:34', NULL, NULL, '2025-11-23 09:08:34', '2025-11-23 09:08:34', NULL),
 ('45d7a2b0-28fa-434e-bcd1-86925d3806b4', 'INV-21VI60WT', 'home-30', 'Home 30Mbps', 166667, '2025-11-05 19:08:05', NULL, NULL, '2025-11-05 12:08:05', '2025-11-05 12:08:05', NULL),
 ('47323426-1c01-4b09-9b72-72b6d047fe6e', 'INV-610L62JU', 'home-20', 'Home 20Mbps', 14033, '2025-10-28 19:31:32', NULL, NULL, '2025-10-28 12:31:32', '2025-10-28 12:31:32', NULL),
-('4fda55df-9882-4c26-b200-26dc1b050383', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 40000, '2025-11-24 08:10:45', NULL, NULL, '2025-11-24 01:10:45', '2025-11-24 01:10:45', NULL),
 ('56ab7e64-f968-4773-bf45-78b5aaf1ed87', NULL, NULL, 'Home 20Mbps', 62834, '2025-11-17 14:05:58', NULL, NULL, '2025-11-17 07:05:58', '2025-11-17 07:05:58', NULL),
 ('6ac16a0b-a1c7-4183-94ee-7188d3ad6a9c', NULL, 'home-30', 'Home 30Mbps', 200000, '2025-11-19 07:52:41', NULL, NULL, '2025-11-19 00:52:41', '2025-11-19 00:52:41', NULL),
 ('6ea9ea0a-6057-4b71-be57-c56fcabc0733', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:39:44', NULL, NULL, '2025-11-05 04:39:44', '2025-11-05 04:39:44', NULL),
-('722a0eed-ad3d-42b2-a497-7f10cc51df65', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 46667, '2025-11-23 15:52:23', NULL, NULL, '2025-11-23 08:52:23', '2025-11-23 08:52:23', NULL),
 ('72baa8ed-758f-4dd8-8170-bc00bea503b2', 'INV-49GE48RL', 'home-30', 'Home 30Mbps', 19355, '2025-10-28 22:22:05', NULL, NULL, '2025-10-28 15:22:05', '2025-10-28 15:22:05', NULL),
-('743c8595-31fa-4344-9ecc-699abfdb2241', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 40000, '2025-11-24 08:32:15', NULL, NULL, '2025-11-24 01:32:15', '2025-11-24 01:32:15', NULL),
 ('75c1b80f-faaf-4a8c-8efd-8373ac2e7027', NULL, 'home-30', 'Home 30Mbps', 200000, '2025-11-17 18:56:41', NULL, NULL, '2025-11-17 11:56:41', '2025-11-17 11:56:41', NULL),
 ('776856d3-5dcb-4787-8cff-ff9a2c062c52', NULL, 'home-20', 'Home 20Mbps', 53167, '2025-11-20 19:16:33', NULL, NULL, '2025-11-20 12:16:39', '2025-11-20 12:16:39', NULL),
-('81c41dee-aac3-45df-8296-520833356b17', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 80000, '2025-11-19 08:21:31', NULL, NULL, '2025-11-19 01:21:31', '2025-11-19 01:21:31', NULL),
 ('8966eca4-bb22-4b4d-8279-3338c57d7ed2', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:33:36', NULL, NULL, '2025-11-05 04:33:36', '2025-11-05 04:33:36', NULL),
 ('8a19aaae-849b-4f93-8343-742c809c39bf', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:49:51', NULL, NULL, '2025-11-05 04:49:51', '2025-11-05 04:49:51', NULL),
 ('8d45a48b-e44f-4e86-95ce-f5663278dd82', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 18:19:47', NULL, NULL, '2025-11-05 11:19:47', '2025-11-05 11:19:47', NULL),
 ('9233a036-64e0-4560-a52d-c349a8ae49ce', 'INV-23UH56WT', 'home-20', 'Home 20Mbps', 48334, '2025-11-20 21:54:57', NULL, NULL, '2025-11-20 14:54:57', '2025-11-20 22:29:55', NULL),
-('9a02736c-6072-4d33-b00c-a7bc84042fb4', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 46667, '2025-11-23 16:10:44', NULL, NULL, '2025-11-23 09:10:44', '2025-11-23 09:10:44', NULL),
 ('a904eca5-cd04-4bfe-a41c-8d23a2f2548b', 'INV-60S663EJ', NULL, 'Home 20Mbps', 62834, '2025-11-17 07:36:29', NULL, NULL, '2025-11-17 00:36:29', '2025-11-17 00:36:29', NULL),
-('a9f207b0-0c16-4c3c-9ee3-bcbd78da3610', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 40000, '2025-11-24 08:55:09', NULL, NULL, '2025-11-24 01:55:10', '2025-11-24 01:55:10', NULL),
-('ada0e114-82fe-4e22-9485-42c6e90fb2be', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 46667, '2025-11-23 16:01:23', NULL, NULL, '2025-11-23 09:01:23', '2025-11-23 09:01:23', NULL),
 ('afe613f5-64a2-4dad-9f12-ce6a0283589d', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:27:46', NULL, NULL, '2025-11-05 04:27:46', '2025-11-05 04:27:46', NULL),
-('b211e01e-73d5-4e36-b4a0-b3533eaac116', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 46667, '2025-11-23 16:13:23', NULL, NULL, '2025-11-23 09:13:23', '2025-11-23 09:13:23', NULL),
-('b2f000c4-ab57-4e30-a948-0d6b12ed6918', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 46667, '2025-11-23 16:05:42', NULL, NULL, '2025-11-23 09:05:42', '2025-11-23 09:05:42', NULL),
 ('bb63bb9a-c1b8-4d0c-9716-9910e2e9a506', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:52:41', NULL, NULL, '2025-11-05 04:52:41', '2025-11-05 04:52:41', NULL),
-('bfa612ce-bf86-4cb1-ba27-e9f9a53a7d10', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 40000, '2025-11-24 08:33:58', NULL, NULL, '2025-11-24 01:33:59', '2025-11-24 01:33:59', NULL),
 ('c8ba1e12-6c7b-4621-93d3-f3fc77abc727', 'INV-83VO92FY', 'home-30', 'Home 30Mbps', 193334, '2025-10-04 23:08:03', 1000, 5000, '2025-11-01 16:08:03', '2025-11-01 16:08:03', NULL),
 ('cfb1caed-039a-4fa3-a751-87057546cdd3', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:45:51', NULL, NULL, '2025-11-05 04:45:51', '2025-11-05 04:45:51', NULL),
 ('d171dcdb-daf9-477c-bf54-e2f71eee20b4', NULL, NULL, 'Home 20Mbps', 62834, '2025-11-17 14:15:46', NULL, NULL, '2025-11-17 07:15:46', '2025-11-17 07:15:46', NULL),
@@ -196,8 +184,6 @@ INSERT INTO `data_billing_item` (`id`, `merchant_ref_id`, `sku`, `name`, `amount
 ('d5594ab5-2cff-4939-bf40-aab91690d9aa', 'INV-610L62JU', 'home-20', 'Home 20Mbps', 14033, '2025-10-28 19:35:20', NULL, NULL, '2025-10-28 12:35:20', '2025-10-28 12:35:20', NULL),
 ('d5b4a502-3545-4638-b645-545bf89e565b', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:40:40', NULL, NULL, '2025-11-05 04:40:40', '2025-11-05 04:40:40', NULL),
 ('e04a1e65-dc1a-4fdc-bb02-80a6b10de625', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:47:53', NULL, NULL, '2025-11-05 04:47:53', '2025-11-05 04:47:53', NULL),
-('e7e3e116-0165-4ca2-ac0c-8b56fc095c40', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 46667, '2025-11-23 16:16:40', NULL, NULL, '2025-11-23 09:16:40', '2025-11-23 09:16:40', NULL),
-('eb31f93b-f6a0-4eb3-b7f8-97f2bb15a844', 'INV-ILXEPK', 'home-30', 'Home 30Mbps', 33334, '2025-11-25 02:33:14', NULL, NULL, '2025-11-24 19:33:14', '2025-11-24 19:33:14', NULL),
 ('eefeb99b-58a9-4e3e-9025-6341b5598139', NULL, 'home-30', 'Home 30Mbps', 166667, '2025-11-05 11:22:16', NULL, NULL, '2025-11-05 04:22:16', '2025-11-05 04:22:16', NULL),
 ('fde3b112-80de-44e2-8c33-b9bfa8d6b624', NULL, 'home-30', 'Home 30Mbps', 86667, '2025-11-17 14:25:01', NULL, NULL, '2025-11-17 07:25:01', '2025-11-17 07:25:01', NULL);
 
@@ -208,11 +194,11 @@ INSERT INTO `data_billing_item` (`id`, `merchant_ref_id`, `sku`, `name`, `amount
 --
 
 CREATE TABLE `data_billing_log` (
-  `id` char(36) NOT NULL,
-  `user_id` char(36) NOT NULL,
-  `client_id` char(36) NOT NULL,
-  `merchant_ref_id` varchar(255) NOT NULL,
-  `status` text NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `merchant_ref_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -224,7 +210,9 @@ CREATE TABLE `data_billing_log` (
 INSERT INTO `data_billing_log` (`id`, `user_id`, `client_id`, `merchant_ref_id`, `status`, `created_at`, `updated_at`) VALUES
 ('019a31fc-b99a-7255-ab59-d013571b328c', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a0a2f-3a1d-7338-8ecd-1142899e573a', 'INV-49GE48RL', 'Pembayaran manual berhasil dilakukan oleh System Admin untuk tagihan INV-49GE48RL', '2025-10-29 22:00:37', '2025-10-29 22:00:37'),
 ('019a3201-fa69-72d3-876c-839207b3f0ff', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a0a2f-3a1d-7338-8ecd-1142899e573a', 'INV-49GE48RL', 'Pembayaran manual berhasil dilakukan oleh System Admin untuk tagihan INV-49GE48RL', '2025-10-29 22:06:21', '2025-10-29 22:06:21'),
-('019a3226-92f8-73c4-af80-b675b1c45cea', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a0a2f-3a1d-7338-8ecd-1142899e573a', 'INV-49GE48RL', 'Tagihan INV-49GE48RL dihapus oleh System Admin', '2025-10-29 22:46:20', '2025-10-29 22:46:20');
+('019a3226-92f8-73c4-af80-b675b1c45cea', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a0a2f-3a1d-7338-8ecd-1142899e573a', 'INV-49GE48RL', 'Tagihan INV-49GE48RL dihapus oleh System Admin', '2025-10-29 22:46:20', '2025-10-29 22:46:20'),
+('019b0b17-fc38-7176-849a-66ebde090fec', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '22253285-4362-42ff-b84d-895ee24bdc62', 'INV-21VI60WT', 'Pembayaran manual berhasil dilakukan oleh System Admin untuk tagihan INV-21VI60WT', '2025-12-11 01:47:59', '2025-12-11 01:47:59'),
+('019b0b1f-256d-710e-9a47-644e598726ad', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '22253285-4362-42ff-b84d-895ee24bdc62', 'INV-21VI60WT', 'Tagihan INV-21VI60WT dihapus oleh System Admin', '2025-12-11 01:55:49', '2025-12-11 01:55:49');
 
 -- --------------------------------------------------------
 
@@ -233,37 +221,37 @@ INSERT INTO `data_billing_log` (`id`, `user_id`, `client_id`, `merchant_ref_id`,
 --
 
 CREATE TABLE `data_clients` (
-  `id` char(36) NOT NULL,
-  `nopel` varchar(255) NOT NULL,
-  `nama` varchar(255) NOT NULL,
-  `no_hp` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `nik` varchar(255) DEFAULT NULL,
-  `alamat` varchar(255) DEFAULT NULL,
-  `kecamatan` varchar(255) DEFAULT NULL,
-  `kabupaten` varchar(255) DEFAULT NULL,
-  `provinsi` varchar(255) DEFAULT NULL,
-  `loc_client` varchar(255) DEFAULT NULL,
-  `lat` varchar(255) DEFAULT NULL,
-  `long` varchar(255) DEFAULT NULL,
-  `paket` varchar(255) DEFAULT NULL,
-  `tagihan` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nopel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `loc_client` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `long` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paket` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tagihan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `promo_day` int(11) DEFAULT NULL,
   `promo_day_start` datetime DEFAULT NULL,
   `promo_day_end` datetime DEFAULT NULL,
-  `status_promo` tinyint(1) NOT NULL DEFAULT 0,
-  `user_pppoe` varchar(255) NOT NULL,
-  `pass_pppoe` varchar(255) NOT NULL,
-  `name_profile` varchar(255) DEFAULT NULL,
-  `limit_radius` varchar(255) DEFAULT NULL,
-  `odp_id` char(36) DEFAULT NULL,
-  `odp_port_id` char(36) DEFAULT NULL,
-  `tag` varchar(255) DEFAULT NULL,
+  `status_promo` tinyint(1) NOT NULL DEFAULT '0',
+  `user_pppoe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pass_pppoe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_profile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `limit_radius` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `odp_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `odp_port_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tag` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `active_user` datetime DEFAULT NULL,
-  `status` enum('active','isolir','suspend','inactive','booking') NOT NULL DEFAULT 'booking',
-  `note` text DEFAULT NULL,
+  `status` enum('active','isolir','suspend','inactive','booking') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'booking',
+  `note` text COLLATE utf8mb4_unicode_ci,
   `point` int(11) DEFAULT NULL,
-  `foto_depan` varchar(255) DEFAULT NULL,
+  `foto_depan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -291,7 +279,7 @@ INSERT INTO `data_clients` (`id`, `nopel`, `nama`, `no_hp`, `email`, `nik`, `ala
 ('29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'ID29641338', 'Jauhari Ahmad Image', '6281234400', NULL, '2233144578874454', 'Jalan pucat pasi', 'WONOASRI', 'KABUPATEN MADIUN', 'JAWA TIMUR', 'https://maps.app.goo.gl/YZKJaJuhwXUFCJs27', '-7.4063726', '112.5841074', 'Home 30Mbps', '200000', 0, '2025-11-25 00:00:00', NULL, 0, 'ID29641338', '988202', 'home-30', '10M/10M 30M/30M 7500K/7500K 24/24 8 1250K/1250K', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a439d-10a9-70d9-a69d-ed944d7d22d2', NULL, '2025-11-25 02:31:42', 'active', NULL, NULL, 'https://is3.cloudhost.id/urbanet-dev/client_photos/foto_depan_fd9747f4-3429-4f5c-b03e-9d0cd8ea8f54.jpg', '2025-11-17 07:24:26', '2025-11-24 19:31:42', NULL),
 ('5dac9a8b-c077-488b-975b-725737b93f28', 'ID68237864', 'Test Uji Coba', '6285688988', NULL, '3211233211235641', 'test', 'SUKOMORO', 'KABUPATEN MAGETAN', 'JAWA TIMUR', NULL, NULL, NULL, 'Home 20Mbps', '145000', NULL, NULL, NULL, 0, 'ID68237864', '969819', NULL, NULL, NULL, NULL, NULL, NULL, 'booking', NULL, NULL, NULL, '2025-11-10 08:38:20', '2025-11-10 08:38:20', NULL),
 ('94121b90-ff2d-42cc-9a52-a9daace0c936', 'ID94121B90', 'Jauhari Ahmad', '62856789788', NULL, '9876543219876543', 'Jalan Merdeka Barat No 54 Rt43 Rw43', 'MOJOANYAR', 'KABUPATEN MOJOKERTO', 'JAWA TIMUR', NULL, NULL, NULL, 'Home 20Mbps', '145000', 0, '2025-11-10 00:00:00', NULL, 0, 'ID94121B90', '367632', 'home-20', '20M/20M', NULL, NULL, NULL, '2025-11-10 11:08:55', 'inactive', NULL, NULL, NULL, '2025-11-10 02:36:33', '2025-11-10 04:09:36', NULL),
-('a84ccd50-71f0-4122-b0d4-c126daeb58f8', 'ID49101447', 'Tes Ulang', '6281234444779', NULL, '1234567844741229', 'Jalan Durian Panjang 54', 'NGANTANG', 'KABUPATEN MALANG', 'JAWA TIMUR', NULL, NULL, NULL, 'Home 20Mbps', '145000', 0, '2025-11-17 00:00:00', NULL, 0, 'ID49101447', '156406', NULL, NULL, NULL, NULL, NULL, '2025-11-17 07:40:14', 'inactive', NULL, NULL, NULL, '2025-11-17 00:14:38', '2025-11-17 07:05:28', NULL);
+('a84ccd50-71f0-4122-b0d4-c126daeb58f8', 'ID49101447', 'Tes Ulang', '62812344000558', NULL, '1234567844741229', 'Jalan Durian Panjang 54', 'NGANTANG', 'KABUPATEN MALANG', 'JAWA TIMUR', NULL, NULL, NULL, 'Home 20Mbps', '145000', 0, '2025-11-17 00:00:00', NULL, 0, 'ID49101447', '156406', NULL, NULL, NULL, NULL, NULL, '2025-11-17 07:40:14', 'inactive', NULL, 0, NULL, '2025-11-17 00:14:38', '2025-12-05 23:12:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -300,21 +288,21 @@ INSERT INTO `data_clients` (`id`, `nopel`, `nama`, `no_hp`, `email`, `nik`, `ala
 --
 
 CREATE TABLE `data_clients_partner` (
-  `id` char(36) NOT NULL,
-  `partner_id` char(36) NOT NULL,
-  `paket_id` char(36) NOT NULL,
-  `nik` varchar(255) DEFAULT NULL,
-  `nama` varchar(255) DEFAULT NULL,
-  `no_hp` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `alamat` text DEFAULT NULL,
-  `kecamatan` varchar(255) DEFAULT NULL,
-  `kabupaten` varchar(255) DEFAULT NULL,
-  `provinsi` varchar(255) DEFAULT NULL,
-  `status` enum('pending','process','active','reject') NOT NULL,
-  `client_prospect_id` char(36) NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `partner_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paket_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` text COLLATE utf8mb4_unicode_ci,
+  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_prospect_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fee` int(11) DEFAULT NULL,
-  `fee_paid` tinyint(1) NOT NULL DEFAULT 0,
+  `fee_paid` tinyint(1) NOT NULL DEFAULT '0',
   `fee_date_paid` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -326,8 +314,8 @@ CREATE TABLE `data_clients_partner` (
 --
 
 INSERT INTO `data_clients_partner` (`id`, `partner_id`, `paket_id`, `nik`, `nama`, `no_hp`, `email`, `alamat`, `kecamatan`, `kabupaten`, `provinsi`, `status`, `client_prospect_id`, `fee`, `fee_paid`, `fee_date_paid`, `created_at`, `updated_at`, `deleted_at`) VALUES
-('3ad6faaa-02b1-4b08-8594-5e6a0ef19501', '9ca00a5a-c7ca-4ea6-8a87-4585e269e2af', '0199fb3e-c759-72de-96a2-3054ee23e240', '1234567844741229', 'Tes Ulang', '6281234444779', 'tes@gmaill.com', 'Jalan Durian Panjang 54', 'NGANTANG', 'KABUPATEN MALANG', 'JAWA TIMUR', 'active', 'a84ccd50-71f0-4122-b0d4-c126daeb58f8', 25000, 0, NULL, '2025-11-15 17:08:58', '2025-11-17 00:40:17', NULL),
-('9ec17038-5793-4295-8627-68b1aec68454', '9ca00a5a-c7ca-4ea6-8a87-4585e269e2af', '0199fb3e-c759-72de-96a2-3054ee23e240', '5050505050505055', 'Dari Mitra', '6288811188888', NULL, 'Jalan Mawar Merah 24', 'MOJOANYAR', 'KABUPATEN MOJOKERTO', 'JAWA TIMUR', 'pending', '14bef0b0-6270-49b8-bbe7-606f7a339d04', 0, 0, NULL, '2025-11-15 16:09:40', '2025-11-15 16:09:40', '2025-11-15 16:35:08'),
+('3ad6faaa-02b1-4b08-8594-5e6a0ef19501', '9ca00a5a-c7ca-4ea6-8a87-4585e269e2af', '0199fb3e-c759-72de-96a2-3054ee23e240', '1234567844741229', 'Tes Ulang', '6281234444779', 'tes@gmaill.com', 'Jalan Durian Panjang 54', 'NGANTANG', 'KABUPATEN MALANG', 'JAWA TIMUR', 'active', 'a84ccd50-71f0-4122-b0d4-c126daeb58f8', 25000, 0, NULL, '2025-11-15 17:08:58', '2025-12-10 03:13:29', NULL),
+('9ec17038-5793-4295-8627-68b1aec68454', '9ca00a5a-c7ca-4ea6-8a87-4585e269e2af', '0199fb3e-c759-72de-96a2-3054ee23e240', '5050505050505055', 'Dari Mitra', '6288811188888', NULL, 'Jalan Mawar Merah 24', 'MOJOANYAR', 'KABUPATEN MOJOKERTO', 'JAWA TIMUR', 'pending', '14bef0b0-6270-49b8-bbe7-606f7a339d04', 0, 0, NULL, '2025-11-15 16:09:40', '2025-12-10 03:13:29', NULL),
 ('c29bd54b-a7e4-416a-bc05-f1b759b8f94e', '9ca00a5a-c7ca-4ea6-8a87-4585e269e2af', '0199fb40-84cd-704b-a2ae-dab974c79453', '1234567844741223', 'Eko Hadi Hery Mulcahyono 1', '6281234444774', 'eko@gmail.com', 'Jalan Mawar Merah 24', 'SUKOMORO', 'KABUPATEN MAGETAN', 'JAWA TIMUR', 'pending', '20786374-63e9-435f-a3f5-d3bc3401ecc4', 0, 0, NULL, '2025-11-15 17:11:10', '2025-11-16 12:20:23', NULL);
 
 -- --------------------------------------------------------
@@ -337,19 +325,19 @@ INSERT INTO `data_clients_partner` (`id`, `partner_id`, `paket_id`, `nik`, `nama
 --
 
 CREATE TABLE `data_clients_prospect` (
-  `id` char(36) NOT NULL,
-  `client_id` char(36) NOT NULL,
-  `paket_id` char(36) DEFAULT NULL,
-  `nama` varchar(255) NOT NULL,
-  `nik` varchar(255) DEFAULT NULL,
-  `no_hp` varchar(255) NOT NULL,
-  `alamat` text DEFAULT NULL,
-  `kecamatan` varchar(255) DEFAULT NULL,
-  `kabupaten` varchar(255) DEFAULT NULL,
-  `provinsi` varchar(255) DEFAULT NULL,
-  `point` int(11) NOT NULL DEFAULT 0,
-  `status` enum('pending','process','active','reject') NOT NULL DEFAULT 'pending',
-  `client_prospect_id` char(36) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` text COLLATE utf8mb4_unicode_ci,
+  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `point` int(11) NOT NULL DEFAULT '0',
+  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `client_prospect_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -372,17 +360,17 @@ INSERT INTO `data_clients_prospect` (`id`, `client_id`, `paket_id`, `nama`, `nik
 --
 
 CREATE TABLE `data_clients_regist` (
-  `id` char(36) NOT NULL,
-  `nik` varchar(50) DEFAULT NULL,
-  `paket_id` char(36) DEFAULT NULL,
-  `nama` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `no_hp` varchar(50) NOT NULL,
-  `alamat` varchar(255) DEFAULT NULL,
-  `kecamatan` varchar(100) DEFAULT NULL,
-  `kabupaten` varchar(100) DEFAULT NULL,
-  `provinsi` varchar(100) DEFAULT NULL,
-  `status` enum('pending','process','active','reject') NOT NULL DEFAULT 'pending',
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nik` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_hp` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kecamatan` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kabupaten` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -404,25 +392,25 @@ INSERT INTO `data_clients_regist` (`id`, `nik`, `paket_id`, `nama`, `email`, `no
 --
 
 CREATE TABLE `data_clients_sales` (
-  `id` char(36) NOT NULL,
-  `users_id` char(36) NOT NULL,
-  `paket_id` char(36) NOT NULL,
-  `nik` varchar(255) DEFAULT NULL,
-  `nama` varchar(255) DEFAULT NULL,
-  `no_hp` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `alamat` varchar(255) DEFAULT NULL,
-  `kecamatan` varchar(255) DEFAULT NULL,
-  `kabupaten` varchar(255) DEFAULT NULL,
-  `provinsi` varchar(255) DEFAULT NULL,
-  `status` enum('pending','process','active','reject') NOT NULL DEFAULT 'pending',
-  `client_prospect_id` char(36) DEFAULT NULL,
-  `loc_client` varchar(255) DEFAULT NULL,
-  `lat` varchar(255) DEFAULT NULL,
-  `long` varchar(255) DEFAULT NULL,
-  `foto_depan` varchar(255) DEFAULT NULL,
-  `fee` int(11) NOT NULL DEFAULT 0,
-  `fee_paid` tinyint(1) NOT NULL DEFAULT 0,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `users_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paket_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nik` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('pending','process','active','reject') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `client_prospect_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `loc_client` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `long` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto_depan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fee` int(11) NOT NULL DEFAULT '0',
+  `fee_paid` tinyint(1) NOT NULL DEFAULT '0',
   `fee_date_paid` datetime DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -438,8 +426,8 @@ INSERT INTO `data_clients_sales` (`id`, `users_id`, `paket_id`, `nik`, `nama`, `
 ('1a12ffbd-71c8-4137-b60a-5e873797448a', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb3e-c759-72de-96a2-3054ee23e240', '0055005500550050', 'Tes Image S3 Job', '6281245644444', NULL, 'Test', 'TRAWAS', 'KABUPATEN MOJOKERTO', 'JAWA TIMUR', 'pending', '8e366496-f0d3-481a-b90b-bf090f94bf27', NULL, NULL, NULL, 'https://is3.cloudhost.id/urbanet-dev/client_photos/foto_depan_7e3952aa-0a85-471d-8106-0bf2f6c82feb.jpg', 0, 0, NULL, NULL, '2025-11-18 02:10:51', '2025-11-18 02:10:56'),
 ('4ab7c2db-0d0f-4704-814c-ab0d59b1f724', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb3e-c759-72de-96a2-3054ee23e240', '3030303030220330', 'Tes Email Validasi', '628562356855', 'testo@gmail.com', 'jauh', 'TEGALOMBO', 'KABUPATEN PACITAN', 'JAWA TIMUR', 'pending', '56e66308-8c79-4a94-9a44-a33e14bda45a', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, '2025-11-17 09:07:24', '2025-11-17 09:07:24'),
 ('510a3abd-783a-42e5-a49a-8d1c6c21e7ad', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb3e-c759-72de-96a2-3054ee23e240', '123456', 'Tes Email', '08124', 'mail@mail.com', 'jauh', 'MAOSPATI', 'KABUPATEN SIDOARJO', 'JAWA TIMUR', 'pending', 'a9304534-d9ea-438b-b3c3-adb8a571be3d', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, '2025-11-17 02:15:32', '2025-11-17 02:15:32'),
-('59ddb016-8ad1-48a0-92fa-c1c8a2047053', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb40-84cd-704b-a2ae-dab974c79453', '2233144578874454', 'Jauhari Ahmad Image', '6284544547', 'image@gmail.com', 'Jalan pucat pasi', 'WONOASRI', 'KABUPATEN MADIUN', 'JAWA TIMUR', 'active', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'https://maps.app.goo.gl/YZKJaJuhwXUFCJs27', '-7.4063726', '112.5841074', 'https://is3.cloudhost.id/urbanet-dev/client_photos/foto_depan_fd9747f4-3429-4f5c-b03e-9d0cd8ea8f54.jpg', 50000, 0, NULL, NULL, '2025-11-17 06:36:21', '2025-11-17 07:25:00'),
-('8b45f446-c72e-4223-a43e-2f013c31a320', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb3e-c759-72de-96a2-3054ee23e240', '1010100101010101', 'Tes Image S3', '628222110011', NULL, 'jauh baget', 'TEGALOMBO', 'KABUPATEN PACITAN', 'JAWA TIMUR', 'process', 'e7a4aa08-c263-49f2-bf0c-9e5993d28827', NULL, NULL, NULL, 'https://is3.cloudhost.id/urbanet-dev/client_photos/foto_depan_93c4ecf1-c9d2-468e-add0-fab139d221ad.jpg', 0, 0, NULL, NULL, '2025-11-17 08:53:00', '2025-11-17 08:59:40'),
+('59ddb016-8ad1-48a0-92fa-c1c8a2047053', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb40-84cd-704b-a2ae-dab974c79453', '2233144578874454', 'Jauhari Ahmad Image', '6284544547', 'image@gmail.com', 'Jalan pucat pasi', 'WONOASRI', 'KABUPATEN MADIUN', 'JAWA TIMUR', 'active', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'https://maps.app.goo.gl/YZKJaJuhwXUFCJs27', '-7.4063726', '112.5841074', 'https://is3.cloudhost.id/urbanet-dev/client_photos/foto_depan_fd9747f4-3429-4f5c-b03e-9d0cd8ea8f54.jpg', 50000, 1, '2025-12-09 11:44:14', NULL, '2025-11-17 06:36:21', '2025-12-09 04:44:14'),
+('8b45f446-c72e-4223-a43e-2f013c31a320', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb3e-c759-72de-96a2-3054ee23e240', '1010100101010101', 'Tes Image S3', '628222110011', NULL, 'jauh baget', 'TEGALOMBO', 'KABUPATEN PACITAN', 'JAWA TIMUR', 'active', 'e7a4aa08-c263-49f2-bf0c-9e5993d28827', NULL, NULL, NULL, 'https://is3.cloudhost.id/urbanet-dev/client_photos/foto_depan_93c4ecf1-c9d2-468e-add0-fab139d221ad.jpg', 50000, 0, NULL, NULL, '2025-11-17 08:53:00', '2025-12-09 04:44:14'),
 ('92ffc68e-8d4e-43c6-9033-e577a80d8946', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb40-84cd-704b-a2ae-dab974c79453', '1234567844741228', 'Widodo Raharjo', '6281245645410', NULL, 'jalan gajar maha', 'NGUNTORONADI', 'KABUPATEN MAGETAN', 'JAWA TIMUR', 'pending', 'd7f98bd4-dbf3-4f0d-af85-1f2cd32b19c2', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, '2025-11-17 03:34:02', '2025-11-17 05:13:11'),
 ('f9935b0f-478a-476c-b1f7-54389c6e10ee', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '0199fb3e-c759-72de-96a2-3054ee23e240', '1234456789', 'Andi Cu', '081234564', NULL, 'jauh', 'MAOSPATI', 'KABUPATEN SIDOARJO', 'JAWA TIMUR', 'pending', '1dae43a3-000b-49eb-ba3e-5bbc99ef6fd7', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, '2025-11-17 01:52:08', '2025-11-17 01:52:08');
 
@@ -450,10 +438,10 @@ INSERT INTO `data_clients_sales` (`id`, `users_id`, `paket_id`, `nik`, `nama`, `
 --
 
 CREATE TABLE `data_client_logs` (
-  `id` char(36) NOT NULL,
-  `users_id` char(36) NOT NULL,
-  `client_id` char(36) NOT NULL,
-  `status` text NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `users_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -483,26 +471,26 @@ INSERT INTO `data_client_logs` (`id`, `users_id`, `client_id`, `status`, `create
 --
 
 CREATE TABLE `data_csr` (
-  `id` char(36) NOT NULL,
-  `nopel` varchar(255) NOT NULL,
-  `nama` varchar(255) NOT NULL,
-  `detail_pic` text DEFAULT NULL,
-  `alamat` varchar(255) DEFAULT NULL,
-  `kecamatan` varchar(255) DEFAULT NULL,
-  `kabupaten` varchar(255) DEFAULT NULL,
-  `provinsi` varchar(255) DEFAULT NULL,
-  `loc_client` varchar(255) DEFAULT NULL,
-  `lat` varchar(255) DEFAULT NULL,
-  `long` varchar(255) DEFAULT NULL,
-  `paket` varchar(255) DEFAULT NULL,
-  `foto_depan` varchar(255) DEFAULT NULL,
-  `user_pppoe` varchar(255) NOT NULL,
-  `pass_pppoe` varchar(255) NOT NULL,
-  `name_profile` varchar(255) DEFAULT NULL,
-  `limit_radius` varchar(255) DEFAULT NULL,
-  `odp_id` char(36) DEFAULT NULL,
-  `odp_port_id` char(36) DEFAULT NULL,
-  `status` enum('booking','active','isolir','suspend','inactive') DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nopel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `detail_pic` text COLLATE utf8mb4_unicode_ci,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `loc_client` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `long` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paket` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto_depan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_pppoe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pass_pppoe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_profile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `limit_radius` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `odp_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `odp_port_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('booking','active','isolir','suspend','inactive') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -513,8 +501,8 @@ CREATE TABLE `data_csr` (
 --
 
 INSERT INTO `data_csr` (`id`, `nopel`, `nama`, `detail_pic`, `alamat`, `kecamatan`, `kabupaten`, `provinsi`, `loc_client`, `lat`, `long`, `paket`, `foto_depan`, `user_pppoe`, `pass_pppoe`, `name_profile`, `limit_radius`, `odp_id`, `odp_port_id`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-('6850d4cc-87bb-4efe-9df2-7dff0630706c', 'CSR-81281893', 'Tes', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CSR-81281893', '542144', NULL, NULL, '019a1eb1-e607-7241-afe6-a796c525b5b6', NULL, NULL, '2025-12-03 03:25:26', '2025-12-03 03:25:26', NULL),
-('a3d57c5c-24e0-415b-8b27-cb548006c463', 'CSR-65416799', 'Pos Satpam Perum Krian Indah', NULL, 'Areka Jalan Musi', 'PRAJEKAN', 'KABUPATEN BONDOWOSO', 'JAWA TIMUR', 'https://maps.app.goo.gl/YZKJaJuhwXUFCJs27', '-7.4063726', '112.5841074', 'Paket 3Mbps', NULL, 'CSR-65416799', '732229', 'lite-3Mbps', '3M/3M', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', 'booking', '2025-12-03 04:09:17', '2025-12-03 04:09:17', NULL);
+('75c9af8d-e0af-4ce9-a529-1bb3939d941a', 'CSR-46753507', 'Client Dengan Photo', NULL, 'Areka Jalan Musi Ampera', 'SOOKO', 'KABUPATEN MOJOKERTO', 'JAWA TIMUR', NULL, NULL, NULL, 'Paket 3Mbps', 'https://is3.cloudhost.id/urbanet-dev/client_csr_photos/foto_depan_6037f42c-acb3-4e22-9633-613d59a52f31.png', 'CSR-46753507', '327472', 'lite-3Mbps', '3M/3M', NULL, NULL, 'inactive', '2025-12-04 22:32:01', '2025-12-05 08:17:13', NULL),
+('87fcf3c8-c476-4df9-a14b-294a0e8a3944', 'CSR-90368092', 'Pos Satpam Perum Krian Indah 2', NULL, 'Jalan Rahasia Rt5 Rw8', 'ROWOKANGKUNG', 'KABUPATEN LUMAJANG', 'JAWA TIMUR', 'https://maps.app.goo.gl/YZKJaJuhwXUFCJs27', '-7.123456', '6.1245', 'Paket 3Mbps', 'https://is3.cloudhost.id/urbanet-dev/client_csr_photos/foto_depan_3b494bef-53e1-4083-8359-2533ab5b7afa.png', 'CSR-90368092', '559578', 'lite-3Mbps', '3M/3M', NULL, NULL, 'inactive', '2025-12-04 14:43:54', '2025-12-05 08:41:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -523,12 +511,12 @@ INSERT INTO `data_csr` (`id`, `nopel`, `nama`, `detail_pic`, `alamat`, `kecamata
 --
 
 CREATE TABLE `data_img` (
-  `id` char(36) NOT NULL,
-  `client_id` char(36) NOT NULL,
-  `data_ticket_hc_id` char(36) DEFAULT NULL,
-  `data_ticket_id` char(36) DEFAULT NULL,
-  `url_img` varchar(255) NOT NULL,
-  `tag` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `data_ticket_hc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data_ticket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `url_img` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tag` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -544,29 +532,73 @@ INSERT INTO `data_img` (`id`, `client_id`, `data_ticket_hc_id`, `data_ticket_id`
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `data_mutasi`
+--
+
+CREATE TABLE `data_mutasi` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mutation_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `account_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `balance` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `mutasi_check` int(10) UNSIGNED DEFAULT NULL,
+  `mutasi_check_time` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `data_mutasi`
+--
+
+INSERT INTO `data_mutasi` (`id`, `mutation_id`, `account_number`, `bank`, `bank_name`, `type`, `description`, `amount`, `balance`, `date`, `mutasi_check`, `mutasi_check_time`, `created_at`, `updated_at`) VALUES
+('1ec76e41-2d66-4999-8df4-350202e2b5f4', 'G1kaEL1KBkg', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 230025.00TRI DESI VIKA', '125710', '51727823.05', '2025-12-05 19:54:31', 1, '2025-12-06 07:22:35', '2025-12-05 13:57:34', '2025-12-06 00:22:35'),
+('20f5769d-e4ca-40ae-95b2-4f5d96571913', 'PyjEE1avJj6', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 150040.00TRI DESI VIKA', '125710', '46416445.05', '2025-12-05 08:31:40', 1, NULL, '2025-12-05 13:57:34', '2025-12-05 23:44:40'),
+('27414012-61c4-4602-9cef-d68b4b0ba42c', 'eMkbaLd4RWY', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 205016.00TRI DESI VIKA', '205016', '51497798.05', '2025-12-05 19:54:30', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('2a9c8e16-84f1-480a-83ed-94054b93ac0e', '1ajMp7pYKzv', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95051 3336000.00TriPay Settlement TRIJAYA DIGITAL GR', '3336000', '49882487.05', '2025-12-05 14:07:13', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('3b958e80-2a1c-4cdc-b113-40f9768862cf', 'mVz55Kaa5zv', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 205036.00TRI DESI VIKA', '205036', '50607682.05', '2025-12-05 19:37:56', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('4ae69580-09d8-4db7-9439-7abc5d300226', 'NZjxaqX5lW4', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 130049.00TRI DESI VIKA', '130049', '50272608.05', '2025-12-05 17:09:08', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('5d4ab6bd-bc61-4665-8e66-2527b030b6a2', 'Arz6l7885WK', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 115018.00TRI DESI VIKA', '115018', '51177755.05', '2025-12-05 19:37:56', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('6c30749e-1109-4c8b-b7c9-3f70164b4034', '3ykVRollPkN', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 250037.00TRI DESI VIKA', '250037', '51062737.05', '2025-12-05 19:37:56', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('820833d0-2f0f-4dbd-ae3f-b8838bf9e952', 'KwjmdLDwZzr', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 130038.00TRI DESI VIKA', '130038', '50402646.05', '2025-12-05 19:04:58', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('8b78c941-ba56-439d-b29a-56795d582f1b', 'bLjJpq9BekO', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 230025.00TRI DESI VIKA', '230025', '51957848.05', '2025-12-05 19:54:31', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('93ca5158-64ba-4922-99ac-7fc05d635d4a', 'NEzldL66gzm', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 205018.00TRI DESI VIKA', '205018', '50812700.05', '2025-12-05 19:37:56', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('b038b797-55a3-4816-a89d-c014222c7f6f', 'rNkDEA66nzd', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 115027.00TRI DESI VIKA', '115027', '51292782.05', '2025-12-05 19:37:56', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('dccea6b8-77be-4eba-810d-af6de01c9267', 'olk47y033WJ', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 130042.00TRI DESI VIKA', '130042', '46546487.05', '2025-12-05 12:23:03', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('eefd8431-db8f-4565-98c5-62397f4d93cd', 'bLjJpqDg9kO', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 130031.00TRI DESI VIKA', '130031', '50142559.05', '2025-12-05 16:52:38', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34'),
+('fd98b214-62a8-4eca-8f1e-c83cb99f88b9', 'G1kaELYNgkg', '8630241783', 'BCA', 'Tiyo Avianto', 'CR', 'TRSF E-BANKING CR0512/FTSCY/WS95271 130041.00TRI DESI VIKA', '130041', '50012528.05', '2025-12-05 16:52:37', 0, NULL, '2025-12-05 13:57:34', '2025-12-05 13:57:34');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `data_odc`
 --
 
 CREATE TABLE `data_odc` (
-  `id` char(36) NOT NULL,
-  `server_id` char(36) DEFAULT NULL,
-  `kode_odc` varchar(255) NOT NULL,
-  `nama_odc` varchar(255) DEFAULT NULL,
-  `alamat` varchar(255) DEFAULT NULL,
-  `prov` varchar(255) DEFAULT NULL,
-  `kota` varchar(255) DEFAULT NULL,
-  `kec` varchar(255) DEFAULT NULL,
-  `desa` varchar(255) DEFAULT NULL,
-  `loc_odp` varchar(255) DEFAULT NULL,
-  `lat` varchar(255) DEFAULT NULL,
-  `long` varchar(255) DEFAULT NULL,
-  `port_cap` varchar(255) DEFAULT NULL,
-  `port_install` varchar(255) DEFAULT NULL,
-  `rasio` varchar(255) DEFAULT NULL,
-  `warna_core` varchar(255) DEFAULT NULL,
-  `core_cable` varchar(255) DEFAULT NULL,
-  `note` text DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `server_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kode_odc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_odc` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prov` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kota` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kec` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `desa` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `loc_odp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `long` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `port_cap` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `port_install` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rasio` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `warna_core` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `core_cable` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -591,11 +623,11 @@ INSERT INTO `data_odc` (`id`, `server_id`, `kode_odc`, `nama_odc`, `alamat`, `pr
 --
 
 CREATE TABLE `data_odc_port` (
-  `id` char(36) NOT NULL,
-  `odc_id` char(36) DEFAULT NULL,
-  `odp_id` char(36) NOT NULL,
-  `port_numb` varchar(255) NOT NULL,
-  `status` enum('available','reserved','active','faulty','blocked') NOT NULL DEFAULT 'available',
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `odc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `odp_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `port_numb` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('available','reserved','active','faulty','blocked') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'available',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -615,22 +647,22 @@ INSERT INTO `data_odc_port` (`id`, `odc_id`, `odp_id`, `port_numb`, `status`, `c
 --
 
 CREATE TABLE `data_odp` (
-  `id` char(36) NOT NULL,
-  `kode_odp` varchar(255) NOT NULL,
-  `server_id` char(36) DEFAULT NULL,
-  `nama_odp` varchar(255) DEFAULT NULL,
-  `alamat` varchar(255) DEFAULT NULL,
-  `prov` varchar(255) DEFAULT NULL,
-  `kota` varchar(255) DEFAULT NULL,
-  `kec` varchar(255) DEFAULT NULL,
-  `desa` varchar(255) DEFAULT NULL,
-  `loc_odp` varchar(255) DEFAULT NULL,
-  `port_cap` varchar(255) DEFAULT NULL,
-  `port_install` varchar(255) DEFAULT NULL,
-  `vlan` varchar(255) DEFAULT NULL,
-  `warna_core` varchar(255) DEFAULT NULL,
-  `core_cable` varchar(255) DEFAULT NULL,
-  `note` text DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kode_odp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `server_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_odp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prov` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kota` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kec` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `desa` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `loc_odp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `port_cap` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `port_install` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vlan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `warna_core` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `core_cable` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -656,12 +688,12 @@ INSERT INTO `data_odp` (`id`, `kode_odp`, `server_id`, `nama_odp`, `alamat`, `pr
 --
 
 CREATE TABLE `data_odp_logs` (
-  `id` char(36) NOT NULL,
-  `users_id` char(36) DEFAULT NULL,
-  `odp_id` char(36) DEFAULT NULL,
-  `odp_port` char(36) DEFAULT NULL,
-  `client_id` char(36) DEFAULT NULL,
-  `status` text NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `users_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `odp_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `odp_port` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -719,7 +751,21 @@ INSERT INTO `data_odp_logs` (`id`, `users_id`, `odp_id`, `odp_port`, `client_id`
 ('019ab731-be89-7043-9681-3d875e6fed75', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a439d-10a9-70d9-a69d-ed944d7d22d2', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'User System Admin telah menonaktifkan Client (Jauhari Ahmad Image) dan melepas relasi ODP(ODP.TEST.1.1)/Port(A3)', '2025-11-24 18:48:01', '2025-11-24 18:48:01'),
 ('019ab733-e1fd-7116-9267-b5050d88af75', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a439d-10a9-70d9-a69d-ed944d7d22d2', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'User System Admin telah menambahkan relasi ODP(ODP.TEST.1.1)/Port(A3) dari Client (Jauhari Ahmad Image)', '2025-11-24 18:50:22', '2025-11-24 18:50:22'),
 ('019ab759-80c4-70c5-8fce-8a3f537fcf4b', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a439d-10a9-70d9-a69d-ed944d7d22d2', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'User System Admin telah menonaktifkan Client (Jauhari Ahmad Image) dan melepas relasi ODP(ODP.TEST.1.1)/Port(A3)', '2025-11-24 19:31:27', '2025-11-24 19:31:27'),
-('019ab75b-24ab-73ef-a6fe-c91ce272bfbe', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a439d-10a9-70d9-a69d-ed944d7d22d2', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'User System Admin telah menambahkan relasi ODP(ODP.TEST.1.1)/Port(A3) dari Client (Jauhari Ahmad Image)', '2025-11-24 19:33:15', '2025-11-24 19:33:15');
+('019ab75b-24ab-73ef-a6fe-c91ce272bfbe', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a439d-10a9-70d9-a69d-ed944d7d22d2', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'User System Admin telah menambahkan relasi ODP(ODP.TEST.1.1)/Port(A3) dari Client (Jauhari Ahmad Image)', '2025-11-24 19:33:15', '2025-11-24 19:33:15'),
+('019ae7e3-a8eb-727e-9ab3-dbe08bc1ba3b', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah\' ditambahkan oleh System Admin pada 2025-12-04 12:44:08', '2025-12-04 05:44:08', '2025-12-04 05:44:08'),
+('019ae8a4-beb3-739a-9cb6-6afaf626782c', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah\' ditambahkan oleh System Admin pada 2025-12-04 16:15:02', '2025-12-04 09:15:02', '2025-12-04 09:15:02'),
+('019ae9a8-4d9e-71f4-8e9d-2f952573dedb', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah\' ditambahkan oleh System Admin pada 2025-12-04 20:58:32', '2025-12-04 13:58:32', '2025-12-04 13:58:32'),
+('019ae9d1-d597-73ca-a83b-f3df957337e7', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah\' ditambahkan oleh System Admin pada 2025-12-04 21:43:54', '2025-12-04 14:43:54', '2025-12-04 14:43:54'),
+('019aeb73-6c9b-73ac-9931-417cbc10768c', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah\' diubah oleh System Admin pada 2025-12-05 05:20:01', '2025-12-04 22:20:01', '2025-12-04 22:20:01'),
+('019aeb7e-687f-7329-a4be-96b7d37d32b1', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019ae9d3-ae87-7398-b52d-f39f97aee3ab', NULL, 'User CSR \'Client Dengan Photo\' ditambahkan oleh System Admin pada 2025-12-05 05:32:01', '2025-12-04 22:32:01', '2025-12-04 22:32:01'),
+('019aed28-f95c-7051-a487-d18e9273458a', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah\' diubah oleh System Admin pada 2025-12-05 13:17:56', '2025-12-05 06:17:56', '2025-12-05 06:17:56'),
+('019aed29-8db1-71b6-a0cd-b36d927b6f0a', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah 3\' diubah oleh System Admin pada 2025-12-05 13:18:34', '2025-12-05 06:18:34', '2025-12-05 06:18:34'),
+('019aed88-8957-72fc-b586-ec6b118b7d5e', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah 3\' diubah oleh System Admin pada 2025-12-05 15:02:19', '2025-12-05 08:02:19', '2025-12-05 08:02:19'),
+('019aed8b-ac76-7394-a5a3-6d4533498cfc', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah 2\' diubah oleh System Admin pada 2025-12-05 15:05:45', '2025-12-05 08:05:45', '2025-12-05 08:05:45'),
+('019aed8f-e430-7204-8cc0-d14dbbb828a1', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019ae9d3-ae87-7398-b52d-f39f97aee3ab', NULL, 'User CSR \'Client Dengan Photo\' diubah oleh System Admin pada 2025-12-05 15:10:21', '2025-12-05 08:10:21', '2025-12-05 08:10:21'),
+('019aed90-a78a-7197-982e-ea4bc4b56a20', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019ae9d3-ae87-7398-b52d-f39f97aee3ab', NULL, 'User CSR \'Client Dengan Photo\' diubah oleh System Admin pada 2025-12-05 15:11:11', '2025-12-05 08:11:11', '2025-12-05 08:11:11'),
+('019aed96-2d64-72b5-891c-982b6b2964dc', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019ae9d3-ae87-7398-b52d-f39f97aee3ab', NULL, 'User CSR \'Client Dengan Photo\' dinonaktifkan oleh System Admin pada 2025-12-05 15:17:13', '2025-12-05 08:17:13', '2025-12-05 08:17:13'),
+('019aedac-3445-72b7-bb97-2fd508bf65b7', '61b9a2e6-0549-474e-a962-ea5654e3f93e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a90ab-160b-7223-a6df-9100bc7102eb', NULL, 'User CSR \'Pos Satpam Perum Krian Indah 2\' dinonaktifkan dari ODP ODP.TEST.1.1, Port A5 oleh System Admin pada 2025-12-05 15:41:17', '2025-12-05 08:41:17', '2025-12-05 08:41:17');
 
 -- --------------------------------------------------------
 
@@ -728,12 +774,12 @@ INSERT INTO `data_odp_logs` (`id`, `users_id`, `odp_id`, `odp_port`, `client_id`
 --
 
 CREATE TABLE `data_odp_port` (
-  `id` char(36) NOT NULL,
-  `odp_id` char(36) NOT NULL,
-  `client_id` char(36) DEFAULT NULL,
-  `client_csr_id` char(36) DEFAULT NULL,
-  `port_numb` varchar(255) NOT NULL,
-  `status` enum('available','reserved','active','faulty','blocked') NOT NULL DEFAULT 'available',
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `odp_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `client_csr_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `port_numb` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('available','reserved','active','faulty','blocked') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'available',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -748,7 +794,8 @@ INSERT INTO `data_odp_port` (`id`, `odp_id`, `client_id`, `client_csr_id`, `port
 ('019a402a-cbf7-7066-ac8d-ab3b854d9e1e', '019a1eb1-e607-7241-afe6-a796c525b5b6', '019a3d59-f090-701a-b9b3-ebcffadda253', NULL, 'A2', 'reserved', '2025-11-01 16:05:37', '2025-11-01 16:05:56'),
 ('019a439d-10a9-70d9-a69d-ed944d7d22d2', '019a1eb1-e607-7241-afe6-a796c525b5b6', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', NULL, 'A3', 'reserved', '2025-11-02 08:09:18', '2025-11-24 19:31:42'),
 ('019a523f-d020-73d7-a4e3-3429cfb7a1af', '019a1eb1-e607-7241-afe6-a796c525b5b6', '0b295ed1-dd57-482d-a438-bcfb82ff5c6e', NULL, 'A4', 'reserved', '2025-11-05 04:21:45', '2025-11-11 04:04:28'),
-('019a90ab-160b-7223-a6df-9100bc7102eb', '019a1eb1-e607-7241-afe6-a796c525b5b6', NULL, NULL, 'A5', 'available', '2025-11-17 07:15:22', '2025-12-03 04:06:03');
+('019a90ab-160b-7223-a6df-9100bc7102eb', '019a1eb1-e607-7241-afe6-a796c525b5b6', NULL, NULL, 'A5', 'available', '2025-11-17 07:15:22', '2025-12-05 08:41:16'),
+('019ae9d3-ae87-7398-b52d-f39f97aee3ab', '019a1eb1-e607-7241-afe6-a796c525b5b6', NULL, NULL, 'A6', 'available', '2025-12-04 14:45:55', '2025-12-05 08:17:13');
 
 -- --------------------------------------------------------
 
@@ -757,15 +804,15 @@ INSERT INTO `data_odp_port` (`id`, `odp_id`, `client_id`, `client_csr_id`, `port
 --
 
 CREATE TABLE `data_paket` (
-  `id` char(36) NOT NULL,
-  `nama_paket` varchar(255) NOT NULL,
-  `deskripsi` varchar(255) DEFAULT NULL,
-  `harga` varchar(255) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT 1,
-  `tayang` tinyint(1) NOT NULL DEFAULT 1,
-  `name_profile` varchar(255) DEFAULT NULL,
-  `limit_radius` varchar(255) DEFAULT NULL,
-  `ip_pool` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_paket` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `harga` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `tayang` tinyint(1) NOT NULL DEFAULT '1',
+  `name_profile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `limit_radius` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ip_pool` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -789,19 +836,19 @@ INSERT INTO `data_paket` (`id`, `nama_paket`, `deskripsi`, `harga`, `active`, `t
 --
 
 CREATE TABLE `data_partner` (
-  `id` char(36) NOT NULL,
-  `nama_partner` varchar(255) NOT NULL,
-  `no_hp` varchar(255) NOT NULL,
-  `alamat` varchar(255) DEFAULT NULL,
-  `provinsi` varchar(255) DEFAULT NULL,
-  `kabupaten` varchar(255) DEFAULT NULL,
-  `kecamatan` varchar(255) DEFAULT NULL,
-  `secret_token` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `status` enum('active','inactive') NOT NULL DEFAULT 'inactive',
-  `bank_name` varchar(255) DEFAULT NULL,
-  `bank_pic` varchar(255) DEFAULT NULL,
-  `bank_account` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_partner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kabupaten` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kecamatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `secret_token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'inactive',
+  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_pic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_account` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -825,14 +872,14 @@ INSERT INTO `data_partner` (`id`, `nama_partner`, `no_hp`, `alamat`, `provinsi`,
 --
 
 CREATE TABLE `data_server` (
-  `id` char(36) NOT NULL,
-  `nama_pop` varchar(255) NOT NULL,
-  `lokasi` varchar(255) NOT NULL,
-  `ip_public` varchar(255) NOT NULL,
-  `ip_static` varchar(255) NOT NULL,
-  `user` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `radius_secret` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_pop` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lokasi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_public` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_static` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `radius_secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -854,7 +901,7 @@ INSERT INTO `data_server` (`id`, `nama_pop`, `lokasi`, `ip_public`, `ip_static`,
 --
 
 CREATE TABLE `data_setting` (
-  `id` char(36) NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `denda` int(11) DEFAULT NULL,
   `point` int(11) DEFAULT NULL,
   `tax` int(11) DEFAULT NULL,
@@ -863,6 +910,7 @@ CREATE TABLE `data_setting` (
   `fee_sales_internal` int(11) DEFAULT NULL,
   `fee_engineer_sales` int(11) DEFAULT NULL,
   `fee_engineer` int(11) DEFAULT NULL,
+  `fee_engineer_2` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -871,8 +919,8 @@ CREATE TABLE `data_setting` (
 -- Dumping data untuk tabel `data_setting`
 --
 
-INSERT INTO `data_setting` (`id`, `denda`, `point`, `tax`, `fee_merchant_billing`, `fee_merchant_sales`, `fee_sales_internal`, `fee_engineer_sales`, `fee_engineer`, `created_at`, `updated_at`) VALUES
-('019a31e5-2931-72ba-8e1c-04791f5ae4fa', 5, 30000, 11, 3500, 25000, 50000, 30000, 70000, '2025-10-29 21:34:53', '2025-10-29 21:39:05');
+INSERT INTO `data_setting` (`id`, `denda`, `point`, `tax`, `fee_merchant_billing`, `fee_merchant_sales`, `fee_sales_internal`, `fee_engineer_sales`, `fee_engineer`, `fee_engineer_2`, `created_at`, `updated_at`) VALUES
+('019a31e5-2931-72ba-8e1c-04791f5ae4fa', 5, 30000, 11, 3500, 25000, 50000, 30000, 70000, 50000, '2025-10-29 21:34:53', '2025-12-07 07:29:06');
 
 -- --------------------------------------------------------
 
@@ -881,12 +929,22 @@ INSERT INTO `data_setting` (`id`, `denda`, `point`, `tax`, `fee_merchant_billing
 --
 
 CREATE TABLE `data_team_site` (
-  `id` char(36) NOT NULL,
-  `users_id` char(36) NOT NULL,
-  `data_ticket_hc_id` char(36) DEFAULT NULL,
-  `data_ticket_id` char(36) DEFAULT NULL,
-  `client_id` char(36) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `users_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `users_id_2` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `users_id_3` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data_ticket_hc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data_ticket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fee` int(11) DEFAULT NULL,
+  `fee_2` int(11) DEFAULT NULL,
+  `fee_3` int(11) DEFAULT NULL,
+  `fee_paid` tinyint(1) NOT NULL DEFAULT '0',
+  `fee_paid_2` tinyint(1) NOT NULL DEFAULT '0',
+  `fee_paid_3` tinyint(1) NOT NULL DEFAULT '0',
+  `fee_paid_at` datetime DEFAULT NULL,
+  `fee2_paid_at` datetime DEFAULT NULL,
+  `fee3_paid_at` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -896,17 +954,19 @@ CREATE TABLE `data_team_site` (
 -- Dumping data untuk tabel `data_team_site`
 --
 
-INSERT INTO `data_team_site` (`id`, `users_id`, `data_ticket_hc_id`, `data_ticket_id`, `client_id`, `fee`, `created_at`, `updated_at`, `deleted_at`) VALUES
-('2a73d52c-4659-4614-ac18-064fa6bd6e4b', '019a209f-86dd-71be-a26b-313933a09843', NULL, '885b5020-ff24-48db-bf7b-f205d518d962', '019a00fe-af77-736a-b598-9c6e6acabbf2', NULL, '2025-10-31 03:36:00', '2025-10-31 03:36:00', NULL),
-('2bc8e230-7239-4dc4-b1bc-50e5fba9c200', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, '0199fab2-d664-7063-a76a-dda899f5a407', NULL, '2025-10-31 05:43:37', '2025-10-31 05:43:37', NULL),
-('3198bee4-7ff3-49be-b887-a7a39ce92b38', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, '0199fab2-d664-7063-a76a-dda899f5a407', NULL, '2025-10-31 05:45:05', '2025-10-31 05:45:05', NULL),
-('48e6aa24-4e8b-4cc0-8f8f-40de2fcf998c', '019a209f-86dd-71be-a26b-313933a09843', NULL, 'c7185ad6-08e9-43c5-b48d-fbbf5e77911c', '019a00fe-af77-736a-b598-9c6e6acabbf2', NULL, '2025-10-30 11:59:52', '2025-10-30 11:59:52', NULL),
-('65a8c893-b771-40ea-a747-d1b9bfd8b845', '019a209f-86dd-71be-a26b-313933a09843', NULL, 'ed534e0f-f27b-4b91-a6da-6bdf897ae440', '019a00fc-13f3-73b3-9d6a-5451252fab51', NULL, '2025-10-30 12:02:56', '2025-10-30 12:02:56', NULL),
-('6d0ed78a-15e7-4392-ac74-6ee0833d2599', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, '0199fab2-d664-7063-a76a-dda899f5a407', NULL, '2025-10-31 05:45:53', '2025-10-31 05:45:53', NULL),
-('77c5a34e-a498-4300-9770-8e5edfb09512', '019a209f-86dd-71be-a26b-313933a09843', NULL, '2972611a-21bd-4efc-88e7-c232eb35236d', '0199fabd-7863-7040-ae5e-cd770a627af3', 70000, '2025-10-30 11:42:04', '2025-10-30 11:42:04', NULL),
-('8f78851c-4ebc-4719-94ba-5f4c97502f60', '019a209f-86dd-71be-a26b-313933a09843', NULL, '044fdb60-9371-4624-b87e-61d99405d3fd', '019a00fe-af77-736a-b598-9c6e6acabbf2', NULL, '2025-10-31 03:33:58', '2025-10-31 03:33:58', NULL),
-('ebd760dd-0e75-4f1b-84cc-9a9e987701af', '019a209f-86dd-71be-a26b-313933a09843', NULL, '3b46fa71-8ad8-47a5-8a1a-239bdd8bb179', '0199fabd-7863-7040-ae5e-cd770a627af3', NULL, '2025-10-30 11:38:27', '2025-10-30 11:38:27', NULL),
-('f150ae25-7e1c-482e-8f0b-b8cd0c392a4f', '019a209f-86dd-71be-a26b-313933a09843', 'f4021622-afd3-4e03-b950-e9b9e654b995', NULL, '019a0ff8-6782-71e6-ac4f-aec442caa8c1', NULL, '2025-11-01 07:17:52', '2025-11-01 07:17:52', NULL);
+INSERT INTO `data_team_site` (`id`, `users_id`, `users_id_2`, `users_id_3`, `data_ticket_hc_id`, `data_ticket_id`, `client_id`, `fee`, `fee_2`, `fee_3`, `fee_paid`, `fee_paid_2`, `fee_paid_3`, `fee_paid_at`, `fee2_paid_at`, `fee3_paid_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('2a73d52c-4659-4614-ac18-064fa6bd6e4b', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, '885b5020-ff24-48db-bf7b-f205d518d962', '019a00fe-af77-736a-b598-9c6e6acabbf2', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-31 03:36:00', '2025-10-31 03:36:00', NULL),
+('2bc8e230-7239-4dc4-b1bc-50e5fba9c200', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, NULL, '0199fab2-d664-7063-a76a-dda899f5a407', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-31 05:43:37', '2025-10-31 05:43:37', NULL),
+('3198bee4-7ff3-49be-b887-a7a39ce92b38', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, NULL, '0199fab2-d664-7063-a76a-dda899f5a407', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-31 05:45:05', '2025-10-31 05:45:05', NULL),
+('48e6aa24-4e8b-4cc0-8f8f-40de2fcf998c', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, 'c7185ad6-08e9-43c5-b48d-fbbf5e77911c', '019a00fe-af77-736a-b598-9c6e6acabbf2', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-30 11:59:52', '2025-10-30 11:59:52', NULL),
+('55498f92-3eb4-4eb7-a241-33e037975e94', '019a209f-86dd-71be-a26b-313933a09843', '019a209f-86dd-71be-a26b-313933a09843', NULL, 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 70000, 50000, NULL, 1, 1, 0, '2025-12-09 09:28:53', '2025-12-09 09:28:54', NULL, '2025-12-07 01:37:27', '2025-12-09 02:28:54', NULL),
+('65a8c893-b771-40ea-a747-d1b9bfd8b845', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, 'ed534e0f-f27b-4b91-a6da-6bdf897ae440', '019a00fc-13f3-73b3-9d6a-5451252fab51', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-30 12:02:56', '2025-10-30 12:02:56', NULL),
+('6d0ed78a-15e7-4392-ac74-6ee0833d2599', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, NULL, '0199fab2-d664-7063-a76a-dda899f5a407', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-31 05:45:53', '2025-10-31 05:45:53', NULL),
+('77c5a34e-a498-4300-9770-8e5edfb09512', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, '2972611a-21bd-4efc-88e7-c232eb35236d', '0199fabd-7863-7040-ae5e-cd770a627af3', 70000, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-30 11:42:04', '2025-10-30 11:42:04', NULL),
+('8f78851c-4ebc-4719-94ba-5f4c97502f60', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, '044fdb60-9371-4624-b87e-61d99405d3fd', '019a00fe-af77-736a-b598-9c6e6acabbf2', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-31 03:33:58', '2025-10-31 03:33:58', NULL),
+('b591cede-16b4-4e8b-868e-97079919dfd5', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, 'febfdfb5-93c6-4354-85be-b186214eb7ff', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-12-07 00:26:03', '2025-12-07 00:26:03', NULL),
+('ebd760dd-0e75-4f1b-84cc-9a9e987701af', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, NULL, '3b46fa71-8ad8-47a5-8a1a-239bdd8bb179', '0199fabd-7863-7040-ae5e-cd770a627af3', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-10-30 11:38:27', '2025-10-30 11:38:27', NULL),
+('f150ae25-7e1c-482e-8f0b-b8cd0c392a4f', '019a209f-86dd-71be-a26b-313933a09843', NULL, NULL, 'f4021622-afd3-4e03-b950-e9b9e654b995', NULL, '019a0ff8-6782-71e6-ac4f-aec442caa8c1', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, '2025-11-01 07:17:52', '2025-11-01 07:17:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -915,16 +975,16 @@ INSERT INTO `data_team_site` (`id`, `users_id`, `data_ticket_hc_id`, `data_ticke
 --
 
 CREATE TABLE `data_ticket` (
-  `id` char(36) NOT NULL,
-  `ticket_code` varchar(255) NOT NULL,
-  `client_id` char(36) NOT NULL,
-  `type_task` enum('Gangguan','Customers Support','Support NOC','Maintenance') NOT NULL,
-  `detail_task` text DEFAULT NULL,
-  `note` text DEFAULT NULL,
-  `status` enum('open','cancel','process','finish') NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ticket_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type_task` enum('Gangguan','Customers Support','Support NOC','Maintenance') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `detail_task` text COLLATE utf8mb4_unicode_ci,
+  `note` text COLLATE utf8mb4_unicode_ci,
+  `status` enum('open','cancel','process','finish') COLLATE utf8mb4_unicode_ci NOT NULL,
   `status_finish` datetime DEFAULT NULL,
-  `solving` varchar(255) DEFAULT NULL,
-  `ticket_guarantee` tinyint(1) NOT NULL DEFAULT 0,
+  `solving` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_guarantee` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -942,7 +1002,8 @@ INSERT INTO `data_ticket` (`id`, `ticket_code`, `client_id`, `type_task`, `detai
 ('8b614fe7-8a44-4fc6-b8a6-b3df0722833d', 'TC-GZYMILJR', '0199fab2-d664-7063-a76a-dda899f5a407', 'Gangguan', 'router mati total', NULL, 'process', NULL, 'Ganti Router', 0, '2025-10-30 06:41:11', '2025-10-30 06:41:11', NULL),
 ('c7185ad6-08e9-43c5-b48d-fbbf5e77911c', 'TC-FKP1ZXGJ', '019a00fe-af77-736a-b598-9c6e6acabbf2', 'Gangguan', NULL, NULL, 'finish', '2025-10-31 10:28:26', 'Ganti Router', 0, '2025-10-30 11:59:52', '2025-10-31 03:28:26', NULL),
 ('ed534e0f-f27b-4b91-a6da-6bdf897ae440', 'TC-AOV63IIX', '019a00fc-13f3-73b3-9d6a-5451252fab51', 'Gangguan', 'test', 'test', 'finish', '2025-10-31 10:40:42', 'Ganti Router', 0, '2025-10-30 12:02:56', '2025-10-31 03:40:42', NULL),
-('f3df0a7c-5213-41c7-b6cd-42a53cc74f85', 'TC-U9HCGGB5', '0199fab2-d664-7063-a76a-dda899f5a407', 'Gangguan', 'router mati total', NULL, 'cancel', NULL, 'Ganti Router', 0, '2025-10-30 06:40:59', '2025-10-30 06:48:54', NULL);
+('f3df0a7c-5213-41c7-b6cd-42a53cc74f85', 'TC-U9HCGGB5', '0199fab2-d664-7063-a76a-dda899f5a407', 'Gangguan', 'router mati total', NULL, 'cancel', NULL, 'Ganti Router', 0, '2025-10-30 06:40:59', '2025-10-30 06:48:54', NULL),
+('febfdfb5-93c6-4354-85be-b186214eb7ff', 'TC-CVR3DIZB', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'Support NOC', 'Ganti password Wifi', 'Password sudah di sesuai dengan permintaan', 'finish', '2025-12-07 07:26:44', 'Setting NOC', 0, '2025-12-07 00:26:03', '2025-12-07 00:26:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -951,14 +1012,14 @@ INSERT INTO `data_ticket` (`id`, `ticket_code`, `client_id`, `type_task`, `detai
 --
 
 CREATE TABLE `data_ticket_hc` (
-  `id` char(36) NOT NULL,
-  `ticket_code` varchar(255) NOT NULL,
-  `client_id` char(36) NOT NULL,
-  `note` text DEFAULT NULL,
-  `status` enum('open','process','pending','cancel','finish') NOT NULL,
-  `merk_kabel` varchar(255) DEFAULT NULL,
-  `panjang_kabel` varchar(255) DEFAULT NULL,
-  `sambungan_kabel` varchar(255) DEFAULT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ticket_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci,
+  `status` enum('open','process','pending','cancel','finish') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `merk_kabel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `panjang_kabel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sambungan_kabel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status_finish` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -970,6 +1031,7 @@ CREATE TABLE `data_ticket_hc` (
 --
 
 INSERT INTO `data_ticket_hc` (`id`, `ticket_code`, `client_id`, `note`, `status`, `merk_kabel`, `panjang_kabel`, `sambungan_kabel`, `status_finish`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('dd5c8a02-c622-4a63-be70-e81fe5003453', 'PSB-0LHB3L24', '29d61368-e1cd-4c48-9115-bbf3e4f1aac3', 'pelanggan minta kabel di lewatkan samping pintu', 'finish', NULL, NULL, NULL, '2025-12-09 08:25:39', '2025-12-07 01:37:27', '2025-12-09 01:25:39', NULL),
 ('f4021622-afd3-4e03-b950-e9b9e654b995', 'PSB-61U5NDXT', '019a0ff8-6782-71e6-ac4f-aec442caa8c1', NULL, 'finish', 'global', '150', '2', '2025-11-01 16:48:36', '2025-11-01 07:17:51', '2025-11-01 09:48:36', NULL);
 
 -- --------------------------------------------------------
@@ -979,10 +1041,10 @@ INSERT INTO `data_ticket_hc` (`id`, `ticket_code`, `client_id`, `note`, `status`
 --
 
 CREATE TABLE `data_ticket_log` (
-  `id` char(36) NOT NULL,
-  `data_ticket_hc_id` char(36) DEFAULT NULL,
-  `data_ticket_id` char(36) DEFAULT NULL,
-  `status` text NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `data_ticket_hc_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data_ticket_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -994,10 +1056,20 @@ CREATE TABLE `data_ticket_log` (
 
 INSERT INTO `data_ticket_log` (`id`, `data_ticket_hc_id`, `data_ticket_id`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
 ('02fbf240-2e78-43c0-81b0-dff5a96344fe', NULL, NULL, 'Tiket PSB-48QTRERG diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 01-11-2025 14:07:51', '2025-11-01 07:07:51', '2025-11-01 07:07:51', NULL),
+('0f5e0625-1f25-4854-b235-b062d7a8b0f7', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Tiket PSB-0LHB3L24 diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 07-12-2025 08:50:48', '2025-12-07 01:50:48', '2025-12-07 01:50:48', NULL),
+('42695c2d-1148-47fa-8b18-85966e1b092a', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Tiket PSB-0LHB3L24 diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 09-12-2025 08:25:39', '2025-12-09 01:25:39', '2025-12-09 01:25:39', NULL),
+('42aca20a-0429-44d7-b6a1-593666be48ab', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Tiket PSB-0LHB3L24 diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 07-12-2025 08:41:55', '2025-12-07 01:41:55', '2025-12-07 01:41:55', NULL),
 ('44e53e9a-c9ff-415a-af69-b60fb617e55e', NULL, NULL, 'Tiket PSB-48QTRERG diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 01-11-2025 14:08:34', '2025-11-01 07:08:34', '2025-11-01 07:08:34', NULL),
 ('45c084f1-3525-4df5-ba55-6e2be0c65bb6', 'f4021622-afd3-4e03-b950-e9b9e654b995', NULL, 'Tiket PSB-61U5NDXT diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 01-11-2025 16:48:37', '2025-11-01 09:48:37', '2025-11-01 09:48:37', NULL),
+('466a629e-3ace-4af2-9e74-f7b7ecfffccd', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Tiket PSB-0LHB3L24 diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 07-12-2025 14:30:16', '2025-12-07 07:30:16', '2025-12-07 07:30:16', NULL),
+('5e6f7aad-02bc-45d3-a207-4c1f65459653', NULL, 'febfdfb5-93c6-4354-85be-b186214eb7ff', 'Ticket dengan kode TC-CVR3DIZB untuk client Jauhari Ahmad Image telah ditujukan kepada Wahyu Hidayat pada 07-12-2025 07:26:03', '2025-12-07 00:26:03', '2025-12-07 00:26:03', NULL),
+('5eb5fda3-e19a-4384-b8a1-582822c43678', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Tiket PSB-0LHB3L24 diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 07-12-2025 09:35:20', '2025-12-07 02:35:20', '2025-12-07 02:35:20', NULL),
+('740db084-8c7b-4b7d-b46c-498de4ec4ae7', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Tiket PSB-0LHB3L24 diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 07-12-2025 14:33:36', '2025-12-07 07:33:36', '2025-12-07 07:33:36', NULL),
+('78022953-b183-47fd-a0a4-66f421bec47c', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Ticket PSB dengan kode PSB-0LHB3L24 untuk client Jauhari Ahmad Image telah ditujukan kepada Wahyu Hidayat pada 07-12-2025 08:37:27', '2025-12-07 01:37:27', '2025-12-07 01:37:27', NULL),
 ('a2c40078-d93e-4671-b160-f25a3d1bff63', 'f4021622-afd3-4e03-b950-e9b9e654b995', NULL, 'Tiket PSB-61U5NDXT diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 01-11-2025 14:18:31', '2025-11-01 07:18:31', '2025-11-01 07:18:31', NULL),
+('af241396-7fb4-404e-8ced-c716bf2ddb11', NULL, 'febfdfb5-93c6-4354-85be-b186214eb7ff', 'Tiket TC-CVR3DIZB diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 07-12-2025 07:26:44', '2025-12-07 00:26:44', '2025-12-07 00:26:44', NULL),
 ('afd36b28-5cdf-43dc-bb88-343614072a96', 'f4021622-afd3-4e03-b950-e9b9e654b995', NULL, 'Ticket PSB dengan kode PSB-61U5NDXT untuk client Nisa Pratiwisari Mulyana telah ditujukan kepada Wahyu Hidayat pada 01-11-2025 14:17:52', '2025-11-01 07:17:52', '2025-11-01 07:17:52', NULL),
+('c9a53c7d-db4c-4620-869a-32d05b23172d', 'dd5c8a02-c622-4a63-be70-e81fe5003453', NULL, 'Tiket PSB-0LHB3L24 diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 07-12-2025 09:45:27', '2025-12-07 02:45:27', '2025-12-07 02:45:27', NULL),
 ('df5e81a0-2a8f-49b8-9c29-da429b2541d0', NULL, NULL, 'Tiket PSB-LRSFLLOL diperbarui oleh System Admin dan ditangani oleh teknisi Wahyu Hidayat pada 01-11-2025 14:06:00', '2025-11-01 07:06:00', '2025-11-01 07:06:00', NULL);
 
 -- --------------------------------------------------------
@@ -1008,26 +1080,13 @@ INSERT INTO `data_ticket_log` (`id`, `data_ticket_hc_id`, `data_ticket_id`, `sta
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `failed_jobs`
---
-
-INSERT INTO `failed_jobs` (`id`, `uuid`, `connection`, `queue`, `payload`, `exception`, `failed_at`) VALUES
-(1, 'def7f1cb-2ce0-4253-8946-bb6a899e7a54', 'database', 'default', '{\"uuid\":\"def7f1cb-2ce0-4253-8946-bb6a899e7a54\",\"displayName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\JobCreateUserRadius\\\":2:{s:11:\\\"\\u0000*\\u0000clientId\\\";s:36:\\\"29d61368-e1cd-4c48-9115-bbf3e4f1aac3\\\";s:11:\\\"afterCommit\\\";b:1;}\"},\"createdAt\":1763888741,\"delay\":null}', 'GuzzleHttp\\Exception\\ConnectException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:277\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(207): GuzzleHttp\\Handler\\CurlFactory::createRejection(Object(GuzzleHttp\\Handler\\EasyHandle), Array)\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(159): GuzzleHttp\\Handler\\CurlFactory::finishError(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlHandler.php(47): GuzzleHttp\\Handler\\CurlFactory::finish(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(28): GuzzleHttp\\Handler\\CurlHandler->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(48): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1401): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1367): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1353): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php(64): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(38): GuzzleHttp\\PrepareBodyMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php(71): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(63): GuzzleHttp\\RedirectMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/HandlerStack.php(75): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(333): GuzzleHttp\\HandlerStack->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(169): GuzzleHttp\\Client->transfer(Object(GuzzleHttp\\Psr7\\Request), Array)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync(\'POST\', Object(GuzzleHttp\\Psr7\\Uri), Array)\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1199): GuzzleHttp\\Client->request(\'POST\', \'api/users\', Array)\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(944): Illuminate\\Http\\Client\\PendingRequest->sendRequest(\'POST\', \'api/users\', Array)\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#39 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#40 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#41 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#42 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#43 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#44 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#45 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#46 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#47 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#48 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#49 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#50 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#51 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#52 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#53 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#54 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#55 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#56 {main}\n\nNext Illuminate\\Http\\Client\\ConnectionException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php:1653\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(979): Illuminate\\Http\\Client\\PendingRequest->marshalConnectionException(Object(GuzzleHttp\\Exception\\ConnectException))\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#39 {main}', '2025-11-23 09:05:42'),
-(2, 'd86c7eca-d066-4343-8924-b4ac1884b710', 'database', 'default', '{\"uuid\":\"d86c7eca-d066-4343-8924-b4ac1884b710\",\"displayName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\JobCreateUserRadius\\\":2:{s:11:\\\"\\u0000*\\u0000clientId\\\";s:36:\\\"29d61368-e1cd-4c48-9115-bbf3e4f1aac3\\\";s:11:\\\"afterCommit\\\";b:1;}\"},\"createdAt\":1763888913,\"delay\":null}', 'GuzzleHttp\\Exception\\ConnectException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:277\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(207): GuzzleHttp\\Handler\\CurlFactory::createRejection(Object(GuzzleHttp\\Handler\\EasyHandle), Array)\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(159): GuzzleHttp\\Handler\\CurlFactory::finishError(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlHandler.php(47): GuzzleHttp\\Handler\\CurlFactory::finish(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(28): GuzzleHttp\\Handler\\CurlHandler->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(48): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1401): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1367): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1353): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php(64): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(38): GuzzleHttp\\PrepareBodyMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php(71): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(63): GuzzleHttp\\RedirectMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/HandlerStack.php(75): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(333): GuzzleHttp\\HandlerStack->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(169): GuzzleHttp\\Client->transfer(Object(GuzzleHttp\\Psr7\\Request), Array)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync(\'POST\', Object(GuzzleHttp\\Psr7\\Uri), Array)\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1199): GuzzleHttp\\Client->request(\'POST\', \'api/users\', Array)\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(944): Illuminate\\Http\\Client\\PendingRequest->sendRequest(\'POST\', \'api/users\', Array)\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#39 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#40 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#41 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#42 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#43 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#44 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#45 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#46 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#47 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#48 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#49 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#50 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#51 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#52 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#53 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#54 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#55 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#56 {main}\n\nNext Illuminate\\Http\\Client\\ConnectionException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php:1653\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(979): Illuminate\\Http\\Client\\PendingRequest->marshalConnectionException(Object(GuzzleHttp\\Exception\\ConnectException))\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#39 {main}', '2025-11-23 09:08:34');
-INSERT INTO `failed_jobs` (`id`, `uuid`, `connection`, `queue`, `payload`, `exception`, `failed_at`) VALUES
-(3, '33ad9611-f3d7-446a-9c07-e54dac7a0720', 'database', 'default', '{\"uuid\":\"33ad9611-f3d7-446a-9c07-e54dac7a0720\",\"displayName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\JobCreateUserRadius\\\":2:{s:11:\\\"\\u0000*\\u0000clientId\\\";s:36:\\\"29d61368-e1cd-4c48-9115-bbf3e4f1aac3\\\";s:11:\\\"afterCommit\\\";b:1;}\"},\"createdAt\":1763889042,\"delay\":null}', 'GuzzleHttp\\Exception\\ConnectException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:277\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(207): GuzzleHttp\\Handler\\CurlFactory::createRejection(Object(GuzzleHttp\\Handler\\EasyHandle), Array)\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(159): GuzzleHttp\\Handler\\CurlFactory::finishError(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlHandler.php(47): GuzzleHttp\\Handler\\CurlFactory::finish(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(28): GuzzleHttp\\Handler\\CurlHandler->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(48): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1401): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1367): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1353): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php(64): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(38): GuzzleHttp\\PrepareBodyMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php(71): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(63): GuzzleHttp\\RedirectMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/HandlerStack.php(75): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(333): GuzzleHttp\\HandlerStack->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(169): GuzzleHttp\\Client->transfer(Object(GuzzleHttp\\Psr7\\Request), Array)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync(\'POST\', Object(GuzzleHttp\\Psr7\\Uri), Array)\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1199): GuzzleHttp\\Client->request(\'POST\', \'api/users\', Array)\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(944): Illuminate\\Http\\Client\\PendingRequest->sendRequest(\'POST\', \'api/users\', Array)\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#39 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#40 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#41 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#42 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#43 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#44 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#45 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#46 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#47 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#48 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#49 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#50 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#51 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#52 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#53 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#54 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#55 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#56 {main}\n\nNext Illuminate\\Http\\Client\\ConnectionException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php:1653\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(979): Illuminate\\Http\\Client\\PendingRequest->marshalConnectionException(Object(GuzzleHttp\\Exception\\ConnectException))\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#39 {main}', '2025-11-23 09:10:44'),
-(4, 'c7ab69b6-a446-4574-a032-6934e777fdeb', 'database', 'default', '{\"uuid\":\"c7ab69b6-a446-4574-a032-6934e777fdeb\",\"displayName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\JobCreateUserRadius\\\":2:{s:11:\\\"\\u0000*\\u0000clientId\\\";s:36:\\\"29d61368-e1cd-4c48-9115-bbf3e4f1aac3\\\";s:11:\\\"afterCommit\\\";b:1;}\"},\"createdAt\":1763889201,\"delay\":null}', 'GuzzleHttp\\Exception\\ConnectException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:277\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(207): GuzzleHttp\\Handler\\CurlFactory::createRejection(Object(GuzzleHttp\\Handler\\EasyHandle), Array)\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(159): GuzzleHttp\\Handler\\CurlFactory::finishError(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/CurlHandler.php(47): GuzzleHttp\\Handler\\CurlFactory::finish(Object(GuzzleHttp\\Handler\\CurlHandler), Object(GuzzleHttp\\Handler\\EasyHandle), Object(GuzzleHttp\\Handler\\CurlFactory))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(28): GuzzleHttp\\Handler\\CurlHandler->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(48): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1401): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1367): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1353): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php(64): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(38): GuzzleHttp\\PrepareBodyMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php(71): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Middleware.php(63): GuzzleHttp\\RedirectMiddleware->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/HandlerStack.php(75): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}(Object(GuzzleHttp\\Psr7\\Request), Array)\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(333): GuzzleHttp\\HandlerStack->__invoke(Object(GuzzleHttp\\Psr7\\Request), Array)\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(169): GuzzleHttp\\Client->transfer(Object(GuzzleHttp\\Psr7\\Request), Array)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync(\'POST\', Object(GuzzleHttp\\Psr7\\Uri), Array)\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1199): GuzzleHttp\\Client->request(\'POST\', \'api/users\', Array)\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(944): Illuminate\\Http\\Client\\PendingRequest->sendRequest(\'POST\', \'api/users\', Array)\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#39 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#40 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#41 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#42 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#43 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#44 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#45 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#46 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#47 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#48 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#49 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#50 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#51 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#52 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#53 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#54 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#55 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#56 {main}\n\nNext Illuminate\\Http\\Client\\ConnectionException: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/users in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php:1653\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(979): Illuminate\\Http\\Client\\PendingRequest->marshalConnectionException(Object(GuzzleHttp\\Exception\\ConnectException))\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'api/users\', Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(48): Illuminate\\Http\\Client\\PendingRequest->post(\'/api/users\', Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#39 {main}', '2025-11-23 09:13:24');
-INSERT INTO `failed_jobs` (`id`, `uuid`, `connection`, `queue`, `payload`, `exception`, `failed_at`) VALUES
-(5, '2ab4e671-97a9-4236-88c9-6bef8867790f', 'database', 'default', '{\"uuid\":\"2ab4e671-97a9-4236-88c9-6bef8867790f\",\"displayName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\JobCreateUserRadius\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\JobCreateUserRadius\\\":2:{s:11:\\\"\\u0000*\\u0000clientId\\\";s:36:\\\"29d61368-e1cd-4c48-9115-bbf3e4f1aac3\\\";s:11:\\\"afterCommit\\\";b:1;}\"},\"createdAt\":1763947933,\"delay\":null}', 'GuzzleHttp\\Psr7\\Exception\\MalformedUriException: Unable to parse URI: http://103.52.115.151:3000api/user-group in /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/psr7/src/Uri.php:85\nStack trace:\n#0 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/psr7/src/Utils.php(472): GuzzleHttp\\Psr7\\Uri->__construct(\'http://103.52.1...\')\n#1 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(161): GuzzleHttp\\Psr7\\Utils::uriFor(\'http://103.52.1...\')\n#2 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync(\'POST\', \'http://103.52.1...\', Array)\n#3 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(1199): GuzzleHttp\\Client->request(\'POST\', \'http://103.52.1...\', Array)\n#4 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(944): Illuminate\\Http\\Client\\PendingRequest->sendRequest(\'POST\', \'http://103.52.1...\', Array)\n#5 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Support/helpers.php(329): Illuminate\\Http\\Client\\PendingRequest->Illuminate\\Http\\Client\\{closure}(1)\n#6 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(942): retry(0, Object(Closure), 100, Object(Closure))\n#7 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php(830): Illuminate\\Http\\Client\\PendingRequest->send(\'POST\', \'http://103.52.1...\', Array)\n#8 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/app/Jobs/JobCreateUserRadius.php(53): Illuminate\\Http\\Client\\PendingRequest->post(\'http://103.52.1...\', Array)\n#9 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): App\\Jobs\\JobCreateUserRadius->handle()\n#10 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#11 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#12 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#13 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#14 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)\n#15 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#16 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#17 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Bus/Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#18 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\JobCreateUserRadius), false)\n#19 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#20 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\JobCreateUserRadius))\n#21 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))\n#22 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(App\\Jobs\\JobCreateUserRadius))\n#23 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Jobs/Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Array)\n#24 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(451): Illuminate\\Queue\\Jobs\\Job->fire()\n#25 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(401): Illuminate\\Queue\\Worker->process(\'database\', Object(Illuminate\\Queue\\Jobs\\DatabaseJob), Object(Illuminate\\Queue\\WorkerOptions))\n#26 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Worker.php(187): Illuminate\\Queue\\Worker->runJob(Object(Illuminate\\Queue\\Jobs\\DatabaseJob), \'database\', Object(Illuminate\\Queue\\WorkerOptions))\n#27 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(148): Illuminate\\Queue\\Worker->daemon(\'database\', \'default,emails\', Object(Illuminate\\Queue\\WorkerOptions))\n#28 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php(131): Illuminate\\Queue\\Console\\WorkCommand->runWorker(\'database\', \'default,emails\')\n#29 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Queue\\Console\\WorkCommand->handle()\n#30 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()\n#31 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))\n#32 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))\n#33 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Container/Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)\n#34 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)\n#35 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#36 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))\n#37 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(1110): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#38 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(359): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\WorkCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#39 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/symfony/console/Application.php(194): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#40 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#41 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))\n#42 /Applications/XAMPP/xamppfiles/htdocs/UrbanetCRM/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))\n#43 {main}', '2025-11-24 01:32:15');
 
 -- --------------------------------------------------------
 
@@ -1037,8 +1096,8 @@ INSERT INTO `failed_jobs` (`id`, `uuid`, `connection`, `queue`, `payload`, `exce
 
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) NOT NULL,
-  `payload` longtext NOT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
@@ -1052,13 +1111,13 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_jobs` int(11) NOT NULL,
   `pending_jobs` int(11) NOT NULL,
   `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext NOT NULL,
-  `options` mediumtext DEFAULT NULL,
+  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext COLLATE utf8mb4_unicode_ci,
   `cancelled_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `finished_at` int(11) DEFAULT NULL
@@ -1072,7 +1131,7 @@ CREATE TABLE `job_batches` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1147,7 +1206,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (72, '2025_11_25_093910_add_radius_secret_to_data_server_table', 60),
 (73, '2025_12_03_085822_create_data_csr_table', 61),
 (74, '2025_12_03_101030_add_status_to_data_csr_table', 62),
-(75, '2025_12_03_105349_add_client_csr_id_to_data_odp_port_table', 63);
+(75, '2025_12_03_105349_add_client_csr_id_to_data_odp_port_table', 63),
+(76, '2025_12_05_160032_create_data_mutasi_table', 64),
+(77, '2025_12_07_081814_add_users2_users3_fee2_fee3_to_data_team_site_table', 65),
+(78, '2025_12_07_142551_add_fee_engineer2_to_data_setting_table', 66),
+(79, '2025_12_08_044722_add_fee_paid_columns_to_data_team_site_table', 67);
 
 -- --------------------------------------------------------
 
@@ -1156,8 +1219,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1176,11 +1239,11 @@ INSERT INTO `password_reset_tokens` (`email`, `token`, `created_at`) VALUES
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` char(36) NOT NULL,
-  `name` text NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1194,15 +1257,15 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `users` (
-  `id` char(36) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('Admin','Finance','NOC','CustomerCare','Installer','Sales','Legal','AdminCust') DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT 0,
-  `is_first_login` tinyint(1) NOT NULL DEFAULT 0,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('Admin','Finance','NOC','CustomerCare','Installer','Sales','Legal','AdminCust') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `is_first_login` tinyint(1) NOT NULL DEFAULT '0',
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1341,6 +1404,13 @@ ALTER TABLE `data_img`
   ADD KEY `data_img_data_ticket_id_foreign` (`data_ticket_id`);
 
 --
+-- Indeks untuk tabel `data_mutasi`
+--
+ALTER TABLE `data_mutasi`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `data_mutasi_mutation_id_unique` (`mutation_id`);
+
+--
 -- Indeks untuk tabel `data_odc`
 --
 ALTER TABLE `data_odc`
@@ -1418,7 +1488,9 @@ ALTER TABLE `data_team_site`
   ADD KEY `data_team_site_users_id_foreign` (`users_id`),
   ADD KEY `data_team_site_data_ticket_hc_id_foreign` (`data_ticket_hc_id`),
   ADD KEY `data_team_site_data_ticket_id_foreign` (`data_ticket_id`),
-  ADD KEY `data_team_site_client_id_foreign` (`client_id`);
+  ADD KEY `data_team_site_client_id_foreign` (`client_id`),
+  ADD KEY `data_team_site_users_id_2_foreign` (`users_id_2`),
+  ADD KEY `data_team_site_users_id_3_foreign` (`users_id_3`);
 
 --
 -- Indeks untuk tabel `data_ticket`
@@ -1500,7 +1572,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `jobs`
@@ -1512,7 +1584,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -1644,6 +1716,8 @@ ALTER TABLE `data_team_site`
   ADD CONSTRAINT `data_team_site_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `data_clients` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `data_team_site_data_ticket_hc_id_foreign` FOREIGN KEY (`data_ticket_hc_id`) REFERENCES `data_ticket_hc` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `data_team_site_data_ticket_id_foreign` FOREIGN KEY (`data_ticket_id`) REFERENCES `data_ticket` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `data_team_site_users_id_2_foreign` FOREIGN KEY (`users_id_2`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `data_team_site_users_id_3_foreign` FOREIGN KEY (`users_id_3`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `data_team_site_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
