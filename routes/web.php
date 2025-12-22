@@ -37,6 +37,7 @@ use App\Http\Controllers\Partner\ClientAddUserController;
 use App\Http\Controllers\Partner\ClientPartnerController;
 use App\Http\Controllers\UserRegist\UserRegistController;
 
+use App\Http\Controllers\Warehouse\Items\ItemsController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\UserRegist\AdminRegistController;
 use App\Http\Controllers\PelangganCsr\ProcessCsrController;
@@ -47,22 +48,23 @@ use App\Http\Controllers\UserBilling\UserPayPointController;
 use App\Http\Controllers\Partner\ClientEditProfileController;
 use App\Http\Controllers\Partner\ClientTransactionController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
+
 use App\Http\Controllers\UserReferral\UserReferralController;
 use App\Http\Controllers\Partner\ClientProcessPointController;
-
 use App\Http\Controllers\Partner\UserSuspendPartnerController;
+
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
 
 use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\UserBilling\UserTransactionController;
 
-use App\Http\Controllers\Warehouse\Category\CategoryController;
-use App\Http\Controllers\Warehouse\Items\ItemsController;
-use App\Http\Controllers\Warehouse\DataWarehouse\DataWarehouseController;
-
 use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
+
+use App\Http\Controllers\Warehouse\DataWarehouse\DataWarehouseController;
+use App\Http\Controllers\Warehouse\Category\CategoryController;
+use App\Http\Controllers\Warehouse\Stocks\StocksController;
 
 
 
@@ -365,6 +367,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/tambah', [ItemsController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ItemsController::class, 'edit'])->name('edit');
         Route::post('/edit/{id}', [ItemsController::class, 'update'])->name('update');
+    });
+
+    // ===== Stocks Warehouse  =====
+    Route::prefix('dashboard/warehouse-stocks')->name('warehouse_stocks.')->group(function () {
+        Route::get('/', [StocksController::class, 'index'])->name('index');
+        Route::get('/tambah', [StocksController::class, 'create'])->name('create');
+        Route::post('/tambah', [StocksController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [StocksController::class, 'edit'])->name('edit');
+        Route::post('/edit/{id}', [StocksController::class, 'update'])->name('update');
     });
 
     // ===== data Prospek dari Mitra  =====

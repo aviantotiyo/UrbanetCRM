@@ -67,7 +67,7 @@ class ItemsController extends Controller
 
         $request->validate([
             'nama_barang'   => 'required|string',
-            'category_id'   => 'required|exists:data_categories,id',
+            'category_id'   => 'required|exists:warehouse.data_categories,id',
             'unit_type'     => 'required|in:unit,roll,meter,lainnya',
             'spesifikasi'   => 'nullable|string',
             'barcode'       => 'nullable|string',

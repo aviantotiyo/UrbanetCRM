@@ -1,4 +1,4 @@
-@section('title', 'Tambah Item Barang')
+@section('title', 'Persediaan Barang')
 @include('template.head')
 
 </head>
@@ -29,13 +29,13 @@
                             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
                             <div class="d-flex flex-column justify-content-center">
                                 <div class="mb-1">
-                                    <span class="h5">Tambah Item Barang</span>
+                                    <span class="h5">Persediaan Barang</span>
                                 </div>
 
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
                                 <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
-                                <a href="{{ route('admin.warehouse_items.create') }}" class="btn btn-outline-primary">Tambah Data</a>
+                                <a href="{{ route('admin.warehouse_stocks.create') }}" class="btn btn-outline-primary">Tambah Data</a>
                             </div>
                         </div>
                         {{-- Alert sukses --}}
@@ -54,49 +54,86 @@
                         </div>
                         @endif
 
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form method="GET" class="row g-3 mb-3 align-items-end">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Gudang</label>
+                                        <select name="warehouse_id" class="form-select">
+                                            <option value="">Semua Gudang</option>
+                                            @foreach($warehouses as $wh)
+                                            <option value="{{ $wh->id }}" {{ request('warehouse_id') == $wh->id ? 'selected' : '' }}>
+                                                {{ $wh->nama_gudang }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Kategori</label>
+                                        <select name="category_id" class="form-select">
+                                            <option value="">Semua Kategori</option>
+                                            @foreach($categories as $cat)
+                                            <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
+                                                {{ $cat->nama_kategori }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Cari Nama Barang</label>
+                                        <input type="text" name="search" class="form-control" value="{{ request('search') }}" placeholder="Nama barang...">
+                                    </div>
+
+                                    <!-- <div class="col-md-1">
+                                        <button type="submit" class="btn btn-outline-success w-100">Excel</button>
+                                    </div> -->
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
 
                         <div class="card">
-                            <h5 class="card-header">Data Item Barang</h5>
+                            <h5 class="card-header">Data Persediaan Barang</h5>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Nama Barang</th>
+                                            <th>Warehouse</th>
+                                            <th>Item</th>
                                             <th>Kategori</th>
-                                            <th>Spek</th>
-                                            <th>Satuan</th>
-                                            <th>Harga</th>
+                                            <th>Jumlah</th>
+                                            <th>Kode Rak</th>
+                                            <th>Update</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        @foreach($items as $item)
+                                        @foreach ($stocks as $stock)
                                         <tr>
                                             <td>
                                                 <div class="d-flex flex-wrap align-items-center mb-50">
                                                     <div>
                                                         <p class="mb-0 small fw-medium">
-                                                            {{ $item->nama_barang }}
+                                                            {{ $stock->warehouse->nama_gudang ?? '-' }}
+
                                                         </p>
-                                                        <small>{{ $item->kode_barang ?? '-' }}</small>
+                                                        <small> {{ $stock->warehouse->kode_gudang ?? '-' }}
+                                                        </small>
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>{{ $stock->item->nama_barang ?? '-' }}</td>
+                                            <td>{{ $stock->category->nama_kategori ?? '-' }}</td>
+                                            <td>{{ $stock->jumlah }}</td>
+                                            <td>{{ $stock->kode_rak ?? '-' }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($stock->updated_at)->format('d/m/Y H:i') }} WIB</td>
                                             <td>
-                                                <div class="d-flex flex-wrap align-items-center mb-50">
-                                                    <div>
-                                                        <p class="mb-0 small fw-medium">
-                                                            {{ $item->category->nama_kategori ?? '-' }}
-                                                        </p>
-                                                        <small> {{ $item->category->kode_kategori ?? '-' }}</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>{{ ($item->spesifikasi) }}</td>
-                                            <td>{{ ucfirst($item->unit_type) }}</td>
-                                            <td>Rp {{ number_format($item->harga_satuan ?? 0, 0, ',', '.') }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.warehouse_items.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                                <a href="{{ route('admin.warehouse_stocks.edit', $stock->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -105,12 +142,9 @@
                                 </table>
                                 <div class="card-footer bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
                                     {{-- Links pagination --}}
-                                    {{ $items->links() }}
+                                    {{ $stocks->links() }}
                                 </div>
                             </div>
-
-
-
                         </div>
 
                     </div>
