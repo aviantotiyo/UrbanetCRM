@@ -83,7 +83,7 @@
 
                                 <div class="col-12 d-flex gap-2 pt-2">
                                     <button class="btn btn-primary">Simpan</button>
-                                    <a href="{{ route('admin.dashboard_warehouse.index') }}" class="btn btn-outline-secondary">Batal</a>
+                                    <a href="{{ route('admin.warehouse_category.index') }}" class="btn btn-outline-secondary">Batal</a>
                                 </div>
                         </form>
                     </div>

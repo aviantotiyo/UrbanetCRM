@@ -70,7 +70,7 @@ class CategoryController extends Controller
             'deskripsi'     => $request->deskripsi,
         ]);
 
-        return redirect()->route('dashboard_category.index')
+        return redirect()->route('admin.warehouse_category.index')
             ->with('success', 'Kategori berhasil diperbarui.');
     }
 }
