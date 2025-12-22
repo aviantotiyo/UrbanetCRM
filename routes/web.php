@@ -22,18 +22,24 @@ use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Pelanggan\IsolirController;
 
+use App\Http\Controllers\PelangganCsr\CsrController;
 use App\Http\Controllers\Billing\ManualPayController;
+use App\Http\Controllers\Komisi\SalesKomisiController;
+
 use App\Http\Controllers\Pelanggan\UnisolirController;
 use App\Http\Controllers\Pelanggan\PelangganController;
-
+use App\Http\Controllers\Komisi\PartnerKomisiController;
+use App\Http\Controllers\Komisi\TeknisiKomisiController;
 use App\Http\Controllers\Partner\AdminPartnerController;
 use App\Http\Controllers\Partner\ClientDetailController;
 use App\Http\Controllers\UserBilling\UserAuthController;
 use App\Http\Controllers\Partner\ClientAddUserController;
 use App\Http\Controllers\Partner\ClientPartnerController;
 use App\Http\Controllers\UserRegist\UserRegistController;
+
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\UserRegist\AdminRegistController;
+use App\Http\Controllers\PelangganCsr\ProcessCsrController;
 use App\Http\Controllers\UserBilling\UserSuspendController;
 use App\Http\Controllers\Partner\ClientSearchDataController;
 use App\Http\Controllers\UserBilling\UserAddEmailController;
@@ -43,23 +49,21 @@ use App\Http\Controllers\Partner\ClientTransactionController;
 use App\Http\Controllers\UserBilling\UserDashboardController;
 use App\Http\Controllers\UserReferral\UserReferralController;
 use App\Http\Controllers\Partner\ClientProcessPointController;
+
 use App\Http\Controllers\Partner\UserSuspendPartnerController;
 use App\Http\Controllers\Pelanggan\ProcessPelangganController;
 use App\Http\Controllers\UserBilling\UserAddPaymentController;
-use App\Http\Controllers\UserReferral\AdminReferralController;
-use App\Http\Controllers\PelangganCsr\CsrController;
-use App\Http\Controllers\PelangganCsr\ProcessCsrController;
 
+use App\Http\Controllers\UserReferral\AdminReferralController;
 use App\Http\Controllers\UserBilling\UserTransactionController;
+
+use App\Http\Controllers\Warehouse\Category\CategoryController;
+use App\Http\Controllers\Warehouse\Items\ItemsController;
+use App\Http\Controllers\Warehouse\DataWarehouse\DataWarehouseController;
+
 use App\Http\Controllers\Partner\AdminProspectPartnerController;
 use App\Http\Controllers\Partner\ClientProcessPaymentController;
 
-use App\Http\Controllers\Komisi\SalesKomisiController;
-use App\Http\Controllers\Komisi\TeknisiKomisiController;
-use App\Http\Controllers\Komisi\PartnerKomisiController;
-
-use App\Http\Controllers\Warehouse\DataWarehouse\DataWarehouseController;
-use App\Http\Controllers\Warehouse\Category\CategoryController;
 
 
 // Public (no auth)
@@ -351,6 +355,16 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/tambah', [CategoryController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
         Route::post('/edit/{id}', [CategoryController::class, 'update'])->name('update');
+    });
+
+    // ===== Items Warehouse  =====
+
+    Route::prefix('dashboard/warehouse-items')->name('warehouse_items.')->group(function () {
+        Route::get('/', [ItemsController::class, 'index'])->name('index');
+        Route::get('/tambah', [ItemsController::class, 'create'])->name('create');
+        Route::post('/tambah', [ItemsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ItemsController::class, 'edit'])->name('edit');
+        Route::post('/edit/{id}', [ItemsController::class, 'update'])->name('update');
     });
 
     // ===== data Prospek dari Mitra  =====

@@ -6,24 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class DataCategories extends Model
+class DataItems extends Model
 {
     use HasUuids, SoftDeletes;
 
     protected $connection = 'warehouse';
-    protected $table = 'data_categories';
+    protected $table = 'data_items';
 
     protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [
-        'kode_kategori',
-        'nama_kategori',
-        'deskripsi',
+        'kode_barang',
+        'nama_barang',
+        'category_id',
+        'unit_type',
+        'spesifikasi',
+        'barcode',
+        'harga_satuan',
+        'img',
     ];
 
-    public function items()
+    // Relasi ke kategori
+    public function category()
     {
-        return $this->hasMany(DataItems::class, 'category_id');
+        return $this->belongsTo(DataCategories::class, 'category_id');
     }
 }
