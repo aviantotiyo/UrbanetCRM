@@ -32,7 +32,7 @@
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Jumlah</label>
+    <label class="form-label">Stock Tersedia</label>
     <input type="number" name="jumlah" class="form-control" value="{{ old('jumlah', $stock->jumlah ?? 0) }}">
 </div>
 

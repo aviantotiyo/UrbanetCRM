@@ -35,7 +35,13 @@
 
                             </div>
                             <div class="d-flex align-content-center flex-wrap gap-2">
-                                <!-- <button class="btn btn-label-primary">Tambah Pelanggan</button> -->
+                                <form action="{{ route('admin.warehouse_stocks.delete', $stock->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="ti ti-trash me-1"></i> Hapus
+                                    </button>
+                                </form>
+
                                 <a href="{{ route('admin.warehouse_stocks.index') }}" class="btn btn-outline-primary">← Kembali</a>
                             </div>
                         </div>
@@ -56,9 +62,64 @@
                             <div class="row g-6">
                                 <div class="col-md-6">
                                     <div class="card">
-                                        <h5 class="card-header">Edit Stock Barang</h5>
+                                        <h5 class="card-header">Data Stock Barang</h5>
                                         <div class="card-body">
-                                            @include('warehouse.stocks.form')
+                                            <div class="mb-3">
+                                                <label class="form-label">Lokasi Gudang</label>
+                                                <select name="warehouse_id" class="form-select" disabled>
+                                                    @foreach($warehouses as $wh)
+                                                    <option value="{{ $wh->id }}" {{ (old('warehouse_id', $stock->warehouse_id ?? '') == $wh->id) ? 'selected' : '' }}>
+                                                        {{ $wh->nama_gudang }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Item Barang</label>
+                                                <select name="item_id" class="form-select" disabled>
+                                                    @foreach($items as $item)
+                                                    <option value="{{ $item->id }}" {{ (old('item_id', $stock->item_id ?? '') == $item->id) ? 'selected' : '' }}>
+                                                        {{ $item->nama_barang }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Kategori Barang</label>
+                                                <select name="category_id" class="form-select" disabled>
+                                                    @foreach($categories as $cat)
+                                                    <option value="{{ $cat->id }}" {{ (old('category_id', $stock->category_id ?? '') == $cat->id) ? 'selected' : '' }}>
+                                                        {{ $cat->nama_kategori }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Stok Saat Ini</label>
+                                                <input type="number" name="jumlah" class="form-control" value="{{ $stock->jumlah }}" disabled>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Tambah Stok</label>
+                                                <input type="number" name="jumlah_tambah" class="form-control"
+                                                    min="1"
+                                                    placeholder="Masukkan jumlah penambahan stok">
+                                                <small class="text-muted">* Stok hanya bisa ditambah, tidak bisa dikurangi</small>
+                                            </div>
+
+
+
+                                            <div class="mb-3" class="form-label">
+                                                <label>Kode Rak</label>
+                                                <input type="text" name="kode_rak" class="form-control" value="{{ old('kode_rak', $stock->kode_rak ?? '') }}">
+                                            </div>
+                                            <input type="hidden" name="warehouse_id" value="{{ old('warehouse_id', $stock->warehouse_id ?? '') }}">
+                                            <input type="hidden" name="item_id" value="{{ old('item_id', $stock->item_id ?? '') }}">
+                                            <input type="hidden" name="category_id" value="{{ old('category_id', $stock->category_id ?? '') }}">
+                                            <input type="hidden" name="jumlah" value="{{ old('jumlah', $stock->jumlah ?? '') }}">
                                             <button class="btn btn-primary">Simpan</button>
                                             <a href="{{ route('admin.warehouse_stocks.index') }}" class="btn btn-secondary">Batal</a>
                                         </div>

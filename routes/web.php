@@ -376,6 +376,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/tambah', [StocksController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [StocksController::class, 'edit'])->name('edit');
         Route::post('/edit/{id}', [StocksController::class, 'update'])->name('update');
+        Route::post('/delete/{id}', [StocksController::class, 'delete'])->name('delete');
     });
 
     // ===== data Prospek dari Mitra  =====

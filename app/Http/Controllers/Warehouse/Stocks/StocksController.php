@@ -58,9 +58,18 @@ class StocksController extends Controller
             'warehouse_id'  => 'required|exists:warehouse.data_warehouses,id',
             'item_id'       => 'required|exists:warehouse.data_items,id',
             'category_id'   => 'required|exists:warehouse.data_categories,id',
-            'jumlah'        => 'required|integer|min:0',
+            'jumlah'        => 'required|integer',
             'kode_rak'      => 'nullable|string|max:255',
         ]);
+
+        // Validasi jumlah
+        if ($request->jumlah <= 0) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'jumlah' => 'Jumlah stok harus lebih dari 0.'
+                ]);
+        }
 
         // Cek duplikat kombinasi
         $exists = DataWarehouseStocks::where('warehouse_id', $request->warehouse_id)
@@ -71,7 +80,9 @@ class StocksController extends Controller
         if ($exists) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['errors' => 'Stok dengan kombinasi gudang, item, dan kategori ini sudah ada.']);
+                ->withErrors([
+                    'duplicate' => 'Stok dengan kombinasi gudang, item, dan kategori ini sudah ada.'
+                ]);
         }
 
         DataWarehouseStocks::create([
@@ -83,8 +94,11 @@ class StocksController extends Controller
             'kode_rak'      => $request->kode_rak,
         ]);
 
-        return redirect()->route('admin.warehouse_stocks.index')->with('success', 'Data stok berhasil ditambahkan.');
+        return redirect()
+            ->route('admin.warehouse_stocks.index')
+            ->with('success', 'Data stok berhasil ditambahkan.');
     }
+
 
     public function edit($id)
     {
@@ -101,21 +115,34 @@ class StocksController extends Controller
         $stock = DataWarehouseStocks::findOrFail($id);
 
         $request->validate([
-            'warehouse_id'  => 'required|exists:warehouse.data_warehouses,id',
-            'item_id'       => 'required|exists:warehouse.data_items,id',
-            'category_id'   => 'required|exists:warehouse.data_categories,id',
-            'jumlah'        => 'required|integer|min:0',
-            'kode_rak'      => 'nullable|string|max:255',
+            'warehouse_id'   => 'required|exists:warehouse.data_warehouses,id',
+            'item_id'        => 'required|exists:warehouse.data_items,id',
+            'category_id'    => 'required|exists:warehouse.data_categories,id',
+            'jumlah_tambah'  => 'nullable|integer|min:1',
+            'kode_rak'       => 'nullable|string|max:255',
         ]);
+
+        // HITUNG DI SERVER (AMAN)
+        $jumlahBaru = $stock->jumlah + $request->jumlah_tambah;
 
         $stock->update([
-            'warehouse_id'  => $request->warehouse_id,
-            'item_id'       => $request->item_id,
-            'category_id'   => $request->category_id,
-            'jumlah'        => $request->jumlah,
-            'kode_rak'      => $request->kode_rak,
+            'jumlah'   => $jumlahBaru,
+            'kode_rak' => $request->kode_rak,
         ]);
 
-        return redirect()->route('admin.warehouse_stocks.index')->with('success', 'Stok berhasil diperbarui.');
+        return redirect()
+            ->route('admin.warehouse_stocks.index')
+            ->with('success', 'Stok berhasil diperbarui.');
+    }
+
+
+    public function delete($id)
+    {
+        $stock = DataWarehouseStocks::findOrFail($id);
+        $stock->delete();
+
+        return redirect()
+            ->route('admin.warehouse_stocks.index')
+            ->with('success', 'Data stok berhasil dihapus.');
     }
 }
