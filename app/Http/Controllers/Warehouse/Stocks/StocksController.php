@@ -9,6 +9,8 @@ use App\Models\Warehouse\DataWarehouseStocks;
 use App\Models\Warehouse\DataItems;
 use App\Models\Warehouse\DataCategories;
 use App\Models\Warehouse\DataWarehouse;
+use App\Models\Warehouse\DataItemMovements;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class StocksController extends Controller
@@ -94,6 +96,20 @@ class StocksController extends Controller
             'kode_rak'      => $request->kode_rak,
         ]);
 
+        // Insert ke log mutasi
+
+        DataItemMovements::create([
+            'id'             => Str::uuid(),
+            'item_id'        => $request->item_id,
+            'warehouse_from' => $request->warehouse_id,
+            'warehouse_to'   => null, // karena ini penambahan (bukan transfer)
+            'jumlah'         => $request->jumlah,
+            'tipe'           => 'masuk',
+            'ref_type'       => 'adjustment',
+            'created_by'     => Auth::id(),
+            'created_at'     => now(),
+        ]);
+
         return redirect()
             ->route('admin.warehouse_stocks.index')
             ->with('success', 'Data stok berhasil ditambahkan.');
@@ -122,19 +138,38 @@ class StocksController extends Controller
             'kode_rak'       => 'nullable|string|max:255',
         ]);
 
-        // HITUNG DI SERVER (AMAN)
-        $jumlahBaru = $stock->jumlah + $request->jumlah_tambah;
+        // Jika ada penambahan jumlah
+        if ($request->filled('jumlah_tambah') && $request->jumlah_tambah > 0) {
+            $jumlahBaru = $stock->jumlah + $request->jumlah_tambah;
 
-        $stock->update([
-            'jumlah'   => $jumlahBaru,
-            'kode_rak' => $request->kode_rak,
-        ]);
+            $stock->update([
+                'jumlah'   => $jumlahBaru,
+                'kode_rak' => $request->kode_rak,
+            ]);
+
+            // Simpan log masuk ke DataItemMovements
+            DataItemMovements::create([
+                'id'             => Str::uuid(),
+                'item_id'        => $request->item_id,
+                'warehouse_from' => $request->warehouse_id,
+                'warehouse_to'   => null,
+                'jumlah'         => $request->jumlah_tambah,
+                'tipe'           => 'masuk',
+                'ref_type'       => 'adjustment',
+                'created_by'     => Auth::id(),
+                'created_at'     => now(),
+            ]);
+        } else {
+            // Jika hanya update kode_rak saja
+            $stock->update([
+                'kode_rak' => $request->kode_rak,
+            ]);
+        }
 
         return redirect()
             ->route('admin.warehouse_stocks.index')
             ->with('success', 'Stok berhasil diperbarui.');
     }
-
 
     public function delete($id)
     {
