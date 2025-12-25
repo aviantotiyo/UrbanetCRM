@@ -135,7 +135,7 @@
                                             </td>
                                             <td>{{ $stock->item->nama_barang ?? '-' }}</td>
                                             <td>{{ $stock->category->nama_kategori ?? '-' }}</td>
-                                            <td>{{ $stock->jumlah }}</td>
+                                            <td>{{ $stock->jumlah }} {{ $stock->item->unit_type }}</td>
                                             <td>{{ $stock->kode_rak ?? '-' }}</td>
                                             <td>{{ \Carbon\Carbon::parse($stock->updated_at)->format('d/m/Y H:i') }} WIB</td>
                                             <td>
