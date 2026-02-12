@@ -1,52 +1,52 @@
 ALUR BILLING KETIKA CLIENT MENDAPATKAN PROMO
 
--   Database
--   Logic
+- Database
+- Logic
 
 data_blling
 
--   net_income di kurangi pajak (V)
--   denda (field database sudah) (v)
-    loyalti program (point) (field database sudah) (V)
+- net_income di kurangi pajak (V)
+- denda (field database sudah) (v)
+  loyalti program (point) (field database sudah) (V)
 
 referral system
 
--   sales internal
--   client referral (V)
+- sales internal
+- client referral (V)
 
 Ticket Support
 
--   instlasi baru (V)
--   Gangguan input admin, dan user (V)
+- instlasi baru (V)
+- Gangguan input admin, dan user (V)
 
 Finance report
 
--   income dashboard, list paid, taxt, before tax
--   Fee sales
--   Fee engineer
+- income dashboard, list paid, taxt, before tax
+- Fee sales
+- Fee engineer
 
 user setting
 
--   atur password, foto dan lain lain
+- atur password, foto dan lain lain
 
 Billing User
 
--   kondisi bila nilai point lebih besar auto payment (V)
--   lapor gangguan client
+- kondisi bila nilai point lebih besar auto payment (V)
+- lapor gangguan client
 
--   prospect pelanggan (V) aktifkan point proses permintaan
+- prospect pelanggan (V) aktifkan point proses permintaan
 
 User Regist Dashboard admin (view, edit, process) (done all)
 
 CSR list
 
--   tambah data crs sudah bisa (v-done)
--   antisipasi odp port sudah di pakai. ketika client masih berada di kondisi bukan 'active' (v-done)
--   history log siapa yang melakukan pengisian data. (v-done)
--   inactive dan isolir belum (logic sudah ada v-done)
--   kondisi ketika user isolir kembali ke active (v-done)
--   ketika user menggunakan port odp A1 kemudian di pindah ke A2 masih belum ada logic yang melakuakn handling (v-done)
--   Konek ke radius
+- tambah data crs sudah bisa (v-done)
+- antisipasi odp port sudah di pakai. ketika client masih berada di kondisi bukan 'active' (v-done)
+- history log siapa yang melakukan pengisian data. (v-done)
+- inactive dan isolir belum (logic sudah ada v-done)
+- kondisi ketika user isolir kembali ke active (v-done)
+- ketika user menggunakan port odp A1 kemudian di pindah ke A2 masih belum ada logic yang melakuakn handling (v-done)
+- Konek ke radius
 
 ODP dan ODP belum di handling dari edit/update user Teknisi (beresiko odp port di ganti tampa melalui sistem) (V)
 
@@ -62,47 +62,47 @@ CSR PPPoE belum konek ke radius
 
 sales app
 
--   add data (done)
--   lihat status fee
+- add data (done)
+- lihat status fee
 
 agent app (partner)
 
--   info rekening bank belum di siapkan, masih hardcode (v - done)
--   login page belum disiapkan (v-done)
--   kondisi ketika user point melebihi tagihan (v -done)
--   hitung pajak dan penerimaan bersih (v - done)
--   dashboard mitra di backend admin belum di benahi UX nya (V- done)
--   Mitra melakukan inactive account dan update profile belum ada (V-done)
--   belum ada fitur add client dan hitungan fee
--   data bank partner, nama, no rek dll
--   tagihan ketika suspend harus ada mekanisme baru (done)
+- info rekening bank belum di siapkan, masih hardcode (v - done)
+- login page belum disiapkan (v-done)
+- kondisi ketika user point melebihi tagihan (v -done)
+- hitung pajak dan penerimaan bersih (v - done)
+- dashboard mitra di backend admin belum di benahi UX nya (V- done)
+- Mitra melakukan inactive account dan update profile belum ada (V-done)
+- belum ada fitur add client dan hitungan fee
+- data bank partner, nama, no rek dll
+- tagihan ketika suspend harus ada mekanisme baru (done)
 
 user app
 
--   tagihan ketika suspend harus ada mekanisme baru (done -v)
+- tagihan ketika suspend harus ada mekanisme baru (done -v)
 
     /// OTOMASI
 
--   billing setiap bulan, generate invoice tagihan bulanan rutin (v-done)
--   exp konfrimasi dari agent transaksi manual (v -done)
--   cek transaksi PAID via mutasi bank manual (v-done, sudah sampai Wa message)
--   billing tagihan tiap bulan ( v- done)
--   pesan pengingat tagihan (v-done)
--   pesan isolir jaringan (v-done)
--   inactive user (v-done)
--   handling pesan ketika DataBillingItem lebih dari 1 data (sudah di gabung)
+- billing setiap bulan, generate invoice tagihan bulanan rutin (v-done)
+- exp konfrimasi dari agent transaksi manual (v -done)
+- cek transaksi PAID via mutasi bank manual (v-done, sudah sampai Wa message)
+- billing tagihan tiap bulan ( v- done)
+- pesan pengingat tagihan (v-done)
+- pesan isolir jaringan (v-done)
+- inactive user (v-done)
+- handling pesan ketika DataBillingItem lebih dari 1 data (sudah di gabung)
 
 Table Mutasi Bank Manual
 
--   table database mutasi (v - done)
--   update cron mutasi (v - done)
--   pencocokan bank mutasi dengan billing. (v - done)
+- table database mutasi (v - done)
+- update cron mutasi (v - done)
+- pencocokan bank mutasi dengan billing. (v - done)
 
 Tiket dan gangguan
 
--   hitungan fee instalasi (v -done)
--   hitungan fee gangguan (v -done)
--   hitungan ketika perlu ada beberapa teknisi (v -done)
+- hitungan fee instalasi (v -done)
+- hitungan fee gangguan (v -done)
+- hitungan ketika perlu ada beberapa teknisi (v -done)
 
 ========================================================
 tanggal 5-30 Isolir
@@ -211,3 +211,8 @@ untuk multi role:
 @endauth
 
 =============
+Purchase Order
+Fitur untuk permintaan pembelian barang dari internal ke external
+
+Reminder tagihan ke vendor
+jadwal rutin tagihan vendor agar tidak terlewat
