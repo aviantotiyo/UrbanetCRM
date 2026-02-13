@@ -8,7 +8,7 @@ use App\Models\DataImg;
 use App\Models\DataClients;
 use Illuminate\Support\Str;
 use App\Models\DataTeamSite;
-use App\Models\DataTicketHC;
+use App\Models\DataTicketHc;
 use App\Models\DataSetting;
 use Illuminate\Http\Request;
 use App\Models\DataTicketLog;
@@ -23,7 +23,7 @@ class HomeConController extends Controller
      */
     public function index()
     {
-        $tickets = DataTicketHC::with('teamSite.user')->orderBy('created_at', 'desc')->paginate(20);
+        $tickets = DataTicketHc::with('teamSite.user')->orderBy('created_at', 'desc')->paginate(20);
         return view('ticket.home_con.index', compact('tickets'));
     }
 
@@ -42,8 +42,8 @@ class HomeConController extends Controller
         $client = DataClients::findOrFail($id);
         $installers = User::where('role', 'Installer')->select('id', 'name')->get();
 
-        // Hitung jumlah entri DataTicketHC berdasarkan client_id
-        $jumlahInstalasi = DataTicketHC::where('client_id', $id)->count();
+        // Hitung jumlah entri DataTicketHc berdasarkan client_id
+        $jumlahInstalasi = DataTicketHc::where('client_id', $id)->count();
 
         // Jika sudah 2x atau lebih, set pesan peringatan
         $peringatan = null;
@@ -69,7 +69,7 @@ class HomeConController extends Controller
             'sambungan_kabel'   => 'nullable|string',
         ]);
 
-        $ticket = DataTicketHC::create([
+        $ticket = DataTicketHc::create([
             'id'                => Str::uuid(),
             'ticket_code'       => 'PSB-' . strtoupper(Str::random(8)),
             'client_id'         => $request->client_id,
@@ -110,7 +110,7 @@ class HomeConController extends Controller
 
     public function edit($id)
     {
-        $ticket = DataTicketHC::with('teamSite.user', 'client', 'images')->findOrFail($id);
+        $ticket = DataTicketHc::with('teamSite.user', 'client', 'images')->findOrFail($id);
         $client = $ticket->client;
         $installers = User::where('role', 'Installer')->select('id', 'name')->get();
 
@@ -133,7 +133,7 @@ class HomeConController extends Controller
             'images.*'         => 'file|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $ticket = DataTicketHC::findOrFail($id);
+        $ticket = DataTicketHc::findOrFail($id);
 
         // Update data utama tiket
         $ticket->update([
